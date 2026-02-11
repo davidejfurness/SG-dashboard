@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Comparison - Shelford Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --nhs-blue: #005EB8;
+            --nhs-dark-blue: #003087;
+            --shelford-teal: #007B7F;
+            --bg-cream: #FDFBF7;
+            --text-dark: #1A1A1A;
+            --text-mid: #4A4A4A;
+            --border: #E0DED8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Public Sans', -apple-system, sans-serif;
+            background: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            color: var(--nhs-blue);
+        }
+
+        .nav-link {
+            color: var(--text-mid);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--nhs-blue);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            color: var(--nhs-dark-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .breadcrumb {
+            color: var(--text-mid);
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--nhs-blue);
+            text-decoration: none;
+        }
+
+        .comparison-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .chart-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--bg-cream);
+        }
+
+        .chart-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: var(--nhs-dark-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .chart-subtitle {
+            font-size: 1rem;
+            color: var(--text-mid);
+            line-height: 1.6;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            height: 500px;
+        }
+
+        .trust-table {
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+
+        .trust-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .trust-table th {
+            background: linear-gradient(135deg, var(--nhs-dark-blue) 0%, var(--nhs-blue) 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .trust-table td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .trust-table tbody tr:hover {
+            background: var(--bg-cream);
+        }
+
+        .trust-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .trust-name {
+            font-weight: 600;
+            color: var(--nhs-dark-blue);
+        }
+
+        .metric-value {
+            font-weight: 600;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1rem;
+        }
+
+        .metric-good {
+            color: #22C55E;
+        }
+
+        .metric-warning {
+            color: #F59E0B;
+        }
+
+        .metric-poor {
+            color: #EF4444;
+        }
+
+        .performance-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-excellent {
+            background: #DCFCE7;
+            color: #15803D;
+        }
+
+        .badge-good {
+            background: #FEF3C7;
+            color: #A16207;
+        }
+
+        .badge-needs-improvement {
+            background: #FEE2E2;
+            color: #B91C1C;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .chart-container {
+                padding: 1.5rem;
+            }
+
+            .canvas-wrapper {
+                height: 350px;
+            }
+
+            .trust-table {
+                overflow-x: auto;
+            }
+
+            .trust-table th,
+            .trust-table td {
+                padding: 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <div class="nav-title">Shelford Group Analytics</div>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / Trust Comparison
+            </div>
+            <h1>Trust Performance Comparison</h1>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h2 class="chart-title">Multi-Metric Comparison</h2>
+                    <p class="chart-subtitle">Performance across four key NHS standards for all Shelford Group trusts</p>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h2 class="chart-title">A&E Performance by Trust</h2>
+                    <p class="chart-subtitle">4-hour standard compliance - Latest month</p>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="aeBarChart"></canvas>
+                </div>
+            </div>
+
+            <div class="trust-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Trust</th>
+                            <th>A&E 4hr</th>
+                            <th>RTT 18wk</th>
+                            <th>Cancer 62d</th>
+                            <th>Diagnostic 6wk</th>
+                            <th>Overall</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="trust-name">Cambridge University Hospitals</td>
+                            <td class="metric-value metric-warning">71.8%</td>
+                            <td class="metric-value metric-poor">59.3%</td>
+                            <td class="metric-value metric-warning">68.3%</td>
+                            <td class="metric-value metric-good">90.8%</td>
+                            <td><span class="performance-badge badge-needs-improvement">Needs Improvement</span></td>
+                        </tr>
+                        <tr>
+                            <td class="trust-name">Guy's and St Thomas'</td>
+                            <td class="metric-value metric-good">80.1%</td>
+                            <td class="metric-value metric-warning">65.9%</td>
+                            <td class="metric-value metric-poor">50.8%</td>
+                            <td class="metric-value metric-warning">65.7%</td>
+                            <td><span class="performance-badge badge-needs-improvement">Needs Improvement</span></td>
+                        </tr>
+                        <tr>
+                            <td class="trust-name">King's College Hospital</td>
+                            <td class="metric-value metric-warning">69.6%</td>
+                            <td class="metric-value metric-warning">63.0%</td>
+                            <td class="metric-value metric-poor">57.5%</td>
+                            <td class="metric-value metric-poor">53.2%</td>
+                            <td><span class="performance-badge badge-needs-improvement">Needs Improvement</span></td>
+                        </tr>
+                        <tr>
+                            <td class="trust-name">Imperial College Healthcare</td>
+                            <td class="metric-value metric-good">77.7%</td>
+                            <td class="metric-value metric-warning">62.1%</td>
+                            <td class="metric-value metric-warning">72.7%</td>
+                            <td class="metric-value metric-good">84.7%</td>
+                            <td><span class="performance-badge badge-good">Good</span></td>
+                        </tr>
+                        <tr>
+                            <td class="trust-name">Manchester University</td>
+                            <td class="metric-value metric-warning">72.4%</td>
+                            <td class="metric-value metric-poor">53.8%</td>
+                            <td class="metric-value metric-warning">64.2%</td>
+                            <td class="metric-value metric-good">88.3%</td>
+                            <td><span class="performance-badge badge-needs-improvement">Needs Improvement</span></td>
+                        </tr>
+                        <tr>
+                            <td class="trust-name">Newcastle Upon Tyne Hospitals</td>
+                            <td class="metric-value metric-good">75.5%</td>
+                            <td class="metric-value metric-good">73.5%</td>
+                            <td class="metric-value metric-warning">71.7%</td>
+                            <td class="metric-value metric-good">86.1%</td>
+                            <td><span class="performance-badge badge-excellent">Excellent</span></td>
+                        </tr>
+                        <tr>
+                            <td class="trust-name">Nottingham University Hospitals</td>
+                            <td class="metric-value metric-warning">64.3%</td>
+                            <td class="metric-value metric-poor">59.8%</td>
+                            <td class="metric-value metric-warning">64.8%</td>
+                            <td class="metric-value metric-warning">74.0%</td>
+                            <td><span class="performance-badge badge-needs-improvement">Needs Improvement</span></td>
+                        </tr>
+                        <tr>
+                            <td class="trust-name">Oxford University Hospitals</td>
+                            <td class="metric-value metric-good">76.3%</td>
+                            <td class="metric-value metric-warning">60.0%</td>
+                            <td class="metric-value metric-warning">63.5%</td>
+                            <td class="metric-value metric-good">78.4%</td>
+                            <td><span class="performance-badge badge-good">Good</span></td>
+                        </tr>
+                        <tr>
+                            <td class="trust-name">Sheffield Teaching Hospitals</td>
+                            <td class="metric-value metric-warning">72.5%</td>
+                            <td class="metric-value metric-warning">66.0%</td>
+                            <td class="metric-value metric-poor">42.8%</td>
+                            <td class="metric-value metric-warning">74.2%</td>
+                            <td><span class="performance-badge badge-needs-improvement">Needs Improvement</span></td>
+                        </tr>
+                        <tr>
+                            <td class="trust-name">University College London Hospitals</td>
+                            <td class="metric-value metric-warning">70.4%</td>
+                            <td class="metric-value metric-poor">58.1%</td>
+                            <td class="metric-value metric-good">78.5%</td>
+                            <td class="metric-value metric-good">85.2%</td>
+                            <td><span class="performance-badge badge-good">Good</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        Chart.defaults.font.family = "'Public Sans', -apple-system, sans-serif";
+        Chart.defaults.color = '#4A4A4A';
+
+        // Radar Chart for Multi-Metric Comparison
+        const radarCtx = document.getElementById('radarChart').getContext('2d');
+        new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: ['A&E 4hr', 'RTT 18wk', 'Cancer 62d', 'Diagnostic <6wk'],
+                datasets: [
+                    {
+                        label: 'Newcastle',
+                        data: [75.5, 73.5, 71.7, 86.1],
+                        borderColor: '#005EB8',
+                        backgroundColor: 'rgba(0, 94, 184, 0.2)',
+                        pointBackgroundColor: '#005EB8',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#005EB8'
+                    },
+                    {
+                        label: 'GSTT',
+                        data: [80.1, 65.9, 50.8, 65.7],
+                        borderColor: '#007B7F',
+                        backgroundColor: 'rgba(0, 123, 127, 0.2)',
+                        pointBackgroundColor: '#007B7F',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#007B7F'
+                    },
+                    {
+                        label: 'Imperial',
+                        data: [77.7, 62.1, 72.7, 84.7],
+                        borderColor: '#22C55E',
+                        backgroundColor: 'rgba(34, 197, 94, 0.2)',
+                        pointBackgroundColor: '#22C55E',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#22C55E'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: { size: 14, weight: '600' }
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            stepSize: 20,
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // A&E Bar Chart
+        const aeBarCtx = document.getElementById('aeBarChart').getContext('2d');
+        const aeData = [71.8, 80.1, 69.6, 77.7, 72.4, 75.5, 64.3, 76.3, 72.5, 70.4];
+        new Chart(aeBarCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Cambridge', 'GSTT', "King's", 'Imperial', 'Manchester', 'Newcastle', 'Nottingham', 'Oxford', 'Sheffield', 'UCLH'],
+                datasets: [{
+                    label: 'A&E 4-hour Standard (%)',
+                    data: aeData,
+                    backgroundColor: aeData.map(val => {
+                        if (val >= 78) return '#22C55E';
+                        if (val >= 72) return '#F59E0B';
+                        return '#EF4444';
+                    }),
+                    borderRadius: 8,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 13 }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 70,
+                        max: 85,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

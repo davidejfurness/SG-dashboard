@@ -1,0 +1,171 @@
+{
+  "ae_data": {
+    "months": [
+      "Jul 25",
+      "Aug 25",
+      "Sep 25",
+      "Oct 25",
+      "Nov 25",
+      "Dec 25",
+      "Jan 26"
+    ],
+    "shelford_avg": [
+      71.8,
+      72.4,
+      73.1,
+      73.6,
+      74.2,
+      74.8,
+      73.1
+    ],
+    "national_avg": [
+      68.2,
+      69.5,
+      71.0,
+      70.2,
+      71.8,
+      73.1,
+      73.5
+    ]
+  },
+  "trust_performance": {
+    "RGT": {
+      "name": "Cambridge University Hospitals",
+      "full_name": "Cambridge University Hospitals NHS Foundation Trust",
+      "ae_4hr": 71.8,
+      "rtt_18wk": 59.3,
+      "cancer_62day": 68.3,
+      "diagnostic_6wk": 90.8,
+      "cancer_faster_diag": 81.9,
+      "ae_rank": 57,
+      "rtt_rank": 78,
+      "cancer_62day_rank": 67
+    },
+    "RJ1": {
+      "name": "Guy's and St Thomas'",
+      "full_name": "Guy's and St Thomas' NHS Foundation Trust",
+      "ae_4hr": 80.1,
+      "rtt_18wk": 65.9,
+      "cancer_62day": 50.8,
+      "diagnostic_6wk": 65.7,
+      "cancer_faster_diag": 82.8,
+      "ae_rank": 15,
+      "rtt_rank": 26,
+      "cancer_62day_rank": 115
+    },
+    "RJZ": {
+      "name": "King's College Hospital",
+      "full_name": "King's College Hospital NHS Foundation Trust",
+      "ae_4hr": 69.6,
+      "rtt_18wk": 63.0,
+      "cancer_62day": 57.5,
+      "diagnostic_6wk": 53.2,
+      "cancer_faster_diag": 72.5,
+      "ae_rank": 75,
+      "rtt_rank": 43,
+      "cancer_62day_rank": 107
+    },
+    "RYJ": {
+      "name": "Imperial College Healthcare",
+      "full_name": "Imperial College Healthcare NHS Trust",
+      "ae_4hr": 77.7,
+      "rtt_18wk": 62.1,
+      "cancer_62day": 72.7,
+      "diagnostic_6wk": 84.7,
+      "cancer_faster_diag": 82.3,
+      "ae_rank": 22,
+      "rtt_rank": 45,
+      "cancer_62day_rank": 49
+    },
+    "R0A": {
+      "name": "Manchester University",
+      "full_name": "Manchester University NHS Foundation Trust",
+      "ae_4hr": 72.4,
+      "rtt_18wk": 53.8,
+      "cancer_62day": 64.2,
+      "diagnostic_6wk": 88.3,
+      "cancer_faster_diag": 78.1,
+      "ae_rank": 50,
+      "rtt_rank": 110,
+      "cancer_62day_rank": 86
+    },
+    "RTD": {
+      "name": "Newcastle Upon Tyne Hospitals",
+      "full_name": "The Newcastle Upon Tyne Hospitals NHS Foundation Trust",
+      "ae_4hr": 75.5,
+      "rtt_18wk": 73.5,
+      "cancer_62day": 71.7,
+      "diagnostic_6wk": 86.1,
+      "cancer_faster_diag": 69.1,
+      "ae_rank": 34,
+      "rtt_rank": 7,
+      "cancer_62day_rank": 54
+    },
+    "RX1": {
+      "name": "Nottingham University Hospitals",
+      "full_name": "Nottingham University Hospitals NHS Trust",
+      "ae_4hr": 64.3,
+      "rtt_18wk": 59.8,
+      "cancer_62day": 64.8,
+      "diagnostic_6wk": 74.0,
+      "cancer_faster_diag": 64.8,
+      "ae_rank": 102,
+      "rtt_rank": 70,
+      "cancer_62day_rank": 83
+    },
+    "RTE": {
+      "name": "Oxford University Hospitals",
+      "full_name": "Oxford University Hospitals NHS Foundation Trust",
+      "ae_4hr": 76.3,
+      "rtt_18wk": 60.0,
+      "cancer_62day": 63.5,
+      "diagnostic_6wk": 78.4,
+      "cancer_faster_diag": 81.0,
+      "ae_rank": 30,
+      "rtt_rank": 69,
+      "cancer_62day_rank": 89
+    },
+    "RHQ": {
+      "name": "Sheffield Teaching Hospitals",
+      "full_name": "Sheffield Teaching Hospitals NHS Foundation Trust",
+      "ae_4hr": 72.5,
+      "rtt_18wk": 66.0,
+      "cancer_62day": 42.8,
+      "diagnostic_6wk": 74.2,
+      "cancer_faster_diag": 71.5,
+      "ae_rank": 47,
+      "rtt_rank": 25,
+      "cancer_62day_rank": 117
+    },
+    "RRV": {
+      "name": "University College London Hospitals",
+      "full_name": "University College London Hospitals NHS Foundation Trust",
+      "ae_4hr": 70.4,
+      "rtt_18wk": 58.1,
+      "cancer_62day": 78.5,
+      "diagnostic_6wk": 85.2,
+      "cancer_faster_diag": 88.0,
+      "ae_rank": 68,
+      "rtt_rank": 85,
+      "cancer_62day_rank": 22
+    }
+  },
+  "summary": {
+    "ae_4hr_avg": 73.1,
+    "rtt_18wk_avg": 62.1,
+    "cancer_62day_avg": 63.5,
+    "diagnostic_6wk_avg": 78.1,
+    "total_trusts": 10,
+    "data_source": "NHS England Acute Provider Table",
+    "data_month_ae": "November 2025",
+    "data_month_other": "October 2025",
+    "national_rank_total": 118
+  },
+  "generated_at": "2026-01-13T15:22:07.733477",
+  "data_notes": [
+    "A&E data from November 2025 (provisional)",
+    "RTT, Cancer, Diagnostic data from October 2025",
+    "Source: NHS England Data Dashboard",
+    "Sheffield RTT data includes estimates for Jul-Oct 2025 due to data quality issues"
+  ]
+}

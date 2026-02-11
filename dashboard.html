@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Dashboard - Shelford Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --nhs-blue: #005EB8;
+            --nhs-dark-blue: #003087;
+            --shelford-teal: #007B7F;
+            --accent-coral: #FF6B6B;
+            --bg-cream: #FDFBF7;
+            --text-dark: #1A1A1A;
+            --text-mid: #4A4A4A;
+            --border: #E0DED8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Public Sans', -apple-system, sans-serif;
+            background: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            color: var(--nhs-blue);
+        }
+
+        .nav-link {
+            color: var(--text-mid);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--nhs-blue);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 3rem;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            color: var(--nhs-dark-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .breadcrumb {
+            color: var(--text-mid);
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--nhs-blue);
+            text-decoration: none;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .metric-card:nth-child(1) { animation-delay: 0.1s; }
+        .metric-card:nth-child(2) { animation-delay: 0.2s; }
+        .metric-card:nth-child(3) { animation-delay: 0.3s; }
+        .metric-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,94,184,0.1);
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--text-mid);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            color: var(--nhs-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-change {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .metric-change.positive {
+            color: #22C55E;
+        }
+
+        .metric-change.negative {
+            color: var(--accent-coral);
+        }
+
+        .chart-grid {
+            display: grid;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            animation: fadeInScale 0.8s ease-out backwards;
+        }
+
+        .chart-container:nth-child(1) { animation-delay: 0.5s; }
+        .chart-container:nth-child(2) { animation-delay: 0.6s; }
+        .chart-container:nth-child(3) { animation-delay: 0.7s; }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .chart-header {
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--bg-cream);
+            padding-bottom: 1rem;
+        }
+
+        .chart-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            color: var(--nhs-dark-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .chart-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-mid);
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            height: 400px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .metric-card {
+                padding: 1.5rem;
+            }
+
+            .metric-value {
+                font-size: 2rem;
+            }
+
+            .chart-container {
+                padding: 1.5rem;
+            }
+
+            .canvas-wrapper {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <div class="nav-title">Shelford Group Analytics</div>
+            <a href="index.html" class="nav-link">← Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / Performance Dashboard
+            </div>
+            <h1>Performance Dashboard</h1>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">A&E 4hr Standard</div>
+                <div class="metric-value">73.1%</div>
+                <div class="metric-change positive">Shelford Group Average</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">RTT 18wk Standard</div>
+                <div class="metric-value">62.1%</div>
+                <div class="metric-change negative">Below 92% target</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Cancer 62-day</div>
+                <div class="metric-value">63.5%</div>
+                <div class="metric-change negative">Below 85% target</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Diagnostic <6wk</div>
+                <div class="metric-value">78.1%</div>
+                <div class="metric-change negative">Below 99% target</div>
+            </div>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h2 class="chart-title">A&E Performance Trends</h2>
+                    <p class="chart-subtitle">Percentage meeting 4-hour standard across Shelford Group trusts</p>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="aeChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h2 class="chart-title">Trust Performance Comparison</h2>
+                    <p class="chart-subtitle">Latest month performance across key metrics</p>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h2 class="chart-title">RTT Waiting List Size</h2>
+                    <p class="chart-subtitle">Total patients waiting for treatment (thousands)</p>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="rttChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js configuration
+        Chart.defaults.font.family = "'Public Sans', -apple-system, sans-serif";
+        Chart.defaults.color = '#4A4A4A';
+
+        // A&E Performance Trend Chart
+        const aeCtx = document.getElementById('aeChart').getContext('2d');
+        new Chart(aeCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26'],
+                datasets: [{
+                    label: 'Shelford Average',
+                    data: [71.8, 72.4, 73.1, 73.6, 74.2, 74.8, 73.1],
+                    borderColor: '#005EB8',
+                    backgroundColor: 'rgba(0, 94, 184, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    borderWidth: 3,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }, {
+                    label: 'National Average',
+                    data: [68.2, 69.5, 71.0, 70.2, 71.8, 73.1, 73.5],
+                    borderColor: '#007B7F',
+                    backgroundColor: 'rgba(0, 123, 127, 0.05)',
+                    tension: 0.4,
+                    fill: true,
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15,
+                            font: { size: 13 }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 13 }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 65,
+                        max: 85,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Trust Comparison Chart
+        const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
+        new Chart(comparisonCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Cambridge', 'GSTT', "King's", 'Imperial', 'Manchester', 'Newcastle', 'Nottingham', 'Oxford', 'Sheffield', 'UCLH'],
+                datasets: [{
+                    label: 'A&E 4hr %',
+                    data: [71.8, 80.1, 69.6, 77.7, 72.4, 75.5, 64.3, 76.3, 72.5, 70.4],
+                    backgroundColor: '#005EB8',
+                    borderRadius: 6
+                }, {
+                    label: 'RTT 18wk %',
+                    data: [59.3, 65.9, 63.0, 62.1, 53.8, 73.5, 59.8, 60.0, 66.0, 58.1],
+                    backgroundColor: '#007B7F',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15,
+                            font: { size: 13 }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 50,
+                        max: 90,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // RTT Waiting List Chart
+        const rttCtx = document.getElementById('rttChart').getContext('2d');
+        new Chart(rttCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26'],
+                datasets: [{
+                    label: 'Total Waiting (000s)',
+                    data: [1247, 1265, 1282, 1298, 1315, 1308, 1295],
+                    backgroundColor: function(context) {
+                        const value = context.raw;
+                        return value > 1300 ? '#FF6B6B' : '#005EB8';
+                    },
+                    borderRadius: 8,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 13 },
+                        callbacks: {
+                            label: function(context) {
+                                return context.parsed.y.toLocaleString() + ',000 patients';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 1200,
+                        max: 1350,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString();
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
