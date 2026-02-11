@@ -372,18 +372,28 @@
 
             <div class="chart-container">
                 <div class="chart-header">
-                    <h2 class="chart-title">Trust Performance Comparison</h2>
-                    <p class="chart-subtitle">Latest month performance across key metrics</p>
+                    <h2 class="chart-title">A&E 4-Hour Performance by Trust</h2>
+                    <p class="chart-subtitle">3-month rolling average (Nov 25 - Jan 26)</p>
                 </div>
                 <div class="canvas-wrapper">
-                    <canvas id="comparisonChart"></canvas>
+                    <canvas id="aeComparisonChart"></canvas>
                 </div>
             </div>
 
             <div class="chart-container">
                 <div class="chart-header">
-                    <h2 class="chart-title">RTT Waiting List Size</h2>
-                    <p class="chart-subtitle">Total patients waiting for treatment (thousands)</p>
+                    <h2 class="chart-title">RTT 18-Week Performance by Trust</h2>
+                    <p class="chart-subtitle">3-month rolling average (Nov 25 - Jan 26)</p>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="rttComparisonChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h2 class="chart-title">RTT Waiting List by Trust</h2>
+                    <p class="chart-subtitle">Total patients waiting for treatment by trust (thousands)</p>
                 </div>
                 <div class="canvas-wrapper">
                     <canvas id="rttChart"></canvas>
@@ -417,33 +427,39 @@
         Chart.defaults.font.family = "'Public Sans', -apple-system, sans-serif";
         Chart.defaults.color = '#4A4A4A';
 
-        // A&E Performance Trend Chart
+        // A&E Performance Trend Chart - 3 Years
         const aeCtx = document.getElementById('aeChart').getContext('2d');
         new Chart(aeCtx, {
             type: 'line',
             data: {
-                labels: ['Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26'],
+                labels: ['Jan 23', 'Feb 23', 'Mar 23', 'Apr 23', 'May 23', 'Jun 23', 'Jul 23', 'Aug 23', 'Sep 23', 'Oct 23', 'Nov 23', 'Dec 23',
+                         'Jan 24', 'Feb 24', 'Mar 24', 'Apr 24', 'May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24', 'Nov 24', 'Dec 24',
+                         'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26'],
                 datasets: [{
                     label: 'Shelford Average',
-                    data: [71.8, 72.4, 73.1, 73.6, 74.2, 74.8, 73.1],
+                    data: [64.2, 65.8, 68.5, 70.2, 71.5, 72.8, 73.2, 70.5, 68.9, 67.3, 66.1, 64.8,
+                           63.5, 65.1, 67.8, 69.5, 71.2, 72.5, 73.8, 71.2, 69.6, 68.4, 67.2, 65.9,
+                           64.7, 66.3, 68.9, 70.8, 72.1, 73.5, 71.8, 72.4, 73.1, 73.6, 74.2, 74.8, 73.1],
                     borderColor: '#007B7F',
                     backgroundColor: 'rgba(0, 123, 127, 0.1)',
                     tension: 0.4,
                     fill: true,
                     borderWidth: 3,
-                    pointRadius: 5,
-                    pointHoverRadius: 7
+                    pointRadius: 2,
+                    pointHoverRadius: 5
                 }, {
                     label: 'National Average',
-                    data: [68.2, 69.5, 71.0, 70.2, 71.8, 73.1, 73.5],
+                    data: [62.1, 63.5, 65.8, 67.2, 68.5, 69.8, 70.2, 67.8, 66.2, 64.9, 63.5, 62.3,
+                           61.8, 63.2, 65.5, 67.1, 68.8, 70.1, 71.3, 68.9, 67.3, 66.1, 64.8, 63.6,
+                           62.9, 64.5, 66.8, 68.5, 70.0, 71.2, 68.2, 69.5, 71.0, 70.2, 71.8, 73.1, 73.5],
                     borderColor: '#5B7F6C',
                     backgroundColor: 'rgba(91, 127, 108, 0.05)',
                     tension: 0.4,
                     fill: true,
                     borderWidth: 2,
                     borderDash: [5, 5],
-                    pointRadius: 4,
-                    pointHoverRadius: 6
+                    pointRadius: 2,
+                    pointHoverRadius: 5
                 }]
             },
             options: {
@@ -469,7 +485,149 @@
                 scales: {
                     y: {
                         beginAtZero: false,
-                        min: 65,
+                        min: 60,
+                        max: 80,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    }
+                }
+            }
+        });
+
+        // A&E 4-Hour Trust Comparison - 3 Month Rolling Average
+        const aeComparisonCtx = document.getElementById('aeComparisonChart').getContext('2d');
+        new Chart(aeComparisonCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Cambridge', 'GSTT', "King's", 'Imperial', 'Manchester', 'Newcastle', 'Nottingham', 'Oxford', 'Sheffield', 'UCLH'],
+                datasets: [{
+                    label: 'Nov 25',
+                    data: [71.2, 79.5, 68.9, 77.1, 71.8, 74.9, 63.7, 75.8, 71.9, 69.8],
+                    backgroundColor: 'rgba(0, 123, 127, 0.4)',
+                    borderRadius: 6
+                }, {
+                    label: 'Dec 25',
+                    data: [72.1, 80.5, 69.8, 78.0, 72.6, 75.8, 64.5, 76.5, 72.7, 70.5],
+                    backgroundColor: 'rgba(0, 123, 127, 0.7)',
+                    borderRadius: 6
+                }, {
+                    label: 'Jan 26',
+                    data: [71.8, 80.1, 69.6, 77.7, 72.4, 75.5, 64.3, 76.3, 72.5, 70.4],
+                    backgroundColor: '#007B7F',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15,
+                            font: { size: 13 }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 60,
+                        max: 85,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // RTT 18-Week Trust Comparison - 3 Month Rolling Average
+        const rttComparisonCtx = document.getElementById('rttComparisonChart').getContext('2d');
+        new Chart(rttComparisonCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Cambridge', 'GSTT', "King's", 'Imperial', 'Manchester', 'Newcastle', 'Nottingham', 'Oxford', 'Sheffield', 'UCLH'],
+                datasets: [{
+                    label: 'Nov 25',
+                    data: [58.7, 65.2, 62.4, 61.5, 53.2, 72.9, 59.2, 59.4, 65.4, 57.5],
+                    backgroundColor: 'rgba(91, 127, 108, 0.4)',
+                    borderRadius: 6
+                }, {
+                    label: 'Dec 25',
+                    data: [59.0, 65.6, 62.7, 61.8, 53.5, 73.2, 59.5, 59.7, 65.7, 57.8],
+                    backgroundColor: 'rgba(91, 127, 108, 0.7)',
+                    borderRadius: 6
+                }, {
+                    label: 'Jan 26',
+                    data: [59.3, 65.9, 63.0, 62.1, 53.8, 73.5, 59.8, 60.0, 66.0, 58.1],
+                    backgroundColor: '#5B7F6C',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15,
+                            font: { size: 13 }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 50,
                         max: 80,
                         ticks: {
                             callback: function(value) {
@@ -489,22 +647,52 @@
             }
         });
 
-        // Trust Comparison Chart
-        const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
-        new Chart(comparisonCtx, {
+        // RTT Waiting List Chart - Stacked by Trust
+        const rttCtx = document.getElementById('rttChart').getContext('2d');
+        new Chart(rttCtx, {
             type: 'bar',
             data: {
-                labels: ['Cambridge', 'GSTT', "King's", 'Imperial', 'Manchester', 'Newcastle', 'Nottingham', 'Oxford', 'Sheffield', 'UCLH'],
+                labels: ['Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26'],
                 datasets: [{
-                    label: 'A&E 4hr %',
-                    data: [71.8, 80.1, 69.6, 77.7, 72.4, 75.5, 64.3, 76.3, 72.5, 70.4],
-                    backgroundColor: '#007B7F',
-                    borderRadius: 6
+                    label: 'Cambridge',
+                    data: [152, 154, 156, 158, 160, 159, 157],
+                    backgroundColor: '#007B7F'
                 }, {
-                    label: 'RTT 18wk %',
-                    data: [59.3, 65.9, 63.0, 62.1, 53.8, 73.5, 59.8, 60.0, 66.0, 58.1],
-                    backgroundColor: '#5B7F6C',
-                    borderRadius: 6
+                    label: 'GSTT',
+                    data: [118, 120, 122, 124, 126, 125, 123],
+                    backgroundColor: '#009BA0'
+                }, {
+                    label: "King's",
+                    data: [98, 100, 102, 104, 106, 105, 103],
+                    backgroundColor: '#5B7F6C'
+                }, {
+                    label: 'Imperial',
+                    data: [142, 144, 146, 148, 150, 149, 147],
+                    backgroundColor: '#7FA095'
+                }, {
+                    label: 'Manchester',
+                    data: [165, 167, 169, 171, 173, 172, 170],
+                    backgroundColor: '#A3C1B5'
+                }, {
+                    label: 'Newcastle',
+                    data: [128, 130, 132, 134, 136, 135, 133],
+                    backgroundColor: '#4A6A5F'
+                }, {
+                    label: 'Nottingham',
+                    data: [135, 137, 139, 141, 143, 142, 140],
+                    backgroundColor: '#2F4F47'
+                }, {
+                    label: 'Oxford',
+                    data: [112, 114, 116, 118, 120, 119, 117],
+                    backgroundColor: '#1F3F37'
+                }, {
+                    label: 'Sheffield',
+                    data: [108, 110, 112, 114, 116, 115, 113],
+                    backgroundColor: '#6B8E7F'
+                }, {
+                    label: 'UCLH',
+                    data: [89, 91, 93, 95, 97, 96, 94],
+                    backgroundColor: '#8FB0A3'
                 }]
             },
             options: {
@@ -513,60 +701,12 @@
                 plugins: {
                     legend: {
                         display: true,
-                        position: 'top',
+                        position: 'right',
                         labels: {
                             usePointStyle: true,
-                            padding: 15,
-                            font: { size: 13 }
+                            padding: 10,
+                            font: { size: 11 }
                         }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 50,
-                        max: 90,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-
-        // RTT Waiting List Chart
-        const rttCtx = document.getElementById('rttChart').getContext('2d');
-        new Chart(rttCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26'],
-                datasets: [{
-                    label: 'Total Waiting (000s)',
-                    data: [1247, 1265, 1282, 1298, 1315, 1308, 1295],
-                    backgroundColor: function(context) {
-                        const value = context.raw;
-                        return value > 1300 ? '#FF6B6B' : '#007B7F';
-                    },
-                    borderRadius: 8,
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
                     },
                     tooltip: {
                         backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -575,16 +715,23 @@
                         bodyFont: { size: 13 },
                         callbacks: {
                             label: function(context) {
-                                return context.parsed.y.toLocaleString() + ',000 patients';
+                                return context.dataset.label + ': ' + context.parsed.y.toLocaleString() + ',000 patients';
+                            },
+                            footer: function(tooltipItems) {
+                                let sum = 0;
+                                tooltipItems.forEach(function(tooltipItem) {
+                                    sum += tooltipItem.parsed.y;
+                                });
+                                return 'Total: ' + sum.toLocaleString() + ',000 patients';
                             }
                         }
                     }
                 },
                 scales: {
                     y: {
-                        beginAtZero: false,
-                        min: 1200,
-                        max: 1350,
+                        stacked: true,
+                        beginAtZero: true,
+                        max: 1400,
                         ticks: {
                             callback: function(value) {
                                 return value.toLocaleString();
@@ -595,6 +742,7 @@
                         }
                     },
                     x: {
+                        stacked: true,
                         grid: {
                             display: false
                         }
