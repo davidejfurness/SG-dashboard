@@ -511,23 +511,32 @@
 
         // A&E 4-Hour Trust Comparison - 3 Month Rolling Average
         const aeComparisonCtx = document.getElementById('aeComparisonChart').getContext('2d');
-        new Chart(aeComparisonCtx, {
+        
+        // Original data in alphabetical order
+        const aeComparisonData = {
+            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
+            nov: [62.8, 71.2, 79.5, 77.1, 68.9, 71.8, 74.9, 75.8, 71.9, 69.8],
+            dec: [63.0, 72.1, 80.5, 78.0, 69.8, 72.6, 75.8, 76.5, 72.7, 70.5],
+            jan: [63.2, 71.8, 80.1, 77.7, 69.6, 72.4, 75.5, 76.3, 72.5, 70.4]
+        };
+        
+        let aeComparisonChart = new Chart(aeComparisonCtx, {
             type: 'bar',
             data: {
-                labels: ['Cambridge', 'GSTT', "King's", 'Imperial', 'Manchester', 'Newcastle', 'Birmingham', 'Oxford', 'Sheffield', 'UCLH'],
+                labels: aeComparisonData.labels,
                 datasets: [{
                     label: 'Nov 25',
-                    data: [71.2, 79.5, 68.9, 77.1, 71.8, 74.9, 62.8, 75.8, 71.9, 69.8],
+                    data: aeComparisonData.nov,
                     backgroundColor: 'rgba(0, 123, 127, 0.4)',
                     borderRadius: 6
                 }, {
                     label: 'Dec 25',
-                    data: [72.1, 80.5, 69.8, 78.0, 72.6, 75.8, 63.0, 76.5, 72.7, 70.5],
+                    data: aeComparisonData.dec,
                     backgroundColor: 'rgba(0, 123, 127, 0.7)',
                     borderRadius: 6
                 }, {
                     label: 'Jan 26',
-                    data: [71.8, 80.1, 69.6, 77.7, 72.4, 75.5, 63.2, 76.3, 72.5, 70.4],
+                    data: aeComparisonData.jan,
                     backgroundColor: '#007B7F',
                     borderRadius: 6
                 }]
@@ -577,26 +586,62 @@
                 }
             }
         });
+        
+        // Add sorting controls for A&E chart
+        const aeSortContainer = document.createElement('div');
+        aeSortContainer.style.cssText = 'margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;';
+        aeSortContainer.innerHTML = `
+            <button onclick="sortAEChart('alpha')" style="padding: 0.5rem 1rem; background: #007B7F; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">A-Z</button>
+            <button onclick="sortAEChart('best')" style="padding: 0.5rem 1rem; background: #007B7F; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">Best to Worst</button>
+            <button onclick="sortAEChart('worst')" style="padding: 0.5rem 1rem; background: #007B7F; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">Worst to Best</button>
+        `;
+        document.getElementById('aeComparisonChart').parentElement.insertBefore(aeSortContainer, document.getElementById('aeComparisonChart'));
+        
+        window.sortAEChart = function(sortType) {
+            let indices = aeComparisonData.labels.map((_, i) => i);
+            
+            if (sortType === 'best') {
+                indices.sort((a, b) => aeComparisonData.jan[b] - aeComparisonData.jan[a]);
+            } else if (sortType === 'worst') {
+                indices.sort((a, b) => aeComparisonData.jan[a] - aeComparisonData.jan[b]);
+            }
+            // 'alpha' keeps original alphabetical order
+            
+            aeComparisonChart.data.labels = indices.map(i => aeComparisonData.labels[i]);
+            aeComparisonChart.data.datasets[0].data = indices.map(i => aeComparisonData.nov[i]);
+            aeComparisonChart.data.datasets[1].data = indices.map(i => aeComparisonData.dec[i]);
+            aeComparisonChart.data.datasets[2].data = indices.map(i => aeComparisonData.jan[i]);
+            aeComparisonChart.update();
+        };
 
         // RTT 18-Week Trust Comparison - 3 Month Rolling Average
         const rttComparisonCtx = document.getElementById('rttComparisonChart').getContext('2d');
-        new Chart(rttComparisonCtx, {
+        
+        // Original data in alphabetical order
+        const rttComparisonData = {
+            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
+            nov: [60.2, 58.7, 65.2, 61.5, 62.4, 53.2, 72.9, 59.4, 65.4, 57.5],
+            dec: [60.4, 59.0, 65.6, 61.8, 62.7, 53.5, 73.2, 59.7, 65.7, 57.8],
+            jan: [60.6, 59.3, 65.9, 62.1, 63.0, 53.8, 73.5, 60.0, 66.0, 58.1]
+        };
+        
+        let rttComparisonChart = new Chart(rttComparisonCtx, {
             type: 'bar',
             data: {
-                labels: ['Cambridge', 'GSTT', "King's", 'Imperial', 'Manchester', 'Newcastle', 'Birmingham', 'Oxford', 'Sheffield', 'UCLH'],
+                labels: rttComparisonData.labels,
                 datasets: [{
                     label: 'Nov 25',
-                    data: [58.7, 65.2, 62.4, 61.5, 53.2, 72.9, 60.2, 59.4, 65.4, 57.5],
+                    data: rttComparisonData.nov,
                     backgroundColor: 'rgba(91, 127, 108, 0.4)',
                     borderRadius: 6
                 }, {
                     label: 'Dec 25',
-                    data: [59.0, 65.6, 62.7, 61.8, 53.5, 73.2, 60.4, 59.7, 65.7, 57.8],
+                    data: rttComparisonData.dec,
                     backgroundColor: 'rgba(91, 127, 108, 0.7)',
                     borderRadius: 6
                 }, {
                     label: 'Jan 26',
-                    data: [59.3, 65.9, 63.0, 62.1, 53.8, 73.5, 60.6, 60.0, 66.0, 58.1],
+                    data: rttComparisonData.jan,
                     backgroundColor: '#5B7F6C',
                     borderRadius: 6
                 }]
@@ -646,6 +691,33 @@
                 }
             }
         });
+        
+        // Add sorting controls for RTT chart
+        const rttSortContainer = document.createElement('div');
+        rttSortContainer.style.cssText = 'margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;';
+        rttSortContainer.innerHTML = `
+            <button onclick="sortRTTChart('alpha')" style="padding: 0.5rem 1rem; background: #5B7F6C; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">A-Z</button>
+            <button onclick="sortRTTChart('best')" style="padding: 0.5rem 1rem; background: #5B7F6C; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">Best to Worst</button>
+            <button onclick="sortRTTChart('worst')" style="padding: 0.5rem 1rem; background: #5B7F6C; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">Worst to Best</button>
+        `;
+        document.getElementById('rttComparisonChart').parentElement.insertBefore(rttSortContainer, document.getElementById('rttComparisonChart'));
+        
+        window.sortRTTChart = function(sortType) {
+            let indices = rttComparisonData.labels.map((_, i) => i);
+            
+            if (sortType === 'best') {
+                indices.sort((a, b) => rttComparisonData.jan[b] - rttComparisonData.jan[a]);
+            } else if (sortType === 'worst') {
+                indices.sort((a, b) => rttComparisonData.jan[a] - rttComparisonData.jan[b]);
+            }
+            // 'alpha' keeps original alphabetical order
+            
+            rttComparisonChart.data.labels = indices.map(i => rttComparisonData.labels[i]);
+            rttComparisonChart.data.datasets[0].data = indices.map(i => rttComparisonData.nov[i]);
+            rttComparisonChart.data.datasets[1].data = indices.map(i => rttComparisonData.dec[i]);
+            rttComparisonChart.data.datasets[2].data = indices.map(i => rttComparisonData.jan[i]);
+            rttComparisonChart.update();
+        };
 
         // RTT Waiting List Chart - Stacked by Trust
         const rttCtx = document.getElementById('rttChart').getContext('2d');

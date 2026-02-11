@@ -494,14 +494,20 @@
 
         // A&E Bar Chart
         const aeBarCtx = document.getElementById('aeBarChart').getContext('2d');
-        const aeData = [71.8, 80.1, 69.6, 77.7, 72.4, 75.5, 63.2, 76.3, 72.5, 70.4];
-        new Chart(aeBarCtx, {
+        
+        // Original data in alphabetical order
+        const aeBarData = {
+            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
+            values: [63.2, 71.8, 80.1, 77.7, 69.6, 72.4, 75.5, 76.3, 72.5, 70.4]
+        };
+        
+        let aeBarChart = new Chart(aeBarCtx, {
             type: 'bar',
             data: {
-                labels: ['Cambridge', 'GSTT', "King's", 'Imperial', 'Manchester', 'Newcastle', 'Nottingham', 'Oxford', 'Sheffield', 'UCLH'],
+                labels: aeBarData.labels,
                 datasets: [{
                     label: 'A&E 4-hour Standard (%)',
-                    data: aeData,
+                    data: aeBarData.values,
                     backgroundColor: '#007B7F',
                     borderRadius: 8,
                     borderWidth: 0
@@ -524,7 +530,7 @@
                 scales: {
                     y: {
                         beginAtZero: false,
-                        min: 70,
+                        min: 50,
                         max: 85,
                         ticks: {
                             callback: function(value) {
@@ -543,6 +549,31 @@
                 }
             }
         });
+        
+        // Add sorting controls for A&E bar chart
+        const aeBarSortContainer = document.createElement('div');
+        aeBarSortContainer.style.cssText = 'margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;';
+        aeBarSortContainer.innerHTML = `
+            <button onclick="sortAEBarChart('alpha')" style="padding: 0.5rem 1rem; background: #007B7F; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">A-Z</button>
+            <button onclick="sortAEBarChart('best')" style="padding: 0.5rem 1rem; background: #007B7F; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">Best to Worst</button>
+            <button onclick="sortAEBarChart('worst')" style="padding: 0.5rem 1rem; background: #007B7F; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">Worst to Best</button>
+        `;
+        document.getElementById('aeBarChart').parentElement.insertBefore(aeBarSortContainer, document.getElementById('aeBarChart'));
+        
+        window.sortAEBarChart = function(sortType) {
+            let indices = aeBarData.labels.map((_, i) => i);
+            
+            if (sortType === 'best') {
+                indices.sort((a, b) => aeBarData.values[b] - aeBarData.values[a]);
+            } else if (sortType === 'worst') {
+                indices.sort((a, b) => aeBarData.values[a] - aeBarData.values[b]);
+            }
+            // 'alpha' keeps original alphabetical order
+            
+            aeBarChart.data.labels = indices.map(i => aeBarData.labels[i]);
+            aeBarChart.data.datasets[0].data = indices.map(i => aeBarData.values[i]);
+            aeBarChart.update();
+        };
     </script>
 </body>
 </html>
