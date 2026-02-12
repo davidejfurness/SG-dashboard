@@ -44,6 +44,7 @@
             border-bottom: 3px solid var(--shelford-teal);
         }
 
+        .logo-link { display: inline-block; }
         .logo {
             width: 120px;
             height: auto;
@@ -277,7 +278,7 @@
 <body>
     <div class="container">
         <header>
-            <img src="shelford-logo.jpg" alt="Shelford Group" class="logo">
+            <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
             <div>
                 <h1>Cancer Services</h1>
                 <p class="subtitle">Detailed metrics on cancer waiting times and treatment pathways</p>
@@ -291,7 +292,8 @@
                 <a href="ae-detail.html">A&E & Urgent Care</a>
                 <a href="cancer-detail.html" class="active">Cancer Services</a>
                 <a href="quality-detail.html">Patient Safety & Quality</a>
-                <a href="workforce-detail.html">Workforce & Capacity</a>
+                <a href="capacity-detail.html">Capacity &amp; Beds</a>
+                <a href="workforce-detail.html">Workforce</a>
             </div>
         </nav>
 
@@ -354,8 +356,8 @@
             <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025. Standard: 93%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortTwoWeekChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortTwoWeekChart('best')">Best to Worst</button>
-                <button class="chart-btn" onclick="sortTwoWeekChart('worst')">Worst to Best</button>
+                <button class="chart-btn" onclick="sortTwoWeekChart('highest')">Highest to Lowest</button>
+                <button class="chart-btn" onclick="sortTwoWeekChart('lowest')">Lowest to Highest</button>
             </div>
             <div class="chart-wrapper">
                 <canvas id="twoWeekChart"></canvas>
@@ -368,8 +370,8 @@
             <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025. Standard: 75%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortFDSChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortFDSChart('best')">Best to Worst</button>
-                <button class="chart-btn" onclick="sortFDSChart('worst')">Worst to Best</button>
+                <button class="chart-btn" onclick="sortFDSChart('highest')">Highest to Lowest</button>
+                <button class="chart-btn" onclick="sortFDSChart('lowest')">Lowest to Highest</button>
             </div>
             <div class="chart-wrapper">
                 <canvas id="fdsChart"></canvas>
@@ -382,8 +384,8 @@
             <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025. Standard: 85%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortSixtyTwoChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortSixtyTwoChart('best')">Best to Worst</button>
-                <button class="chart-btn" onclick="sortSixtyTwoChart('worst')">Worst to Best</button>
+                <button class="chart-btn" onclick="sortSixtyTwoChart('highest')">Highest to Lowest</button>
+                <button class="chart-btn" onclick="sortSixtyTwoChart('lowest')">Lowest to Highest</button>
             </div>
             <div class="chart-wrapper">
                 <canvas id="sixtyTwoChart"></canvas>
@@ -519,9 +521,9 @@
         function sortTwoWeekChart(sortType) {
             let indices = twwData.labels.map((_, i) => i);
             
-            if (sortType === 'best') {
+            if (sortType === 'highest') {
                 indices.sort((a, b) => twwData.values[b] - twwData.values[a]);
-            } else if (sortType === 'worst') {
+            } else if (sortType === 'lowest') {
                 indices.sort((a, b) => twwData.values[a] - twwData.values[b]);
             }
             
@@ -573,9 +575,9 @@
         function sortFDSChart(sortType) {
             let indices = fdsData.labels.map((_, i) => i);
             
-            if (sortType === 'best') {
+            if (sortType === 'highest') {
                 indices.sort((a, b) => fdsData.values[b] - fdsData.values[a]);
-            } else if (sortType === 'worst') {
+            } else if (sortType === 'lowest') {
                 indices.sort((a, b) => fdsData.values[a] - fdsData.values[b]);
             }
             
@@ -627,9 +629,9 @@
         function sortSixtyTwoChart(sortType) {
             let indices = sixtyTwoData.labels.map((_, i) => i);
             
-            if (sortType === 'best') {
+            if (sortType === 'highest') {
                 indices.sort((a, b) => sixtyTwoData.values[b] - sixtyTwoData.values[a]);
-            } else if (sortType === 'worst') {
+            } else if (sortType === 'lowest') {
                 indices.sort((a, b) => sixtyTwoData.values[a] - sixtyTwoData.values[b]);
             }
             

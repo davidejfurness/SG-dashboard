@@ -6,411 +6,101 @@
     <title>Patient Safety & Quality - Shelford Group Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        :root {
-            --shelford-teal: #007B7F;
-            --shelford-dark-teal: #005A5D;
-            --shelford-sage: #5B7F6C;
-            --shelford-cream: #FDFBF7;
-            --text-dark: #1A1A1A;
-            --text-mid: #4A4A4A;
-            --border-light: #E5E5E5;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--shelford-cream);
-            color: var(--text-dark);
-            line-height: 1.6;
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        header {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 3px solid var(--shelford-teal);
-        }
-
-        .logo {
-            width: 120px;
-            height: auto;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: var(--shelford-dark-teal);
-            font-weight: 700;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--text-mid);
-            margin-top: 0.5rem;
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            color: var(--shelford-dark-teal);
-            margin: 3rem 0 1rem 0;
-            font-weight: 600;
-        }
-
-        h3 {
-            font-size: 1.3rem;
-            color: var(--shelford-dark-teal);
-            margin: 1rem 0;
-        }
-
-        .source-note {
-            font-size: 0.9rem;
-            color: var(--text-mid);
-            margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-        }
-
-        nav {
-            background: white;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
-        }
-
-        nav a {
-            color: var(--shelford-teal);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            transition: all 0.2s;
-            display: inline-block;
-        }
-
-        nav a:hover {
-            background: rgba(0, 123, 127, 0.1);
-            border-radius: 6px;
-        }
-
-        nav a.active {
-            color: var(--shelford-dark-teal);
-            background: rgba(0, 123, 127, 0.1);
-            border-radius: 6px;
-            font-weight: 600;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .metric-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
-            border-left: 4px solid var(--shelford-teal);
-        }
-
-        .metric-label {
-            font-size: 0.9rem;
-            color: var(--text-mid);
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .metric-value {
-            font-size: 2.5rem;
-            color: var(--shelford-dark-teal);
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .metric-benchmark {
-            font-size: 0.85rem;
-            color: var(--text-mid);
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
-            margin-bottom: 3rem;
-            overflow-x: auto;
-        }
-
-        .sort-buttons {
-            margin-bottom: 1rem;
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .sort-btn {
-            padding: 0.5rem 1rem;
-            background: var(--shelford-teal);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .sort-btn:hover {
-            background: var(--shelford-dark-teal);
-        }
-
-        .sort-btn.active {
-            background: var(--shelford-dark-teal);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: var(--shelford-teal);
-            color: white;
-        }
-
-        th {
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-        }
-
-        td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        tbody tr:hover {
-            background: rgba(0, 123, 127, 0.05);
-        }
-
-        .trust-name {
-            font-weight: 500;
-            color: var(--text-dark);
-        }
-
-        .chart-container {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
-            margin-bottom: 3rem;
-        }
-
-        .chart-wrapper {
-            position: relative;
-            height: 400px;
-            margin-top: 1rem;
-        }
-
-        .chart-controls {
-            margin-bottom: 1rem;
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .chart-btn {
-            padding: 0.5rem 1rem;
-            background: var(--shelford-teal);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .chart-btn:hover {
-            background: var(--shelford-dark-teal);
-        }
-
-        footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-light);
-            text-align: center;
-            color: var(--text-mid);
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .metric-value {
-                font-size: 2rem;
-            }
-
-            .chart-wrapper {
-                height: 300px;
-            }
-        }
+        :root { --shelford-teal: #007B7F; --shelford-dark-teal: #005A5D; --shelford-sage: #5B7F6C; --shelford-cream: #FDFBF7; --text-dark: #1A1A1A; --text-mid: #4A4A4A; --border-light: #E5E5E5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--shelford-cream); color: var(--text-dark); line-height: 1.6; padding: 2rem; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 3px solid var(--shelford-teal); }
+        .logo-link { display: inline-block; } .logo { width: 120px; height: auto; }
+        h1 { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; }
+        .subtitle { font-size: 1.1rem; color: var(--text-mid); margin-top: 0.5rem; }
+        h2 { font-size: 1.8rem; color: var(--shelford-dark-teal); margin: 3rem 0 1rem 0; font-weight: 600; }
+        h3 { font-size: 1.3rem; color: var(--shelford-dark-teal); margin: 1rem 0; }
+        .source-note { font-size: 0.9rem; color: var(--text-mid); margin-top: 0.5rem; margin-bottom: 1.5rem; font-style: italic; }
+        nav { background: white; padding: 1rem 2rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); }
+        nav a { color: var(--shelford-teal); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; transition: all 0.2s; display: inline-block; }
+        nav a:hover { background: rgba(0,123,127,0.1); border-radius: 6px; }
+        nav a.active { color: var(--shelford-dark-teal); background: rgba(0,123,127,0.1); border-radius: 6px; font-weight: 600; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .metric-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,123,127,0.08); border-left: 4px solid var(--shelford-teal); }
+        .metric-label { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 0.5rem; font-weight: 500; }
+        .metric-value { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; margin-bottom: 0.25rem; }
+        .metric-benchmark { font-size: 0.85rem; color: var(--text-mid); }
+        .table-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; overflow-x: auto; }
+        .sort-buttons { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .sort-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .sort-btn:hover { background: var(--shelford-dark-teal); } .sort-btn.active { background: var(--shelford-dark-teal); }
+        table { width: 100%; border-collapse: collapse; } thead { background: var(--shelford-teal); color: white; }
+        th { padding: 1rem; text-align: left; font-weight: 600; } td { padding: 1rem; border-bottom: 1px solid var(--border-light); }
+        tbody tr:hover { background: rgba(0,123,127,0.05); } .trust-name { font-weight: 500; }
+        .chart-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; }
+        .chart-wrapper { position: relative; height: 400px; margin-top: 1rem; }
+        .chart-controls { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .chart-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .chart-btn:hover { background: var(--shelford-dark-teal); }
+        footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-mid); font-size: 0.9rem; }
+        @media (max-width: 768px) { body { padding: 1rem; } h1 { font-size: 1.8rem; } .metric-value { font-size: 2rem; } .chart-wrapper { height: 300px; } }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <img src="shelford-logo.jpg" alt="Shelford Group" class="logo">
-            <div>
-                <h1>Patient Safety & Quality</h1>
-                <p class="subtitle">Detailed metrics on infection control and patient experience</p>
-            </div>
+            <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
+            <div><h1>Patient Safety & Quality</h1><p class="subtitle">Detailed metrics on patient experience and infection control</p></div>
         </header>
+        <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html" class="active">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html">Workforce</a>
+        </div></nav>
 
-        <nav>
-            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                <a href="index.html">Overview</a>
-                <a href="rtt-detail.html">RTT & Elective Care</a>
-                <a href="ae-detail.html">A&E & Urgent Care</a>
-                <a href="cancer-detail.html">Cancer Services</a>
-                <a href="quality-detail.html" class="active">Patient Safety & Quality</a>
-                <a href="workforce-detail.html">Workforce & Capacity</a>
-            </div>
-        </nav>
-
-        <!-- Key Metrics -->
-        <h2>Patient Safety Summary</h2>
-        <p class="source-note">Source: NHS England HCAI Data, Q3 2025/26 (October-December 2025)</p>
+        <!-- KPIs - FFT first, then infection -->
+        <h2>Patient Experience & Safety Summary</h2>
+        <p class="source-note">Source: NHS England Friends & Family Test December 2025; HCAI Data Q3 2025/26</p>
         <div class="dashboard-grid">
-            <div class="metric-card">
-                <div class="metric-label">C. difficile Rate</div>
-                <div class="metric-value">13.8</div>
-                <div class="metric-benchmark">Per 100,000 bed days</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">MRSA Bacteremia</div>
-                <div class="metric-value">8</div>
-                <div class="metric-benchmark">Total cases (Q3)</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">FFT: A&E Recommend</div>
-                <div class="metric-value">82.4%</div>
-                <div class="metric-benchmark">December 2025</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">FFT: Inpatient Recommend</div>
-                <div class="metric-value">94.6%</div>
-                <div class="metric-benchmark">December 2025</div>
-            </div>
+            <div class="metric-card"><div class="metric-label">FFT: A&E Recommend</div><div class="metric-value">82.4%</div><div class="metric-benchmark">Shelford average, December 2025</div></div>
+            <div class="metric-card"><div class="metric-label">FFT: Inpatient Recommend</div><div class="metric-value">94.6%</div><div class="metric-benchmark">Shelford average, December 2025</div></div>
+            <div class="metric-card"><div class="metric-label">C. difficile Rate</div><div class="metric-value">13.8</div><div class="metric-benchmark">Per 100,000 bed days (Q3)</div></div>
+            <div class="metric-card"><div class="metric-label">MRSA Bacteremia</div><div class="metric-value">8</div><div class="metric-benchmark">Total cases (Q3)</div></div>
         </div>
 
-        <!-- Detailed Performance Table -->
+        <!-- Performance Table -->
         <h2>Trust-Level Safety & Quality Performance</h2>
         <p class="source-note">Source: NHS England HCAI Data Q3 2025/26 and Friends & Family Test December 2025</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortQualityTable('alpha', event)">A-Z</button>
-                <button class="sort-btn" onclick="sortQualityTable('cdiff', event)">Sort by C. diff</button>
-                <button class="sort-btn" onclick="sortQualityTable('mrsa', event)">Sort by MRSA</button>
                 <button class="sort-btn" onclick="sortQualityTable('fftae', event)">Sort by FFT A&E</button>
                 <button class="sort-btn" onclick="sortQualityTable('fftip', event)">Sort by FFT Inpatient</button>
+                <button class="sort-btn" onclick="sortQualityTable('cdiff', event)">Sort by C. diff</button>
+                <button class="sort-btn" onclick="sortQualityTable('mrsa', event)">Sort by MRSA</button>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Trust</th>
-                        <th>C. diff Rate</th>
-                        <th>MRSA Cases</th>
-                        <th>E. coli Cases</th>
-                        <th>FFT A&E %</th>
-                        <th>FFT Inpatient %</th>
-                    </tr>
-                </thead>
-                <tbody id="qualityTableBody">
-                    <!-- Populated by JavaScript -->
-                </tbody>
-            </table>
+            <table><thead><tr><th>Trust</th><th>FFT A&E %</th><th>FFT Inpatient %</th><th>C. diff Rate</th><th>MRSA Cases</th><th>E. coli Cases</th></tr></thead>
+            <tbody id="qualityTableBody"></tbody></table>
         </div>
 
-        <!-- C. difficile Rates by Trust -->
-        <div class="chart-container">
-            <h3>C. difficile Infection Rates by Trust</h3>
-            <p class="source-note">Source: NHS England HCAI Data, Q3 2025/26. Rate per 100,000 bed days.</p>
-            <div class="chart-controls">
-                <button class="chart-btn" onclick="sortCDiffChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortCDiffChart('best')">Best to Worst</button>
-                <button class="chart-btn" onclick="sortCDiffChart('worst')">Worst to Best</button>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="cdiffChart"></canvas>
-            </div>
-        </div>
+        <!-- FFT section first -->
+        <h2>Patient Experience – Friends & Family Test</h2>
 
-        <!-- MRSA & E. coli Cases -->
-        <div class="chart-container">
-            <h3>MRSA and E. coli Bacteremia Cases</h3>
-            <p class="source-note">Source: NHS England HCAI Data, Q3 2025/26. Absolute case numbers.</p>
-            <div class="chart-controls">
-                <button class="chart-btn" onclick="sortInfectionChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortInfectionChart('mrsa')">Sort by MRSA</button>
-                <button class="chart-btn" onclick="sortInfectionChart('ecoli')">Sort by E. coli</button>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="infectionChart"></canvas>
-            </div>
-        </div>
+        <div class="chart-container"><h3>Friends & Family Test – Recommendation Rates by Trust</h3><p class="source-note">Source: NHS England Friends & Family Test, December 2025</p>
+            <div class="chart-wrapper"><canvas id="fftChart"></canvas></div></div>
 
-        <!-- C. difficile Trends -->
-        <div class="chart-container">
-            <h3>C. difficile Rate Trends (12 Months)</h3>
-            <p class="source-note">Source: NHS England HCAI Data, Q1 2024/25 - Q3 2025/26</p>
-            <div class="chart-wrapper">
-                <canvas id="cdiffTrendChart"></canvas>
-            </div>
-        </div>
+        <!-- Infection Control section below -->
+        <h2>Infection Control</h2>
 
-        <!-- Friends & Family Test Performance -->
-        <div class="chart-container">
-            <h3>Friends & Family Test - Recommendation Rates</h3>
-            <p class="source-note">Source: NHS England Friends & Family Test, December 2025</p>
-            <div class="chart-wrapper">
-                <canvas id="fftChart"></canvas>
-            </div>
-        </div>
+        <div class="chart-container"><h3>C. difficile Infection Rates by Trust</h3><p class="source-note">Source: NHS England HCAI Data, Q3 2025/26. Rate per 100,000 bed days.</p>
+            <div class="chart-controls"><button class="chart-btn" onclick="sortCDiffChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortCDiffChart('lowest')">Lowest to Highest</button><button class="chart-btn" onclick="sortCDiffChart('highest')">Highest to Lowest</button></div>
+            <div class="chart-wrapper"><canvas id="cdiffChart"></canvas></div></div>
 
-        <!-- FFT A&E Trends -->
-        <div class="chart-container">
-            <h3>Friends & Family Test A&E Trends (12 Months)</h3>
-            <p class="source-note">Source: NHS England Friends & Family Test, January 2025 - December 2025</p>
-            <div class="chart-wrapper">
-                <canvas id="fftTrendChart"></canvas>
-            </div>
-        </div>
+        <div class="chart-container"><h3>MRSA and E. coli Bacteremia Cases</h3><p class="source-note">Source: NHS England HCAI Data, Q3 2025/26. Absolute case numbers.</p>
+            <div class="chart-controls"><button class="chart-btn" onclick="sortInfectionChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortInfectionChart('mrsa')">Sort by MRSA</button><button class="chart-btn" onclick="sortInfectionChart('ecoli')">Sort by E. coli</button></div>
+            <div class="chart-wrapper"><canvas id="infectionChart"></canvas></div></div>
 
-        <footer>
-            <p>&copy; 2026 Shelford Group | Data updated February 2026</p>
-        </footer>
+        <div class="chart-container"><h3>C. difficile Rate Trends</h3><p class="source-note">Source: NHS England HCAI Data, Q1 2024/25 – Q3 2025/26</p>
+            <div class="chart-wrapper"><canvas id="cdiffTrendChart"></canvas></div></div>
+
+        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
 
     <script>
-        // Quality & Safety Data
         const qualityData = [
             { name: 'Birmingham', cdiff: 15.2, mrsa: 1, ecoli: 18, fftAE: 80.2, fftIP: 93.8 },
             { name: 'Cambridge', cdiff: 12.8, mrsa: 1, ecoli: 16, fftAE: 83.5, fftIP: 95.2 },
@@ -424,270 +114,49 @@
             { name: 'UCLH', cdiff: 12.6, mrsa: 0, ecoli: 15, fftAE: 84.6, fftIP: 95.6 }
         ];
 
-        // Sort quality table
         function sortQualityTable(sortType, e) {
             let sorted = [...qualityData];
-            
-            if (sortType === 'cdiff') {
-                sorted.sort((a, b) => a.cdiff - b.cdiff); // Lower is better
-            } else if (sortType === 'mrsa') {
-                sorted.sort((a, b) => a.mrsa - b.mrsa); // Lower is better
-            } else if (sortType === 'fftae') {
-                sorted.sort((a, b) => b.fftAE - a.fftAE); // Higher is better
-            } else if (sortType === 'fftip') {
-                sorted.sort((a, b) => b.fftIP - a.fftIP); // Higher is better
-            }
-            
-            const tbody = document.getElementById('qualityTableBody');
-            tbody.innerHTML = sorted.map(trust => `
-                <tr>
-                    <td class="trust-name">${trust.name}</td>
-                    <td>${trust.cdiff}</td>
-                    <td>${trust.mrsa}</td>
-                    <td>${trust.ecoli}</td>
-                    <td>${trust.fftAE}%</td>
-                    <td>${trust.fftIP}%</td>
-                </tr>
-            `).join('');
-            
-            if (e) {
-                document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-            }
+            if (sortType === 'cdiff') sorted.sort((a, b) => a.cdiff - b.cdiff);
+            else if (sortType === 'mrsa') sorted.sort((a, b) => a.mrsa - b.mrsa);
+            else if (sortType === 'fftae') sorted.sort((a, b) => b.fftAE - a.fftAE);
+            else if (sortType === 'fftip') sorted.sort((a, b) => b.fftIP - a.fftIP);
+            document.getElementById('qualityTableBody').innerHTML = sorted.map(t =>
+                '<tr><td class="trust-name">'+t.name+'</td><td>'+t.fftAE+'%</td><td>'+t.fftIP+'%</td><td>'+t.cdiff+'</td><td>'+t.mrsa+'</td><td>'+t.ecoli+'</td></tr>'
+            ).join('');
+            if (e) { document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
         }
-
-        // Initialize table
         sortQualityTable('alpha', null);
 
-        // C. difficile rates by trust
-        const cdiffData = {
-            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
-            values: [15.2, 12.8, 11.4, 13.6, 14.8, 13.2, 12.1, 14.2, 13.9, 12.6]
-        };
+        // FFT Chart
+        new Chart(document.getElementById('fftChart'), { type: 'bar', data: { labels: qualityData.map(d=>d.name), datasets: [{ label: 'A&E Recommend %', data: qualityData.map(d=>d.fftAE), backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'Inpatient Recommend %', data: qualityData.map(d=>d.fftIP), backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 75, max: 100, ticks: { callback: v => v+'%' } } } } });
 
-        let cdiffChart = new Chart(document.getElementById('cdiffChart'), {
-            type: 'bar',
-            data: {
-                labels: cdiffData.labels,
-                datasets: [{
-                    label: 'C. diff Rate (per 100k bed days)',
-                    data: cdiffData.values,
-                    backgroundColor: '#007B7F',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 20
-                    }
-                }
-            }
-        });
-
+        // C.diff chart
+        const cdiffData = { labels: qualityData.map(d=>d.name), values: qualityData.map(d=>d.cdiff) };
+        let cdiffChart = new Chart(document.getElementById('cdiffChart'), { type: 'bar', data: { labels: cdiffData.labels, datasets: [{ label: 'C. diff Rate (per 100k bed days)', data: cdiffData.values, backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 20 } } } });
         function sortCDiffChart(sortType) {
-            let indices = cdiffData.labels.map((_, i) => i);
-            
-            if (sortType === 'best') {
-                indices.sort((a, b) => cdiffData.values[a] - cdiffData.values[b]); // Lower is better
-            } else if (sortType === 'worst') {
-                indices.sort((a, b) => cdiffData.values[b] - cdiffData.values[a]);
-            }
-            
+            let indices = cdiffData.labels.map((_,i) => i);
+            if (sortType === 'lowest') indices.sort((a,b) => cdiffData.values[a] - cdiffData.values[b]);
+            else if (sortType === 'highest') indices.sort((a,b) => cdiffData.values[b] - cdiffData.values[a]);
             cdiffChart.data.labels = indices.map(i => cdiffData.labels[i]);
             cdiffChart.data.datasets[0].data = indices.map(i => cdiffData.values[i]);
             cdiffChart.update();
         }
 
-        // MRSA & E. coli infections
-        const infectionData = {
-            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
-            mrsa: [1, 1, 0, 1, 2, 1, 0, 1, 1, 0],
-            ecoli: [18, 16, 14, 17, 19, 16, 15, 17, 18, 15]
-        };
-
-        let infectionChart = new Chart(document.getElementById('infectionChart'), {
-            type: 'bar',
-            data: {
-                labels: infectionData.labels,
-                datasets: [{
-                    label: 'MRSA Cases',
-                    data: infectionData.mrsa,
-                    backgroundColor: '#007B7F',
-                    borderRadius: 6
-                }, {
-                    label: 'E. coli Cases',
-                    data: infectionData.ecoli,
-                    backgroundColor: '#5B7F6C',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
+        // Infection chart
+        const infectionData = { labels: qualityData.map(d=>d.name), mrsa: qualityData.map(d=>d.mrsa), ecoli: qualityData.map(d=>d.ecoli) };
+        let infectionChart = new Chart(document.getElementById('infectionChart'), { type: 'bar', data: { labels: infectionData.labels, datasets: [{ label: 'MRSA Cases', data: infectionData.mrsa, backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'E. coli Cases', data: infectionData.ecoli, backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } } });
         function sortInfectionChart(sortType) {
-            let indices = infectionData.labels.map((_, i) => i);
-            
-            if (sortType === 'mrsa') {
-                indices.sort((a, b) => infectionData.mrsa[a] - infectionData.mrsa[b]);
-            } else if (sortType === 'ecoli') {
-                indices.sort((a, b) => infectionData.ecoli[a] - infectionData.ecoli[b]);
-            }
-            
+            let indices = infectionData.labels.map((_,i) => i);
+            if (sortType === 'mrsa') indices.sort((a,b) => infectionData.mrsa[a] - infectionData.mrsa[b]);
+            else if (sortType === 'ecoli') indices.sort((a,b) => infectionData.ecoli[a] - infectionData.ecoli[b]);
             infectionChart.data.labels = indices.map(i => infectionData.labels[i]);
             infectionChart.data.datasets[0].data = indices.map(i => infectionData.mrsa[i]);
             infectionChart.data.datasets[1].data = indices.map(i => infectionData.ecoli[i]);
             infectionChart.update();
         }
 
-        // C. difficile trends
-        new Chart(document.getElementById('cdiffTrendChart'), {
-            type: 'line',
-            data: {
-                labels: ['Q1 24/25', 'Q2 24/25', 'Q3 24/25', 'Q4 24/25', 'Q1 25/26', 'Q2 25/26', 'Q3 25/26'],
-                datasets: [{
-                    label: 'Shelford Average',
-                    data: [15.2, 14.8, 14.3, 14.1, 13.9, 13.9, 13.8],
-                    borderColor: '#007B7F',
-                    backgroundColor: 'rgba(0, 123, 127, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }, {
-                    label: 'National Average',
-                    data: [16.8, 16.4, 16.0, 15.8, 15.6, 15.5, 15.4],
-                    borderColor: '#94A3B8',
-                    backgroundColor: 'rgba(148, 163, 184, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 10,
-                        max: 18,
-                        ticks: {
-                            callback: function(value) {
-                                return value;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // Friends & Family Test
-        new Chart(document.getElementById('fftChart'), {
-            type: 'bar',
-            data: {
-                labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
-                datasets: [{
-                    label: 'A&E Recommend %',
-                    data: [80.2, 83.5, 85.1, 84.2, 79.8, 81.6, 83.8, 82.4, 81.2, 84.6],
-                    backgroundColor: '#007B7F',
-                    borderRadius: 6
-                }, {
-                    label: 'Inpatient Recommend %',
-                    data: [93.8, 95.2, 96.1, 95.4, 93.2, 94.1, 95.8, 94.7, 94.3, 95.6],
-                    backgroundColor: '#5B7F6C',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 75,
-                        max: 100,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // FFT A&E trends
-        new Chart(document.getElementById('fftTrendChart'), {
-            type: 'line',
-            data: {
-                labels: ['Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25'],
-                datasets: [{
-                    label: 'A&E Recommend %',
-                    data: [81.2, 81.5, 81.8, 82.0, 82.2, 82.4, 82.5, 82.6, 82.5, 82.4, 82.3, 82.4],
-                    borderColor: '#007B7F',
-                    backgroundColor: 'rgba(0, 123, 127, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }, {
-                    label: 'Inpatient Recommend %',
-                    data: [94.2, 94.3, 94.4, 94.5, 94.6, 94.7, 94.7, 94.8, 94.7, 94.6, 94.5, 94.6],
-                    borderColor: '#5B7F6C',
-                    backgroundColor: 'rgba(91, 127, 108, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 75,
-                        max: 100,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
+        // C.diff trends
+        new Chart(document.getElementById('cdiffTrendChart'), { type: 'line', data: { labels: ['Q1 24/25','Q2 24/25','Q3 24/25','Q4 24/25','Q1 25/26','Q2 25/26','Q3 25/26'], datasets: [{ label: 'Shelford Average', data: [15.2,14.8,14.3,14.1,13.9,13.9,13.8], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.1)', tension: 0.4, fill: true },{ label: 'National Average', data: [16.8,16.4,16.0,15.8,15.6,15.5,15.4], borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', tension: 0.4, fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 10, max: 18 } } } });
     </script>
 </body>
 </html>

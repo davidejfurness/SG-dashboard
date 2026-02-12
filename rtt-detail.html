@@ -6,301 +6,72 @@
     <title>RTT & Elective Care - Shelford Group Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        :root {
-            --shelford-teal: #007B7F;
-            --shelford-dark-teal: #005A5D;
-            --shelford-sage: #5B7F6C;
-            --shelford-cream: #FDFBF7;
-            --text-dark: #1A1A1A;
-            --text-mid: #4A4A4A;
-            --border-light: #E5E5E5;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--shelford-cream);
-            color: var(--text-dark);
-            line-height: 1.6;
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        header {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 3px solid var(--shelford-teal);
-        }
-
-        .logo {
-            width: 120px;
-            height: auto;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: var(--shelford-dark-teal);
-            font-weight: 700;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--text-mid);
-            margin-top: 0.5rem;
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            color: var(--shelford-dark-teal);
-            margin: 3rem 0 1rem 0;
-            font-weight: 600;
-        }
-
-        h3 {
-            font-size: 1.3rem;
-            color: var(--shelford-dark-teal);
-            margin: 1rem 0;
-        }
-
-        .source-note {
-            font-size: 0.9rem;
-            color: var(--text-mid);
-            margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-        }
-
-        nav {
-            background: white;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
-        }
-
-        nav a {
-            color: var(--shelford-teal);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            transition: all 0.2s;
-            display: inline-block;
-        }
-
-        nav a:hover {
-            background: rgba(0, 123, 127, 0.1);
-            border-radius: 6px;
-        }
-
-        nav a.active {
-            color: var(--shelford-dark-teal);
-            background: rgba(0, 123, 127, 0.1);
-            border-radius: 6px;
-            font-weight: 600;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .metric-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
-            border-left: 4px solid var(--shelford-teal);
-        }
-
-        .metric-label {
-            font-size: 0.9rem;
-            color: var(--text-mid);
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .metric-value {
-            font-size: 2.5rem;
-            color: var(--shelford-dark-teal);
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .metric-benchmark {
-            font-size: 0.85rem;
-            color: var(--text-mid);
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
-            margin-bottom: 3rem;
-            overflow-x: auto;
-        }
-
-        .sort-buttons {
-            margin-bottom: 1rem;
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .sort-btn {
-            padding: 0.5rem 1rem;
-            background: var(--shelford-teal);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .sort-btn:hover {
-            background: var(--shelford-dark-teal);
-        }
-
-        .sort-btn.active {
-            background: var(--shelford-dark-teal);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: var(--shelford-teal);
-            color: white;
-        }
-
-        th {
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-        }
-
-        td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        tbody tr:hover {
-            background: rgba(0, 123, 127, 0.05);
-        }
-
-        .trust-name {
-            font-weight: 500;
-            color: var(--text-dark);
-        }
-
-        .chart-container {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
-            margin-bottom: 3rem;
-        }
-
-        .chart-wrapper {
-            position: relative;
-            height: 400px;
-            margin-top: 1rem;
-        }
-
-        .chart-controls {
-            margin-bottom: 1rem;
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .chart-btn {
-            padding: 0.5rem 1rem;
-            background: var(--shelford-teal);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .chart-btn:hover {
-            background: var(--shelford-dark-teal);
-        }
-
-        footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-light);
-            text-align: center;
-            color: var(--text-mid);
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .metric-value {
-                font-size: 2rem;
-            }
-
-            .chart-wrapper {
-                height: 300px;
-            }
-        }
+        :root { --shelford-teal: #007B7F; --shelford-dark-teal: #005A5D; --shelford-sage: #5B7F6C; --shelford-cream: #FDFBF7; --text-dark: #1A1A1A; --text-mid: #4A4A4A; --border-light: #E5E5E5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--shelford-cream); color: var(--text-dark); line-height: 1.6; padding: 2rem; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 3px solid var(--shelford-teal); }
+        .logo-link { display: inline-block; } .logo { width: 120px; height: auto; }
+        h1 { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; }
+        .subtitle { font-size: 1.1rem; color: var(--text-mid); margin-top: 0.5rem; }
+        h2 { font-size: 1.8rem; color: var(--shelford-dark-teal); margin: 3rem 0 1rem 0; font-weight: 600; }
+        h3 { font-size: 1.3rem; color: var(--shelford-dark-teal); margin: 1rem 0; }
+        .source-note { font-size: 0.9rem; color: var(--text-mid); margin-top: 0.5rem; margin-bottom: 1.5rem; font-style: italic; }
+        nav { background: white; padding: 1rem 2rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); }
+        nav a { color: var(--shelford-teal); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; transition: all 0.2s; display: inline-block; }
+        nav a:hover { background: rgba(0,123,127,0.1); border-radius: 6px; }
+        nav a.active { color: var(--shelford-dark-teal); background: rgba(0,123,127,0.1); border-radius: 6px; font-weight: 600; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .metric-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,123,127,0.08); border-left: 4px solid var(--shelford-teal); }
+        .metric-label { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 0.5rem; font-weight: 500; }
+        .metric-value { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; margin-bottom: 0.25rem; }
+        .metric-benchmark { font-size: 0.85rem; color: var(--text-mid); }
+        .table-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; overflow-x: auto; }
+        .sort-buttons { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .sort-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .sort-btn:hover { background: var(--shelford-dark-teal); } .sort-btn.active { background: var(--shelford-dark-teal); }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: var(--shelford-teal); color: white; }
+        th { padding: 1rem; text-align: left; font-weight: 600; }
+        td { padding: 1rem; border-bottom: 1px solid var(--border-light); }
+        tbody tr:hover { background: rgba(0,123,127,0.05); }
+        .trust-name { font-weight: 500; }
+        .chart-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; }
+        .chart-wrapper { position: relative; height: 400px; margin-top: 1rem; }
+        .chart-controls { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .chart-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .chart-btn:hover { background: var(--shelford-dark-teal); }
+        .benchmark-note { background: rgba(0,123,127,0.05); border-left: 3px solid var(--shelford-teal); padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem; font-size: 0.95rem; color: var(--text-mid); }
+        .benchmark-note strong { color: var(--shelford-dark-teal); }
+        footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-mid); font-size: 0.9rem; }
+        @media (max-width: 768px) { body { padding: 1rem; } h1 { font-size: 1.8rem; } .metric-value { font-size: 2rem; } .chart-wrapper { height: 300px; } }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <img src="shelford-logo.jpg" alt="Shelford Group" class="logo">
+            <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
             <div>
                 <h1>RTT & Elective Care</h1>
                 <p class="subtitle">Detailed metrics on referral to treatment and elective care performance</p>
             </div>
         </header>
 
-        <nav>
-            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                <a href="index.html">Overview</a>
-                <a href="rtt-detail.html" class="active">RTT & Elective Care</a>
-                <a href="ae-detail.html">A&E & Urgent Care</a>
-                <a href="cancer-detail.html">Cancer Services</a>
-                <a href="quality-detail.html">Patient Safety & Quality</a>
-                <a href="workforce-detail.html">Workforce & Capacity</a>
-            </div>
-        </nav>
+        <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+            <a href="index.html">Overview</a>
+            <a href="rtt-detail.html" class="active">RTT & Elective Care</a>
+            <a href="ae-detail.html">A&E & Urgent Care</a>
+            <a href="cancer-detail.html">Cancer Services</a>
+            <a href="quality-detail.html">Patient Safety & Quality</a>
+            <a href="capacity-detail.html">Capacity & Beds</a>
+            <a href="workforce-detail.html">Workforce</a>
+        </div></nav>
 
-        <!-- Key Metrics -->
         <h2>RTT Performance Summary</h2>
         <p class="source-note">Source: NHS England Acute Provider Table, November 2025 data (published 15 January 2026)</p>
         <div class="dashboard-grid">
             <div class="metric-card">
-                <div class="metric-label">18-Week Performance</div>
+                <div class="metric-label">18-Week Performance (Shelford Avg)</div>
                 <div class="metric-value">62.8%</div>
                 <div class="metric-benchmark">NHS target: 92%</div>
             </div>
@@ -321,7 +92,11 @@
             </div>
         </div>
 
-        <!-- Detailed Performance Table -->
+        <div class="benchmark-note">
+            <strong>Elective Recovery Plan Milestones:</strong> The Government's plan aims for <strong>65%</strong> of patients within 18 weeks by March 2026 (with every trust delivering a 5pp improvement), <strong>70%</strong> by March 2027, and the constitutional standard of <strong>92%</strong> by March 2029. The Shelford average currently stands at 62.8%, within reach of the March 2026 interim target. Source: NHS England Medium Term Planning Framework 2026/27–2028/29 and 2025/26 Operational Planning Guidance.
+        </div>
+
+        <!-- Trust Table -->
         <h2>Trust-Level RTT Performance</h2>
         <p class="source-note">Source: NHS England Acute Provider Table, November 2025 data (published 15 January 2026)</p>
         <div class="table-container">
@@ -332,36 +107,49 @@
                 <button class="sort-btn" onclick="sortRTTTable(event, 'list')">Sort by List Size</button>
             </div>
             <table>
-                <thead>
-                    <tr>
-                        <th>Trust</th>
-                        <th>18wk Performance</th>
-                        <th>Waiting List Size</th>
-                        <th>52+ week %</th>
-                        <th>78+ week %</th>
-                    </tr>
-                </thead>
-                <tbody id="rttTableBody">
-                    <!-- Populated by JavaScript -->
-                </tbody>
+                <thead><tr><th>Trust</th><th>18wk Performance</th><th>Waiting List Size</th><th>52+ week %</th><th>78+ week %</th></tr></thead>
+                <tbody id="rttTableBody"></tbody>
             </table>
         </div>
 
-        <!-- 18-Week Performance Trends -->
+        <!-- 18-Week Trends with Elective Recovery Benchmarks -->
         <div class="chart-container">
-            <h3>18-Week Performance Trends (12 Months)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, December 2024 - November 2025</p>
+            <h3>18-Week Performance Trends with Elective Recovery Benchmarks</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, December 2024 – November 2025. Benchmark lines from Elective Reform Plan (Jan 2025) and Medium Term Planning Framework.</p>
             <div class="chart-wrapper">
                 <canvas id="rttTrendsChart"></canvas>
             </div>
         </div>
 
-        <!-- Waiting List Growth -->
+        <!-- RTT Performance by Trust (moved from overview) -->
+        <div class="chart-container">
+            <h3>18-Week Performance by Trust – 3 Month Rolling Average</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, November 2025 – January 2026</p>
+            <div class="chart-controls">
+                <button class="chart-btn" onclick="sortRTTChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sortRTTChart('highest')">Highest to Lowest</button>
+                <button class="chart-btn" onclick="sortRTTChart('lowest')">Lowest to Highest</button>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="rttPerformanceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Waiting List Trend -->
         <div class="chart-container">
             <h3>Waiting List Size Over Time</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, December 2024 - November 2025</p>
+            <p class="source-note">Source: NHS England Acute Provider Table, December 2024 – November 2025</p>
             <div class="chart-wrapper">
                 <canvas id="waitingListChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Total Waiting List Stacked (moved from overview) -->
+        <div class="chart-container">
+            <h3>Total Waiting List Size (Stacked by Trust)</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, July 2025 – January 2026</p>
+            <div class="chart-wrapper">
+                <canvas id="rttWaitingListChart"></canvas>
             </div>
         </div>
 
@@ -382,19 +170,16 @@
         <!-- 52+ Week Waiters Trends -->
         <div class="chart-container">
             <h3>52+ Week Waiters Trend (% of waiting list)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, December 2024 - November 2025</p>
+            <p class="source-note">Source: NHS England Acute Provider Table, December 2024 – November 2025. Interim target: less than 1% by March 2026.</p>
             <div class="chart-wrapper">
                 <canvas id="longWaitersTrendChart"></canvas>
             </div>
         </div>
 
-        <footer>
-            <p>&copy; 2026 Shelford Group | Data updated February 2026</p>
-        </footer>
+        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
 
     <script>
-        // RTT Data - November 2025
         const rttData = [
             { name: 'Birmingham', rtt18: 60.6, list: 140, rtt52pct: 2.1, rtt78pct: 0.8 },
             { name: 'Cambridge', rtt18: 59.3, list: 160, rtt52pct: 3.6, rtt78pct: 1.4 },
@@ -408,39 +193,20 @@
             { name: 'UCLH', rtt18: 58.1, list: 97, rtt52pct: 2.0, rtt78pct: 0.8 }
         ];
 
-        // Sort RTT table - FIXED with event parameter
         function sortRTTTable(event, sortType) {
             let sorted = [...rttData];
-            
-            if (sortType === 'rtt18') {
-                sorted.sort((a, b) => b.rtt18 - a.rtt18);
-            } else if (sortType === 'rtt52') {
-                sorted.sort((a, b) => b.rtt52pct - a.rtt52pct);
-            } else if (sortType === 'list') {
-                sorted.sort((a, b) => b.list - a.list);
-            }
-            
-            const tbody = document.getElementById('rttTableBody');
-            tbody.innerHTML = sorted.map(trust => `
-                <tr>
-                    <td class="trust-name">${trust.name}</td>
-                    <td>${trust.rtt18}%</td>
-                    <td>${trust.list}k</td>
-                    <td>${trust.rtt52pct}%</td>
-                    <td>${trust.rtt78pct}%</td>
-                </tr>
+            if (sortType === 'rtt18') sorted.sort((a, b) => b.rtt18 - a.rtt18);
+            else if (sortType === 'rtt52') sorted.sort((a, b) => b.rtt52pct - a.rtt52pct);
+            else if (sortType === 'list') sorted.sort((a, b) => b.list - a.list);
+            document.getElementById('rttTableBody').innerHTML = sorted.map(t => `
+                <tr><td class="trust-name">${t.name}</td><td>${t.rtt18}%</td><td>${t.list}k</td><td>${t.rtt52pct}%</td><td>${t.rtt78pct}%</td></tr>
             `).join('');
-            
             document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-            if (event && event.target) {
-                event.target.classList.add('active');
-            }
+            if (event && event.target) event.target.classList.add('active');
         }
-
-        // Initialize table
         sortRTTTable(null, 'alpha');
 
-        // RTT 18-week trends (12 months)
+        // 18-week trends with elective recovery benchmarks
         new Chart(document.getElementById('rttTrendsChart'), {
             type: 'line',
             data: {
@@ -448,87 +214,104 @@
                 datasets: [{
                     label: 'Shelford Average',
                     data: [61.2, 61.5, 61.8, 62.1, 62.4, 62.6, 62.8, 62.9, 62.7, 62.6, 62.8, 62.8],
-                    borderColor: '#007B7F',
-                    backgroundColor: 'rgba(0, 123, 127, 0.1)',
-                    tension: 0.4,
-                    fill: true
+                    borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.1)', tension: 0.4, fill: true
                 }, {
                     label: 'National Average',
                     data: [60.5, 60.8, 61.1, 61.4, 61.7, 61.9, 62.1, 62.2, 62.0, 61.9, 62.3, 61.8],
-                    borderColor: '#94A3B8',
-                    backgroundColor: 'rgba(148, 163, 184, 0.1)',
-                    tension: 0.4,
-                    fill: true
+                    borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', tension: 0.4, fill: true
                 }, {
-                    label: 'NHS Target',
+                    label: 'Mar 2026 target (65%)',
+                    data: [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65],
+                    borderColor: '#F59E0B', borderDash: [5, 5], borderWidth: 2, pointRadius: 0, fill: false
+                }, {
+                    label: 'Mar 2027 target (70%)',
+                    data: [70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70],
+                    borderColor: '#8B5CF6', borderDash: [5, 5], borderWidth: 2, pointRadius: 0, fill: false
+                }, {
+                    label: 'Constitutional standard (92%)',
                     data: [92, 92, 92, 92, 92, 92, 92, 92, 92, 92, 92, 92],
-                    borderColor: '#10B981',
-                    borderDash: [5, 5],
-                    borderWidth: 2,
-                    pointRadius: 0
+                    borderColor: '#10B981', borderDash: [5, 5], borderWidth: 2, pointRadius: 0, fill: false
                 }]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 50,
-                        max: 95,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 14 } } },
+                scales: { y: { beginAtZero: false, min: 50, max: 95, ticks: { callback: v => v + '%' } } }
             }
         });
 
-        // Waiting list size trend
+        // RTT Performance by Trust - 3 Month Rolling Average (moved from overview)
+        const rttPerfData = {
+            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
+            nov: [60.2, 58.7, 65.2, 61.5, 62.4, 53.2, 72.9, 59.4, 65.4, 57.5],
+            dec: [60.4, 59.0, 65.6, 61.8, 62.7, 53.5, 73.2, 59.7, 65.7, 57.8],
+            jan: [60.6, 59.3, 65.9, 62.1, 63.0, 53.8, 73.5, 60.0, 66.0, 58.1]
+        };
+
+        let rttPerfChart = new Chart(document.getElementById('rttPerformanceChart'), {
+            type: 'bar',
+            data: {
+                labels: rttPerfData.labels,
+                datasets: [
+                    { label: 'Nov 25', data: rttPerfData.nov, backgroundColor: 'rgba(91,127,108,0.4)', borderRadius: 6 },
+                    { label: 'Dec 25', data: rttPerfData.dec, backgroundColor: 'rgba(91,127,108,0.7)', borderRadius: 6 },
+                    { label: 'Jan 26', data: rttPerfData.jan, backgroundColor: '#5B7F6C', borderRadius: 6 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'top' } },
+                scales: { y: { beginAtZero: false, min: 50, max: 80, ticks: { callback: v => v + '%' } } }
+            }
+        });
+
+        function sortRTTChart(sortType) {
+            let indices = rttPerfData.labels.map((_, i) => i);
+            if (sortType === 'highest') indices.sort((a, b) => rttPerfData.jan[b] - rttPerfData.jan[a]);
+            else if (sortType === 'lowest') indices.sort((a, b) => rttPerfData.jan[a] - rttPerfData.jan[b]);
+            rttPerfChart.data.labels = indices.map(i => rttPerfData.labels[i]);
+            rttPerfChart.data.datasets[0].data = indices.map(i => rttPerfData.nov[i]);
+            rttPerfChart.data.datasets[1].data = indices.map(i => rttPerfData.dec[i]);
+            rttPerfChart.data.datasets[2].data = indices.map(i => rttPerfData.jan[i]);
+            rttPerfChart.update();
+        }
+
+        // Waiting list trend
         new Chart(document.getElementById('waitingListChart'), {
             type: 'line',
             data: {
                 labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25'],
-                datasets: [{
-                    label: 'Total Waiting List (millions)',
-                    data: [1.19, 1.20, 1.21, 1.22, 1.23, 1.24, 1.25, 1.26, 1.26, 1.25, 1.25, 1.25],
-                    borderColor: '#007B7F',
-                    backgroundColor: 'rgba(0, 123, 127, 0.2)',
-                    tension: 0.4,
-                    fill: true
-                }]
+                datasets: [{ label: 'Total Waiting List (millions)', data: [1.19, 1.20, 1.21, 1.22, 1.23, 1.24, 1.25, 1.26, 1.26, 1.25, 1.25, 1.25], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.2)', tension: 0.4, fill: true }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false, min: 1.0, max: 1.3, ticks: { callback: v => v + 'm' } } } }
+        });
+
+        // Stacked waiting list (moved from overview)
+        new Chart(document.getElementById('rttWaitingListChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26'],
+                datasets: [
+                    { label: 'Cambridge', data: [152,154,156,158,160,159,157], backgroundColor: '#007B7F' },
+                    { label: 'GSTT', data: [118,120,122,124,126,125,123], backgroundColor: '#1A8B8F' },
+                    { label: "King's", data: [98,100,102,104,106,105,103], backgroundColor: '#339B9F' },
+                    { label: 'Imperial', data: [142,144,146,148,150,149,147], backgroundColor: '#5AABAF' },
+                    { label: 'Manchester', data: [165,167,169,171,173,172,170], backgroundColor: '#75BBBF' },
+                    { label: 'Newcastle', data: [128,130,132,134,136,135,133], backgroundColor: '#6A9A87' },
+                    { label: 'Birmingham', data: [135,137,139,141,143,142,140], backgroundColor: '#4A6A5F' },
+                    { label: 'Oxford', data: [112,114,116,118,120,119,117], backgroundColor: '#2F4F47' },
+                    { label: 'Sheffield', data: [108,110,112,114,116,115,113], backgroundColor: '#1F3F37' },
+                    { label: 'UCLH', data: [89,91,93,95,97,96,94], backgroundColor: '#8FB0A3' }
+                ]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 1.0,
-                        max: 1.3,
-                        ticks: {
-                            callback: function(value) {
-                                return value + 'm';
-                            }
-                        }
-                    }
-                }
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'right', labels: { font: { size: 11 }, boxWidth: 12 } }, tooltip: { callbacks: { footer: items => 'Total: ' + items.reduce((s,i) => s+i.parsed.y, 0) + 'k patients' } } },
+                scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: v => v + 'k' } } }
             }
         });
 
-        // Long waiters by trust - NOW SHOWING PERCENTAGES
+        // Long waiters by trust
         const longWaitersData = {
             labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
             week52: [2.1, 3.6, 1.5, 1.0, 2.1, 3.3, 1.1, 2.8, 2.0, 2.0],
@@ -539,88 +322,38 @@
             type: 'bar',
             data: {
                 labels: longWaitersData.labels,
-                datasets: [{
-                    label: '52+ weeks (%)',
-                    data: longWaitersData.week52,
-                    backgroundColor: '#007B7F',
-                    borderRadius: 6
-                }, {
-                    label: '78+ weeks (%)',
-                    data: longWaitersData.week78,
-                    backgroundColor: '#5B7F6C',
-                    borderRadius: 6
-                }]
+                datasets: [
+                    { label: '52+ weeks (%)', data: longWaitersData.week52, backgroundColor: '#007B7F', borderRadius: 6 },
+                    { label: '78+ weeks (%)', data: longWaitersData.week78, backgroundColor: '#5B7F6C', borderRadius: 6 }
+                ]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, ticks: { callback: v => v + '%' } } } }
         });
 
         function sortLongWaiters(event, sortType) {
             let indices = longWaitersData.labels.map((_, i) => i);
-            
-            if (sortType === '52week') {
-                indices.sort((a, b) => longWaitersData.week52[b] - longWaitersData.week52[a]);
-            } else if (sortType === '78week') {
-                indices.sort((a, b) => longWaitersData.week78[b] - longWaitersData.week78[a]);
-            }
-            
+            if (sortType === '52week') indices.sort((a, b) => longWaitersData.week52[b] - longWaitersData.week52[a]);
+            else if (sortType === '78week') indices.sort((a, b) => longWaitersData.week78[b] - longWaitersData.week78[a]);
             longWaitersChart.data.labels = indices.map(i => longWaitersData.labels[i]);
             longWaitersChart.data.datasets[0].data = indices.map(i => longWaitersData.week52[i]);
             longWaitersChart.data.datasets[1].data = indices.map(i => longWaitersData.week78[i]);
             longWaitersChart.update();
         }
 
-        // 52+ week waiters trend
+        // 52+ week trend with 1% target
         new Chart(document.getElementById('longWaitersTrendChart'), {
             type: 'line',
             data: {
                 labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25'],
                 datasets: [{
-                    label: '52+ week waiters (%)',
-                    data: [2.9, 2.8, 2.7, 2.6, 2.5, 2.4, 2.4, 2.3, 2.3, 2.3, 2.3, 2.3],
-                    borderColor: '#007B7F',
-                    backgroundColor: 'rgba(0, 123, 127, 0.2)',
-                    tension: 0.4,
-                    fill: true
+                    label: '52+ week waiters (%)', data: [2.9, 2.8, 2.7, 2.6, 2.5, 2.4, 2.4, 2.3, 2.3, 2.3, 2.3, 2.3],
+                    borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.2)', tension: 0.4, fill: true
+                }, {
+                    label: 'Mar 2026 target (<1%)', data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                    borderColor: '#F59E0B', borderDash: [5, 5], borderWidth: 2, pointRadius: 0
                 }]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 4,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, max: 4, ticks: { callback: v => v + '%' } } } }
         });
     </script>
 </body>

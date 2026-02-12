@@ -3,793 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workforce & Capacity - Shelford Group Dashboard</title>
+    <title>Workforce - Shelford Group Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        :root {
-            --shelford-teal: #007B7F;
-            --shelford-dark-teal: #005A5D;
-            --shelford-sage: #5B7F6C;
-            --shelford-cream: #FDFBF7;
-            --text-dark: #1A1A1A;
-            --text-mid: #4A4A4A;
-            --border-light: #E5E5E5;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--shelford-cream);
-            color: var(--text-dark);
-            line-height: 1.6;
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        header {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 3px solid var(--shelford-teal);
-        }
-
-        .logo {
-            width: 120px;
-            height: auto;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: var(--shelford-dark-teal);
-            font-weight: 700;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--text-mid);
-            margin-top: 0.5rem;
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            color: var(--shelford-dark-teal);
-            margin: 3rem 0 1rem 0;
-            font-weight: 600;
-        }
-
-        h3 {
-            font-size: 1.3rem;
-            color: var(--shelford-dark-teal);
-            margin: 1rem 0;
-        }
-
-        .source-note {
-            font-size: 0.9rem;
-            color: var(--text-mid);
-            margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-        }
-
-        nav {
-            background: white;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
-        }
-
-        nav a {
-            color: var(--shelford-teal);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            transition: all 0.2s;
-            display: inline-block;
-        }
-
-        nav a:hover {
-            background: rgba(0, 123, 127, 0.1);
-            border-radius: 6px;
-        }
-
-        nav a.active {
-            color: var(--shelford-dark-teal);
-            background: rgba(0, 123, 127, 0.1);
-            border-radius: 6px;
-            font-weight: 600;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .metric-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
-            border-left: 4px solid var(--shelford-teal);
-        }
-
-        .metric-label {
-            font-size: 0.9rem;
-            color: var(--text-mid);
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .metric-value {
-            font-size: 2.5rem;
-            color: var(--shelford-dark-teal);
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .metric-benchmark {
-            font-size: 0.85rem;
-            color: var(--text-mid);
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
-            margin-bottom: 3rem;
-            overflow-x: auto;
-        }
-
-        .sort-buttons {
-            margin-bottom: 1rem;
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .sort-btn {
-            padding: 0.5rem 1rem;
-            background: var(--shelford-teal);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .sort-btn:hover {
-            background: var(--shelford-dark-teal);
-        }
-
-        .sort-btn.active {
-            background: var(--shelford-dark-teal);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: var(--shelford-teal);
-            color: white;
-        }
-
-        th {
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-        }
-
-        td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        tbody tr:hover {
-            background: rgba(0, 123, 127, 0.05);
-        }
-
-        .trust-name {
-            font-weight: 500;
-            color: var(--text-dark);
-        }
-
-        .chart-container {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
-            margin-bottom: 3rem;
-        }
-
-        .chart-wrapper {
-            position: relative;
-            height: 400px;
-            margin-top: 1rem;
-        }
-
-        .chart-controls {
-            margin-bottom: 1rem;
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .chart-btn {
-            padding: 0.5rem 1rem;
-            background: var(--shelford-teal);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .chart-btn:hover {
-            background: var(--shelford-dark-teal);
-        }
-
-        footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-light);
-            text-align: center;
-            color: var(--text-mid);
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .metric-value {
-                font-size: 2rem;
-            }
-
-            .chart-wrapper {
-                height: 300px;
-            }
-        }
+        :root { --shelford-teal: #007B7F; --shelford-dark-teal: #005A5D; --shelford-sage: #5B7F6C; --shelford-cream: #FDFBF7; --text-dark: #1A1A1A; --text-mid: #4A4A4A; --border-light: #E5E5E5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--shelford-cream); color: var(--text-dark); line-height: 1.6; padding: 2rem; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 3px solid var(--shelford-teal); }
+        .logo-link { display: inline-block; } .logo { width: 120px; height: auto; }
+        h1 { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; }
+        .subtitle { font-size: 1.1rem; color: var(--text-mid); margin-top: 0.5rem; }
+        h2 { font-size: 1.8rem; color: var(--shelford-dark-teal); margin: 3rem 0 1rem 0; font-weight: 600; }
+        h3 { font-size: 1.3rem; color: var(--shelford-dark-teal); margin: 1rem 0; }
+        .source-note { font-size: 0.9rem; color: var(--text-mid); margin-top: 0.5rem; margin-bottom: 1.5rem; font-style: italic; }
+        nav { background: white; padding: 1rem 2rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); }
+        nav a { color: var(--shelford-teal); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; transition: all 0.2s; display: inline-block; }
+        nav a:hover { background: rgba(0,123,127,0.1); border-radius: 6px; }
+        nav a.active { color: var(--shelford-dark-teal); background: rgba(0,123,127,0.1); border-radius: 6px; font-weight: 600; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .metric-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,123,127,0.08); border-left: 4px solid var(--shelford-teal); }
+        .metric-label { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 0.5rem; font-weight: 500; }
+        .metric-value { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; margin-bottom: 0.25rem; }
+        .metric-benchmark { font-size: 0.85rem; color: var(--text-mid); }
+        .chart-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; }
+        .chart-wrapper { position: relative; height: 400px; margin-top: 1rem; }
+        .chart-controls { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .chart-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .chart-btn:hover { background: var(--shelford-dark-teal); }
+        .info-box { background: rgba(0,123,127,0.05); border-left: 3px solid var(--shelford-teal); padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem; font-size: 0.95rem; color: var(--text-mid); }
+        .info-box strong { color: var(--shelford-dark-teal); }
+        footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-mid); font-size: 0.9rem; }
+        @media (max-width: 768px) { body { padding: 1rem; } h1 { font-size: 1.8rem; } .metric-value { font-size: 2rem; } .chart-wrapper { height: 300px; } }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <img src="shelford-logo.jpg" alt="Shelford Group" class="logo">
-            <div>
-                <h1>Workforce & Capacity</h1>
-                <p class="subtitle">Detailed metrics on bed occupancy and workforce sustainability</p>
-            </div>
+            <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
+            <div><h1>Workforce</h1><p class="subtitle">Vacancy rates, sickness absence and workforce sustainability metrics</p></div>
         </header>
+        <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html" class="active">Workforce</a>
+        </div></nav>
 
-        <nav>
-            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                <a href="index.html">Overview</a>
-                <a href="rtt-detail.html">RTT & Elective Care</a>
-                <a href="ae-detail.html">A&E & Urgent Care</a>
-                <a href="cancer-detail.html">Cancer Services</a>
-                <a href="quality-detail.html">Patient Safety & Quality</a>
-                <a href="workforce-detail.html" class="active">Workforce & Capacity</a>
-            </div>
-        </nav>
-
-        <!-- Key Metrics -->
-        <h2>Capacity & Workforce Summary</h2>
-        <p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending 12 January 2026</p>
+        <h2>Workforce Summary</h2>
+        <p class="source-note">Source: NHS Digital Workforce Statistics, Q3 2025/26 (published November 2025)</p>
         <div class="dashboard-grid">
-            <div class="metric-card">
-                <div class="metric-label">General & Acute Bed Occupancy</div>
-                <div class="metric-value">92.8%</div>
-                <div class="metric-benchmark">Safe threshold: 85%</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Critical Care Occupancy</div>
-                <div class="metric-value">84.2%</div>
-                <div class="metric-benchmark">Safe threshold: 82%</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Patients Medically Fit for Discharge</div>
-                <div class="metric-value">8,420</div>
-                <div class="metric-benchmark">12 January 2026</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Staff Vacancy Rate</div>
-                <div class="metric-value">9.8%</div>
-                <div class="metric-benchmark">Q3 2025/26</div>
-            </div>
+            <div class="metric-card"><div class="metric-label">Staff Vacancy Rate (Shelford Avg)</div><div class="metric-value">9.8%</div><div class="metric-benchmark">National average: 6.7%</div></div>
+            <div class="metric-card"><div class="metric-label">Sickness Absence Rate (Shelford Avg)</div><div class="metric-value">4.4%</div><div class="metric-benchmark">National average: 5.1%</div></div>
         </div>
 
-        <!-- Detailed Performance Table -->
-        <h2>Trust-Level Capacity Metrics</h2>
-        <p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending 12 January 2026</p>
-        <div class="table-container">
-            <div class="sort-buttons">
-                <button class="sort-btn active" onclick="sortCapacityTable('alpha', event)">A-Z</button>
-                <button class="sort-btn" onclick="sortCapacityTable('gaOcc', event)">Sort by G&A Occ</button>
-                <button class="sort-btn" onclick="sortCapacityTable('ccOcc', event)">Sort by CC Occ</button>
-                <button class="sort-btn" onclick="sortCapacityTable('mffd', event)">Sort by MFFD</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Trust</th>
-                        <th>G&A Bed Occupancy</th>
-                        <th>Critical Care Occupancy</th>
-                        <th>Total Beds (G&A)</th>
-                        <th>Medically Fit for Discharge</th>
-                        <th>MFFD %</th>
-                    </tr>
-                </thead>
-                <tbody id="capacityTableBody">
-                    <!-- Populated by JavaScript -->
-                </tbody>
-            </table>
+        <div class="chart-container"><h3>Staff Vacancy Rates by Trust</h3><p class="source-note">Source: NHS Digital Workforce Statistics, Q3 2025/26</p>
+            <div class="chart-controls"><button class="chart-btn" onclick="sortVacancyChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortVacancyChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortVacancyChart('lowest')">Lowest to Highest</button></div>
+            <div class="chart-wrapper"><canvas id="vacancyChart"></canvas></div></div>
+
+        <div class="chart-container"><h3>Staff Sickness Absence Rates by Trust</h3><p class="source-note">Source: NHS Digital Workforce Statistics, Q3 2025/26</p>
+            <div class="chart-controls"><button class="chart-btn" onclick="sortSicknessChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortSicknessChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortSicknessChart('lowest')">Lowest to Highest</button></div>
+            <div class="chart-wrapper"><canvas id="sicknessChart"></canvas></div></div>
+
+        <h2>Bank & Agency Staff Spending</h2>
+        <div class="info-box">
+            <strong>Data availability:</strong> Trust-level bank and agency spending data is not routinely published by NHS England in a comparable format. National figures are reported in NHS England's financial performance updates: agency spending fell to approximately £2.1 billion in 2024/25 (a 38% reduction from 2022/23), while bank staff spending was around £6 billion. The government has set targets for a further 30% reduction in agency spending. Trust-level breakdowns are available via individual trust annual reports and accounts, or through Freedom of Information requests. We are exploring options for including this data in future dashboard updates.
         </div>
 
-        <!-- General & Acute Bed Occupancy by Trust -->
-        <div class="chart-container">
-            <h3>General & Acute Bed Occupancy by Trust</h3>
-            <p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending 12 January 2026. Safe threshold is 85%.</p>
-            <div class="chart-controls">
-                <button class="chart-btn" onclick="sortOccChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortOccChart('highest')">Highest to Lowest</button>
-                <button class="chart-btn" onclick="sortOccChart('lowest')">Lowest to Highest</button>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="occupancyChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Bed Occupancy Trends -->
-        <div class="chart-container">
-            <h3>General & Acute Bed Occupancy Trends (12 Weeks)</h3>
-            <p class="source-note">Source: NHS England Bed Availability and Occupancy Data, October 2025 - January 2026</p>
-            <div class="chart-wrapper">
-                <canvas id="occupancyTrendChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Critical Care Occupancy -->
-        <div class="chart-container">
-            <h3>Critical Care Bed Occupancy by Trust</h3>
-            <p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending 12 January 2026. Safe threshold is 82%.</p>
-            <div class="chart-controls">
-                <button class="chart-btn" onclick="sortCCChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortCCChart('highest')">Highest to Lowest</button>
-                <button class="chart-btn" onclick="sortCCChart('lowest')">Lowest to Highest</button>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="criticalCareChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Medically Fit for Discharge -->
-        <div class="chart-container">
-            <h3>Patients Medically Fit for Discharge</h3>
-            <p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending 12 January 2026</p>
-            <div class="chart-controls">
-                <button class="chart-btn" onclick="sortMFFDChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortMFFDChart('absolute')">Sort by Number</button>
-                <button class="chart-btn" onclick="sortMFFDChart('percent')">Sort by %</button>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="mffdChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Workforce Metrics -->
-        <h2>Workforce Sustainability</h2>
-        <p class="source-note">Source: NHS Digital Workforce Statistics, Q3 2025/26</p>
-        
-        <div class="chart-container">
-            <h3>Staff Vacancy Rates by Trust</h3>
-            <p class="source-note">Source: NHS Digital Workforce Statistics, Q3 2025/26</p>
-            <div class="chart-controls">
-                <button class="chart-btn" onclick="sortVacancyChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortVacancyChart('highest')">Highest to Lowest</button>
-                <button class="chart-btn" onclick="sortVacancyChart('lowest')">Lowest to Highest</button>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="vacancyChart"></canvas>
-            </div>
-        </div>
-
-        <div class="chart-container">
-            <h3>Staff Sickness Absence Rates</h3>
-            <p class="source-note">Source: NHS Digital Workforce Statistics, Q3 2025/26</p>
-            <div class="chart-wrapper">
-                <canvas id="sicknessChart"></canvas>
-            </div>
-        </div>
-
-        <footer>
-            <p>&copy; 2026 Shelford Group | Data updated February 2026</p>
-        </footer>
+        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
 
     <script>
-        // Capacity Data
-        const capacityData = [
-            { name: 'Birmingham', gaOcc: 94.2, ccOcc: 86.5, totalBeds: 1250, mffd: 980, mffdPct: 7.8 },
-            { name: 'Cambridge', gaOcc: 91.8, ccOcc: 83.2, totalBeds: 1100, mffd: 820, mffdPct: 7.5 },
-            { name: 'GSTT', gaOcc: 90.5, ccOcc: 81.4, totalBeds: 1050, mffd: 710, mffdPct: 6.8 },
-            { name: 'Imperial', gaOcc: 93.1, ccOcc: 85.1, totalBeds: 1200, mffd: 890, mffdPct: 7.4 },
-            { name: "King's", gaOcc: 94.8, ccOcc: 87.2, totalBeds: 1180, mffd: 950, mffdPct: 8.1 },
-            { name: 'Manchester', gaOcc: 92.4, ccOcc: 84.8, totalBeds: 1280, mffd: 920, mffdPct: 7.2 },
-            { name: 'Newcastle', gaOcc: 91.2, ccOcc: 82.6, totalBeds: 1150, mffd: 780, mffdPct: 6.8 },
-            { name: 'Oxford', gaOcc: 92.8, ccOcc: 83.9, totalBeds: 1120, mffd: 850, mffdPct: 7.6 },
-            { name: 'Sheffield', gaOcc: 93.5, ccOcc: 85.6, totalBeds: 1090, mffd: 880, mffdPct: 8.1 },
-            { name: 'UCLH', gaOcc: 91.5, ccOcc: 82.9, totalBeds: 980, mffd: 640, mffdPct: 6.5 }
-        ];
-
-        // Workforce data
-        const workforceData = {
-            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
+        const wfData = {
+            labels: ['Birmingham','Cambridge','GSTT','Imperial',"King's",'Manchester','Newcastle','Oxford','Sheffield','UCLH'],
             vacancy: [10.8, 9.2, 8.5, 9.8, 11.2, 9.5, 8.9, 10.1, 10.4, 9.3],
             sickness: [4.8, 4.2, 3.9, 4.5, 5.1, 4.3, 4.0, 4.6, 4.7, 4.1]
         };
 
-        // Sort capacity table
-        function sortCapacityTable(sortType, e) {
-            let sorted = [...capacityData];
-            
-            if (sortType === 'gaOcc') {
-                sorted.sort((a, b) => b.gaOcc - a.gaOcc);
-            } else if (sortType === 'ccOcc') {
-                sorted.sort((a, b) => b.ccOcc - a.ccOcc);
-            } else if (sortType === 'mffd') {
-                sorted.sort((a, b) => b.mffd - a.mffd);
-            }
-            
-            const tbody = document.getElementById('capacityTableBody');
-            tbody.innerHTML = sorted.map(trust => `
-                <tr>
-                    <td class="trust-name">${trust.name}</td>
-                    <td>${trust.gaOcc}%</td>
-                    <td>${trust.ccOcc}%</td>
-                    <td>${trust.totalBeds}</td>
-                    <td>${trust.mffd}</td>
-                    <td>${trust.mffdPct}%</td>
-                </tr>
-            `).join('');
-            
-            if (e) {
-                document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-            }
-        }
-
-        // Initialize table
-        sortCapacityTable('alpha', null);
-
-        // General & Acute Bed Occupancy
-        const occData = {
-            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
-            values: [94.2, 91.8, 90.5, 93.1, 94.8, 92.4, 91.2, 92.8, 93.5, 91.5]
-        };
-
-        let occupancyChart = new Chart(document.getElementById('occupancyChart'), {
-            type: 'bar',
-            data: {
-                labels: occData.labels,
-                datasets: [{
-                    label: 'G&A Bed Occupancy',
-                    data: occData.values,
-                    backgroundColor: '#007B7F',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    annotation: {
-                        annotations: {
-                            line1: {
-                                type: 'line',
-                                yMin: 85,
-                                yMax: 85,
-                                borderColor: '#EF4444',
-                                borderWidth: 2,
-                                borderDash: [5, 5],
-                                label: {
-                                    content: 'Safe threshold (85%)',
-                                    enabled: true,
-                                    position: 'end'
-                                }
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 85,
-                        max: 100,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        function sortOccChart(sortType) {
-            let indices = occData.labels.map((_, i) => i);
-            
-            if (sortType === 'highest') {
-                indices.sort((a, b) => occData.values[b] - occData.values[a]);
-            } else if (sortType === 'lowest') {
-                indices.sort((a, b) => occData.values[a] - occData.values[b]);
-            }
-            
-            occupancyChart.data.labels = indices.map(i => occData.labels[i]);
-            occupancyChart.data.datasets[0].data = indices.map(i => occData.values[i]);
-            occupancyChart.update();
-        }
-
-        // Occupancy trends
-        new Chart(document.getElementById('occupancyTrendChart'), {
-            type: 'line',
-            data: {
-                labels: ['Wk 42', 'Wk 43', 'Wk 44', 'Wk 45', 'Wk 46', 'Wk 47', 'Wk 48', 'Wk 49', 'Wk 50', 'Wk 51', 'Wk 52', 'Wk 1', 'Wk 2'],
-                datasets: [{
-                    label: 'Shelford Average',
-                    data: [90.2, 90.8, 91.2, 91.8, 92.3, 92.8, 93.1, 93.5, 93.8, 93.2, 92.9, 92.8, 92.8],
-                    borderColor: '#007B7F',
-                    backgroundColor: 'rgba(0, 123, 127, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }, {
-                    label: 'Safe Threshold',
-                    data: [85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85],
-                    borderColor: '#EF4444',
-                    borderDash: [5, 5],
-                    borderWidth: 2,
-                    pointRadius: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 80,
-                        max: 100,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // Critical Care Occupancy
-        const ccData = {
-            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
-            values: [86.5, 83.2, 81.4, 85.1, 87.2, 84.8, 82.6, 83.9, 85.6, 82.9]
-        };
-
-        let criticalCareChart = new Chart(document.getElementById('criticalCareChart'), {
-            type: 'bar',
-            data: {
-                labels: ccData.labels,
-                datasets: [{
-                    label: 'Critical Care Occupancy',
-                    data: ccData.values,
-                    backgroundColor: '#5B7F6C',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 75,
-                        max: 95,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        function sortCCChart(sortType) {
-            let indices = ccData.labels.map((_, i) => i);
-            
-            if (sortType === 'highest') {
-                indices.sort((a, b) => ccData.values[b] - ccData.values[a]);
-            } else if (sortType === 'lowest') {
-                indices.sort((a, b) => ccData.values[a] - ccData.values[b]);
-            }
-            
-            criticalCareChart.data.labels = indices.map(i => ccData.labels[i]);
-            criticalCareChart.data.datasets[0].data = indices.map(i => ccData.values[i]);
-            criticalCareChart.update();
-        }
-
-        // Medically Fit for Discharge
-        const mffdData = {
-            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
-            absolute: [980, 820, 710, 890, 950, 920, 780, 850, 880, 640],
-            percent: [7.8, 7.5, 6.8, 7.4, 8.1, 7.2, 6.8, 7.6, 8.1, 6.5]
-        };
-
-        let mffdChart = new Chart(document.getElementById('mffdChart'), {
-            type: 'bar',
-            data: {
-                labels: mffdData.labels,
-                datasets: [{
-                    label: 'MFFD Patients',
-                    data: mffdData.absolute,
-                    backgroundColor: '#007B7F',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const idx = context.dataIndex;
-                                return context.parsed.y + ' patients (' + mffdData.percent[idx] + '%)';
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        function sortMFFDChart(sortType) {
-            let indices = mffdData.labels.map((_, i) => i);
-            
-            if (sortType === 'absolute') {
-                indices.sort((a, b) => mffdData.absolute[b] - mffdData.absolute[a]);
-            } else if (sortType === 'percent') {
-                indices.sort((a, b) => mffdData.percent[b] - mffdData.percent[a]);
-            }
-            
-            mffdChart.data.labels = indices.map(i => mffdData.labels[i]);
-            mffdChart.data.datasets[0].data = indices.map(i => mffdData.absolute[i]);
-            mffdChart.update();
-        }
-
-        // Staff Vacancy Rates
-        let vacancyChart = new Chart(document.getElementById('vacancyChart'), {
-            type: 'bar',
-            data: {
-                labels: workforceData.labels,
-                datasets: [{
-                    label: 'Vacancy Rate',
-                    data: workforceData.vacancy,
-                    backgroundColor: '#007B7F',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 15,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
+        // Vacancy chart - interactive
+        let vacancyChart = new Chart(document.getElementById('vacancyChart'), { type: 'bar', data: { labels: [...wfData.labels], datasets: [{ label: 'Vacancy Rate', data: [...wfData.vacancy], backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 15, ticks: { callback: v => v+'%' } } } } });
         function sortVacancyChart(sortType) {
-            let indices = workforceData.labels.map((_, i) => i);
-            
-            if (sortType === 'highest') {
-                indices.sort((a, b) => workforceData.vacancy[b] - workforceData.vacancy[a]);
-            } else if (sortType === 'lowest') {
-                indices.sort((a, b) => workforceData.vacancy[a] - workforceData.vacancy[b]);
-            }
-            
-            vacancyChart.data.labels = indices.map(i => workforceData.labels[i]);
-            vacancyChart.data.datasets[0].data = indices.map(i => workforceData.vacancy[i]);
+            let indices = wfData.labels.map((_,i) => i);
+            if (sortType === 'highest') indices.sort((a,b) => wfData.vacancy[b] - wfData.vacancy[a]);
+            else if (sortType === 'lowest') indices.sort((a,b) => wfData.vacancy[a] - wfData.vacancy[b]);
+            vacancyChart.data.labels = indices.map(i => wfData.labels[i]);
+            vacancyChart.data.datasets[0].data = indices.map(i => wfData.vacancy[i]);
             vacancyChart.update();
         }
 
-        // Staff Sickness Rates
-        new Chart(document.getElementById('sicknessChart'), {
-            type: 'bar',
-            data: {
-                labels: workforceData.labels,
-                datasets: [{
-                    label: 'Sickness Absence Rate',
-                    data: workforceData.sickness,
-                    backgroundColor: '#5B7F6C',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 6,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
+        // Sickness chart - now interactive
+        let sicknessChart = new Chart(document.getElementById('sicknessChart'), { type: 'bar', data: { labels: [...wfData.labels], datasets: [{ label: 'Sickness Absence Rate', data: [...wfData.sickness], backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 6, ticks: { callback: v => v+'%' } } } } });
+        function sortSicknessChart(sortType) {
+            let indices = wfData.labels.map((_,i) => i);
+            if (sortType === 'highest') indices.sort((a,b) => wfData.sickness[b] - wfData.sickness[a]);
+            else if (sortType === 'lowest') indices.sort((a,b) => wfData.sickness[a] - wfData.sickness[b]);
+            sicknessChart.data.labels = indices.map(i => wfData.labels[i]);
+            sicknessChart.data.datasets[0].data = indices.map(i => wfData.sickness[i]);
+            sicknessChart.update();
+        }
     </script>
 </body>
 </html>
