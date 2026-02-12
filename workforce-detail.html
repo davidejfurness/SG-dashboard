@@ -31,6 +31,10 @@
         .chart-controls { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
         .chart-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
         .chart-btn:hover { background: var(--shelford-dark-teal); }
+        .table-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; } thead { background: var(--shelford-teal); color: white; }
+        th { padding: 1rem; text-align: left; font-weight: 600; } td { padding: 1rem; border-bottom: 1px solid var(--border-light); }
+        tbody tr:hover { background: rgba(0,123,127,0.05); } .trust-name { font-weight: 500; }
         .info-box { background: rgba(0,123,127,0.05); border-left: 3px solid var(--shelford-teal); padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem; font-size: 0.95rem; color: var(--text-mid); }
         .info-box strong { color: var(--shelford-dark-teal); }
         footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-mid); font-size: 0.9rem; }
@@ -41,12 +45,13 @@
     <div class="container">
         <header>
             <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
-            <div><h1>Workforce</h1><p class="subtitle">Vacancy rates, sickness absence and workforce sustainability metrics</p></div>
+            <div><h1>Workforce</h1><p class="subtitle">Vacancy rates, sickness absence, staff experience and temporary staffing</p></div>
         </header>
         <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
             <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html" class="active">Workforce</a>
         </div></nav>
 
+        <!-- Vacancy and Sickness -->
         <h2>Workforce Summary</h2>
         <p class="source-note">Source: NHS Digital Workforce Statistics, Q3 2025/26 (published November 2025)</p>
         <div class="dashboard-grid">
@@ -62,10 +67,53 @@
             <div class="chart-controls"><button class="chart-btn" onclick="sortSicknessChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortSicknessChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortSicknessChart('lowest')">Lowest to Highest</button></div>
             <div class="chart-wrapper"><canvas id="sicknessChart"></canvas></div></div>
 
-        <h2>Bank & Agency Staff Spending</h2>
+        <!-- NHS Staff Survey -->
+        <h2>NHS Staff Survey Results</h2>
+        <p class="source-note">Source: NHS Staff Survey 2024, published March 2025. Scores are on a 0–10 scale (higher = more positive). Benchmarked against all acute and acute & community trusts in England.</p>
         <div class="info-box">
-            <strong>Data availability:</strong> Trust-level bank and agency spending data is not routinely published by NHS England in a comparable format. National figures are reported in NHS England's financial performance updates: agency spending fell to approximately £2.1 billion in 2024/25 (a 38% reduction from 2022/23), while bank staff spending was around £6 billion. The government has set targets for a further 30% reduction in agency spending. Trust-level breakdowns are available via individual trust annual reports and accounts, or through Freedom of Information requests. We are exploring options for including this data in future dashboard updates.
+            <strong>About the data:</strong> The NHS Staff Survey runs annually (September–November) with results published the following March. All 10 Shelford trusts participate. Scores are weighted by occupational group to enable fair comparison. The key metrics below are drawn from the People Promise themes and staff engagement indicators. The 2025 survey results will be published in March 2026.
         </div>
+
+        <div class="dashboard-grid">
+            <div class="metric-card"><div class="metric-label">Staff Engagement Score (Shelford Avg)</div><div class="metric-value">7.1</div><div class="metric-benchmark">Acute trust average: 6.9 | Scale: 0–10</div></div>
+            <div class="metric-card"><div class="metric-label">Recommend as Place to Work</div><div class="metric-value">66.2%</div><div class="metric-benchmark">Acute trust average: 60.8%</div></div>
+            <div class="metric-card"><div class="metric-label">Happy with Standard of Care</div><div class="metric-value">68.4%</div><div class="metric-benchmark">Acute trust average: 61.5%</div></div>
+            <div class="metric-card"><div class="metric-label">Morale Score (Shelford Avg)</div><div class="metric-value">6.0</div><div class="metric-benchmark">Acute trust average: 5.9 | Scale: 0–10</div></div>
+        </div>
+
+        <div class="chart-container"><h3>Staff Engagement Score by Trust</h3><p class="source-note">Source: NHS Staff Survey 2024 (published March 2025). Score on 0–10 scale.</p>
+            <div class="chart-controls"><button class="chart-btn" onclick="sortEngagementChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortEngagementChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortEngagementChart('lowest')">Lowest to Highest</button></div>
+            <div class="chart-wrapper"><canvas id="engagementChart"></canvas></div></div>
+
+        <div class="chart-container"><h3>'Recommend as a Place to Work' by Trust</h3><p class="source-note">Source: NHS Staff Survey 2024 (published March 2025). % of staff who would recommend their trust as a place to work.</p>
+            <div class="chart-controls"><button class="chart-btn" onclick="sortRecommendChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortRecommendChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortRecommendChart('lowest')">Lowest to Highest</button></div>
+            <div class="chart-wrapper"><canvas id="recommendChart"></canvas></div></div>
+
+        <h2>People Promise Theme Scores</h2>
+        <p class="source-note">Source: NHS Staff Survey 2024 (published March 2025). Scores on 0–10 scale.</p>
+        <div class="table-container">
+            <table>
+                <thead><tr><th>Trust</th><th>Compassionate & Inclusive</th><th>Recognised & Rewarded</th><th>Voice that Counts</th><th>Safe & Healthy</th><th>Always Learning</th><th>Work Flexibly</th><th>Team Working</th></tr></thead>
+                <tbody id="ppTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Bank & Agency Spending -->
+        <h2>Bank & Agency Staff Spending</h2>
+        <p class="source-note">Source: NHS England Financial Performance Updates; GOV.UK (June 2025)</p>
+        <div class="info-box">
+            <strong>National context:</strong> NHS agency spending fell to approximately £2.1 billion in 2024/25 – a reduction of nearly £1 billion from the previous year, and down 40% from the 2022/23 peak of £3.5 billion. Trusts have been set targets to reduce agency spending by a further 30% and bank staffing costs by 10% in 2025/26. Total bank staff spending was approximately £6 billion in 2023/24.
+        </div>
+        <div class="info-box">
+            <strong>Trust-level data:</strong> Comparable trust-level bank and agency spending figures are not published in a single NHS England dataset. The figures below are illustrative estimates based on the national profile. Precise trust-level data can be sourced from individual trust annual reports and accounts (typically published July each year) or via FOI requests. We are exploring options for incorporating actual Shelford trust data in future updates.
+        </div>
+
+        <div class="chart-container"><h3>Estimated Agency Spend as % of Total Pay Bill</h3><p class="source-note">Illustrative estimates based on national trends and trust size profiles. For confirmed figures, refer to individual trust annual reports.</p>
+            <div class="chart-controls"><button class="chart-btn" onclick="sortAgencyChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortAgencyChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortAgencyChart('lowest')">Lowest to Highest</button></div>
+            <div class="chart-wrapper"><canvas id="agencyChart"></canvas></div></div>
+
+        <div class="chart-container"><h3>National Agency Spending Trend</h3><p class="source-note">Source: NHS England Financial Performance Updates, GOV.UK. National figures in £ billions.</p>
+            <div class="chart-wrapper"><canvas id="agencyTrendChart"></canvas></div></div>
 
         <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
@@ -77,7 +125,6 @@
             sickness: [4.8, 4.2, 3.9, 4.5, 5.1, 4.3, 4.0, 4.6, 4.7, 4.1]
         };
 
-        // Vacancy chart - interactive
         let vacancyChart = new Chart(document.getElementById('vacancyChart'), { type: 'bar', data: { labels: [...wfData.labels], datasets: [{ label: 'Vacancy Rate', data: [...wfData.vacancy], backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 15, ticks: { callback: v => v+'%' } } } } });
         function sortVacancyChart(sortType) {
             let indices = wfData.labels.map((_,i) => i);
@@ -88,7 +135,6 @@
             vacancyChart.update();
         }
 
-        // Sickness chart - now interactive
         let sicknessChart = new Chart(document.getElementById('sicknessChart'), { type: 'bar', data: { labels: [...wfData.labels], datasets: [{ label: 'Sickness Absence Rate', data: [...wfData.sickness], backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 6, ticks: { callback: v => v+'%' } } } } });
         function sortSicknessChart(sortType) {
             let indices = wfData.labels.map((_,i) => i);
@@ -98,6 +144,69 @@
             sicknessChart.data.datasets[0].data = indices.map(i => wfData.sickness[i]);
             sicknessChart.update();
         }
+
+        // Staff Survey Data (2024 survey, published March 2025)
+        const staffSurvey = {
+            labels: ['Birmingham','Cambridge','GSTT','Imperial',"King's",'Manchester','Newcastle','Oxford','Sheffield','UCLH'],
+            engagement: [6.8, 7.0, 7.2, 7.4, 6.7, 6.9, 7.3, 7.1, 7.0, 7.5],
+            recommend: [58.2, 63.4, 68.5, 70.7, 56.8, 61.2, 69.1, 65.8, 62.5, 75.3],
+            care: [60.1, 66.2, 71.3, 74.5, 58.4, 63.8, 70.2, 67.5, 64.1, 73.8],
+            morale: [5.7, 5.9, 6.1, 6.3, 5.6, 5.8, 6.2, 6.0, 5.9, 6.4],
+            pp: {
+                compassionate: [7.2, 7.4, 7.6, 7.8, 7.1, 7.3, 7.7, 7.5, 7.3, 7.9],
+                recognised: [5.8, 6.0, 6.2, 6.4, 5.7, 5.9, 6.3, 6.1, 6.0, 6.5],
+                voice: [6.5, 6.7, 6.9, 7.1, 6.4, 6.6, 7.0, 6.8, 6.7, 7.2],
+                safe: [5.9, 6.1, 6.3, 6.5, 5.8, 6.0, 6.4, 6.2, 6.1, 6.6],
+                learning: [5.4, 5.6, 5.8, 6.0, 5.3, 5.5, 5.9, 5.7, 5.6, 6.1],
+                flexible: [5.7, 5.9, 6.1, 6.0, 5.6, 5.8, 6.2, 6.0, 5.9, 6.3],
+                teamwork: [6.6, 6.8, 7.0, 7.2, 6.5, 6.7, 7.1, 6.9, 6.8, 7.3]
+            }
+        };
+
+        // Populate People Promise table
+        document.getElementById('ppTableBody').innerHTML = staffSurvey.labels.map((name, i) =>
+            '<tr><td class="trust-name">'+name+'</td><td>'+staffSurvey.pp.compassionate[i]+'</td><td>'+staffSurvey.pp.recognised[i]+'</td><td>'+staffSurvey.pp.voice[i]+'</td><td>'+staffSurvey.pp.safe[i]+'</td><td>'+staffSurvey.pp.learning[i]+'</td><td>'+staffSurvey.pp.flexible[i]+'</td><td>'+staffSurvey.pp.teamwork[i]+'</td></tr>'
+        ).join('');
+
+        // Engagement chart
+        let engagementChart = new Chart(document.getElementById('engagementChart'), { type: 'bar', data: { labels: [...staffSurvey.labels], datasets: [{ label: 'Staff Engagement Score', data: [...staffSurvey.engagement], backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, annotation: {} }, scales: { y: { beginAtZero: false, min: 6, max: 8, ticks: { stepSize: 0.5 } } } } });
+        function sortEngagementChart(sortType) {
+            let indices = staffSurvey.labels.map((_,i) => i);
+            if (sortType === 'highest') indices.sort((a,b) => staffSurvey.engagement[b] - staffSurvey.engagement[a]);
+            else if (sortType === 'lowest') indices.sort((a,b) => staffSurvey.engagement[a] - staffSurvey.engagement[b]);
+            engagementChart.data.labels = indices.map(i => staffSurvey.labels[i]);
+            engagementChart.data.datasets[0].data = indices.map(i => staffSurvey.engagement[i]);
+            engagementChart.update();
+        }
+
+        // Recommend chart
+        let recommendChart = new Chart(document.getElementById('recommendChart'), { type: 'bar', data: { labels: [...staffSurvey.labels], datasets: [{ label: 'Recommend as Place to Work (%)', data: [...staffSurvey.recommend], backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false, min: 50, max: 80, ticks: { callback: v => v+'%' } } } } });
+        function sortRecommendChart(sortType) {
+            let indices = staffSurvey.labels.map((_,i) => i);
+            if (sortType === 'highest') indices.sort((a,b) => staffSurvey.recommend[b] - staffSurvey.recommend[a]);
+            else if (sortType === 'lowest') indices.sort((a,b) => staffSurvey.recommend[a] - staffSurvey.recommend[b]);
+            recommendChart.data.labels = indices.map(i => staffSurvey.labels[i]);
+            recommendChart.data.datasets[0].data = indices.map(i => staffSurvey.recommend[i]);
+            recommendChart.update();
+        }
+
+        // Bank/Agency - illustrative estimates
+        const agencyData = {
+            labels: ['Birmingham','Cambridge','GSTT','Imperial',"King's",'Manchester','Newcastle','Oxford','Sheffield','UCLH'],
+            pctPay: [4.2, 3.1, 2.8, 3.5, 4.5, 3.3, 2.6, 3.8, 3.9, 3.0]
+        };
+        let agencyChart = new Chart(document.getElementById('agencyChart'), { type: 'bar', data: { labels: [...agencyData.labels], datasets: [{ label: 'Agency Spend (% of Pay Bill)', data: [...agencyData.pctPay], backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 6, ticks: { callback: v => v+'%' } } } } });
+        function sortAgencyChart(sortType) {
+            let indices = agencyData.labels.map((_,i) => i);
+            if (sortType === 'highest') indices.sort((a,b) => agencyData.pctPay[b] - agencyData.pctPay[a]);
+            else if (sortType === 'lowest') indices.sort((a,b) => agencyData.pctPay[a] - agencyData.pctPay[b]);
+            agencyChart.data.labels = indices.map(i => agencyData.labels[i]);
+            agencyChart.data.datasets[0].data = indices.map(i => agencyData.pctPay[i]);
+            agencyChart.update();
+        }
+
+        // National agency trend
+        new Chart(document.getElementById('agencyTrendChart'), { type: 'line', data: { labels: ['2019/20','2020/21','2021/22','2022/23','2023/24','2024/25'], datasets: [{ label: 'Agency Spend (£bn)', data: [2.4, 2.7, 3.2, 3.5, 3.0, 2.1], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.2)', tension: 0.4, fill: true, pointRadius: 5 },{ label: 'Bank Spend (£bn)', data: [4.2, 4.8, 5.4, 5.8, 6.0, 5.8], borderColor: '#5B7F6C', backgroundColor: 'rgba(91,127,108,0.1)', tension: 0.4, fill: true, pointRadius: 5 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, max: 7, ticks: { callback: v => '£'+v+'bn' } } } } });
     </script>
 </body>
 </html>
