@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancer Services - Shelford Group Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --shelford-teal: #007B7F;
+            --shelford-dark-teal: #005A5D;
+            --shelford-sage: #5B7F6C;
+            --shelford-cream: #FDFBF7;
+            --text-dark: #1A1A1A;
+            --text-mid: #4A4A4A;
+            --border-light: #E5E5E5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--shelford-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 3px solid var(--shelford-teal);
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--shelford-dark-teal);
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-mid);
+            margin-top: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--shelford-dark-teal);
+            margin: 3rem 0 1rem 0;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--shelford-dark-teal);
+            margin: 1rem 0;
+        }
+
+        .source-note {
+            font-size: 0.9rem;
+            color: var(--text-mid);
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        nav {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
+        }
+
+        nav a {
+            color: var(--shelford-teal);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            background: rgba(0, 123, 127, 0.1);
+            border-radius: 6px;
+        }
+
+        nav a.active {
+            color: var(--shelford-dark-teal);
+            background: rgba(0, 123, 127, 0.1);
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
+            border-left: 4px solid var(--shelford-teal);
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-mid);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            color: var(--shelford-dark-teal);
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-benchmark {
+            font-size: 0.85rem;
+            color: var(--text-mid);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
+            margin-bottom: 3rem;
+            overflow-x: auto;
+        }
+
+        .sort-buttons {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .sort-btn {
+            padding: 0.5rem 1rem;
+            background: var(--shelford-teal);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .sort-btn:hover {
+            background: var(--shelford-dark-teal);
+        }
+
+        .sort-btn.active {
+            background: var(--shelford-dark-teal);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--shelford-teal);
+            color: white;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        tbody tr:hover {
+            background: rgba(0, 123, 127, 0.05);
+        }
+
+        .trust-name {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
+            margin-bottom: 3rem;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            margin-top: 1rem;
+        }
+
+        .chart-controls {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .chart-btn {
+            padding: 0.5rem 1rem;
+            background: var(--shelford-teal);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .chart-btn:hover {
+            background: var(--shelford-dark-teal);
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            color: var(--text-mid);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .metric-value {
+                font-size: 2rem;
+            }
+
+            .chart-wrapper {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="shelford-logo.jpg" alt="Shelford Group" class="logo">
+            <div>
+                <h1>Cancer Services</h1>
+                <p class="subtitle">Detailed metrics on cancer diagnosis and treatment performance</p>
+            </div>
+        </header>
+
+        <nav>
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                <a href="index.html">Overview</a>
+                <a href="rtt-detail.html">RTT & Elective Care</a>
+                <a href="ae-detail.html">A&E & Urgent Care</a>
+                <a href="cancer-detail.html" class="active">Cancer Services</a>
+                <a href="quality-detail.html">Patient Safety & Quality</a>
+                <a href="workforce-detail.html">Workforce & Capacity</a>
+            </div>
+        </nav>
+
+        <!-- Key Metrics -->
+        <h2>Cancer Performance Summary</h2>
+        <p class="source-note">Source: NHS England Acute Provider Table, October 2025 data</p>
+        <div class="dashboard-grid">
+            <div class="metric-card">
+                <div class="metric-label">28-Day Faster Diagnosis</div>
+                <div class="metric-value">76.8%</div>
+                <div class="metric-benchmark">NHS target: 75%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">62-Day Treatment</div>
+                <div class="metric-value">65.3%</div>
+                <div class="metric-benchmark">NHS target: 85%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">31-Day First Treatment</div>
+                <div class="metric-value">94.8%</div>
+                <div class="metric-benchmark">NHS target: 96%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Total Referrals</div>
+                <div class="metric-value">42,800</div>
+                <div class="metric-benchmark">October 2025</div>
+            </div>
+        </div>
+
+        <!-- Detailed Performance Table -->
+        <h2>Trust-Level Cancer Performance</h2>
+        <p class="source-note">Source: NHS England Acute Provider Table, October 2025 data</p>
+        <div class="table-container">
+            <div class="sort-buttons">
+                <button class="sort-btn active" onclick="sortCancerTable('alpha')">A-Z</button>
+                <button class="sort-btn" onclick="sortCancerTable('faster28')">Sort by 28-day</button>
+                <button class="sort-btn" onclick="sortCancerTable('cancer62')">Sort by 62-day</button>
+                <button class="sort-btn" onclick="sortCancerTable('cancer31')">Sort by 31-day</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Trust</th>
+                        <th>28-day Faster Diagnosis</th>
+                        <th>62-day Treatment</th>
+                        <th>31-day First Treatment</th>
+                        <th>Referrals</th>
+                    </tr>
+                </thead>
+                <tbody id="cancerTableBody">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 28-Day Faster Diagnosis Trends -->
+        <div class="chart-container">
+            <h3>28-Day Faster Diagnosis Trends (12 Months)</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, November 2024 - October 2025</p>
+            <div class="chart-wrapper">
+                <canvas id="faster28TrendsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 62-Day Treatment Performance -->
+        <div class="chart-container">
+            <h3>62-Day Treatment Performance by Trust</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, October 2025</p>
+            <div class="chart-controls">
+                <button class="chart-btn" onclick="sort62DayChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sort62DayChart('best')">Best to Worst</button>
+                <button class="chart-btn" onclick="sort62DayChart('worst')">Worst to Best</button>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="cancer62Chart"></canvas>
+            </div>
+        </div>
+
+        <!-- 62-Day Trends -->
+        <div class="chart-container">
+            <h3>62-Day Treatment Trends (12 Months)</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, November 2024 - October 2025</p>
+            <div class="chart-wrapper">
+                <canvas id="cancer62TrendsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- All Standards Comparison -->
+        <div class="chart-container">
+            <h3>Cancer Standards Performance by Trust</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, October 2025</p>
+            <div class="chart-wrapper">
+                <canvas id="cancerStandardsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Referral Volumes -->
+        <div class="chart-container">
+            <h3>Cancer Referral Volumes (12 Months)</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, November 2024 - October 2025</p>
+            <div class="chart-wrapper">
+                <canvas id="referralsChart"></canvas>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Shelford Group | Data updated February 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // Cancer Data
+        const cancerData = [
+            { name: 'Birmingham', faster28: 75.0, cancer62: 63.2, cancer31: 94.2, referrals: 4200 },
+            { name: 'Cambridge', faster28: 81.9, cancer62: 68.3, cancer31: 96.1, referrals: 4500 },
+            { name: 'GSTT', faster28: 82.8, cancer62: 50.8, cancer31: 92.4, referrals: 4100 },
+            { name: 'Imperial', faster28: 82.3, cancer62: 72.7, cancer31: 95.8, referrals: 4400 },
+            { name: "King's", faster28: 72.5, cancer62: 57.5, cancer31: 93.6, referrals: 3900 },
+            { name: 'Manchester', faster28: 78.1, cancer62: 64.2, cancer31: 94.8, referrals: 4600 },
+            { name: 'Newcastle', faster28: 69.1, cancer62: 71.7, cancer31: 95.2, referrals: 4300 },
+            { name: 'Oxford', faster28: 81.0, cancer62: 63.5, cancer31: 94.5, referrals: 4200 },
+            { name: 'Sheffield', faster28: 71.5, cancer62: 42.8, cancer31: 93.1, referrals: 4100 },
+            { name: 'UCLH', faster28: 88.0, cancer62: 78.5, cancer31: 97.2, referrals: 3500 }
+        ];
+
+        // Sort cancer table
+        function sortCancerTable(sortType) {
+            let sorted = [...cancerData];
+            
+            if (sortType === 'faster28') {
+                sorted.sort((a, b) => b.faster28 - a.faster28);
+            } else if (sortType === 'cancer62') {
+                sorted.sort((a, b) => b.cancer62 - a.cancer62);
+            } else if (sortType === 'cancer31') {
+                sorted.sort((a, b) => b.cancer31 - a.cancer31);
+            }
+            
+            const tbody = document.getElementById('cancerTableBody');
+            tbody.innerHTML = sorted.map(trust => `
+                <tr>
+                    <td class="trust-name">${trust.name}</td>
+                    <td>${trust.faster28}%</td>
+                    <td>${trust.cancer62}%</td>
+                    <td>${trust.cancer31}%</td>
+                    <td>${(trust.referrals / 1000).toFixed(1)}k</td>
+                </tr>
+            `).join('');
+            
+            document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Initialize table
+        sortCancerTable('alpha');
+
+        // 28-day faster diagnosis trends
+        new Chart(document.getElementById('faster28TrendsChart'), {
+            type: 'line',
+            data: {
+                labels: ['Nov 24', 'Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25'],
+                datasets: [{
+                    label: 'Shelford Average',
+                    data: [74.2, 74.8, 75.1, 75.5, 75.9, 76.2, 76.5, 76.7, 76.9, 77.1, 77.0, 76.8],
+                    borderColor: '#007B7F',
+                    backgroundColor: 'rgba(0, 123, 127, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'National Average',
+                    data: [72.8, 73.2, 73.6, 74.0, 74.3, 74.6, 74.9, 75.1, 75.3, 75.5, 75.4, 75.2],
+                    borderColor: '#94A3B8',
+                    backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'NHS Target',
+                    data: [75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75],
+                    borderColor: '#10B981',
+                    borderDash: [5, 5],
+                    borderWidth: 2,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 70,
+                        max: 80,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 62-day performance by trust
+        const cancer62Data = {
+            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
+            values: [63.2, 68.3, 50.8, 72.7, 57.5, 64.2, 71.7, 63.5, 42.8, 78.5]
+        };
+
+        let cancer62Chart = new Chart(document.getElementById('cancer62Chart'), {
+            type: 'bar',
+            data: {
+                labels: cancer62Data.labels,
+                datasets: [{
+                    label: '62-Day Performance',
+                    data: cancer62Data.values,
+                    backgroundColor: '#007B7F',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 40,
+                        max: 90,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function sort62DayChart(sortType) {
+            let indices = cancer62Data.labels.map((_, i) => i);
+            
+            if (sortType === 'best') {
+                indices.sort((a, b) => cancer62Data.values[b] - cancer62Data.values[a]);
+            } else if (sortType === 'worst') {
+                indices.sort((a, b) => cancer62Data.values[a] - cancer62Data.values[b]);
+            }
+            
+            cancer62Chart.data.labels = indices.map(i => cancer62Data.labels[i]);
+            cancer62Chart.data.datasets[0].data = indices.map(i => cancer62Data.values[i]);
+            cancer62Chart.update();
+        }
+
+        // 62-day trends
+        new Chart(document.getElementById('cancer62TrendsChart'), {
+            type: 'line',
+            data: {
+                labels: ['Nov 24', 'Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25'],
+                datasets: [{
+                    label: 'Shelford Average',
+                    data: [63.8, 64.2, 64.5, 64.8, 65.0, 65.3, 65.5, 65.6, 65.7, 65.6, 65.4, 65.3],
+                    borderColor: '#007B7F',
+                    backgroundColor: 'rgba(0, 123, 127, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'National Average',
+                    data: [68.2, 68.5, 68.8, 69.0, 69.2, 69.4, 69.5, 69.6, 69.7, 69.6, 69.5, 69.4],
+                    borderColor: '#94A3B8',
+                    backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'NHS Target',
+                    data: [85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85],
+                    borderColor: '#10B981',
+                    borderDash: [5, 5],
+                    borderWidth: 2,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 60,
+                        max: 90,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // All standards comparison
+        new Chart(document.getElementById('cancerStandardsChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
+                datasets: [{
+                    label: '28-day Faster Diagnosis',
+                    data: [75.0, 81.9, 82.8, 82.3, 72.5, 78.1, 69.1, 81.0, 71.5, 88.0],
+                    backgroundColor: '#007B7F',
+                    borderRadius: 6
+                }, {
+                    label: '62-day Treatment',
+                    data: [63.2, 68.3, 50.8, 72.7, 57.5, 64.2, 71.7, 63.5, 42.8, 78.5],
+                    backgroundColor: '#5B7F6C',
+                    borderRadius: 6
+                }, {
+                    label: '31-day First Treatment',
+                    data: [94.2, 96.1, 92.4, 95.8, 93.6, 94.8, 95.2, 94.5, 93.1, 97.2],
+                    backgroundColor: '#2F4F47',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 40,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Referral volumes
+        new Chart(document.getElementById('referralsChart'), {
+            type: 'line',
+            data: {
+                labels: ['Nov 24', 'Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25'],
+                datasets: [{
+                    label: 'Total Referrals',
+                    data: [38.5, 39.2, 40.1, 40.8, 41.2, 41.8, 42.3, 42.5, 42.7, 42.9, 42.9, 42.8],
+                    borderColor: '#007B7F',
+                    backgroundColor: 'rgba(0, 123, 127, 0.2)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 35,
+                        max: 45,
+                        ticks: {
+                            callback: function(value) {
+                                return value + 'k';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

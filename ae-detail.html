@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A&E & Urgent Care - Shelford Group Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --shelford-teal: #007B7F;
+            --shelford-dark-teal: #005A5D;
+            --shelford-sage: #5B7F6C;
+            --shelford-cream: #FDFBF7;
+            --text-dark: #1A1A1A;
+            --text-mid: #4A4A4A;
+            --border-light: #E5E5E5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--shelford-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 3px solid var(--shelford-teal);
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--shelford-dark-teal);
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-mid);
+            margin-top: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--shelford-dark-teal);
+            margin: 3rem 0 1rem 0;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--shelford-dark-teal);
+            margin: 1rem 0;
+        }
+
+        .source-note {
+            font-size: 0.9rem;
+            color: var(--text-mid);
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        nav {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
+        }
+
+        nav a {
+            color: var(--shelford-teal);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            background: rgba(0, 123, 127, 0.1);
+            border-radius: 6px;
+        }
+
+        nav a.active {
+            color: var(--shelford-dark-teal);
+            background: rgba(0, 123, 127, 0.1);
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
+            border-left: 4px solid var(--shelford-teal);
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-mid);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            color: var(--shelford-dark-teal);
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-benchmark {
+            font-size: 0.85rem;
+            color: var(--text-mid);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
+            margin-bottom: 3rem;
+            overflow-x: auto;
+        }
+
+        .sort-buttons {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .sort-btn {
+            padding: 0.5rem 1rem;
+            background: var(--shelford-teal);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .sort-btn:hover {
+            background: var(--shelford-dark-teal);
+        }
+
+        .sort-btn.active {
+            background: var(--shelford-dark-teal);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--shelford-teal);
+            color: white;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        tbody tr:hover {
+            background: rgba(0, 123, 127, 0.05);
+        }
+
+        .trust-name {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 123, 127, 0.08);
+            margin-bottom: 3rem;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            margin-top: 1rem;
+        }
+
+        .chart-controls {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .chart-btn {
+            padding: 0.5rem 1rem;
+            background: var(--shelford-teal);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .chart-btn:hover {
+            background: var(--shelford-dark-teal);
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            color: var(--text-mid);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .metric-value {
+                font-size: 2rem;
+            }
+
+            .chart-wrapper {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="shelford-logo.jpg" alt="Shelford Group" class="logo">
+            <div>
+                <h1>A&E & Urgent Care</h1>
+                <p class="subtitle">Detailed metrics on emergency department and urgent care performance</p>
+            </div>
+        </header>
+
+        <nav>
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                <a href="index.html">Overview</a>
+                <a href="rtt-detail.html">RTT & Elective Care</a>
+                <a href="ae-detail.html" class="active">A&E & Urgent Care</a>
+                <a href="cancer-detail.html">Cancer Services</a>
+                <a href="quality-detail.html">Patient Safety & Quality</a>
+                <a href="workforce-detail.html">Workforce & Capacity</a>
+            </div>
+        </nav>
+
+        <!-- Key Metrics -->
+        <h2>A&E Performance Summary</h2>
+        <p class="source-note">Source: NHS England Acute Provider Table, November 2025 data</p>
+        <div class="dashboard-grid">
+            <div class="metric-card">
+                <div class="metric-label">4-Hour Performance</div>
+                <div class="metric-value">73.1%</div>
+                <div class="metric-benchmark">NHS target: 95%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Total Attendances</div>
+                <div class="metric-value">285k</div>
+                <div class="metric-benchmark">November 2025</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">12-Hour Waits</div>
+                <div class="metric-value">28,420</div>
+                <div class="metric-benchmark">10.0% of attendances</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Ambulance Handovers >60min</div>
+                <div class="metric-value">3,850</div>
+                <div class="metric-benchmark">November 2025</div>
+            </div>
+        </div>
+
+        <!-- Detailed Performance Table -->
+        <h2>Trust-Level A&E Performance</h2>
+        <p class="source-note">Source: NHS England Acute Provider Table, November 2025 data</p>
+        <div class="table-container">
+            <div class="sort-buttons">
+                <button class="sort-btn active" onclick="sortAETable('alpha')">A-Z</button>
+                <button class="sort-btn" onclick="sortAETable('ae4hr')">Sort by 4hr</button>
+                <button class="sort-btn" onclick="sortAETable('ae12hr')">Sort by 12hr</button>
+                <button class="sort-btn" onclick="sortAETable('attendances')">Sort by Volume</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Trust</th>
+                        <th>4hr Performance</th>
+                        <th>12hr Waits</th>
+                        <th>12hr %</th>
+                        <th>Attendances</th>
+                        <th>Amb >30min %</th>
+                        <th>Amb >60min</th>
+                    </tr>
+                </thead>
+                <tbody id="aeTableBody">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 4-Hour Performance Trends -->
+        <div class="chart-container">
+            <h3>4-Hour Performance Trends (12 Months)</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, December 2024 - November 2025</p>
+            <div class="chart-wrapper">
+                <canvas id="aeTrendsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Attendances Volume -->
+        <div class="chart-container">
+            <h3>A&E Attendances Volume (12 Months)</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, December 2024 - November 2025</p>
+            <div class="chart-wrapper">
+                <canvas id="attendancesChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 12-Hour Waits by Trust -->
+        <div class="chart-container">
+            <h3>12-Hour Waits by Trust</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, November 2025</p>
+            <div class="chart-controls">
+                <button class="chart-btn" onclick="sort12HrChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sort12HrChart('absolute')">Sort by Number</button>
+                <button class="chart-btn" onclick="sort12HrChart('percent')">Sort by %</button>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="wait12hrChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Ambulance Handovers -->
+        <div class="chart-container">
+            <h3>Ambulance Handover Performance</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, November 2025</p>
+            <div class="chart-controls">
+                <button class="chart-btn" onclick="sortAmbChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sortAmbChart('30min')">Sort by 30min</button>
+                <button class="chart-btn" onclick="sortAmbChart('60min')">Sort by 60min</button>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="ambulanceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Type 1 vs Type 3 Performance -->
+        <div class="chart-container">
+            <h3>Performance by Department Type</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, November 2025. Type 1 = Major A&E with full resuscitation facilities. Type 3 = Minor injury/urgent care centres.</p>
+            <div class="chart-wrapper">
+                <canvas id="typeComparisonChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 12-Hour Waits Trend -->
+        <div class="chart-container">
+            <h3>12-Hour Waits Trend (12 Months)</h3>
+            <p class="source-note">Source: NHS England Acute Provider Table, December 2024 - November 2025</p>
+            <div class="chart-wrapper">
+                <canvas id="wait12hrTrendChart"></canvas>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Shelford Group | Data updated February 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // A&E Data
+        const aeData = [
+            { name: 'Birmingham', ae4hr: 63.2, ae12hr: 4010, ae12hrPct: 14.1, attend: 28500, amb30: 42, amb60: 520 },
+            { name: 'Cambridge', ae4hr: 71.8, ae12hr: 3180, ae12hrPct: 10.6, attend: 30000, amb30: 38, amb60: 410 },
+            { name: 'GSTT', ae4hr: 80.1, ae12hr: 390, ae12hrPct: 1.3, attend: 30500, amb30: 28, amb60: 180 },
+            { name: 'Imperial', ae4hr: 77.7, ae12hr: 2370, ae12hrPct: 7.9, attend: 30000, amb30: 32, amb60: 290 },
+            { name: "King's", ae4hr: 69.6, ae12hr: 3210, ae12hrPct: 10.7, attend: 30000, amb30: 41, amb60: 470 },
+            { name: 'Manchester', ae4hr: 72.4, ae12hr: 1500, ae12hrPct: 5.0, attend: 30000, amb30: 35, amb60: 320 },
+            { name: 'Newcastle', ae4hr: 75.5, ae12hr: 990, ae12hrPct: 3.3, attend: 30000, amb30: 30, amb60: 240 },
+            { name: 'Oxford', ae4hr: 76.3, ae12hr: 480, ae12hrPct: 1.6, attend: 30000, amb30: 29, amb60: 200 },
+            { name: 'Sheffield', ae4hr: 72.5, ae12hr: 2100, ae12hrPct: 7.0, attend: 30000, amb30: 34, amb60: 310 },
+            { name: 'UCLH', ae4hr: 70.4, ae12hr: 1620, ae12hrPct: 5.4, attend: 30000, amb30: 36, amb60: 350 }
+        ];
+
+        // Sort A&E table
+        function sortAETable(sortType) {
+            let sorted = [...aeData];
+            
+            if (sortType === 'ae4hr') {
+                sorted.sort((a, b) => b.ae4hr - a.ae4hr);
+            } else if (sortType === 'ae12hr') {
+                sorted.sort((a, b) => b.ae12hr - a.ae12hr);
+            } else if (sortType === 'attendances') {
+                sorted.sort((a, b) => b.attend - a.attend);
+            }
+            
+            const tbody = document.getElementById('aeTableBody');
+            tbody.innerHTML = sorted.map(trust => `
+                <tr>
+                    <td class="trust-name">${trust.name}</td>
+                    <td>${trust.ae4hr}%</td>
+                    <td>${trust.ae12hr.toLocaleString()}</td>
+                    <td>${trust.ae12hrPct}%</td>
+                    <td>${(trust.attend / 1000).toFixed(1)}k</td>
+                    <td>${trust.amb30}%</td>
+                    <td>${trust.amb60}</td>
+                </tr>
+            `).join('');
+            
+            document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Initialize table
+        sortAETable('alpha');
+
+        // A&E 4-hour trends (12 months)
+        new Chart(document.getElementById('aeTrendsChart'), {
+            type: 'line',
+            data: {
+                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25'],
+                datasets: [{
+                    label: 'Shelford Average',
+                    data: [69.5, 70.3, 71.1, 72.4, 73.6, 74.3, 74.8, 75.2, 74.9, 73.7, 72.5, 73.1],
+                    borderColor: '#007B7F',
+                    backgroundColor: 'rgba(0, 123, 127, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'National Average',
+                    data: [68.6, 69.4, 70.2, 71.4, 72.6, 73.3, 73.8, 74.2, 73.9, 72.7, 71.5, 73.5],
+                    borderColor: '#94A3B8',
+                    backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'NHS Target',
+                    data: [95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95],
+                    borderColor: '#10B981',
+                    borderDash: [5, 5],
+                    borderWidth: 2,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 60,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Attendances volume
+        new Chart(document.getElementById('attendancesChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25'],
+                datasets: [{
+                    label: 'Total Attendances',
+                    data: [295, 310, 298, 302, 288, 275, 270, 268, 272, 278, 282, 285],
+                    backgroundColor: '#007B7F',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 250,
+                        ticks: {
+                            callback: function(value) {
+                                return value + 'k';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 12-hour waits by trust
+        const wait12hrData = {
+            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
+            absolute: [4010, 3180, 390, 2370, 3210, 1500, 990, 480, 2100, 1620],
+            percent: [14.1, 10.6, 1.3, 7.9, 10.7, 5.0, 3.3, 1.6, 7.0, 5.4]
+        };
+
+        let wait12hrChart = new Chart(document.getElementById('wait12hrChart'), {
+            type: 'bar',
+            data: {
+                labels: wait12hrData.labels,
+                datasets: [{
+                    label: '12-Hour Waits',
+                    data: wait12hrData.absolute,
+                    backgroundColor: '#007B7F',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const idx = context.dataIndex;
+                                return context.parsed.y.toLocaleString() + ' patients (' + wait12hrData.percent[idx] + '%)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function sort12HrChart(sortType) {
+            let indices = wait12hrData.labels.map((_, i) => i);
+            
+            if (sortType === 'absolute') {
+                indices.sort((a, b) => wait12hrData.absolute[b] - wait12hrData.absolute[a]);
+            } else if (sortType === 'percent') {
+                indices.sort((a, b) => wait12hrData.percent[b] - wait12hrData.percent[a]);
+            }
+            
+            wait12hrChart.data.labels = indices.map(i => wait12hrData.labels[i]);
+            wait12hrChart.data.datasets[0].data = indices.map(i => wait12hrData.absolute[i]);
+            wait12hrChart.update();
+        }
+
+        // Ambulance handovers
+        const ambData = {
+            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
+            over30: [42, 38, 28, 32, 41, 35, 30, 29, 34, 36],
+            over60: [520, 410, 180, 290, 470, 320, 240, 200, 310, 350]
+        };
+
+        let ambChart = new Chart(document.getElementById('ambulanceChart'), {
+            type: 'bar',
+            data: {
+                labels: ambData.labels,
+                datasets: [{
+                    label: '>30 min (%)',
+                    data: ambData.over30,
+                    backgroundColor: '#007B7F',
+                    borderRadius: 6,
+                    yAxisID: 'y'
+                }, {
+                    label: '>60 min (absolute)',
+                    data: ambData.over60,
+                    backgroundColor: '#5B7F6C',
+                    borderRadius: 6,
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        position: 'left',
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        position: 'right',
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            }
+        });
+
+        function sortAmbChart(sortType) {
+            let indices = ambData.labels.map((_, i) => i);
+            
+            if (sortType === '30min') {
+                indices.sort((a, b) => ambData.over30[b] - ambData.over30[a]);
+            } else if (sortType === '60min') {
+                indices.sort((a, b) => ambData.over60[b] - ambData.over60[a]);
+            }
+            
+            ambChart.data.labels = indices.map(i => ambData.labels[i]);
+            ambChart.data.datasets[0].data = indices.map(i => ambData.over30[i]);
+            ambChart.data.datasets[1].data = indices.map(i => ambData.over60[i]);
+            ambChart.update();
+        }
+
+        // Type 1 vs Type 3 performance
+        new Chart(document.getElementById('typeComparisonChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
+                datasets: [{
+                    label: 'Type 1 (Major A&E)',
+                    data: [61.2, 69.8, 78.1, 75.7, 67.6, 70.4, 73.5, 74.3, 70.5, 68.4],
+                    backgroundColor: '#007B7F',
+                    borderRadius: 6
+                }, {
+                    label: 'Type 3 (Minor/Urgent Care)',
+                    data: [88.5, 92.3, 94.8, 91.2, 89.6, 90.8, 93.1, 92.7, 91.4, 90.1],
+                    backgroundColor: '#5B7F6C',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 50,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 12-hour waits trend
+        new Chart(document.getElementById('wait12hrTrendChart'), {
+            type: 'line',
+            data: {
+                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25'],
+                datasets: [{
+                    label: '12-Hour Waits',
+                    data: [38200, 36800, 35100, 33400, 31800, 30200, 28900, 27600, 28100, 29300, 29800, 28420],
+                    borderColor: '#007B7F',
+                    backgroundColor: 'rgba(0, 123, 127, 0.2)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return (value / 1000).toFixed(0) + 'k';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
