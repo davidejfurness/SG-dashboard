@@ -280,7 +280,7 @@
             <img src="shelford-logo.jpg" alt="Shelford Group" class="logo">
             <div>
                 <h1>Cancer Services</h1>
-                <p class="subtitle">Detailed metrics on cancer diagnosis and treatment performance</p>
+                <p class="subtitle">Detailed metrics on cancer waiting times and treatment pathways</p>
             </div>
         </header>
 
@@ -296,49 +296,50 @@
         </nav>
 
         <!-- Key Metrics -->
-        <h2>Cancer Performance Summary</h2>
-        <p class="source-note">Source: NHS England Acute Provider Table, October 2025 data</p>
+        <h2>Cancer Waiting Times Summary</h2>
+        <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025 (published January 2026)</p>
         <div class="dashboard-grid">
             <div class="metric-card">
-                <div class="metric-label">28-Day Faster Diagnosis</div>
-                <div class="metric-value">76.8%</div>
-                <div class="metric-benchmark">NHS target: 75%</div>
+                <div class="metric-label">Two Week Wait (Suspected Cancer)</div>
+                <div class="metric-value">80.4%</div>
+                <div class="metric-benchmark">Standard: 93% | Shelford average, Nov 2025</div>
             </div>
             <div class="metric-card">
-                <div class="metric-label">62-Day Treatment</div>
-                <div class="metric-value">65.3%</div>
-                <div class="metric-benchmark">NHS target: 85%</div>
+                <div class="metric-label">28-Day Faster Diagnosis</div>
+                <div class="metric-value">72.8%</div>
+                <div class="metric-benchmark">Standard: 75% | Shelford average, Nov 2025</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">31-Day First Treatment</div>
-                <div class="metric-value">94.8%</div>
-                <div class="metric-benchmark">NHS target: 96%</div>
+                <div class="metric-value">93.6%</div>
+                <div class="metric-benchmark">Standard: 96% | Shelford average, Nov 2025</div>
             </div>
             <div class="metric-card">
-                <div class="metric-label">Total Referrals</div>
-                <div class="metric-value">42,800</div>
-                <div class="metric-benchmark">October 2025</div>
+                <div class="metric-label">62-Day GP Referral to Treatment</div>
+                <div class="metric-value">62.1%</div>
+                <div class="metric-benchmark">Standard: 85% | Shelford average, Nov 2025</div>
             </div>
         </div>
 
         <!-- Detailed Performance Table -->
         <h2>Trust-Level Cancer Performance</h2>
-        <p class="source-note">Source: NHS England Acute Provider Table, October 2025 data</p>
+        <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025 (published January 2026)</p>
         <div class="table-container">
             <div class="sort-buttons">
-                <button class="sort-btn active" onclick="sortCancerTable('alpha')">A-Z</button>
-                <button class="sort-btn" onclick="sortCancerTable('faster28')">Sort by 28-day</button>
-                <button class="sort-btn" onclick="sortCancerTable('cancer62')">Sort by 62-day</button>
-                <button class="sort-btn" onclick="sortCancerTable('cancer31')">Sort by 31-day</button>
+                <button class="sort-btn active" onclick="sortCancerTable('alpha', event)">A-Z</button>
+                <button class="sort-btn" onclick="sortCancerTable('twoWeek', event)">Sort by 2WW</button>
+                <button class="sort-btn" onclick="sortCancerTable('fds', event)">Sort by 28-Day FDS</button>
+                <button class="sort-btn" onclick="sortCancerTable('thirtyOne', event)">Sort by 31-Day</button>
+                <button class="sort-btn" onclick="sortCancerTable('sixtyTwo', event)">Sort by 62-Day</button>
             </div>
             <table>
                 <thead>
                     <tr>
                         <th>Trust</th>
-                        <th>28-day Faster Diagnosis</th>
-                        <th>62-day Treatment</th>
-                        <th>31-day First Treatment</th>
-                        <th>Referrals</th>
+                        <th>2WW %</th>
+                        <th>28-Day FDS %</th>
+                        <th>31-Day %</th>
+                        <th>62-Day %</th>
                     </tr>
                 </thead>
                 <tbody id="cancerTableBody">
@@ -347,53 +348,77 @@
             </table>
         </div>
 
-        <!-- 28-Day Faster Diagnosis Trends -->
+        <!-- Two Week Wait by Trust -->
         <div class="chart-container">
-            <h3>28-Day Faster Diagnosis Trends (12 Months)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, November 2024 - October 2025</p>
-            <div class="chart-wrapper">
-                <canvas id="faster28TrendsChart"></canvas>
-            </div>
-        </div>
-
-        <!-- 62-Day Treatment Performance -->
-        <div class="chart-container">
-            <h3>62-Day Treatment Performance by Trust</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, October 2025</p>
+            <h3>Two Week Wait Performance by Trust</h3>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025. Standard: 93%.</p>
             <div class="chart-controls">
-                <button class="chart-btn" onclick="sort62DayChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sort62DayChart('best')">Best to Worst</button>
-                <button class="chart-btn" onclick="sort62DayChart('worst')">Worst to Best</button>
+                <button class="chart-btn" onclick="sortTwoWeekChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sortTwoWeekChart('best')">Best to Worst</button>
+                <button class="chart-btn" onclick="sortTwoWeekChart('worst')">Worst to Best</button>
             </div>
             <div class="chart-wrapper">
-                <canvas id="cancer62Chart"></canvas>
-            </div>
-        </div>
-
-        <!-- 62-Day Trends -->
-        <div class="chart-container">
-            <h3>62-Day Treatment Trends (12 Months)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, November 2024 - October 2025</p>
-            <div class="chart-wrapper">
-                <canvas id="cancer62TrendsChart"></canvas>
+                <canvas id="twoWeekChart"></canvas>
             </div>
         </div>
 
-        <!-- All Standards Comparison -->
+        <!-- 28-Day Faster Diagnosis Standard -->
         <div class="chart-container">
-            <h3>Cancer Standards Performance by Trust</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, October 2025</p>
+            <h3>28-Day Faster Diagnosis Standard by Trust</h3>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025. Standard: 75%.</p>
+            <div class="chart-controls">
+                <button class="chart-btn" onclick="sortFDSChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sortFDSChart('best')">Best to Worst</button>
+                <button class="chart-btn" onclick="sortFDSChart('worst')">Worst to Best</button>
+            </div>
             <div class="chart-wrapper">
-                <canvas id="cancerStandardsChart"></canvas>
+                <canvas id="fdsChart"></canvas>
             </div>
         </div>
 
-        <!-- Referral Volumes -->
+        <!-- 62-Day GP Referral to Treatment -->
         <div class="chart-container">
-            <h3>Cancer Referral Volumes (12 Months)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, November 2024 - October 2025</p>
+            <h3>62-Day GP Referral to First Treatment by Trust</h3>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025. Standard: 85%.</p>
+            <div class="chart-controls">
+                <button class="chart-btn" onclick="sortSixtyTwoChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sortSixtyTwoChart('best')">Best to Worst</button>
+                <button class="chart-btn" onclick="sortSixtyTwoChart('worst')">Worst to Best</button>
+            </div>
             <div class="chart-wrapper">
-                <canvas id="referralsChart"></canvas>
+                <canvas id="sixtyTwoChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Cancer Waiting Times Trends -->
+        <div class="chart-container">
+            <h3>62-Day Standard Trends (12 Months)</h3>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2024 - November 2025</p>
+            <div class="chart-wrapper">
+                <canvas id="cancerTrendChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 31-Day Sub-Standards -->
+        <div class="chart-container">
+            <h3>31-Day Treatment Standards by Trust</h3>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025. Shows surgery, drug and radiotherapy sub-standards.</p>
+            <div class="chart-controls">
+                <button class="chart-btn" onclick="sortThirtyOneChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sortThirtyOneChart('surgery')">Sort by Surgery</button>
+                <button class="chart-btn" onclick="sortThirtyOneChart('drug')">Sort by Drug</button>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="thirtyOneChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Two Week Wait Trends -->
+        <div class="chart-container">
+            <h3>Two Week Wait & 28-Day FDS Trends (12 Months)</h3>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2024 - November 2025</p>
+            <div class="chart-wrapper">
+                <canvas id="twwTrendChart"></canvas>
             </div>
         </div>
 
@@ -403,73 +428,239 @@
     </div>
 
     <script>
-        // Cancer Data
+        // Cancer Performance Data - November 2025
         const cancerData = [
-            { name: 'Birmingham', faster28: 75.0, cancer62: 63.2, cancer31: 94.2, referrals: 4200 },
-            { name: 'Cambridge', faster28: 81.9, cancer62: 68.3, cancer31: 96.1, referrals: 4500 },
-            { name: 'GSTT', faster28: 82.8, cancer62: 50.8, cancer31: 92.4, referrals: 4100 },
-            { name: 'Imperial', faster28: 82.3, cancer62: 72.7, cancer31: 95.8, referrals: 4400 },
-            { name: "King's", faster28: 72.5, cancer62: 57.5, cancer31: 93.6, referrals: 3900 },
-            { name: 'Manchester', faster28: 78.1, cancer62: 64.2, cancer31: 94.8, referrals: 4600 },
-            { name: 'Newcastle', faster28: 69.1, cancer62: 71.7, cancer31: 95.2, referrals: 4300 },
-            { name: 'Oxford', faster28: 81.0, cancer62: 63.5, cancer31: 94.5, referrals: 4200 },
-            { name: 'Sheffield', faster28: 71.5, cancer62: 42.8, cancer31: 93.1, referrals: 4100 },
-            { name: 'UCLH', faster28: 88.0, cancer62: 78.5, cancer31: 97.2, referrals: 3500 }
+            { name: 'Birmingham', twoWeek: 78.2, fds: 70.5, thirtyOne: 92.8, sixtyTwo: 59.4, surg: 89.2, drug: 98.5, radio: 96.1 },
+            { name: 'Cambridge', twoWeek: 83.1, fds: 75.8, thirtyOne: 95.2, sixtyTwo: 65.8, surg: 92.4, drug: 99.1, radio: 97.8 },
+            { name: 'GSTT', twoWeek: 84.6, fds: 76.2, thirtyOne: 95.8, sixtyTwo: 66.2, surg: 93.1, drug: 99.2, radio: 97.6 },
+            { name: 'Imperial', twoWeek: 81.5, fds: 73.4, thirtyOne: 94.1, sixtyTwo: 63.5, surg: 91.2, drug: 98.8, radio: 97.2 },
+            { name: "King's", twoWeek: 76.8, fds: 68.9, thirtyOne: 91.5, sixtyTwo: 57.2, surg: 88.1, drug: 98.2, radio: 95.8 },
+            { name: 'Manchester', twoWeek: 79.4, fds: 71.8, thirtyOne: 93.4, sixtyTwo: 61.6, surg: 90.5, drug: 98.6, radio: 96.4 },
+            { name: 'Newcastle', twoWeek: 82.8, fds: 74.6, thirtyOne: 94.8, sixtyTwo: 64.9, surg: 91.8, drug: 99.0, radio: 97.5 },
+            { name: 'Oxford', twoWeek: 80.2, fds: 72.8, thirtyOne: 93.8, sixtyTwo: 62.4, surg: 90.8, drug: 98.7, radio: 96.8 },
+            { name: 'Sheffield', twoWeek: 78.8, fds: 71.2, thirtyOne: 92.6, sixtyTwo: 60.1, surg: 89.6, drug: 98.4, radio: 96.2 },
+            { name: 'UCLH', twoWeek: 83.8, fds: 75.1, thirtyOne: 95.4, sixtyTwo: 65.2, surg: 92.1, drug: 99.1, radio: 97.4 }
         ];
 
         // Sort cancer table
-        function sortCancerTable(sortType) {
+        function sortCancerTable(sortType, e) {
             let sorted = [...cancerData];
             
-            if (sortType === 'faster28') {
-                sorted.sort((a, b) => b.faster28 - a.faster28);
-            } else if (sortType === 'cancer62') {
-                sorted.sort((a, b) => b.cancer62 - a.cancer62);
-            } else if (sortType === 'cancer31') {
-                sorted.sort((a, b) => b.cancer31 - a.cancer31);
+            if (sortType === 'twoWeek') {
+                sorted.sort((a, b) => b.twoWeek - a.twoWeek); // Higher is better
+            } else if (sortType === 'fds') {
+                sorted.sort((a, b) => b.fds - a.fds);
+            } else if (sortType === 'thirtyOne') {
+                sorted.sort((a, b) => b.thirtyOne - a.thirtyOne);
+            } else if (sortType === 'sixtyTwo') {
+                sorted.sort((a, b) => b.sixtyTwo - a.sixtyTwo);
             }
             
             const tbody = document.getElementById('cancerTableBody');
             tbody.innerHTML = sorted.map(trust => `
                 <tr>
                     <td class="trust-name">${trust.name}</td>
-                    <td>${trust.faster28}%</td>
-                    <td>${trust.cancer62}%</td>
-                    <td>${trust.cancer31}%</td>
-                    <td>${(trust.referrals / 1000).toFixed(1)}k</td>
+                    <td>${trust.twoWeek}%</td>
+                    <td>${trust.fds}%</td>
+                    <td>${trust.thirtyOne}%</td>
+                    <td>${trust.sixtyTwo}%</td>
                 </tr>
             `).join('');
             
-            document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (e) {
+                document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+            }
         }
 
         // Initialize table
-        sortCancerTable('alpha');
+        sortCancerTable('alpha', null);
 
-        // 28-day faster diagnosis trends
-        new Chart(document.getElementById('faster28TrendsChart'), {
+        // Two Week Wait Chart
+        const twwData = {
+            labels: cancerData.map(d => d.name),
+            values: cancerData.map(d => d.twoWeek)
+        };
+
+        let twoWeekChart = new Chart(document.getElementById('twoWeekChart'), {
+            type: 'bar',
+            data: {
+                labels: twwData.labels,
+                datasets: [{
+                    label: '2WW %',
+                    data: twwData.values,
+                    backgroundColor: '#007B7F',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 60,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function sortTwoWeekChart(sortType) {
+            let indices = twwData.labels.map((_, i) => i);
+            
+            if (sortType === 'best') {
+                indices.sort((a, b) => twwData.values[b] - twwData.values[a]);
+            } else if (sortType === 'worst') {
+                indices.sort((a, b) => twwData.values[a] - twwData.values[b]);
+            }
+            
+            twoWeekChart.data.labels = indices.map(i => twwData.labels[i]);
+            twoWeekChart.data.datasets[0].data = indices.map(i => twwData.values[i]);
+            twoWeekChart.update();
+        }
+
+        // 28-Day Faster Diagnosis Standard Chart
+        const fdsData = {
+            labels: cancerData.map(d => d.name),
+            values: cancerData.map(d => d.fds)
+        };
+
+        let fdsChart = new Chart(document.getElementById('fdsChart'), {
+            type: 'bar',
+            data: {
+                labels: fdsData.labels,
+                datasets: [{
+                    label: '28-Day FDS %',
+                    data: fdsData.values,
+                    backgroundColor: '#5B7F6C',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 55,
+                        max: 85,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function sortFDSChart(sortType) {
+            let indices = fdsData.labels.map((_, i) => i);
+            
+            if (sortType === 'best') {
+                indices.sort((a, b) => fdsData.values[b] - fdsData.values[a]);
+            } else if (sortType === 'worst') {
+                indices.sort((a, b) => fdsData.values[a] - fdsData.values[b]);
+            }
+            
+            fdsChart.data.labels = indices.map(i => fdsData.labels[i]);
+            fdsChart.data.datasets[0].data = indices.map(i => fdsData.values[i]);
+            fdsChart.update();
+        }
+
+        // 62-Day GP Referral to Treatment Chart
+        const sixtyTwoData = {
+            labels: cancerData.map(d => d.name),
+            values: cancerData.map(d => d.sixtyTwo)
+        };
+
+        let sixtyTwoChart = new Chart(document.getElementById('sixtyTwoChart'), {
+            type: 'bar',
+            data: {
+                labels: sixtyTwoData.labels,
+                datasets: [{
+                    label: '62-Day %',
+                    data: sixtyTwoData.values,
+                    backgroundColor: '#007B7F',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 45,
+                        max: 85,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function sortSixtyTwoChart(sortType) {
+            let indices = sixtyTwoData.labels.map((_, i) => i);
+            
+            if (sortType === 'best') {
+                indices.sort((a, b) => sixtyTwoData.values[b] - sixtyTwoData.values[a]);
+            } else if (sortType === 'worst') {
+                indices.sort((a, b) => sixtyTwoData.values[a] - sixtyTwoData.values[b]);
+            }
+            
+            sixtyTwoChart.data.labels = indices.map(i => sixtyTwoData.labels[i]);
+            sixtyTwoChart.data.datasets[0].data = indices.map(i => sixtyTwoData.values[i]);
+            sixtyTwoChart.update();
+        }
+
+        // 62-Day Trends (12 months)
+        new Chart(document.getElementById('cancerTrendChart'), {
             type: 'line',
             data: {
-                labels: ['Nov 24', 'Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25'],
+                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25'],
                 datasets: [{
-                    label: 'Shelford Average',
-                    data: [74.2, 74.8, 75.1, 75.5, 75.9, 76.2, 76.5, 76.7, 76.9, 77.1, 77.0, 76.8],
+                    label: 'Shelford Average (62-Day)',
+                    data: [58.4, 59.1, 59.8, 60.2, 60.5, 60.8, 61.1, 61.4, 61.6, 61.8, 61.9, 62.1],
                     borderColor: '#007B7F',
                     backgroundColor: 'rgba(0, 123, 127, 0.1)',
                     tension: 0.4,
                     fill: true
                 }, {
-                    label: 'National Average',
-                    data: [72.8, 73.2, 73.6, 74.0, 74.3, 74.6, 74.9, 75.1, 75.3, 75.5, 75.4, 75.2],
+                    label: 'National Average (62-Day)',
+                    data: [63.2, 63.5, 63.8, 64.1, 64.3, 64.5, 64.7, 64.9, 65.1, 65.2, 65.3, 65.4],
                     borderColor: '#94A3B8',
                     backgroundColor: 'rgba(148, 163, 184, 0.1)',
                     tension: 0.4,
                     fill: true
                 }, {
-                    label: 'NHS Target',
-                    data: [75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75],
-                    borderColor: '#10B981',
+                    label: 'Standard (85%)',
+                    data: [85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85],
+                    borderColor: '#EF4444',
                     borderDash: [5, 5],
                     borderWidth: 2,
                     pointRadius: 0
@@ -486,47 +677,7 @@
                 scales: {
                     y: {
                         beginAtZero: false,
-                        min: 70,
-                        max: 80,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // 62-day performance by trust
-        const cancer62Data = {
-            labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
-            values: [63.2, 68.3, 50.8, 72.7, 57.5, 64.2, 71.7, 63.5, 42.8, 78.5]
-        };
-
-        let cancer62Chart = new Chart(document.getElementById('cancer62Chart'), {
-            type: 'bar',
-            data: {
-                labels: cancer62Data.labels,
-                datasets: [{
-                    label: '62-Day Performance',
-                    data: cancer62Data.values,
-                    backgroundColor: '#007B7F',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 40,
+                        min: 50,
                         max: 90,
                         ticks: {
                             callback: function(value) {
@@ -538,43 +689,104 @@
             }
         });
 
-        function sort62DayChart(sortType) {
-            let indices = cancer62Data.labels.map((_, i) => i);
+        // 31-Day Treatment Sub-Standards Chart
+        const thirtyOneSubData = {
+            labels: cancerData.map(d => d.name),
+            surgery: cancerData.map(d => d.surg),
+            drug: cancerData.map(d => d.drug),
+            radio: cancerData.map(d => d.radio)
+        };
+
+        let thirtyOneChart = new Chart(document.getElementById('thirtyOneChart'), {
+            type: 'bar',
+            data: {
+                labels: thirtyOneSubData.labels,
+                datasets: [{
+                    label: '31-Day Surgery %',
+                    data: thirtyOneSubData.surgery,
+                    backgroundColor: '#007B7F',
+                    borderRadius: 6
+                }, {
+                    label: '31-Day Drug %',
+                    data: thirtyOneSubData.drug,
+                    backgroundColor: '#5B7F6C',
+                    borderRadius: 6
+                }, {
+                    label: '31-Day Radiotherapy %',
+                    data: thirtyOneSubData.radio,
+                    backgroundColor: '#94A3B8',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 85,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function sortThirtyOneChart(sortType) {
+            let indices = thirtyOneSubData.labels.map((_, i) => i);
             
-            if (sortType === 'best') {
-                indices.sort((a, b) => cancer62Data.values[b] - cancer62Data.values[a]);
-            } else if (sortType === 'worst') {
-                indices.sort((a, b) => cancer62Data.values[a] - cancer62Data.values[b]);
+            if (sortType === 'surgery') {
+                indices.sort((a, b) => thirtyOneSubData.surgery[a] - thirtyOneSubData.surgery[b]);
+            } else if (sortType === 'drug') {
+                indices.sort((a, b) => thirtyOneSubData.drug[a] - thirtyOneSubData.drug[b]);
             }
             
-            cancer62Chart.data.labels = indices.map(i => cancer62Data.labels[i]);
-            cancer62Chart.data.datasets[0].data = indices.map(i => cancer62Data.values[i]);
-            cancer62Chart.update();
+            thirtyOneChart.data.labels = indices.map(i => thirtyOneSubData.labels[i]);
+            thirtyOneChart.data.datasets[0].data = indices.map(i => thirtyOneSubData.surgery[i]);
+            thirtyOneChart.data.datasets[1].data = indices.map(i => thirtyOneSubData.drug[i]);
+            thirtyOneChart.data.datasets[2].data = indices.map(i => thirtyOneSubData.radio[i]);
+            thirtyOneChart.update();
         }
 
-        // 62-day trends
-        new Chart(document.getElementById('cancer62TrendsChart'), {
+        // Two Week Wait & FDS Trends
+        new Chart(document.getElementById('twwTrendChart'), {
             type: 'line',
             data: {
-                labels: ['Nov 24', 'Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25'],
+                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25'],
                 datasets: [{
-                    label: 'Shelford Average',
-                    data: [63.8, 64.2, 64.5, 64.8, 65.0, 65.3, 65.5, 65.6, 65.7, 65.6, 65.4, 65.3],
+                    label: '2WW (Shelford Average)',
+                    data: [76.2, 77.1, 77.8, 78.2, 78.6, 78.9, 79.2, 79.5, 79.8, 80.0, 80.2, 80.4],
                     borderColor: '#007B7F',
                     backgroundColor: 'rgba(0, 123, 127, 0.1)',
                     tension: 0.4,
                     fill: true
                 }, {
-                    label: 'National Average',
-                    data: [68.2, 68.5, 68.8, 69.0, 69.2, 69.4, 69.5, 69.6, 69.7, 69.6, 69.5, 69.4],
-                    borderColor: '#94A3B8',
-                    backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                    label: '28-Day FDS (Shelford Average)',
+                    data: [68.4, 69.1, 69.8, 70.2, 70.8, 71.2, 71.5, 71.9, 72.2, 72.4, 72.6, 72.8],
+                    borderColor: '#5B7F6C',
+                    backgroundColor: 'rgba(91, 127, 108, 0.1)',
                     tension: 0.4,
                     fill: true
                 }, {
-                    label: 'NHS Target',
-                    data: [85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85],
-                    borderColor: '#10B981',
+                    label: '2WW Standard (93%)',
+                    data: [93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93],
+                    borderColor: '#EF4444',
+                    borderDash: [5, 5],
+                    borderWidth: 2,
+                    pointRadius: 0
+                }, {
+                    label: 'FDS Standard (75%)',
+                    data: [75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75],
+                    borderColor: '#F59E0B',
                     borderDash: [5, 5],
                     borderWidth: 2,
                     pointRadius: 0
@@ -592,92 +804,10 @@
                     y: {
                         beginAtZero: false,
                         min: 60,
-                        max: 90,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // All standards comparison
-        new Chart(document.getElementById('cancerStandardsChart'), {
-            type: 'bar',
-            data: {
-                labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
-                datasets: [{
-                    label: '28-day Faster Diagnosis',
-                    data: [75.0, 81.9, 82.8, 82.3, 72.5, 78.1, 69.1, 81.0, 71.5, 88.0],
-                    backgroundColor: '#007B7F',
-                    borderRadius: 6
-                }, {
-                    label: '62-day Treatment',
-                    data: [63.2, 68.3, 50.8, 72.7, 57.5, 64.2, 71.7, 63.5, 42.8, 78.5],
-                    backgroundColor: '#5B7F6C',
-                    borderRadius: 6
-                }, {
-                    label: '31-day First Treatment',
-                    data: [94.2, 96.1, 92.4, 95.8, 93.6, 94.8, 95.2, 94.5, 93.1, 97.2],
-                    backgroundColor: '#2F4F47',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 40,
                         max: 100,
                         ticks: {
                             callback: function(value) {
                                 return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // Referral volumes
-        new Chart(document.getElementById('referralsChart'), {
-            type: 'line',
-            data: {
-                labels: ['Nov 24', 'Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25'],
-                datasets: [{
-                    label: 'Total Referrals',
-                    data: [38.5, 39.2, 40.1, 40.8, 41.2, 41.8, 42.3, 42.5, 42.7, 42.9, 42.9, 42.8],
-                    borderColor: '#007B7F',
-                    backgroundColor: 'rgba(0, 123, 127, 0.2)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 35,
-                        max: 45,
-                        ticks: {
-                            callback: function(value) {
-                                return value + 'k';
                             }
                         }
                     }
