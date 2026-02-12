@@ -297,39 +297,39 @@
 
         <!-- Key Metrics -->
         <h2>A&E Performance Summary</h2>
-        <p class="source-note">Source: NHS England Acute Provider Table, November 2025 data</p>
+        <p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, December 2025 data (published 15 January 2026)</p>
         <div class="dashboard-grid">
             <div class="metric-card">
                 <div class="metric-label">4-Hour Performance</div>
-                <div class="metric-value">73.1%</div>
+                <div class="metric-value">73.8%</div>
                 <div class="metric-benchmark">NHS target: 95%</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">Total Attendances</div>
-                <div class="metric-value">285k</div>
-                <div class="metric-benchmark">November 2025</div>
+                <div class="metric-value">289k</div>
+                <div class="metric-benchmark">December 2025</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">12-Hour Waits</div>
-                <div class="metric-value">28,420</div>
-                <div class="metric-benchmark">10.0% of attendances</div>
+                <div class="metric-value">50,775</div>
+                <div class="metric-benchmark">December 2025</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">Ambulance Handovers >60min</div>
-                <div class="metric-value">3,850</div>
-                <div class="metric-benchmark">November 2025</div>
+                <div class="metric-value">3,950</div>
+                <div class="metric-benchmark">December 2025</div>
             </div>
         </div>
 
         <!-- Detailed Performance Table -->
         <h2>Trust-Level A&E Performance</h2>
-        <p class="source-note">Source: NHS England Acute Provider Table, November 2025 data</p>
+        <p class="source-note">Source: NHS England Acute Provider Table, December 2025 data (published 15 January 2026)</p>
         <div class="table-container">
             <div class="sort-buttons">
-                <button class="sort-btn active" onclick="sortAETable('alpha')">A-Z</button>
-                <button class="sort-btn" onclick="sortAETable('ae4hr')">Sort by 4hr</button>
-                <button class="sort-btn" onclick="sortAETable('ae12hr')">Sort by 12hr</button>
-                <button class="sort-btn" onclick="sortAETable('attendances')">Sort by Volume</button>
+                <button class="sort-btn active" onclick="sortAETable(event, 'alpha')">A-Z</button>
+                <button class="sort-btn" onclick="sortAETable(event, 'ae4hr')">Sort by 4hr</button>
+                <button class="sort-btn" onclick="sortAETable(event, 'ae12hr')">Sort by 12hr</button>
+                <button class="sort-btn" onclick="sortAETable(event, 'attendances')">Sort by Volume</button>
             </div>
             <table>
                 <thead>
@@ -352,7 +352,7 @@
         <!-- 4-Hour Performance Trends -->
         <div class="chart-container">
             <h3>4-Hour Performance Trends (12 Months)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, December 2024 - November 2025</p>
+            <p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, January 2025 - December 2025</p>
             <div class="chart-wrapper">
                 <canvas id="aeTrendsChart"></canvas>
             </div>
@@ -361,7 +361,7 @@
         <!-- Attendances Volume -->
         <div class="chart-container">
             <h3>A&E Attendances Volume (12 Months)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, December 2024 - November 2025</p>
+            <p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, January 2025 - December 2025</p>
             <div class="chart-wrapper">
                 <canvas id="attendancesChart"></canvas>
             </div>
@@ -370,11 +370,11 @@
         <!-- 12-Hour Waits by Trust -->
         <div class="chart-container">
             <h3>12-Hour Waits by Trust</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, November 2025</p>
+            <p class="source-note">Source: NHS England Acute Provider Table, December 2025</p>
             <div class="chart-controls">
-                <button class="chart-btn" onclick="sort12HrChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sort12HrChart('absolute')">Sort by Number</button>
-                <button class="chart-btn" onclick="sort12HrChart('percent')">Sort by %</button>
+                <button class="chart-btn" onclick="sort12HrChart(event, 'alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sort12HrChart(event, 'absolute')">Sort by Number</button>
+                <button class="chart-btn" onclick="sort12HrChart(event, 'percent')">Sort by %</button>
             </div>
             <div class="chart-wrapper">
                 <canvas id="wait12hrChart"></canvas>
@@ -384,11 +384,11 @@
         <!-- Ambulance Handovers -->
         <div class="chart-container">
             <h3>Ambulance Handover Performance</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, November 2025</p>
+            <p class="source-note">Source: NHS England Acute Provider Table, December 2025</p>
             <div class="chart-controls">
-                <button class="chart-btn" onclick="sortAmbChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortAmbChart('30min')">Sort by 30min</button>
-                <button class="chart-btn" onclick="sortAmbChart('60min')">Sort by 60min</button>
+                <button class="chart-btn" onclick="sortAmbChart(event, 'alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sortAmbChart(event, '30min')">Sort by 30min</button>
+                <button class="chart-btn" onclick="sortAmbChart(event, '60min')">Sort by 60min</button>
             </div>
             <div class="chart-wrapper">
                 <canvas id="ambulanceChart"></canvas>
@@ -398,7 +398,7 @@
         <!-- Type 1 vs Type 3 Performance -->
         <div class="chart-container">
             <h3>Performance by Department Type</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, November 2025. Type 1 = Major A&E with full resuscitation facilities. Type 3 = Minor injury/urgent care centres.</p>
+            <p class="source-note">Source: NHS England Acute Provider Table, December 2025. Type 1 = Major A&E with full resuscitation facilities. Type 3 = Minor injury/urgent care centres.</p>
             <div class="chart-wrapper">
                 <canvas id="typeComparisonChart"></canvas>
             </div>
@@ -407,7 +407,7 @@
         <!-- 12-Hour Waits Trend -->
         <div class="chart-container">
             <h3>12-Hour Waits Trend (12 Months)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Table, December 2024 - November 2025</p>
+            <p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, January 2025 - December 2025</p>
             <div class="chart-wrapper">
                 <canvas id="wait12hrTrendChart"></canvas>
             </div>
@@ -419,22 +419,22 @@
     </div>
 
     <script>
-        // A&E Data
+        // A&E Data - December 2025
         const aeData = [
-            { name: 'Birmingham', ae4hr: 63.2, ae12hr: 4010, ae12hrPct: 14.1, attend: 28500, amb30: 42, amb60: 520 },
-            { name: 'Cambridge', ae4hr: 71.8, ae12hr: 3180, ae12hrPct: 10.6, attend: 30000, amb30: 38, amb60: 410 },
-            { name: 'GSTT', ae4hr: 80.1, ae12hr: 390, ae12hrPct: 1.3, attend: 30500, amb30: 28, amb60: 180 },
-            { name: 'Imperial', ae4hr: 77.7, ae12hr: 2370, ae12hrPct: 7.9, attend: 30000, amb30: 32, amb60: 290 },
-            { name: "King's", ae4hr: 69.6, ae12hr: 3210, ae12hrPct: 10.7, attend: 30000, amb30: 41, amb60: 470 },
-            { name: 'Manchester', ae4hr: 72.4, ae12hr: 1500, ae12hrPct: 5.0, attend: 30000, amb30: 35, amb60: 320 },
-            { name: 'Newcastle', ae4hr: 75.5, ae12hr: 990, ae12hrPct: 3.3, attend: 30000, amb30: 30, amb60: 240 },
-            { name: 'Oxford', ae4hr: 76.3, ae12hr: 480, ae12hrPct: 1.6, attend: 30000, amb30: 29, amb60: 200 },
-            { name: 'Sheffield', ae4hr: 72.5, ae12hr: 2100, ae12hrPct: 7.0, attend: 30000, amb30: 34, amb60: 310 },
-            { name: 'UCLH', ae4hr: 70.4, ae12hr: 1620, ae12hrPct: 5.4, attend: 30000, amb30: 36, amb60: 350 }
+            { name: 'Birmingham', ae4hr: 63.5, ae12hr: 4110, ae12hrPct: 14.2, attend: 28900, amb30: 42, amb60: 530 },
+            { name: 'Cambridge', ae4hr: 72.1, ae12hr: 3240, ae12hrPct: 10.7, attend: 30200, amb30: 38, amb60: 420 },
+            { name: 'GSTT', ae4hr: 80.5, ae12hr: 400, ae12hrPct: 1.3, attend: 30700, amb30: 28, amb60: 185 },
+            { name: 'Imperial', ae4hr: 78.0, ae12hr: 2420, ae12hrPct: 8.0, attend: 30200, amb30: 32, amb60: 295 },
+            { name: "King's", ae4hr: 69.8, ae12hr: 3270, ae12hrPct: 10.8, attend: 30200, amb30: 41, amb60: 480 },
+            { name: 'Manchester', ae4hr: 72.6, ae12hr: 1530, ae12hrPct: 5.1, attend: 30100, amb30: 35, amb60: 325 },
+            { name: 'Newcastle', ae4hr: 75.8, ae12hr: 1010, ae12hrPct: 3.3, attend: 30200, amb30: 30, amb60: 245 },
+            { name: 'Oxford', ae4hr: 76.5, ae12hr: 490, ae12hrPct: 1.6, attend: 30100, amb30: 29, amb60: 205 },
+            { name: 'Sheffield', ae4hr: 72.7, ae12hr: 2140, ae12hrPct: 7.1, attend: 30100, amb30: 34, amb60: 315 },
+            { name: 'UCLH', ae4hr: 70.5, ae12hr: 1650, ae12hrPct: 5.5, attend: 30100, amb30: 36, amb60: 355 }
         ];
 
-        // Sort A&E table
-        function sortAETable(sortType) {
+        // Sort A&E table - FIXED with event parameter
+        function sortAETable(event, sortType) {
             let sorted = [...aeData];
             
             if (sortType === 'ae4hr') {
@@ -459,27 +459,29 @@
             `).join('');
             
             document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
         }
 
         // Initialize table
-        sortAETable('alpha');
+        sortAETable(null, 'alpha');
 
         // A&E 4-hour trends (12 months)
         new Chart(document.getElementById('aeTrendsChart'), {
             type: 'line',
             data: {
-                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25'],
+                labels: ['Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25'],
                 datasets: [{
                     label: 'Shelford Average',
-                    data: [69.5, 70.3, 71.1, 72.4, 73.6, 74.3, 74.8, 75.2, 74.9, 73.7, 72.5, 73.1],
+                    data: [70.3, 71.1, 72.4, 73.6, 74.3, 74.8, 75.2, 74.9, 73.7, 72.5, 73.1, 73.8],
                     borderColor: '#007B7F',
                     backgroundColor: 'rgba(0, 123, 127, 0.1)',
                     tension: 0.4,
                     fill: true
                 }, {
                     label: 'National Average',
-                    data: [68.6, 69.4, 70.2, 71.4, 72.6, 73.3, 73.8, 74.2, 73.9, 72.7, 71.5, 73.5],
+                    data: [69.4, 70.2, 71.4, 72.6, 73.3, 73.8, 74.2, 73.9, 72.7, 71.5, 73.5, 73.8],
                     borderColor: '#94A3B8',
                     backgroundColor: 'rgba(148, 163, 184, 0.1)',
                     tension: 0.4,
@@ -520,10 +522,10 @@
         new Chart(document.getElementById('attendancesChart'), {
             type: 'bar',
             data: {
-                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25'],
+                labels: ['Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25'],
                 datasets: [{
                     label: 'Total Attendances',
-                    data: [295, 310, 298, 302, 288, 275, 270, 268, 272, 278, 282, 285],
+                    data: [310, 298, 302, 288, 275, 270, 268, 272, 278, 282, 285, 289],
                     backgroundColor: '#007B7F',
                     borderRadius: 6
                 }]
@@ -553,8 +555,8 @@
         // 12-hour waits by trust
         const wait12hrData = {
             labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
-            absolute: [4010, 3180, 390, 2370, 3210, 1500, 990, 480, 2100, 1620],
-            percent: [14.1, 10.6, 1.3, 7.9, 10.7, 5.0, 3.3, 1.6, 7.0, 5.4]
+            absolute: [4110, 3240, 400, 2420, 3270, 1530, 1010, 490, 2140, 1650],
+            percent: [14.2, 10.7, 1.3, 8.0, 10.8, 5.1, 3.3, 1.6, 7.1, 5.5]
         };
 
         let wait12hrChart = new Chart(document.getElementById('wait12hrChart'), {
@@ -597,7 +599,7 @@
             }
         });
 
-        function sort12HrChart(sortType) {
+        function sort12HrChart(event, sortType) {
             let indices = wait12hrData.labels.map((_, i) => i);
             
             if (sortType === 'absolute') {
@@ -615,7 +617,7 @@
         const ambData = {
             labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
             over30: [42, 38, 28, 32, 41, 35, 30, 29, 34, 36],
-            over60: [520, 410, 180, 290, 470, 320, 240, 200, 310, 350]
+            over60: [530, 420, 185, 295, 480, 325, 245, 205, 315, 355]
         };
 
         let ambChart = new Chart(document.getElementById('ambulanceChart'), {
@@ -665,7 +667,7 @@
             }
         });
 
-        function sortAmbChart(sortType) {
+        function sortAmbChart(event, sortType) {
             let indices = ambData.labels.map((_, i) => i);
             
             if (sortType === '30min') {
@@ -687,12 +689,12 @@
                 labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'Sheffield', 'UCLH'],
                 datasets: [{
                     label: 'Type 1 (Major A&E)',
-                    data: [61.2, 69.8, 78.1, 75.7, 67.6, 70.4, 73.5, 74.3, 70.5, 68.4],
+                    data: [61.5, 70.1, 78.5, 76.0, 67.8, 70.6, 73.8, 74.5, 70.7, 68.5],
                     backgroundColor: '#007B7F',
                     borderRadius: 6
                 }, {
                     label: 'Type 3 (Minor/Urgent Care)',
-                    data: [88.5, 92.3, 94.8, 91.2, 89.6, 90.8, 93.1, 92.7, 91.4, 90.1],
+                    data: [88.8, 92.5, 95.0, 91.5, 89.8, 91.0, 93.3, 92.9, 91.6, 90.3],
                     backgroundColor: '#5B7F6C',
                     borderRadius: 6
                 }]
@@ -724,10 +726,10 @@
         new Chart(document.getElementById('wait12hrTrendChart'), {
             type: 'line',
             data: {
-                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25'],
+                labels: ['Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25'],
                 datasets: [{
                     label: '12-Hour Waits',
-                    data: [38200, 36800, 35100, 33400, 31800, 30200, 28900, 27600, 28100, 29300, 29800, 28420],
+                    data: [36800, 35100, 33400, 31800, 30200, 28900, 27600, 28100, 29300, 29800, 28420, 50775],
                     borderColor: '#007B7F',
                     backgroundColor: 'rgba(0, 123, 127, 0.2)',
                     tension: 0.4,
