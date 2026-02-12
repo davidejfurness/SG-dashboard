@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research & Clinical Trials - Shelford Group Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root { --shelford-teal: #007B7F; --shelford-dark-teal: #005A5D; --shelford-sage: #5B7F6C; --shelford-cream: #FDFBF7; --text-dark: #1A1A1A; --text-mid: #4A4A4A; --border-light: #E5E5E5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--shelford-cream); color: var(--text-dark); line-height: 1.6; padding: 2rem; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 3px solid var(--shelford-teal); }
+        .logo-link { display: inline-block; } .logo { width: 120px; height: auto; }
+        h1 { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; }
+        .subtitle { font-size: 1.1rem; color: var(--text-mid); margin-top: 0.5rem; }
+        h2 { font-size: 1.8rem; color: var(--shelford-dark-teal); margin: 3rem 0 1rem 0; font-weight: 600; }
+        h3 { font-size: 1.3rem; color: var(--shelford-dark-teal); margin: 1rem 0; }
+        .source-note { font-size: 0.9rem; color: var(--text-mid); margin-top: 0.5rem; margin-bottom: 1.5rem; font-style: italic; }
+        nav { background: white; padding: 1rem 2rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); }
+        nav a { color: var(--shelford-teal); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; transition: all 0.2s; display: inline-block; }
+        nav a:hover { background: rgba(0,123,127,0.1); border-radius: 6px; }
+        nav a.active { color: var(--shelford-dark-teal); background: rgba(0,123,127,0.1); border-radius: 6px; font-weight: 600; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .metric-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,123,127,0.08); border-left: 4px solid var(--shelford-teal); }
+        .metric-label { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 0.5rem; font-weight: 500; }
+        .metric-value { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; margin-bottom: 0.25rem; }
+        .metric-benchmark { font-size: 0.85rem; color: var(--text-mid); }
+        .table-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; overflow-x: auto; }
+        .sort-buttons { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .sort-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .sort-btn:hover { background: var(--shelford-dark-teal); } .sort-btn.active { background: var(--shelford-dark-teal); }
+        table { width: 100%; border-collapse: collapse; } thead { background: var(--shelford-teal); color: white; }
+        th { padding: 1rem; text-align: left; font-weight: 600; } td { padding: 1rem; border-bottom: 1px solid var(--border-light); }
+        tbody tr:hover { background: rgba(0,123,127,0.05); } .trust-name { font-weight: 500; }
+        .chart-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; }
+        .chart-wrapper { position: relative; height: 400px; margin-top: 1rem; }
+        .chart-controls { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .chart-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .chart-btn:hover { background: var(--shelford-dark-teal); }
+        .info-box { background: rgba(0,123,127,0.05); border-left: 3px solid var(--shelford-teal); padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem; font-size: 0.95rem; color: var(--text-mid); }
+        .info-box strong { color: var(--shelford-dark-teal); }
+        .future-box { background: rgba(91,127,108,0.08); border: 2px dashed var(--shelford-sage); border-radius: 12px; padding: 2rem; margin-bottom: 3rem; }
+        .future-box h3 { color: var(--shelford-sage); margin-bottom: 0.5rem; }
+        .future-box ul { margin-top: 0.5rem; margin-left: 1.5rem; color: var(--text-mid); }
+        .future-box li { margin-bottom: 0.5rem; }
+        footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-mid); font-size: 0.9rem; }
+        @media (max-width: 768px) { body { padding: 1rem; } h1 { font-size: 1.8rem; } .metric-value { font-size: 2rem; } .chart-wrapper { height: 300px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
+            <div><h1>Research & Clinical Trials</h1><p class="subtitle">Clinical trial setup performance and research activity across the Shelford Group</p></div>
+        </header>
+        <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html" class="active">Research & Clinical Trials</a>
+        </div></nav>
+
+        <div class="info-box">
+            <strong>The 150-day target:</strong> The government's Life Sciences Sector Plan commits to reducing clinical trial setup time to under 150 days by March 2026 — from regulatory submission to first participant recruited. The 150-day clock comprises three stages: MHRA/HRA approval (target: 60 days), site opening after approval (target: 60 days), and first participant recruited after site opening (target: 30 days). The data below relates to the site-level component: whether studies recruited their first participant within 90 days of HRA approval. This is a key NIHR Research Delivery Network performance metric, with funding implications for trusts.
+        </div>
+
+        <h2>Trial Setup Summary – Shelford Group</h2>
+        <p class="source-note">Source: Shelford Group data collection, 12 months to December 2025. Studies that recruited their first participant, and whether recruitment began within 90 days of HRA approval.</p>
+        <div class="dashboard-grid">
+            <div class="metric-card"><div class="metric-label">Total Studies Recruiting (Shelford)</div><div class="metric-value">208</div><div class="metric-benchmark">Across all 10 trusts, 12 months to Dec 2025</div></div>
+            <div class="metric-card"><div class="metric-label">First Participant Within 90 Days</div><div class="metric-value">63</div><div class="metric-benchmark">30.3% of studies met the benchmark</div></div>
+            <div class="metric-card"><div class="metric-label">Shelford 90-Day Achievement Rate</div><div class="metric-value">30.3%</div><div class="metric-benchmark">NIHR target: 90%</div></div>
+        </div>
+
+        <h2>Trust-Level Trial Setup Performance</h2>
+        <p class="source-note">Source: Shelford Group data collection, 12 months to December 2025</p>
+        <div class="table-container">
+            <div class="sort-buttons">
+                <button class="sort-btn active" onclick="sortTable('alpha', event)">A-Z</button>
+                <button class="sort-btn" onclick="sortTable('pct', event)">Sort by % to Target</button>
+                <button class="sort-btn" onclick="sortTable('total', event)">Sort by Total Studies</button>
+                <button class="sort-btn" onclick="sortTable('within', event)">Sort by Within 90 Days</button>
+            </div>
+            <table>
+                <thead><tr><th>Trust</th><th>Total Studies Recruiting</th><th>Within 90 Days</th><th>After 90 Days</th><th>% to Target</th></tr></thead>
+                <tbody id="trialTableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="chart-container"><h3>First Participant Recruited Within 90 Days (% to Target)</h3>
+            <p class="source-note">Source: Shelford Group data collection, 12 months to December 2025. NIHR target is 90%.</p>
+            <div class="chart-controls">
+                <button class="chart-btn" onclick="sortPctChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sortPctChart('highest')">Highest to Lowest</button>
+                <button class="chart-btn" onclick="sortPctChart('lowest')">Lowest to Highest</button>
+            </div>
+            <div class="chart-wrapper"><canvas id="pctChart"></canvas></div>
+        </div>
+
+        <div class="chart-container"><h3>Study Volume and Setup Performance by Trust</h3>
+            <p class="source-note">Source: Shelford Group data collection, 12 months to December 2025. Each bar shows the split between studies that recruited within 90 days (teal) and those that took longer (grey).</p>
+            <div class="chart-controls">
+                <button class="chart-btn" onclick="sortStackedChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sortStackedChart('total')">Sort by Total Volume</button>
+            </div>
+            <div class="chart-wrapper"><canvas id="stackedChart"></canvas></div>
+        </div>
+
+        <h2>Future Additions</h2>
+        <div class="future-box">
+            <h3>Planned data for future updates</h3>
+            <p>This page will be expanded as additional research performance data becomes available. Potential additions include:</p>
+            <ul>
+                <li><strong>NIHR RDN recruitment data</strong> — commercial and non-commercial trial participant numbers by trust (published monthly by NIHR)</li>
+                <li><strong>Commercial trial income</strong> — revenue from industry-sponsored trials (from trust annual reports, available July)</li>
+                <li><strong>Recruitment to time and target</strong> — proportion of commercial trials meeting agreed recruitment targets</li>
+                <li><strong>Trial portfolio size</strong> — number of active studies per trust on the NIHR portfolio</li>
+                <li><strong>Setup time trends</strong> — quarterly tracking of 90-day performance against the March 2026 target</li>
+            </ul>
+        </div>
+
+        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
+    </div>
+
+    <script>
+        const trialData = [
+            { name: 'Birmingham', code: 'RRK', total: 21, within: 5, after: 16, pct: 23.8 },
+            { name: 'Cambridge', code: 'RGT', total: 18, within: 5, after: 13, pct: 27.8 },
+            { name: 'GSTT', code: 'RJ1', total: 21, within: 3, after: 18, pct: 14.3 },
+            { name: 'Imperial', code: 'RYJ', total: 23, within: 8, after: 15, pct: 34.8 },
+            { name: "King's", code: 'RJZ', total: 17, within: 2, after: 15, pct: 11.8 },
+            { name: 'Manchester', code: 'R0A', total: 17, within: 10, after: 7, pct: 58.8 },
+            { name: 'Newcastle', code: 'RTD', total: 29, within: 13, after: 16, pct: 44.8 },
+            { name: 'Oxford', code: 'RTH', total: 21, within: 6, after: 15, pct: 28.6 },
+            { name: 'Sheffield', code: 'RHQ', total: 9, within: 4, after: 5, pct: 44.4 },
+            { name: 'UCLH', code: 'RRV', total: 32, within: 7, after: 25, pct: 21.9 }
+        ];
+
+        // Table
+        function sortTable(sortType, e) {
+            let sorted = [...trialData];
+            if (sortType === 'pct') sorted.sort((a, b) => b.pct - a.pct);
+            else if (sortType === 'total') sorted.sort((a, b) => b.total - a.total);
+            else if (sortType === 'within') sorted.sort((a, b) => b.within - a.within);
+            document.getElementById('trialTableBody').innerHTML = sorted.map(t =>
+                '<tr><td class="trust-name">' + t.name + '</td><td>' + t.total + '</td><td>' + t.within + '</td><td>' + t.after + '</td><td>' + t.pct.toFixed(1) + '%</td></tr>'
+            ).join('');
+            if (e) { document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
+        }
+        sortTable('alpha', null);
+
+        // Percentage chart
+        const pctData = { labels: trialData.map(d => d.name), values: trialData.map(d => d.pct) };
+        let pctChart = new Chart(document.getElementById('pctChart'), {
+            type: 'bar',
+            data: {
+                labels: [...pctData.labels],
+                datasets: [{
+                    label: '% First Participant Within 90 Days',
+                    data: [...pctData.values],
+                    backgroundColor: pctData.values.map(v => v >= 90 ? '#10B981' : v >= 50 ? '#F59E0B' : '#007B7F'),
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    annotation: {}
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } }
+                }
+            },
+            plugins: [{
+                id: 'targetLine',
+                afterDraw(chart) {
+                    const ctx = chart.ctx;
+                    const yScale = chart.scales.y;
+                    const y = yScale.getPixelForValue(90);
+                    ctx.save();
+                    ctx.strokeStyle = '#EF4444';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([6, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(chart.chartArea.left, y);
+                    ctx.lineTo(chart.chartArea.right, y);
+                    ctx.stroke();
+                    ctx.fillStyle = '#EF4444';
+                    ctx.font = '12px -apple-system, sans-serif';
+                    ctx.fillText('NIHR Target: 90%', chart.chartArea.right - 120, y - 8);
+                    ctx.restore();
+                }
+            }]
+        });
+        function sortPctChart(sortType) {
+            let indices = pctData.labels.map((_, i) => i);
+            if (sortType === 'highest') indices.sort((a, b) => pctData.values[b] - pctData.values[a]);
+            else if (sortType === 'lowest') indices.sort((a, b) => pctData.values[a] - pctData.values[b]);
+            pctChart.data.labels = indices.map(i => pctData.labels[i]);
+            pctChart.data.datasets[0].data = indices.map(i => pctData.values[i]);
+            pctChart.data.datasets[0].backgroundColor = indices.map(i => pctData.values[i] >= 90 ? '#10B981' : pctData.values[i] >= 50 ? '#F59E0B' : '#007B7F');
+            pctChart.update();
+        }
+
+        // Stacked volume chart
+        const stackedData = {
+            labels: trialData.map(d => d.name),
+            within: trialData.map(d => d.within),
+            after: trialData.map(d => d.after)
+        };
+        let stackedChart = new Chart(document.getElementById('stackedChart'), {
+            type: 'bar',
+            data: {
+                labels: [...stackedData.labels],
+                datasets: [
+                    { label: 'Within 90 Days', data: [...stackedData.within], backgroundColor: '#007B7F', borderRadius: { topLeft: 0, topRight: 0, bottomLeft: 6, bottomRight: 6 } },
+                    { label: 'After 90 Days', data: [...stackedData.after], backgroundColor: '#CBD5E1', borderRadius: { topLeft: 6, topRight: 6, bottomLeft: 0, bottomRight: 0 } }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            footer: function(items) {
+                                const idx = items[0].dataIndex;
+                                const total = stackedChart.data.datasets[0].data[idx] + stackedChart.data.datasets[1].data[idx];
+                                const within = stackedChart.data.datasets[0].data[idx];
+                                return 'Total: ' + total + ' | ' + (within / total * 100).toFixed(1) + '% within 90 days';
+                            }
+                        }
+                    }
+                },
+                scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } }
+            }
+        });
+        function sortStackedChart(sortType) {
+            let indices = stackedData.labels.map((_, i) => i);
+            if (sortType === 'total') {
+                const totals = stackedData.labels.map((_, i) => stackedData.within[i] + stackedData.after[i]);
+                indices.sort((a, b) => totals[b] - totals[a]);
+            }
+            stackedChart.data.labels = indices.map(i => stackedData.labels[i]);
+            stackedChart.data.datasets[0].data = indices.map(i => stackedData.within[i]);
+            stackedChart.data.datasets[1].data = indices.map(i => stackedData.after[i]);
+            stackedChart.update();
+        }
+    </script>
+</body>
+</html>
