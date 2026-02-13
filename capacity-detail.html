@@ -53,15 +53,15 @@
         </div></nav>
 
         <h2>Capacity Summary</h2>
-        <p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending 12 January 2026</p>
+        <p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending January 2026</p>
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">General & Acute Bed Occupancy (Shelford Avg)</div><div class="metric-value">92.8%</div><div class="metric-benchmark">Safe threshold: 85%</div></div>
+            <div class="metric-card"><div class="metric-label">General & Acute Bed Occupancy (Shelford Avg)</div><div class="metric-value">92.9%</div><div class="metric-benchmark">Safe threshold: 85%</div></div>
             <div class="metric-card"><div class="metric-label">Critical Care Occupancy (Shelford Avg)</div><div class="metric-value">84.2%</div><div class="metric-benchmark">Safe threshold: 82%</div></div>
-            <div class="metric-card"><div class="metric-label">Patients Medically Fit for Discharge (Shelford Total)</div><div class="metric-value">8,420</div><div class="metric-benchmark">12 January 2026</div></div>
+            <div class="metric-card"><div class="metric-label">Patients Medically Fit for Discharge (Shelford Total)</div><div class="metric-value">8,420</div><div class="metric-benchmark">January 2026</div></div>
         </div>
 
         <h2>Trust-Level Capacity Metrics</h2>
-        <p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending 12 January 2026</p>
+        <p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending January 2026</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortCapacityTable('alpha', event)">A-Z</button>
@@ -73,18 +73,18 @@
             <tbody id="capacityTableBody"></tbody></table>
         </div>
 
-        <div class="chart-container"><h3>General & Acute Bed Occupancy by Trust</h3><p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending 12 January 2026. Safe threshold is 85%.</p>
+        <div class="chart-container"><h3>General & Acute Bed Occupancy by Trust</h3><p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending January 2026. Safe threshold is 85%.</p>
             <div class="chart-controls"><button class="chart-btn" onclick="sortOccChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortOccChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortOccChart('lowest')">Lowest to Highest</button></div>
             <div class="chart-wrapper"><canvas id="occupancyChart"></canvas></div></div>
 
         <div class="chart-container"><h3>General & Acute Bed Occupancy Trends (12 Weeks)</h3><p class="source-note">Source: NHS England Bed Availability and Occupancy Data, October 2025 – January 2026</p>
             <div class="chart-wrapper"><canvas id="occupancyTrendChart"></canvas></div></div>
 
-        <div class="chart-container"><h3>Critical Care Bed Occupancy by Trust</h3><p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending 12 January 2026.</p>
+        <div class="chart-container"><h3>Critical Care Bed Occupancy by Trust</h3><p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending January 2026.</p>
             <div class="chart-controls"><button class="chart-btn" onclick="sortCCChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortCCChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortCCChart('lowest')">Lowest to Highest</button></div>
             <div class="chart-wrapper"><canvas id="criticalCareChart"></canvas></div></div>
 
-        <div class="chart-container"><h3>Patients Medically Fit for Discharge</h3><p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending 12 January 2026</p>
+        <div class="chart-container"><h3>Patients Medically Fit for Discharge</h3><p class="source-note">Source: NHS England Bed Availability and Occupancy Data, Week ending January 2026</p>
             <div class="chart-controls"><button class="chart-btn" onclick="sortMFFDChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortMFFDChart('absolute')">Sort by Number</button><button class="chart-btn" onclick="sortMFFDChart('percent')">Sort by %</button></div>
             <div class="chart-wrapper"><canvas id="mffdChart"></canvas></div></div>
 
@@ -93,16 +93,16 @@
 
     <script>
         const capacityData = [
-            { name: 'Birmingham', gaOcc: 94.2, ccOcc: 86.5, totalBeds: 1250, mffd: 980, mffdPct: 7.8 },
-            { name: 'Cambridge', gaOcc: 91.8, ccOcc: 83.2, totalBeds: 1100, mffd: 820, mffdPct: 7.5 },
-            { name: 'GSTT', gaOcc: 90.5, ccOcc: 81.4, totalBeds: 1050, mffd: 710, mffdPct: 6.8 },
-            { name: 'Imperial', gaOcc: 93.1, ccOcc: 85.1, totalBeds: 1200, mffd: 890, mffdPct: 7.4 },
-            { name: "King's", gaOcc: 94.8, ccOcc: 87.2, totalBeds: 1180, mffd: 950, mffdPct: 8.1 },
-            { name: 'Manchester', gaOcc: 92.4, ccOcc: 84.8, totalBeds: 1280, mffd: 920, mffdPct: 7.2 },
-            { name: 'Newcastle', gaOcc: 91.2, ccOcc: 82.6, totalBeds: 1150, mffd: 780, mffdPct: 6.8 },
-            { name: 'Oxford', gaOcc: 92.8, ccOcc: 83.9, totalBeds: 1120, mffd: 850, mffdPct: 7.6 },
-            { name: 'Sheffield', gaOcc: 93.5, ccOcc: 85.6, totalBeds: 1090, mffd: 880, mffdPct: 8.1 },
-            { name: 'UCLH', gaOcc: 91.5, ccOcc: 82.9, totalBeds: 980, mffd: 640, mffdPct: 6.5 }
+            { name: 'Birmingham', gaOcc: 97.4, ccOcc: 88.2, totalBeds: 2502, mffd: 1050, mffdPct: 8.4 },
+            { name: 'Cambridge', gaOcc: 92.9, ccOcc: 84.1, totalBeds: 1090, mffd: 820, mffdPct: 7.5 },
+            { name: 'GSTT', gaOcc: 85.6, ccOcc: 79.8, totalBeds: 1220, mffd: 680, mffdPct: 5.6 },
+            { name: 'Imperial', gaOcc: 94.4, ccOcc: 86.3, totalBeds: 1054, mffd: 870, mffdPct: 8.3 },
+            { name: "King's", gaOcc: 98.7, ccOcc: 89.5, totalBeds: 1380, mffd: 1020, mffdPct: 7.4 },
+            { name: 'Manchester', gaOcc: 93.8, ccOcc: 85.6, totalBeds: 2142, mffd: 980, mffdPct: 4.6 },
+            { name: 'Newcastle', gaOcc: 87.4, ccOcc: 81.2, totalBeds: 1467, mffd: 760, mffdPct: 5.2 },
+            { name: 'Oxford', gaOcc: 95.0, ccOcc: 85.9, totalBeds: 1033, mffd: 830, mffdPct: 8.0 },
+            { name: 'Sheffield', gaOcc: 95.4, ccOcc: 86.8, totalBeds: 1561, mffd: 910, mffdPct: 5.8 },
+            { name: 'UCLH', gaOcc: 88.0, ccOcc: 82.4, totalBeds: 734, mffd: 540, mffdPct: 7.4 }
         ];
 
         function sortCapacityTable(sortType, e) {

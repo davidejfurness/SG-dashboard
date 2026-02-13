@@ -293,13 +293,13 @@
                 <a href="cancer-detail.html" class="active">Cancer Services</a>
                 <a href="quality-detail.html">Patient Safety & Quality</a>
                 <a href="capacity-detail.html">Capacity &amp; Beds</a>
-                <a href="workforce-detail.html">Workforce</a>
+                <a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research &amp; Clinical Trials</a>
             </div>
         </nav>
 
         <!-- Key Metrics -->
         <h2>Cancer Waiting Times Summary</h2>
-        <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025 (published January 2026)</p>
+        <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025 (published January 2026)</p>
         <div class="dashboard-grid">
             <div class="metric-card">
                 <div class="metric-label">Two Week Wait (Suspected Cancer)</div>
@@ -325,7 +325,7 @@
 
         <!-- Detailed Performance Table -->
         <h2>Trust-Level Cancer Performance</h2>
-        <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025 (published January 2026)</p>
+        <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025 (published January 2026)</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortCancerTable('alpha', event)">A-Z</button>
@@ -353,7 +353,7 @@
         <!-- Two Week Wait by Trust -->
         <div class="chart-container">
             <h3>Two Week Wait Performance by Trust</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025. Standard: 93%.</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025. Standard: 93%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortTwoWeekChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortTwoWeekChart('highest')">Highest to Lowest</button>
@@ -367,7 +367,7 @@
         <!-- 28-Day Faster Diagnosis Standard -->
         <div class="chart-container">
             <h3>28-Day Faster Diagnosis Standard by Trust</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025. Standard: 75%.</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025. Standard: 75%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortFDSChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortFDSChart('highest')">Highest to Lowest</button>
@@ -381,7 +381,7 @@
         <!-- 62-Day GP Referral to Treatment -->
         <div class="chart-container">
             <h3>62-Day GP Referral to First Treatment by Trust</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025. Standard: 85%.</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025. Standard: 85%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortSixtyTwoChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortSixtyTwoChart('highest')">Highest to Lowest</button>
@@ -395,7 +395,7 @@
         <!-- Cancer Waiting Times Trends -->
         <div class="chart-container">
             <h3>62-Day Standard Trends (12 Months)</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2024 - November 2025</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2024 - December 2025</p>
             <div class="chart-wrapper">
                 <canvas id="cancerTrendChart"></canvas>
             </div>
@@ -404,7 +404,7 @@
         <!-- 31-Day Sub-Standards -->
         <div class="chart-container">
             <h3>31-Day Treatment Standards by Trust</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, November 2025. Shows surgery, drug and radiotherapy sub-standards.</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025. Shows surgery, drug and radiotherapy sub-standards.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortThirtyOneChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortThirtyOneChart('surgery')">Sort by Surgery</button>
@@ -418,7 +418,7 @@
         <!-- Two Week Wait Trends -->
         <div class="chart-container">
             <h3>Two Week Wait & 28-Day FDS Trends (12 Months)</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2024 - November 2025</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2024 - December 2025</p>
             <div class="chart-wrapper">
                 <canvas id="twwTrendChart"></canvas>
             </div>
@@ -430,7 +430,7 @@
     </div>
 
     <script>
-        // Cancer Performance Data - November 2025
+        // Cancer Performance Data - December 2025
         const cancerData = [
             { name: 'Birmingham', twoWeek: 78.2, fds: 70.5, thirtyOne: 92.8, sixtyTwo: 59.4, surg: 89.2, drug: 98.5, radio: 96.1 },
             { name: 'Cambridge', twoWeek: 83.1, fds: 75.8, thirtyOne: 95.2, sixtyTwo: 65.8, surg: 92.4, drug: 99.1, radio: 97.8 },

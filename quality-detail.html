@@ -54,10 +54,10 @@
 
         <!-- KPIs - FFT first, then infection -->
         <h2>Patient Experience & Safety Summary</h2>
-        <p class="source-note">Source: NHS England Friends & Family Test December 2025; HCAI Data Q3 2025/26</p>
+        <p class="source-note">Source: NHS England Friends & Family Test December 2025 (trust-level data); HCAI Data Q3 2025/26</p>
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">FFT: A&E Recommend</div><div class="metric-value">82.4%</div><div class="metric-benchmark">Shelford average, December 2025</div></div>
-            <div class="metric-card"><div class="metric-label">FFT: Inpatient Recommend</div><div class="metric-value">94.6%</div><div class="metric-benchmark">Shelford average, December 2025</div></div>
+            <div class="metric-card"><div class="metric-label">FFT: A&E Recommend</div><div class="metric-value">80.7%</div><div class="metric-benchmark">Shelford average, December 2025</div></div>
+            <div class="metric-card"><div class="metric-label">FFT: Inpatient Recommend</div><div class="metric-value">94.9%</div><div class="metric-benchmark">Shelford average, December 2025</div></div>
             <div class="metric-card"><div class="metric-label">C. difficile Rate</div><div class="metric-value">13.8</div><div class="metric-benchmark">Per 100,000 bed days (Q3)</div></div>
             <div class="metric-card"><div class="metric-label">MRSA Bacteremia</div><div class="metric-value">8</div><div class="metric-benchmark">Total cases (Q3)</div></div>
         </div>
@@ -102,16 +102,16 @@
 
     <script>
         const qualityData = [
-            { name: 'Birmingham', cdiff: 15.2, mrsa: 1, ecoli: 18, fftAE: 80.2, fftIP: 93.8 },
-            { name: 'Cambridge', cdiff: 12.8, mrsa: 1, ecoli: 16, fftAE: 83.5, fftIP: 95.2 },
-            { name: 'GSTT', cdiff: 11.4, mrsa: 0, ecoli: 14, fftAE: 85.1, fftIP: 96.1 },
-            { name: 'Imperial', cdiff: 13.6, mrsa: 1, ecoli: 17, fftAE: 84.2, fftIP: 95.4 },
-            { name: "King's", cdiff: 14.8, mrsa: 2, ecoli: 19, fftAE: 79.8, fftIP: 93.2 },
-            { name: 'Manchester', cdiff: 13.2, mrsa: 1, ecoli: 16, fftAE: 81.6, fftIP: 94.1 },
-            { name: 'Newcastle', cdiff: 12.1, mrsa: 0, ecoli: 15, fftAE: 83.8, fftIP: 95.8 },
-            { name: 'Oxford', cdiff: 14.2, mrsa: 1, ecoli: 17, fftAE: 82.4, fftIP: 94.7 },
-            { name: 'Sheffield', cdiff: 13.9, mrsa: 1, ecoli: 18, fftAE: 81.2, fftIP: 94.3 },
-            { name: 'UCLH', cdiff: 12.6, mrsa: 0, ecoli: 15, fftAE: 84.6, fftIP: 95.6 }
+            { name: 'Birmingham', cdiff: 15.2, mrsa: 1, ecoli: 18, fftAE: 71.5, fftIP: 92.3 },
+            { name: 'Cambridge', cdiff: 12.8, mrsa: 1, ecoli: 16, fftAE: 82.6, fftIP: 94.6 },
+            { name: 'GSTT', cdiff: 11.4, mrsa: 0, ecoli: 14, fftAE: 88.2, fftIP: 96.1 },
+            { name: 'Imperial', cdiff: 13.6, mrsa: 1, ecoli: 17, fftAE: 85.8, fftIP: 95.9 },
+            { name: "King's", cdiff: 14.8, mrsa: 2, ecoli: 19, fftAE: 74.9, fftIP: 95.7 },
+            { name: 'Manchester', cdiff: 13.2, mrsa: 1, ecoli: 16, fftAE: 84.4, fftIP: 97.5 },
+            { name: 'Newcastle', cdiff: 12.1, mrsa: 0, ecoli: 15, fftAE: 73.7, fftIP: 96.0 },
+            { name: 'Oxford', cdiff: 14.2, mrsa: 1, ecoli: 17, fftAE: 84.1, fftIP: 94.0 },
+            { name: 'Sheffield', cdiff: 13.9, mrsa: 1, ecoli: 18, fftAE: 76.6, fftIP: 90.4 },
+            { name: 'UCLH', cdiff: 12.6, mrsa: 0, ecoli: 15, fftAE: 85.3, fftIP: 96.4 }
         ];
 
         function sortQualityTable(sortType, e) {
@@ -128,7 +128,7 @@
         sortQualityTable('alpha', null);
 
         // FFT Chart
-        new Chart(document.getElementById('fftChart'), { type: 'bar', data: { labels: qualityData.map(d=>d.name), datasets: [{ label: 'A&E Recommend %', data: qualityData.map(d=>d.fftAE), backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'Inpatient Recommend %', data: qualityData.map(d=>d.fftIP), backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 75, max: 100, ticks: { callback: v => v+'%' } } } } });
+        new Chart(document.getElementById('fftChart'), { type: 'bar', data: { labels: qualityData.map(d=>d.name), datasets: [{ label: 'A&E Recommend %', data: qualityData.map(d=>d.fftAE), backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'Inpatient Recommend %', data: qualityData.map(d=>d.fftIP), backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 65, max: 100, ticks: { callback: v => v+'%' } } } } });
 
         // C.diff chart
         const cdiffData = { labels: qualityData.map(d=>d.name), values: qualityData.map(d=>d.cdiff) };
