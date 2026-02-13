@@ -76,7 +76,7 @@
         </div></nav>
 
         <h2>Key Performance Indicators – Shelford Group Averages</h2>
-        <p class="source-note">Source: NHS England Acute Provider Table, January 2026 data. Figures are averages across all 10 Shelford Group trusts.</p>
+        <p class="source-note">Source: NHS England Acute Provider Table, December 2025/January 2026 (published 12 February 2026). Figures are averages across all 10 Shelford Group trusts.</p>
         <div class="dashboard-grid">
             <div class="metric-card">
                 <div class="metric-label">A&E 4-Hour Standard (Shelford Avg)</div>
@@ -101,7 +101,7 @@
         </div>
 
         <h2>Trust Performance Comparison</h2>
-        <p class="source-note">Source: NHS England Acute Provider Table, January 2026 data. Click any column sort button again to reverse the order.</p>
+        <p class="source-note">Source: NHS England Acute Provider Table, December 2025/January 2026 (published 12 February 2026). Click any column sort button again to reverse the order.</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortTable('alpha')">A-Z</button>
@@ -141,16 +141,16 @@
 
     <script>
         const trustData = [
-            { name: 'Birmingham', rtt: 61.5, ae4hr: 61.1, cancer62: 68.6, fds: 83.4, diag: 42.1 },
-            { name: 'Cambridge', rtt: 59.5, ae4hr: 67.9, cancer62: 74.0, fds: 85.5, diag: 23.6 },
-            { name: 'GSTT', rtt: 66.3, ae4hr: 76.1, cancer62: 63.6, fds: 82.2, diag: 40.2 },
-            { name: 'Imperial', rtt: 64.2, ae4hr: 75.5, cancer62: 70.6, fds: 82.5, diag: 13.7 },
-            { name: "King's", rtt: 63.9, ae4hr: 67.5, cancer62: 65.2, fds: 74.9, diag: 42.5 },
-            { name: 'Manchester', rtt: 56.1, ae4hr: 71.6, cancer62: 73.3, fds: 80.3, diag: 13.5 },
-            { name: 'Newcastle', rtt: 71.4, ae4hr: 75.9, cancer62: 73.4, fds: 67.7, diag: 20.6 },
-            { name: 'Oxford', rtt: 59.9, ae4hr: 77.6, cancer62: 67.5, fds: 80.4, diag: 23.4 },
-            { name: 'Sheffield', rtt: 66.0, ae4hr: 67.4, cancer62: 50.5, fds: 75.2, diag: 35.3 },
-            { name: 'UCLH', rtt: 59.2, ae4hr: 69.1, cancer62: 76.7, fds: 82.9, diag: 22.4 }
+            { name: 'Birmingham', rtt: 61.5, ae: 61.1, cancer: 68.6, fds: 83.4, diagnostic: 42.1 },
+            { name: 'Cambridge', rtt: 59.5, ae: 67.9, cancer: 74.0, fds: 85.5, diagnostic: 23.6 },
+            { name: 'GSTT', rtt: 66.3, ae: 76.1, cancer: 63.6, fds: 82.2, diagnostic: 40.2 },
+            { name: 'Imperial', rtt: 64.2, ae: 75.5, cancer: 70.6, fds: 82.5, diagnostic: 13.7 },
+            { name: "King's", rtt: 63.9, ae: 67.5, cancer: 65.2, fds: 74.9, diagnostic: 42.5 },
+            { name: 'Manchester', rtt: 56.1, ae: 71.6, cancer: 73.3, fds: 80.3, diagnostic: 13.5 },
+            { name: 'Newcastle', rtt: 71.4, ae: 75.9, cancer: 73.4, fds: 67.7, diagnostic: 20.6 },
+            { name: 'Oxford', rtt: 59.9, ae: 77.6, cancer: 67.5, fds: 80.4, diagnostic: 23.4 },
+            { name: 'Sheffield', rtt: 66.0, ae: 67.4, cancer: 50.5, fds: 75.2, diagnostic: 35.3 },
+            { name: 'UCLH', rtt: 59.2, ae: 69.1, cancer: 76.7, fds: 82.9, diagnostic: 22.4 }
         ];
 
         let currentSortField = 'alpha';
