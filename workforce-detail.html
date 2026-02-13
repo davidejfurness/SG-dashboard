@@ -98,23 +98,6 @@
             </table>
         </div>
 
-        <!-- Bank & Agency Spending -->
-        <h2>Bank & Agency Staff Spending</h2>
-        <p class="source-note">Source: NHS England Financial Performance Updates; GOV.UK (June 2025)</p>
-        <div class="info-box">
-            <strong>National context:</strong> NHS agency spending fell to approximately £2.1 billion in 2024/25 – a reduction of nearly £1 billion from the previous year, and down 40% from the 2022/23 peak of £3.5 billion. Trusts have been set targets to reduce agency spending by a further 30% and bank staffing costs by 10% in 2025/26. Total bank staff spending was approximately £6 billion in 2023/24.
-        </div>
-        <div class="info-box">
-            <strong>Trust-level data:</strong> Comparable trust-level bank and agency spending figures are not published in a single NHS England dataset. The figures below are illustrative estimates based on the national profile. Precise trust-level data can be sourced from individual trust annual reports and accounts (typically published July each year) or via FOI requests. We are exploring options for incorporating actual Shelford trust data in future updates.
-        </div>
-
-        <div class="chart-container"><h3>Estimated Agency Spend as % of Total Pay Bill</h3><p class="source-note">Illustrative estimates based on national trends and trust size profiles. For confirmed figures, refer to individual trust annual reports.</p>
-            <div class="chart-controls"><button class="chart-btn" onclick="sortAgencyChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortAgencyChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortAgencyChart('lowest')">Lowest to Highest</button></div>
-            <div class="chart-wrapper"><canvas id="agencyChart"></canvas></div></div>
-
-        <div class="chart-container"><h3>National Agency Spending Trend</h3><p class="source-note">Source: NHS England Financial Performance Updates, GOV.UK. National figures in £ billions.</p>
-            <div class="chart-wrapper"><canvas id="agencyTrendChart"></canvas></div></div>
-
         <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
 
@@ -189,24 +172,6 @@
             recommendChart.data.datasets[0].data = indices.map(i => staffSurvey.recommend[i]);
             recommendChart.update();
         }
-
-        // Bank/Agency - illustrative estimates
-        const agencyData = {
-            labels: ['Birmingham','Cambridge','GSTT','Imperial',"King's",'Manchester','Newcastle','Oxford','Sheffield','UCLH'],
-            pctPay: [4.2, 3.1, 2.8, 3.5, 4.5, 3.3, 2.6, 3.8, 3.9, 3.0]
-        };
-        let agencyChart = new Chart(document.getElementById('agencyChart'), { type: 'bar', data: { labels: [...agencyData.labels], datasets: [{ label: 'Agency Spend (% of Pay Bill)', data: [...agencyData.pctPay], backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 6, ticks: { callback: v => v+'%' } } } } });
-        function sortAgencyChart(sortType) {
-            let indices = agencyData.labels.map((_,i) => i);
-            if (sortType === 'highest') indices.sort((a,b) => agencyData.pctPay[b] - agencyData.pctPay[a]);
-            else if (sortType === 'lowest') indices.sort((a,b) => agencyData.pctPay[a] - agencyData.pctPay[b]);
-            agencyChart.data.labels = indices.map(i => agencyData.labels[i]);
-            agencyChart.data.datasets[0].data = indices.map(i => agencyData.pctPay[i]);
-            agencyChart.update();
-        }
-
-        // National agency trend
-        new Chart(document.getElementById('agencyTrendChart'), { type: 'line', data: { labels: ['2019/20','2020/21','2021/22','2022/23','2023/24','2024/25'], datasets: [{ label: 'Agency Spend (£bn)', data: [2.4, 2.7, 3.2, 3.5, 3.0, 2.1], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.2)', tension: 0.4, fill: true, pointRadius: 5 },{ label: 'Bank Spend (£bn)', data: [4.2, 4.8, 5.4, 5.8, 6.0, 5.8], borderColor: '#5B7F6C', backgroundColor: 'rgba(91,127,108,0.1)', tension: 0.4, fill: true, pointRadius: 5 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, max: 7, ticks: { callback: v => '£'+v+'bn' } } } } });
     </script>
 </body>
 </html>
