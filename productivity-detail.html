@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity - Shelford Group Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root { --shelford-teal: #007B7F; --shelford-dark-teal: #005A5D; --shelford-sage: #5B7F6C; --shelford-cream: #FDFBF7; --text-dark: #1A1A1A; --text-mid: #4A4A4A; --border-light: #E5E5E5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--shelford-cream); color: var(--text-dark); line-height: 1.6; padding: 2rem; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 3px solid var(--shelford-teal); }
+        .logo-link { display: inline-block; } .logo { width: 120px; height: auto; }
+        h1 { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; }
+        .subtitle { font-size: 1.1rem; color: var(--text-mid); margin-top: 0.5rem; }
+        h2 { font-size: 1.8rem; color: var(--shelford-dark-teal); margin: 3rem 0 1rem 0; font-weight: 600; }
+        h3 { font-size: 1.3rem; color: var(--shelford-dark-teal); margin: 1rem 0; }
+        .source-note { font-size: 0.9rem; color: var(--text-mid); margin-top: 0.5rem; margin-bottom: 1.5rem; font-style: italic; }
+        nav { background: white; padding: 1rem 2rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); }
+        nav a { color: var(--shelford-teal); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; transition: all 0.2s; display: inline-block; }
+        nav a:hover { background: rgba(0,123,127,0.1); border-radius: 6px; }
+        nav a.active { color: var(--shelford-dark-teal); background: rgba(0,123,127,0.1); border-radius: 6px; font-weight: 600; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .metric-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,123,127,0.08); border-left: 4px solid var(--shelford-teal); }
+        .metric-label { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 0.5rem; font-weight: 500; }
+        .metric-value { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; margin-bottom: 0.25rem; }
+        .metric-value.positive { color: #059669; }
+        .metric-benchmark { font-size: 0.85rem; color: var(--text-mid); }
+        .info-box { background: rgba(0,123,127,0.05); border-left: 3px solid var(--shelford-teal); padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem; font-size: 0.95rem; color: var(--text-mid); }
+        .info-box strong { color: var(--shelford-dark-teal); }
+        .table-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; overflow-x: auto; }
+        .sort-buttons { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .sort-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .sort-btn:hover { background: var(--shelford-dark-teal); } .sort-btn.active { background: var(--shelford-dark-teal); }
+        table { width: 100%; border-collapse: collapse; } thead { background: var(--shelford-teal); color: white; }
+        th { padding: 1rem; text-align: left; font-weight: 600; } td { padding: 1rem; border-bottom: 1px solid var(--border-light); }
+        tbody tr:hover { background: rgba(0,123,127,0.05); } .trust-name { font-weight: 500; }
+        .positive { color: #059669; } .negative { color: #DC2626; }
+        .chart-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; }
+        .chart-wrapper { position: relative; height: 400px; margin-top: 1rem; }
+        .chart-controls { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .chart-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .chart-btn:hover { background: var(--shelford-dark-teal); }
+        .data-note { background: #FEF3C7; border-left: 3px solid #F59E0B; padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-mid); }
+        footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-mid); font-size: 0.9rem; }
+        @media (max-width: 768px) { body { padding: 1rem; } h1 { font-size: 1.8rem; } .metric-value { font-size: 2rem; } .chart-wrapper { height: 300px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
+            <div><h1>NHS Productivity</h1><p class="subtitle">Trust-level productivity growth estimates from the new NHS England measure</p></div>
+        </header>
+        <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research & Clinical Trials</a><a href="productivity-detail.html" class="active">Productivity</a>
+        </div></nav>
+
+        <div class="info-box">
+            <strong>About this measure:</strong> This is the new NHS England trust-level productivity growth estimate, first published 12 February 2026. It compares cost-weighted activity growth (outputs) with real-terms resource growth (inputs). The Spending Review 2025 sets a target of <strong>2% year-on-year productivity growth</strong>, with the aim of returning to pre-pandemic productivity levels by the end of the parliament. Figures are year-to-date (YTD), comparing April–October 2025 with the same period in 2024/25. This is experimental management information — see the <a href="https://www.england.nhs.uk/long-read/nhs-productivity-growth-estimate-2025-26-methodology/" style="color: var(--shelford-teal);">full methodology</a>.
+        </div>
+
+        <div class="data-note">
+            <strong>Interpretation note:</strong> These estimates are provisional and subject to revision as trusts restate activity data. Sheffield's early-month figures show high volatility likely reflecting data restatement effects. The October YTD figure (the most complete) is the most reliable for each trust.
+        </div>
+
+        <h2>Headline Productivity – October 2025 YTD</h2>
+        <p class="source-note">Source: NHS England Productivity Growth Estimate, April–October 2025 (published 12 February 2026)</p>
+        <div class="dashboard-grid">
+            <div class="metric-card"><div class="metric-label">Shelford Group Average</div><div class="metric-value positive">+4.5%</div><div class="metric-benchmark">Productivity growth, Apr–Oct 2025 YTD</div></div>
+            <div class="metric-card"><div class="metric-label">England Average</div><div class="metric-value positive">+3.5%</div><div class="metric-benchmark">All NHS providers, same period</div></div>
+            <div class="metric-card"><div class="metric-label">Spending Review Target</div><div class="metric-value">2.0%</div><div class="metric-benchmark">Year-on-year target from SR25</div></div>
+            <div class="metric-card"><div class="metric-label">Acute & Specialist (National)</div><div class="metric-value positive">+2.8%</div><div class="metric-benchmark">Provider type benchmark</div></div>
+        </div>
+
+        <h2>Trust-Level Productivity Growth</h2>
+        <p class="source-note">Source: NHS England Productivity Growth Estimate, October 2025 YTD (published 12 February 2026). All figures are provisional.</p>
+        <div class="table-container">
+            <div class="sort-buttons">
+                <button class="sort-btn active" onclick="sortTable('alpha', event)">A-Z</button>
+                <button class="sort-btn" onclick="sortTable('productivity', event)">Productivity</button>
+                <button class="sort-btn" onclick="sortTable('output', event)">Output Growth</button>
+                <button class="sort-btn" onclick="sortTable('input', event)">Input Growth</button>
+            </div>
+            <table>
+                <thead><tr><th>Trust</th><th>Productivity Growth</th><th>Output Growth (CWA)</th><th>Input Growth (Resource)</th></tr></thead>
+                <tbody id="prodTableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="chart-container">
+            <h3>Productivity Growth by Trust – October 2025 YTD</h3>
+            <p class="source-note">Source: NHS England Productivity Growth Estimate. Dashed line = 2% Spending Review target. England average = 3.5%.</p>
+            <div class="chart-controls">
+                <button class="chart-btn" onclick="sortProdChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sortProdChart('highest')">Highest to Lowest</button>
+                <button class="chart-btn" onclick="sortProdChart('lowest')">Lowest to Highest</button>
+            </div>
+            <div class="chart-wrapper"><canvas id="prodChart"></canvas></div>
+        </div>
+
+        <div class="chart-container">
+            <h3>Output Growth vs Input Growth – October 2025 YTD</h3>
+            <p class="source-note">Source: NHS England Productivity Growth Estimate. Productivity is positive when the teal bar (output) exceeds the grey bar (input). All Shelford trusts show output exceeding input.</p>
+            <div class="chart-controls">
+                <button class="chart-btn" onclick="sortIOChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sortIOChart('productivity')">Sort by Productivity</button>
+            </div>
+            <div class="chart-wrapper"><canvas id="ioChart"></canvas></div>
+        </div>
+
+        <div class="chart-container">
+            <h3>Productivity Growth Trends – April to October 2025 (YTD)</h3>
+            <p class="source-note">Source: NHS England Productivity Growth Estimate. Each point shows the cumulative YTD figure as at that month. Lines converge as YTD periods lengthen.</p>
+            <div class="chart-wrapper" style="height: 450px;"><canvas id="trendChart"></canvas></div>
+        </div>
+
+        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
+    </div>
+
+    <script>
+        const prodData = [
+            { name: 'Birmingham', prod: 3.5, output: 4.6, input: 1.1, trend: [-0.1,4.5,4.1,4.4,4.1,4.5,3.5] },
+            { name: 'Cambridge', prod: 4.1, output: 2.9, input: -1.2, trend: [1.7,2.6,4.8,3.6,3.9,7.2,4.1] },
+            { name: 'GSTT', prod: 7.2, output: 7.1, input: 0.0, trend: [10.8,6.6,8.5,12.2,8.1,7.3,7.2] },
+            { name: 'Imperial', prod: 3.4, output: 1.8, input: -1.5, trend: [4.3,3.3,1.8,2.9,2.5,3.5,3.4] },
+            { name: "King's", prod: 5.5, output: 5.7, input: 0.2, trend: [4.4,3.3,4.6,4.2,4.7,5.0,5.5] },
+            { name: 'Manchester', prod: 4.4, output: 4.3, input: -0.1, trend: [7.5,7.8,5.2,4.8,3.5,2.8,4.4] },
+            { name: 'Newcastle', prod: 0.6, output: 1.9, input: 1.3, trend: [4.1,3.2,3.1,-1.3,4.0,-0.4,0.6] },
+            { name: 'Oxford', prod: 3.2, output: 2.8, input: -0.4, trend: [4.7,4.5,2.3,3.0,3.2,3.7,3.2] },
+            { name: 'Sheffield', prod: 2.3, output: 1.2, input: -1.1, trend: [19.1,15.3,15.6,4.0,3.1,2.3,2.3] },
+            { name: 'UCLH', prod: 10.9, output: 12.7, input: 1.6, trend: [7.9,8.5,4.4,4.1,3.0,2.5,10.9] }
+        ];
+        const months = ['Apr','May','Jun','Jul','Aug','Sep','Oct'];
+        const englandTrend = [3.4,2.8,3.0,3.1,3.2,3.6,3.5];
+
+        function fmtPct(v) {
+            const cls = v >= 0 ? 'positive' : 'negative';
+            return `<span class="${cls}">${v >= 0 ? '+' : ''}${v.toFixed(1)}%</span>`;
+        }
+
+        function sortTable(field, e) {
+            let sorted = [...prodData];
+            if (field === 'productivity') sorted.sort((a, b) => b.prod - a.prod);
+            else if (field === 'output') sorted.sort((a, b) => b.output - a.output);
+            else if (field === 'input') sorted.sort((a, b) => a.input - b.input);
+            document.getElementById('prodTableBody').innerHTML = sorted.map(t =>
+                `<tr><td class="trust-name">${t.name}</td><td>${fmtPct(t.prod)}</td><td>${fmtPct(t.output)}</td><td>${fmtPct(t.input)}</td></tr>`
+            ).join('');
+            if (e) { document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active')); e.target.classList.add('active'); }
+        }
+        sortTable('alpha', null);
+
+        // Productivity bar chart
+        const prodChartData = { labels: prodData.map(d => d.name), values: prodData.map(d => d.prod) };
+        let prodChart = new Chart(document.getElementById('prodChart'), {
+            type: 'bar',
+            data: {
+                labels: [...prodChartData.labels],
+                datasets: [{
+                    label: 'Productivity Growth %',
+                    data: [...prodChartData.values],
+                    backgroundColor: prodChartData.values.map(v => v >= 2 ? '#007B7F' : '#F59E0B'),
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, ticks: { callback: v => (v >= 0 ? '+' : '') + v + '%' } } }
+            },
+            plugins: [{
+                id: 'targetLines',
+                afterDraw(chart) {
+                    const ctx = chart.ctx, yScale = chart.scales.y;
+                    // 2% target
+                    let y = yScale.getPixelForValue(2);
+                    ctx.save(); ctx.strokeStyle = '#EF4444'; ctx.lineWidth = 2; ctx.setLineDash([6,4]);
+                    ctx.beginPath(); ctx.moveTo(chart.chartArea.left, y); ctx.lineTo(chart.chartArea.right, y); ctx.stroke();
+                    ctx.fillStyle = '#EF4444'; ctx.font = '11px -apple-system, sans-serif';
+                    ctx.fillText('SR25 Target: 2%', chart.chartArea.left + 5, y - 8);
+                    // England avg
+                    y = yScale.getPixelForValue(3.5);
+                    ctx.strokeStyle = '#6B7280'; ctx.setLineDash([3,3]);
+                    ctx.beginPath(); ctx.moveTo(chart.chartArea.left, y); ctx.lineTo(chart.chartArea.right, y); ctx.stroke();
+                    ctx.fillStyle = '#6B7280';
+                    ctx.fillText('England: 3.5%', chart.chartArea.right - 85, y - 8);
+                    ctx.restore();
+                }
+            }]
+        });
+        function sortProdChart(type) {
+            let indices = prodChartData.labels.map((_, i) => i);
+            if (type === 'highest') indices.sort((a, b) => prodChartData.values[b] - prodChartData.values[a]);
+            else if (type === 'lowest') indices.sort((a, b) => prodChartData.values[a] - prodChartData.values[b]);
+            prodChart.data.labels = indices.map(i => prodChartData.labels[i]);
+            prodChart.data.datasets[0].data = indices.map(i => prodChartData.values[i]);
+            prodChart.data.datasets[0].backgroundColor = indices.map(i => prodChartData.values[i] >= 2 ? '#007B7F' : '#F59E0B');
+            prodChart.update();
+        }
+
+        // Output vs Input grouped bar
+        const ioData = { labels: prodData.map(d => d.name), outputs: prodData.map(d => d.output), inputs: prodData.map(d => d.input) };
+        let ioChart = new Chart(document.getElementById('ioChart'), {
+            type: 'bar',
+            data: {
+                labels: [...ioData.labels],
+                datasets: [
+                    { label: 'Output Growth (CWA)', data: [...ioData.outputs], backgroundColor: '#007B7F', borderRadius: 6 },
+                    { label: 'Input Growth (Resource)', data: [...ioData.inputs], backgroundColor: '#CBD5E1', borderRadius: 6 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'top' } },
+                scales: { y: { ticks: { callback: v => (v >= 0 ? '+' : '') + v + '%' } } }
+            }
+        });
+        function sortIOChart(type) {
+            let indices = ioData.labels.map((_, i) => i);
+            if (type === 'productivity') indices.sort((a, b) => prodData[b].prod - prodData[a].prod);
+            ioChart.data.labels = indices.map(i => ioData.labels[i]);
+            ioChart.data.datasets[0].data = indices.map(i => ioData.outputs[i]);
+            ioChart.data.datasets[1].data = indices.map(i => ioData.inputs[i]);
+            ioChart.update();
+        }
+
+        // Trend line chart
+        const trendColors = ['#007B7F','#059669','#2563EB','#7C3AED','#DB2777','#EA580C','#0891B2','#4F46E5','#CA8A04','#DC2626'];
+        new Chart(document.getElementById('trendChart'), {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [
+                    ...prodData.map((d, i) => ({
+                        label: d.name, data: d.trend, borderColor: trendColors[i],
+                        backgroundColor: 'transparent', tension: 0.3, borderWidth: 2, pointRadius: 3
+                    })),
+                    {
+                        label: 'England', data: englandTrend, borderColor: '#1A1A1A',
+                        backgroundColor: 'transparent', borderWidth: 3, borderDash: [6,3], pointRadius: 0, tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } } },
+                scales: { y: { ticks: { callback: v => (v >= 0 ? '+' : '') + v + '%' } } }
+            }
+        });
+    </script>
+</body>
+</html>
