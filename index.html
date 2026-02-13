@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shelford Group Performance Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         :root {
             --shelford-teal: #007B7F;
@@ -51,6 +52,14 @@
         .segment-2 { background: #DCFCE7; color: #15803D; }
         .segment-3 { background: #FEF3C7; color: #A16207; }
         .segment-4 { background: #FEE2E2; color: #B91C1C; }
+        .hm-1 { background: #DBEAFE; color: #1E40AF; font-weight: 600; text-align: center; }
+        .hm-2 { background: #DCFCE7; color: #15803D; font-weight: 600; text-align: center; }
+        .hm-3 { background: #FEF3C7; color: #A16207; font-weight: 600; text-align: center; }
+        .hm-4 { background: #FEE2E2; color: #B91C1C; font-weight: 600; text-align: center; }
+        .radar-btn { padding: 0.4rem 0.9rem; border-radius: 6px; border: 2px solid #CBD5E1; cursor: pointer; font-size: 0.85rem; background: white; transition: all 0.2s; }
+        .radar-btn.active { border-color: var(--shelford-teal); background: rgba(0,123,127,0.1); font-weight: 600; }
+        .chart-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; }
+        .chart-wrapper { position: relative; height: 400px; margin-top: 1rem; }
         footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-mid); font-size: 0.9rem; }
         @media (max-width: 768px) { body { padding: 1rem; } h1 { font-size: 1.8rem; } .metric-value { font-size: 2rem; } }
     </style>
@@ -116,24 +125,65 @@
             </table>
         </div>
 
-        <h2>NHS Oversight Framework Segmentation</h2>
-        <p class="source-note">Source: NHS England Oversight Framework Q2 2025/26, published 11 December 2025</p>
+        <h2>NHS Oversight Framework – Q2 2025/26</h2>
+        <p class="source-note">Source: NHS England Oversight Framework Q2 2025/26, published 11 December 2025. Segment 1 = highest performing, Segment 4 = requires most improvement. Scores range from 1 (best) to 4 (worst).</p>
+
+        <!-- Overall Summary Table -->
         <div class="table-container">
+            <h3>Overall Segmentation</h3>
             <table>
-                <thead><tr><th>Trust</th><th>Segment</th><th>Overall Score</th><th>National Rank</th></tr></thead>
+                <thead><tr><th>Trust</th><th>Segment</th><th>Overall Score</th></tr></thead>
                 <tbody>
-                    <tr><td class="trust-name">Imperial College Healthcare</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.76</td><td>11 / 134</td></tr>
-                    <tr><td class="trust-name">Guy's and St Thomas'</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.78</td><td>12 / 134</td></tr>
-                    <tr><td class="trust-name">University College London Hospitals</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.79</td><td>13 / 134</td></tr>
-                    <tr><td class="trust-name">Newcastle Upon Tyne Hospitals</td><td><span class="oversight-badge segment-2">Segment 2</span></td><td>2.19</td><td>22 / 134</td></tr>
-                    <tr><td class="trust-name">Sheffield Teaching Hospitals</td><td><span class="oversight-badge segment-2">Segment 2</span></td><td>2.33</td><td>28 / 134</td></tr>
-                    <tr><td class="trust-name">Oxford University Hospitals</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.27</td><td>57 / 134</td></tr>
-                    <tr><td class="trust-name">Cambridge University Hospitals</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.37</td><td>71 / 134</td></tr>
-                    <tr><td class="trust-name">Manchester University</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.50</td><td>85 / 134</td></tr>
-                    <tr><td class="trust-name">King's College Hospital</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.59</td><td>95 / 134</td></tr>
-                    <tr><td class="trust-name">University Hospitals Birmingham</td><td><span class="oversight-badge segment-4">Segment 4</span></td><td>2.87</td><td>123 / 134</td></tr>
+                    <tr><td class="trust-name">Imperial</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.82</td></tr>
+                    <tr><td class="trust-name">GSTT</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>2.00</td></tr>
+                    <tr><td class="trust-name">UCLH</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.81</td></tr>
+                    <tr><td class="trust-name">Newcastle</td><td><span class="oversight-badge segment-2">Segment 2</span></td><td>2.29</td></tr>
+                    <tr><td class="trust-name">Oxford</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.24</td></tr>
+                    <tr><td class="trust-name">Cambridge</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.40</td></tr>
+                    <tr><td class="trust-name">Manchester</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.41</td></tr>
+                    <tr><td class="trust-name">King's</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.45</td></tr>
+                    <tr><td class="trust-name">Sheffield</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.54</td></tr>
+                    <tr><td class="trust-name">Birmingham</td><td><span class="oversight-badge segment-4">Segment 4</span></td><td>2.97</td></tr>
                 </tbody>
             </table>
+        </div>
+
+        <!-- Domain Heatmap -->
+        <div class="table-container">
+            <h3>Domain Segmentation Heatmap</h3>
+            <p class="source-note" style="margin-top:-0.5rem">Each cell shows the domain segment (1–4). Colour indicates performance: green (Seg 1) through red (Seg 4).</p>
+            <table id="heatmapTable">
+                <thead><tr><th>Trust</th><th>Overall</th><th>Access</th><th>Effectiveness</th><th>Finance</th><th>Safety</th><th>People</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- Domain Scores Radar -->
+        <div class="chart-container">
+            <h3>Domain Score Profiles</h3>
+            <p class="source-note">Source: NHS England Oversight Framework Q2 2025/26. Lower scores = better performance. Select trusts to compare.</p>
+            <div style="margin-bottom:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;" id="radarBtns"></div>
+            <div class="chart-wrapper"><canvas id="radarChart"></canvas></div>
+        </div>
+
+        <!-- Key Metrics vs National Benchmarks -->
+        <div class="chart-container">
+            <h3>National Ranking – Key Metrics</h3>
+            <p class="source-note">Source: NHS England Oversight Framework Q2 2025/26. Shows each trust's position relative to national lower quartile (LQ), median and upper quartile (UQ) across ~130 acute trusts.</p>
+            <div style="margin-bottom:1rem">
+                <select id="metricSelector" style="padding:0.5rem 1rem; border-radius:6px; border:1px solid var(--border-light); font-size:0.95rem; min-width:300px;" onchange="updateMetricChart()">
+                    <option value="rtt18">RTT 18-week % (higher = better)</option>
+                    <option value="ae4hr">A&E 4-hour % (higher = better)</option>
+                    <option value="ae12hr">A&E 12-hour % (lower = better)</option>
+                    <option value="cancer62">Cancer 62-day % (higher = better)</option>
+                    <option value="cancerfds">Cancer FDS 28-day % (higher = better)</option>
+                    <option value="sickness">Sickness absence % (lower = better)</option>
+                    <option value="engagement">Staff engagement score (higher = better)</option>
+                    <option value="cdiff">C. difficile rate (lower = better)</option>
+                    <option value="discharge">Discharge delay days (lower = better)</option>
+                </select>
+            </div>
+            <div class="chart-wrapper"><canvas id="metricChart"></canvas></div>
         </div>
 
         <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
@@ -187,6 +237,161 @@
         }
 
         renderTable(trustData);
+
+        // ===== NOF Domain Heatmap =====
+        const nofData = [
+            { name: 'Birmingham', overall: 4, access: 4, effectiveness: 4, finance: 3, safety: 4, people: 4 },
+            { name: 'Cambridge', overall: 3, access: 3, effectiveness: 3, finance: 2, safety: 2, people: 1 },
+            { name: 'GSTT', overall: 1, access: 2, effectiveness: 2, finance: 3, safety: 1, people: 1 },
+            { name: 'Imperial', overall: 1, access: 1, effectiveness: 2, finance: 1, safety: 2, people: 1 },
+            { name: "King's", overall: 3, access: 2, effectiveness: 3, finance: 2, safety: 4, people: 3 },
+            { name: 'Manchester', overall: 3, access: 3, effectiveness: 2, finance: 1, safety: 2, people: 4 },
+            { name: 'Newcastle', overall: 2, access: 1, effectiveness: 3, finance: 2, safety: 4, people: 3 },
+            { name: 'Oxford', overall: 3, access: 3, effectiveness: 2, finance: 2, safety: 3, people: 1 },
+            { name: 'Sheffield', overall: 3, access: 3, effectiveness: 4, finance: 4, safety: 2, people: 3 },
+            { name: 'UCLH', overall: 1, access: 2, effectiveness: 1, finance: 2, safety: 1, people: 1 }
+        ];
+        const hmBody = document.querySelector('#heatmapTable tbody');
+        hmBody.innerHTML = nofData.map(t => `<tr><td class="trust-name">${t.name}</td>${
+            ['overall','access','effectiveness','finance','safety','people'].map(d =>
+                `<td class="hm-${t[d]}">${t[d]}</td>`
+            ).join('')
+        }</tr>`).join('');
+
+        // ===== Radar Chart =====
+        const nofScores = [
+            { name: 'Birmingham', scores: [3.09, 2.59, 2.50, 3.25, 3.33] },
+            { name: 'Cambridge', scores: [2.71, 2.39, 2.12, 2.45, 1.56] },
+            { name: 'GSTT', scores: [2.05, 2.02, 2.38, 1.83, 1.53] },
+            { name: 'Imperial', scores: [1.80, 1.97, 1.51, 2.28, 1.53] },
+            { name: "King's", scores: [2.28, 2.31, 2.16, 3.37, 2.61] },
+            { name: 'Manchester', scores: [2.68, 2.01, 1.28, 2.37, 3.18] },
+            { name: 'Newcastle', scores: [1.89, 2.23, 2.14, 3.08, 2.99] },
+            { name: 'Oxford', scores: [2.37, 1.97, 1.96, 2.96, 1.66] },
+            { name: 'Sheffield', scores: [2.38, 2.68, 2.73, 2.49, 2.76] },
+            { name: 'UCLH', scores: [2.16, 1.11, 1.77, 2.11, 1.34] }
+        ];
+        const radarLabels = ['Access', 'Effectiveness', 'Finance', 'Safety', 'People'];
+        const radarColors = ['#007B7F','#059669','#2563EB','#7C3AED','#DB2777','#EA580C','#0891B2','#4F46E5','#CA8A04','#DC2626'];
+        let radarActive = new Set([0, 2, 9]); // Birmingham, GSTT, UCLH by default
+
+        const radarBtnContainer = document.getElementById('radarBtns');
+        nofScores.forEach((t, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'radar-btn' + (radarActive.has(i) ? ' active' : '');
+            btn.textContent = t.name;
+            btn.style.borderColor = radarActive.has(i) ? radarColors[i] : '#CBD5E1';
+            btn.onclick = () => {
+                if (radarActive.has(i)) radarActive.delete(i); else radarActive.add(i);
+                btn.classList.toggle('active');
+                btn.style.borderColor = radarActive.has(i) ? radarColors[i] : '#CBD5E1';
+                updateRadar();
+            };
+            radarBtnContainer.appendChild(btn);
+        });
+
+        const radarChart = new Chart(document.getElementById('radarChart'), {
+            type: 'radar',
+            data: { labels: radarLabels, datasets: [] },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                scales: { r: { min: 1, max: 4, ticks: { stepSize: 1, callback: v => v.toFixed(0) }, pointLabels: { font: { size: 13, weight: '600' } }, reverse: true } },
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }
+            }
+        });
+        function updateRadar() {
+            radarChart.data.datasets = [...radarActive].sort().map(i => ({
+                label: nofScores[i].name, data: nofScores[i].scores,
+                borderColor: radarColors[i], backgroundColor: radarColors[i] + '20',
+                borderWidth: 2, pointRadius: 4
+            }));
+            radarChart.update();
+        }
+        updateRadar();
+
+        // ===== Key Metrics vs National Benchmarks =====
+        const metricData = {
+            rtt18: { label: 'RTT 18-week %', higherBetter: true, median: 61.18, lq: 57.82, uq: 65.21,
+                values: { Birmingham: 58.99, Cambridge: 58.86, GSTT: 65.21, Imperial: 62.02, "King's": 61.55, Manchester: 53.78, Newcastle: 73.24, Oxford: 59.65, Sheffield: 66.04, UCLH: 58.54 }},
+            ae4hr: { label: 'A&E 4-hour %', higherBetter: true, median: 75.70, lq: 71.65, uq: 79.10,
+                values: { Birmingham: 71.4, Cambridge: 73.5, GSTT: 78.2, Imperial: 81.0, "King's": 79.3, Manchester: 72.4, Newcastle: 78.3, Oxford: 82.8, Sheffield: 71.5, UCLH: 77.9 }},
+            ae12hr: { label: 'A&E 12-hour %', higherBetter: false, median: 8.61, lq: 4.91, uq: 12.35,
+                values: { Birmingham: 13.58, Cambridge: 10.14, GSTT: 1.39, Imperial: 7.03, "King's": 11.50, Manchester: 4.24, Newcastle: 1.86, Oxford: 0.91, Sheffield: 7.08, UCLH: 3.02 }},
+            cancer62: { label: 'Cancer 62-day %', higherBetter: true, median: 69.28, lq: 64.93, uq: 75.92,
+                values: { Birmingham: 62.82, Cambridge: 69.34, GSTT: 56.17, Imperial: 70.14, "King's": 60.87, Manchester: 62.16, Newcastle: 70.54, Oxford: 59.14, Sheffield: 50.86, UCLH: 78.29 }},
+            cancerfds: { label: 'Cancer FDS 28-day %', higherBetter: true, median: 76.04, lq: 72.63, uq: 80.19,
+                values: { Birmingham: 74.61, Cambridge: 72.43, GSTT: 82.84, Imperial: 81.47, "King's": 73.13, Manchester: 73.50, Newcastle: 71.68, Oxford: 79.79, Sheffield: 70.14, UCLH: 84.38 }},
+            sickness: { label: 'Sickness absence %', higherBetter: false, median: 5.21, lq: 4.60, uq: 5.77,
+                values: { Birmingham: 5.88, Cambridge: 4.21, GSTT: 4.67, Imperial: 4.52, "King's": 4.62, Manchester: 6.22, Newcastle: 5.99, Oxford: 4.31, Sheffield: 5.42, UCLH: 4.54 }},
+            engagement: { label: 'Staff engagement', higherBetter: true, median: 6.88, lq: 6.71, uq: 7.04,
+                values: { Birmingham: 6.62, Cambridge: 7.02, GSTT: 7.15, Imperial: 7.11, "King's": 6.58, Manchester: 6.79, Newcastle: 6.83, Oxford: 6.98, Sheffield: 6.79, UCLH: 7.35 }},
+            cdiff: { label: 'C. difficile rate', higherBetter: false, median: 1.18, lq: 1.02, uq: 1.34,
+                values: { Birmingham: 1.21, Cambridge: 1.12, GSTT: 1.02, Imperial: 1.05, "King's": 1.29, Manchester: 0.87, Newcastle: 1.32, Oxford: 1.15, Sheffield: 1.13, UCLH: 1.38 }},
+            discharge: { label: 'Discharge delay days', higherBetter: false, median: 0.78, lq: 0.45, uq: 1.08,
+                values: { Birmingham: 0.99, Cambridge: 1.23, GSTT: 0.57, Imperial: 0.86, "King's": 0.99, Manchester: 0.70, Newcastle: null, Oxford: 0.65, Sheffield: 0.97, UCLH: 0.28 }}
+        };
+
+        const metricChart = new Chart(document.getElementById('metricChart'), {
+            type: 'bar',
+            data: { labels: [], datasets: [] },
+            options: {
+                responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.raw !== null ? ctx.raw.toFixed(2) : 'N/A' } } },
+                scales: { x: { title: { display: true, text: '' } } }
+            },
+            plugins: [{
+                id: 'quartileBands',
+                beforeDraw(chart) {
+                    const ctx = chart.ctx, xScale = chart.scales.x, area = chart.chartArea;
+                    const sel = document.getElementById('metricSelector').value;
+                    const m = metricData[sel];
+                    if (!m) return;
+                    const lqX = xScale.getPixelForValue(m.lq), medX = xScale.getPixelForValue(m.median), uqX = xScale.getPixelForValue(m.uq);
+                    ctx.save();
+                    // LQ-UQ band
+                    ctx.fillStyle = 'rgba(0,123,127,0.06)';
+                    ctx.fillRect(lqX, area.top, uqX - lqX, area.bottom - area.top);
+                    // Median line
+                    ctx.strokeStyle = '#007B7F'; ctx.lineWidth = 2; ctx.setLineDash([6,4]);
+                    ctx.beginPath(); ctx.moveTo(medX, area.top); ctx.lineTo(medX, area.bottom); ctx.stroke();
+                    // LQ line
+                    ctx.strokeStyle = '#9CA3AF'; ctx.lineWidth = 1; ctx.setLineDash([3,3]);
+                    ctx.beginPath(); ctx.moveTo(lqX, area.top); ctx.lineTo(lqX, area.bottom); ctx.stroke();
+                    // UQ line
+                    ctx.beginPath(); ctx.moveTo(uqX, area.top); ctx.lineTo(uqX, area.bottom); ctx.stroke();
+                    // Labels
+                    ctx.font = '10px -apple-system, sans-serif'; ctx.setLineDash([]);
+                    ctx.fillStyle = '#9CA3AF'; ctx.fillText('LQ: ' + m.lq, lqX + 3, area.top + 12);
+                    ctx.fillStyle = '#007B7F'; ctx.fillText('Median: ' + m.median, medX + 3, area.top + 12);
+                    ctx.fillStyle = '#9CA3AF'; ctx.fillText('UQ: ' + m.uq, uqX + 3, area.top + 12);
+                    ctx.restore();
+                }
+            }]
+        });
+
+        function updateMetricChart() {
+            const sel = document.getElementById('metricSelector').value;
+            const m = metricData[sel];
+            const trusts = Object.keys(m.values);
+            const vals = trusts.map(t => m.values[t]);
+            // Sort: if higher is better, sort descending; if lower is better, sort ascending
+            const indices = trusts.map((_, i) => i);
+            if (m.higherBetter) indices.sort((a, b) => (vals[b] || 0) - (vals[a] || 0));
+            else indices.sort((a, b) => (vals[a] || 999) - (vals[b] || 999));
+
+            const sortedTrusts = indices.map(i => trusts[i]);
+            const sortedVals = indices.map(i => vals[i]);
+            const colors = sortedVals.map(v => {
+                if (v === null) return '#CBD5E1';
+                if (m.higherBetter) return v >= m.uq ? '#059669' : v >= m.median ? '#007B7F' : v >= m.lq ? '#F59E0B' : '#DC2626';
+                else return v <= m.lq ? '#059669' : v <= m.median ? '#007B7F' : v <= m.uq ? '#F59E0B' : '#DC2626';
+            });
+            metricChart.data.labels = sortedTrusts;
+            metricChart.data.datasets = [{ data: sortedVals, backgroundColor: colors, borderRadius: 4 }];
+            metricChart.options.scales.x.title.text = m.label;
+            metricChart.update();
+        }
+        updateMetricChart();
     </script>
 </body>
 </html>
