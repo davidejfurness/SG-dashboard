@@ -151,7 +151,16 @@
         <!-- Domain Heatmap -->
         <div class="table-container">
             <h3>Domain Segmentation Heatmap</h3>
-            <p class="source-note" style="margin-top:-0.5rem">Each cell shows the domain segment (1–4). Colour indicates performance: green (Seg 1) through red (Seg 4).</p>
+            <p class="source-note" style="margin-top:-0.5rem">Each cell shows the domain segment (1–4). Colour indicates performance: green (Seg 1) through red (Seg 4). Click any column header to sort.</p>
+            <div class="sort-buttons" id="hmSortBtns">
+                <button class="sort-btn active" onclick="sortHeatmap('alpha')">A-Z</button>
+                <button class="sort-btn" onclick="sortHeatmap('overall')">Overall <span class="sort-arrow">▼</span></button>
+                <button class="sort-btn" onclick="sortHeatmap('access')">Access <span class="sort-arrow">▼</span></button>
+                <button class="sort-btn" onclick="sortHeatmap('effectiveness')">Effectiveness <span class="sort-arrow">▼</span></button>
+                <button class="sort-btn" onclick="sortHeatmap('finance')">Finance <span class="sort-arrow">▼</span></button>
+                <button class="sort-btn" onclick="sortHeatmap('safety')">Safety <span class="sort-arrow">▼</span></button>
+                <button class="sort-btn" onclick="sortHeatmap('people')">People <span class="sort-arrow">▼</span></button>
+            </div>
             <table id="heatmapTable">
                 <thead><tr><th>Trust</th><th>Overall</th><th>Access</th><th>Effectiveness</th><th>Finance</th><th>Safety</th><th>People</th></tr></thead>
                 <tbody></tbody>
@@ -252,11 +261,38 @@
             { name: 'UCLH', overall: 1, access: 2, effectiveness: 1, finance: 2, safety: 1, people: 1 }
         ];
         const hmBody = document.querySelector('#heatmapTable tbody');
-        hmBody.innerHTML = nofData.map(t => `<tr><td class="trust-name">${t.name}</td>${
-            ['overall','access','effectiveness','finance','safety','people'].map(d =>
-                `<td class="hm-${t[d]}">${t[d]}</td>`
-            ).join('')
-        }</tr>`).join('');
+        const hmFields = ['overall','access','effectiveness','finance','safety','people'];
+        let hmSortField = 'alpha';
+        let hmSortAsc = true; // true = best first (1 before 4)
+
+        function renderHeatmap(data) {
+            hmBody.innerHTML = data.map(t => `<tr><td class="trust-name">${t.name}</td>${
+                hmFields.map(d => `<td class="hm-${t[d]}">${t[d]}</td>`).join('')
+            }</tr>`).join('');
+        }
+
+        function sortHeatmap(field) {
+            if (field === hmSortField && field !== 'alpha') {
+                hmSortAsc = !hmSortAsc;
+            } else {
+                hmSortAsc = true;
+                hmSortField = field;
+            }
+            let sorted = [...nofData];
+            if (field !== 'alpha') {
+                sorted.sort((a, b) => hmSortAsc ? a[field] - b[field] : b[field] - a[field]);
+            }
+            renderHeatmap(sorted);
+            // Update button states
+            document.querySelectorAll('#hmSortBtns .sort-btn').forEach(btn => {
+                const btnField = btn.textContent.trim().split(' ')[0].toLowerCase();
+                const isActive = (field === 'alpha' && btnField === 'a-z') || btnField === field;
+                btn.classList.toggle('active', isActive);
+                const arrow = btn.querySelector('.sort-arrow');
+                if (arrow) arrow.textContent = (isActive && !hmSortAsc) ? '▲' : '▼';
+            });
+        }
+        renderHeatmap(nofData);
 
         // ===== Radar Chart =====
         const nofScores = [
