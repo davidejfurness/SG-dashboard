@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productivity - Shelford Group Dashboard</title>
+    <title>Productivity & Finance - Shelford Group Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         :root { --shelford-teal: #007B7F; --shelford-dark-teal: #005A5D; --shelford-sage: #5B7F6C; --shelford-cream: #FDFBF7; --text-dark: #1A1A1A; --text-mid: #4A4A4A; --border-light: #E5E5E5; }
@@ -51,10 +51,10 @@
     <div class="container">
         <header>
             <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
-            <div><h1>NHS Productivity</h1><p class="subtitle">Trust-level productivity growth estimates from the new NHS England measure</p></div>
+            <div><h1>NHS Productivity & Finance</h1><p class="subtitle">Trust-level productivity growth estimates and in-year financial positions</p></div>
         </header>
         <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research & Clinical Trials</a><a href="productivity-detail.html" class="active">Productivity</a>
+            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research & Clinical Trials</a><a href="productivity-detail.html" class="active">Productivity & Finance</a>
         </div></nav>
 
         <div class="info-box">
@@ -116,6 +116,58 @@
             <div class="chart-wrapper" style="height: 450px;"><canvas id="trendChart"></canvas></div>
         </div>
 
+        <!-- ===== FINANCE SECTION ===== -->
+        <div style="border-top: 3px solid var(--shelford-teal); margin-top: 4rem; padding-top: 2rem;">
+        <h2>Financial Position – 2025/26</h2>
+        <p class="source-note">Source: Shelford Group CFO Monthly Updates, M9 YTD (December 2025). Figures are provider surplus/(deficit) in £000s. Manchester data incomplete and excluded from some charts.</p>
+
+        <!-- YTD Position Bar Chart -->
+        <div class="chart-container">
+            <h3>M9 YTD Surplus / (Deficit) – Actual vs Plan</h3>
+            <p class="source-note">Source: Shelford CFO Monthly Updates, December 2025. All figures £000s.</p>
+            <div class="chart-controls">
+                <button class="sort-btn" onclick="sortFinPos('alpha')">A-Z</button>
+                <button class="sort-btn" onclick="sortFinPos('highest')">Highest to Lowest</button>
+                <button class="sort-btn" onclick="sortFinPos('lowest')">Lowest to Highest</button>
+            </div>
+            <div class="chart-wrapper"><canvas id="finPosChart"></canvas></div>
+        </div>
+
+        <!-- Monthly Trajectory -->
+        <div class="chart-container">
+            <h3>YTD Financial Position Trajectory</h3>
+            <p class="source-note">Source: Shelford CFO Monthly Updates. Each point shows cumulative YTD surplus/(deficit) in £000s. Months with missing data are omitted per trust.</p>
+            <div style="margin-bottom:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;" id="finTrustBtns"></div>
+            <div class="chart-wrapper" style="height:450px;"><canvas id="finTrajectoryChart"></canvas></div>
+        </div>
+
+        <!-- CIP Delivery -->
+        <div class="chart-container">
+            <h3>CIP Delivery – M9 YTD Plan vs Actual</h3>
+            <p class="source-note">Source: Shelford CFO Monthly Updates, December 2025. CIP = Cost Improvement Programme. £000s.</p>
+            <div class="chart-controls">
+                <button class="sort-btn" onclick="sortCIPChart('alpha')">A-Z</button>
+                <button class="sort-btn" onclick="sortCIPChart('gap')">Largest Gap</button>
+            </div>
+            <div class="chart-wrapper"><canvas id="cipChart"></canvas></div>
+        </div>
+
+        <!-- Finance Summary Table -->
+        <div class="table-container">
+            <h3>Financial Summary</h3>
+            <div class="chart-controls">
+                <button class="sort-btn" onclick="sortFinTable('alpha')">A-Z</button>
+                <button class="sort-btn" onclick="sortFinTable('m9Actual')">M9 YTD Actual</button>
+                <button class="sort-btn" onclick="sortFinTable('m9Var')">Variance</button>
+                <button class="sort-btn" onclick="sortFinTable('cipVar')">CIP Variance</button>
+            </div>
+            <table>
+                <thead><tr><th>Trust</th><th>24/25 Outturn</th><th>25/26 FY Plan</th><th>M9 YTD Plan</th><th>M9 YTD Actual</th><th>Variance</th><th>CIP Target %</th><th>CIP Plan</th><th>CIP Actual</th><th>CIP Var</th></tr></thead>
+                <tbody id="finTableBody"></tbody>
+            </table>
+        </div>
+        </div>
+
         <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
 
@@ -161,7 +213,7 @@
                 datasets: [{
                     label: 'Productivity Growth %',
                     data: [...prodChartData.values],
-                    backgroundColor: prodChartData.values.map(v => v >= 2 ? '#007B7F' : '#F59E0B'),
+                    backgroundColor: '#007B7F',
                     borderRadius: 6
                 }]
             },
@@ -196,7 +248,6 @@
             else if (type === 'lowest') indices.sort((a, b) => prodChartData.values[a] - prodChartData.values[b]);
             prodChart.data.labels = indices.map(i => prodChartData.labels[i]);
             prodChart.data.datasets[0].data = indices.map(i => prodChartData.values[i]);
-            prodChart.data.datasets[0].backgroundColor = indices.map(i => prodChartData.values[i] >= 2 ? '#007B7F' : '#F59E0B');
             prodChart.update();
         }
 
@@ -249,6 +300,152 @@
                 scales: { y: { ticks: { callback: v => (v >= 0 ? '+' : '') + v + '%' } } }
             }
         });
+
+        // ===== FINANCE SECTION =====
+        const finData = [
+            { name: 'Birmingham', outturn24: -30700, fyPlan: -4200, m9Plan: -11187, m9Actual: -36766, m9Var: -25579, cipPct: 5.0, cipPlan: 92452, cipActual: 84876, cipVar: -7576,
+              trend: [{m:'M1',v:-8600},{m:'M2',v:-14000},{m:'M3',v:-18807},{m:'M4',v:-21473},{m:'M5',v:-12700},{m:'M6',v:-27841},{m:'M7',v:-31216},{m:'M8',v:-36941},{m:'M9',v:-36766}] },
+            { name: 'Cambridge', outturn24: 0, fyPlan: 0, m9Plan: -2929, m9Actual: 1430, m9Var: 4359, cipPct: 5.8, cipPlan: 67005, cipActual: 68228, cipVar: 1223,
+              trend: [{m:'M1',v:-2071},{m:'M2',v:-2800},{m:'M3',v:100},{m:'M4',v:-1500},{m:'M5',v:-1600},{m:'M6',v:-500},{m:'M8',v:11},{m:'M9',v:1430}] },
+            { name: 'GSTT', outturn24: 12682, fyPlan: 0, m9Plan: -25152, m9Actual: -25071, m9Var: 81, cipPct: 5.0, cipPlan: 55685, cipActual: 53411, cipVar: -2274,
+              trend: [{m:'M1',v:-9990},{m:'M2',v:-17388},{m:'M3',v:-22944},{m:'M4',v:-23102},{m:'M5',v:-23062},{m:'M6',v:-23990},{m:'M7',v:-27147},{m:'M8',v:-29015},{m:'M9',v:-25071}] },
+            { name: 'Imperial', outturn24: null, fyPlan: 0, m9Plan: 0, m9Actual: 10, m9Var: 10, cipPct: 4.3, cipPlan: 60024, cipActual: 59489, cipVar: -535,
+              trend: [{m:'M1',v:-597},{m:'M2',v:-701},{m:'M3',v:1298},{m:'M4',v:-1141},{m:'M5',v:434},{m:'M6',v:771},{m:'M7',v:-669},{m:'M8',v:-1589},{m:'M9',v:10}] },
+            { name: "King's", outturn24: -33700, fyPlan: 0, m9Plan: 705, m9Actual: 3255, m9Var: 2550, cipPct: 4.4, cipPlan: 51552, cipActual: 41901, cipVar: -9651,
+              trend: [{m:'M1',v:-3035},{m:'M2',v:-1216},{m:'M3',v:-1465},{m:'M4',v:-1461},{m:'M5',v:50},{m:'M6',v:-112},{m:'M7',v:-573},{m:'M8',v:1983},{m:'M9',v:3255}] },
+            { name: 'Manchester', outturn24: 3641, fyPlan: 0, m9Plan: null, m9Actual: null, m9Var: null, cipPct: 5.2, cipPlan: null, cipActual: null, cipVar: null,
+              trend: [{m:'M1',v:-8622},{m:'M2',v:-11293},{m:'M3',v:-7123},{m:'M7',v:15876},{m:'M8',v:1159}] },
+            { name: 'Newcastle', outturn24: null, fyPlan: 0, m9Plan: -2852, m9Actual: -2748, m9Var: 104, cipPct: 6.2, cipPlan: 72034, cipActual: 72030, cipVar: -4,
+              trend: [{m:'M1',v:-5052},{m:'M2',v:-8012},{m:'M3',v:-8031},{m:'M4',v:-5379},{m:'M6',v:-4294},{m:'M7',v:956},{m:'M8',v:-578},{m:'M9',v:-2748}] },
+            { name: 'Oxford', outturn24: -6794, fyPlan: 2000, m9Plan: 1100, m9Actual: 1100, m9Var: 0, cipPct: 5.6, cipPlan: 69500, cipActual: 61700, cipVar: -7800,
+              trend: [{m:'M1',v:-3474},{m:'M2',v:-6507},{m:'M3',v:-8200},{m:'M4',v:-9200},{m:'M5',v:-9900},{m:'M6',v:-6696},{m:'M7',v:-6549},{m:'M8',v:-5429},{m:'M9',v:1100}] },
+            { name: 'Sheffield', outturn24: 6926, fyPlan: 0, m9Plan: -475, m9Actual: -436, m9Var: 39, cipPct: 4.5, cipPlan: 60100, cipActual: 60100, cipVar: 0,
+              trend: [{m:'M1',v:-1109},{m:'M2',v:-5665},{m:'M3',v:-6115},{m:'M4',v:-2868},{m:'M5',v:-3454},{m:'M6',v:-2659},{m:'M7',v:-1525},{m:'M8',v:-1511},{m:'M9',v:-436}] },
+            { name: 'UCLH', outturn24: 17912, fyPlan: 12029, m9Plan: -7412, m9Actual: -6444, m9Var: 968, cipPct: 4.3, cipPlan: 52200, cipActual: 47516, cipVar: -4684,
+              trend: [{m:'M1',v:-6166},{m:'M2',v:-8498},{m:'M3',v:-9675},{m:'M4',v:-7477},{m:'M5',v:-8347},{m:'M6',v:-6646},{m:'M7',v:-4512},{m:'M8',v:-2949},{m:'M9',v:-6444}] }
+        ];
+
+        // YTD Position Chart
+        const finWithM9 = finData.filter(d => d.m9Actual !== null);
+        let finPosChart = new Chart(document.getElementById('finPosChart'), {
+            type: 'bar',
+            data: {
+                labels: finWithM9.map(d => d.name),
+                datasets: [
+                    { label: 'M9 YTD Actual', data: finWithM9.map(d => d.m9Actual), backgroundColor: '#007B7F', borderRadius: 4 },
+                    { label: 'M9 YTD Plan', data: finWithM9.map(d => d.m9Plan), type: 'bar', backgroundColor: 'rgba(100,116,139,0.25)', borderColor: '#64748B', borderWidth: 1, borderRadius: 4 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': \u00a3' + (ctx.raw/1000).toFixed(1) + 'm' } } },
+                scales: { y: { ticks: { callback: v => '\u00a3' + (v/1000).toFixed(0) + 'm' } } }
+            }
+        });
+
+        function sortFinPos(type) {
+            let sorted = [...finWithM9];
+            if (type === 'highest') sorted.sort((a,b) => b.m9Actual - a.m9Actual);
+            else if (type === 'lowest') sorted.sort((a,b) => a.m9Actual - b.m9Actual);
+            finPosChart.data.labels = sorted.map(d => d.name);
+            finPosChart.data.datasets[0].data = sorted.map(d => d.m9Actual);
+            finPosChart.data.datasets[1].data = sorted.map(d => d.m9Plan);
+            finPosChart.update();
+        }
+
+        // Trajectory Chart
+        const allMonths = ['M1','M2','M3','M4','M5','M6','M7','M8','M9'];
+        const finColors = ['#DC2626','#059669','#2563EB','#7C3AED','#DB2777','#EA580C','#0891B2','#4F46E5','#CA8A04','#007B7F'];
+        let finActive = new Set([0, 2, 4, 9]);
+
+        const finBtnContainer = document.getElementById('finTrustBtns');
+        finData.forEach((t, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'sort-btn' + (finActive.has(i) ? ' active' : '');
+            btn.textContent = t.name;
+            btn.style.borderColor = finActive.has(i) ? finColors[i] : '#CBD5E1';
+            btn.onclick = () => {
+                if (finActive.has(i)) finActive.delete(i); else finActive.add(i);
+                btn.classList.toggle('active');
+                btn.style.borderColor = finActive.has(i) ? finColors[i] : '#CBD5E1';
+                updateFinTrajectory();
+            };
+            finBtnContainer.appendChild(btn);
+        });
+
+        const finTrajectoryChart = new Chart(document.getElementById('finTrajectoryChart'), {
+            type: 'line',
+            data: { labels: allMonths, datasets: [] },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': \u00a3' + (ctx.raw/1000).toFixed(1) + 'm' } } },
+                scales: { y: { ticks: { callback: v => '\u00a3' + (v/1000).toFixed(0) + 'm' } }, x: { title: { display: true, text: '2025/26 Month' } } },
+                spanGaps: true
+            }
+        });
+
+        function updateFinTrajectory() {
+            finTrajectoryChart.data.datasets = [...finActive].sort().map(i => {
+                const t = finData[i];
+                const data = allMonths.map(m => { const pt = t.trend.find(p => p.m === m); return pt ? pt.v : null; });
+                return { label: t.name, data, borderColor: finColors[i], backgroundColor: finColors[i] + '20', borderWidth: 2, pointRadius: 4, tension: 0.3, spanGaps: true };
+            });
+            finTrajectoryChart.update();
+        }
+        updateFinTrajectory();
+
+        // CIP Chart
+        const cipSource = finData.filter(d => d.cipPlan !== null);
+        let cipChartInst = new Chart(document.getElementById('cipChart'), {
+            type: 'bar',
+            data: {
+                labels: cipSource.map(d => d.name),
+                datasets: [
+                    { label: 'CIP Plan', data: cipSource.map(d => d.cipPlan), backgroundColor: '#94A3B8', borderRadius: 4 },
+                    { label: 'CIP Actual', data: cipSource.map(d => d.cipActual), backgroundColor: '#007B7F', borderRadius: 4 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': \u00a3' + (ctx.raw/1000).toFixed(1) + 'm' } } },
+                scales: { y: { ticks: { callback: v => '\u00a3' + (v/1000).toFixed(0) + 'm' } } }
+            }
+        });
+
+        function sortCIPChart(type) {
+            let sorted = [...cipSource];
+            if (type === 'gap') sorted.sort((a,b) => a.cipVar - b.cipVar);
+            cipChartInst.data.labels = sorted.map(d => d.name);
+            cipChartInst.data.datasets[0].data = sorted.map(d => d.cipPlan);
+            cipChartInst.data.datasets[1].data = sorted.map(d => d.cipActual);
+            cipChartInst.update();
+        }
+
+        // Finance Summary Table
+        const fmt = v => { if (v === null) return '\u2014'; const m = v/1000; return (m < 0 ? '\u2212' : '') + '\u00a3' + Math.abs(m).toFixed(1) + 'm'; };
+        let finTableSort = 'alpha';
+        let finTableAsc = true;
+
+        function renderFinTable(data) {
+            document.getElementById('finTableBody').innerHTML = data.map(d => {
+                return `<tr><td class="trust-name">${d.name}</td><td>${fmt(d.outturn24)}</td><td>${fmt(d.fyPlan)}</td><td>${fmt(d.m9Plan)}</td><td>${fmt(d.m9Actual)}</td><td>${fmt(d.m9Var)}</td><td>${d.cipPct}%</td><td>${fmt(d.cipPlan)}</td><td>${fmt(d.cipActual)}</td><td>${fmt(d.cipVar)}</td></tr>`;
+            }).join('');
+        }
+
+        function sortFinTable(field) {
+            if (field === finTableSort && field !== 'alpha') { finTableAsc = !finTableAsc; }
+            else { finTableAsc = true; finTableSort = field; }
+            let sorted = [...finData];
+            if (field !== 'alpha') {
+                sorted.sort((a, b) => {
+                    const av = a[field] === null ? -Infinity : a[field];
+                    const bv = b[field] === null ? -Infinity : b[field];
+                    return finTableAsc ? av - bv : bv - av;
+                });
+            }
+            renderFinTable(sorted);
+        }
+        renderFinTable(finData);
     </script>
 </body>
 </html>
