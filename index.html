@@ -48,14 +48,14 @@
         tbody tr:hover { background: rgba(0,123,127,0.05); }
         .trust-name { font-weight: 500; color: var(--text-dark); }
         .oversight-badge { padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; display: inline-block; }
-        .segment-1 { background: #DBEAFE; color: #1E40AF; }
-        .segment-2 { background: #DCFCE7; color: #15803D; }
-        .segment-3 { background: #FEF3C7; color: #A16207; }
-        .segment-4 { background: #FEE2E2; color: #B91C1C; }
-        .hm-1 { background: #DBEAFE; color: #1E40AF; font-weight: 600; text-align: center; }
-        .hm-2 { background: #DCFCE7; color: #15803D; font-weight: 600; text-align: center; }
-        .hm-3 { background: #FEF3C7; color: #A16207; font-weight: 600; text-align: center; }
-        .hm-4 { background: #FEE2E2; color: #B91C1C; font-weight: 600; text-align: center; }
+        .segment-1 { background: #E0F2F3; color: #005F63; }
+        .segment-2 { background: #B2DFE2; color: #005F63; }
+        .segment-3 { background: #6BBCC2; color: #FFFFFF; }
+        .segment-4 { background: #007B7F; color: #FFFFFF; }
+        .hm-1 { background: #E0F2F3; color: #005F63; font-weight: 600; text-align: center; }
+        .hm-2 { background: #B2DFE2; color: #005F63; font-weight: 600; text-align: center; }
+        .hm-3 { background: #6BBCC2; color: #FFFFFF; font-weight: 600; text-align: center; }
+        .hm-4 { background: #007B7F; color: #FFFFFF; font-weight: 600; text-align: center; }
         .radar-btn { padding: 0.4rem 0.9rem; border-radius: 6px; border: 2px solid #CBD5E1; cursor: pointer; font-size: 0.85rem; background: white; transition: all 0.2s; }
         .radar-btn.active { border-color: var(--shelford-teal); background: rgba(0,123,127,0.1); font-weight: 600; }
         .chart-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; }
@@ -182,7 +182,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
         <!-- Domain Heatmap -->
         <div class="table-container">
             <h3>Domain Segmentation Heatmap</h3>
-            <p class="source-note" style="margin-top:-0.5rem">Each cell shows the domain segment (1–4). Colour indicates performance: green (Seg 1) through red (Seg 4). Click any column header to sort.</p>
+            <p class="source-note" style="margin-top:-0.5rem">Each cell shows the domain segment (1–4). Lighter shading indicates stronger performance. Click any column header to sort.</p>
             <div class="sort-buttons" id="hmSortBtns">
                 <button class="sort-btn active" onclick="sortHeatmap('alpha')">A-Z</button>
                 <button class="sort-btn" onclick="sortHeatmap('overall')">Overall <span class="sort-arrow">▼</span></button>
@@ -450,8 +450,8 @@ else{document.getElementById("authError").style.display="block";document.getElem
             const sortedVals = indices.map(i => vals[i]);
             const colors = sortedVals.map(v => {
                 if (v === null) return '#CBD5E1';
-                if (m.higherBetter) return v >= m.uq ? '#059669' : v >= m.median ? '#007B7F' : v >= m.lq ? '#F59E0B' : '#DC2626';
-                else return v <= m.lq ? '#059669' : v <= m.median ? '#007B7F' : v <= m.uq ? '#F59E0B' : '#DC2626';
+                if (m.higherBetter) return '#007B7F';
+                else return '#007B7F';
             });
             metricChart.data.labels = sortedTrusts;
             metricChart.data.datasets = [{ data: sortedVals, backgroundColor: colors, borderRadius: 4 }];
