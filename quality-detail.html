@@ -46,117 +46,105 @@
     <div class="container">
         <header>
             <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
-            <div><h1>Patient Safety & Quality</h1><p class="subtitle">Detailed metrics on patient experience and infection control</p></div>
+            <div><h1>Patient Safety & Quality</h1><p class="subtitle">Patient experience and learning from patient safety events</p></div>
         </header>
         <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
             <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html" class="active">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research &amp; Clinical Trials</a><a href="productivity-detail.html">Productivity</a>
         </div></nav>
 
-        <!-- KPIs - FFT first, then infection -->
-        <h2>Patient Experience & Safety Summary</h2>
-        <p class="source-note">Source: NHS England Friends & Family Test December 2025 (trust-level data); HCAI Data Q3 2025/26</p>
+        <!-- KPI Summary -->
+        <h2>Patient Experience &amp; Safety Summary</h2>
+        <p class="source-note">Source: NHS England Friends &amp; Family Test MacroWebfiles, December 2025; Learning from Patient Safety Events Quarterly Publication, Q2 2025/26</p>
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">FFT: A&E Recommend</div><div class="metric-value">80.7%</div><div class="metric-benchmark">Shelford average, December 2025</div></div>
-            <div class="metric-card"><div class="metric-label">FFT: Inpatient Recommend</div><div class="metric-value">94.9%</div><div class="metric-benchmark">Shelford average, December 2025</div></div>
-            <div class="metric-card"><div class="metric-label">C. difficile Rate</div><div class="metric-value">13.8</div><div class="metric-benchmark">Per 100,000 bed days (Q3)</div></div>
-            <div class="metric-card"><div class="metric-label">MRSA Bacteremia</div><div class="metric-value">8</div><div class="metric-benchmark">Total cases (Q3)</div></div>
+            <div class="metric-card"><div class="metric-label">FFT: A&amp;E Recommend</div><div class="metric-value">80.7%</div><div class="metric-benchmark">Shelford average, December 2025 · England: 78.2%</div></div>
+            <div class="metric-card"><div class="metric-label">FFT: Inpatient Recommend</div><div class="metric-value">94.9%</div><div class="metric-benchmark">Shelford average, December 2025 · England: 94.8%</div></div>
+            <div class="metric-card"><div class="metric-label">Safety Event Recording Rate</div><div class="metric-value">66.7</div><div class="metric-benchmark">Per 1,000 bed days · Shelford average, Q2 2025/26</div></div>
         </div>
 
-        <!-- Performance Table -->
-        <h2>Trust-Level Safety & Quality Performance</h2>
-        <p class="source-note">Source: NHS England HCAI Data Q3 2025/26 and Friends & Family Test December 2025</p>
+        <!-- Combined Performance Table -->
+        <h2>Trust-Level Quality Performance</h2>
+        <p class="source-note">Source: NHS England FFT MacroWebfiles (A&amp;E and Inpatient), December 2025; Learning from Patient Safety Events, Q2 2025/26</p>
         <div class="table-container">
             <div class="sort-buttons">
-                <button class="sort-btn active" onclick="sortQualityTable('alpha', event)">A-Z</button>
-                <button class="sort-btn" onclick="sortQualityTable('fftae', event)">Sort by FFT A&E</button>
-                <button class="sort-btn" onclick="sortQualityTable('fftip', event)">Sort by FFT Inpatient</button>
-                <button class="sort-btn" onclick="sortQualityTable('cdiff', event)">Sort by C. diff</button>
-                <button class="sort-btn" onclick="sortQualityTable('mrsa', event)">Sort by MRSA</button>
+                <button class="sort-btn active" onclick="sortTable('alpha', event)">A-Z</button>
+                <button class="sort-btn" onclick="sortTable('fftae', event)">Sort by FFT A&amp;E</button>
+                <button class="sort-btn" onclick="sortTable('fftip', event)">Sort by FFT IP</button>
+                <button class="sort-btn" onclick="sortTable('safetyRate', event)">Sort by Safety Rate</button>
             </div>
-            <table><thead><tr><th>Trust</th><th>FFT A&E %</th><th>FFT Inpatient %</th><th>C. diff Rate</th><th>MRSA Cases</th><th>E. coli Cases</th></tr></thead>
+            <table><thead><tr><th>Trust</th><th>FFT A&amp;E %</th><th>FFT Inpatient %</th><th>Safety Events</th><th>Bed Days</th><th>Rate (per 1,000)</th></tr></thead>
             <tbody id="qualityTableBody"></tbody></table>
         </div>
 
-        <!-- FFT section first -->
-        <h2>Patient Experience – Friends & Family Test</h2>
+        <!-- FFT Charts -->
+        <h2>Patient Experience – Friends &amp; Family Test</h2>
 
-        <div class="chart-container"><h3>Friends & Family Test – Recommendation Rates by Trust</h3><p class="source-note">Source: NHS England Friends & Family Test, December 2025</p>
+        <div class="chart-container"><h3>Friends &amp; Family Test – Recommendation Rates by Trust</h3>
+            <p class="source-note">Source: NHS England FFT MacroWebfiles (A&amp;E and Inpatient), December 2025 (published February 2026). Shows % of respondents rating experience as 'Good' or 'Very Good'.</p>
             <div class="chart-wrapper"><canvas id="fftChart"></canvas></div></div>
 
-        <!-- Infection Control section below -->
-        <h2>Infection Control</h2>
+        <!-- Patient Safety Events -->
+        <h2>Learning from Patient Safety Events</h2>
 
-        <div class="chart-container"><h3>C. difficile Infection Rates by Trust</h3><p class="source-note">Source: NHS England HCAI Data, Q3 2025/26. Rate per 100,000 bed days.</p>
-            <div class="chart-controls"><button class="chart-btn" onclick="sortCDiffChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortCDiffChart('lowest')">Lowest to Highest</button><button class="chart-btn" onclick="sortCDiffChart('highest')">Highest to Lowest</button></div>
-            <div class="chart-wrapper"><canvas id="cdiffChart"></canvas></div></div>
+        <div class="chart-container"><h3>Patient Safety Event Recording Rate by Trust</h3>
+            <p class="source-note">Source: NHS England Learning from Patient Safety Events Quarterly Publication, Q2 2025/26. Rate per 1,000 bed days. Higher rates generally indicate a stronger reporting culture.</p>
+            <div class="chart-controls"><button class="chart-btn" onclick="sortSafetyChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortSafetyChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortSafetyChart('lowest')">Lowest to Highest</button></div>
+            <div class="chart-wrapper"><canvas id="safetyRateChart"></canvas></div></div>
 
-        <div class="chart-container"><h3>MRSA and E. coli Bacteremia Cases</h3><p class="source-note">Source: NHS England HCAI Data, Q3 2025/26. Absolute case numbers.</p>
-            <div class="chart-controls"><button class="chart-btn" onclick="sortInfectionChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortInfectionChart('mrsa')">Sort by MRSA</button><button class="chart-btn" onclick="sortInfectionChart('ecoli')">Sort by E. coli</button></div>
-            <div class="chart-wrapper"><canvas id="infectionChart"></canvas></div></div>
-
-        <div class="chart-container"><h3>C. difficile Rate Trends</h3><p class="source-note">Source: NHS England HCAI Data, Q1 2024/25 – Q3 2025/26</p>
-            <div class="chart-wrapper"><canvas id="cdiffTrendChart"></canvas></div></div>
+        <div class="chart-container"><h3>Safety Events, Bed Days and Recording Rate by Trust</h3>
+            <p class="source-note">Source: NHS England Learning from Patient Safety Events Quarterly Publication, Q2 2025/26. Bars show event counts and bed days (activity denominator); line shows the resulting rate per 1,000 bed days.</p>
+            <div class="chart-wrapper"><canvas id="safetyVolumeChart"></canvas></div></div>
 
         <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
 
     <script>
+        // Quality data - all verified from source files
+        // FFT: NHS England FFT MacroWebfiles (A&E and Inpatient), December 2025
+        // Safety: NHS England Learning from Patient Safety Events Q2 2025/26
+        // ratio = incidents / bedDays (raw proportion, i.e. rate per 1 bed day)
         const qualityData = [
-            { name: 'Birmingham', cdiff: 15.2, mrsa: 1, ecoli: 18, fftAE: 71.5, fftIP: 92.3 },
-            { name: 'Cambridge', cdiff: 12.8, mrsa: 1, ecoli: 16, fftAE: 82.6, fftIP: 94.6 },
-            { name: 'GSTT', cdiff: 11.4, mrsa: 0, ecoli: 14, fftAE: 88.2, fftIP: 96.1 },
-            { name: 'Imperial', cdiff: 13.6, mrsa: 1, ecoli: 17, fftAE: 85.8, fftIP: 95.9 },
-            { name: "King's", cdiff: 14.8, mrsa: 2, ecoli: 19, fftAE: 74.9, fftIP: 95.7 },
-            { name: 'Manchester', cdiff: 13.2, mrsa: 1, ecoli: 16, fftAE: 84.4, fftIP: 97.5 },
-            { name: 'Newcastle', cdiff: 12.1, mrsa: 0, ecoli: 15, fftAE: 73.7, fftIP: 96.0 },
-            { name: 'Oxford', cdiff: 14.2, mrsa: 1, ecoli: 17, fftAE: 84.1, fftIP: 94.0 },
-            { name: 'Sheffield', cdiff: 13.9, mrsa: 1, ecoli: 18, fftAE: 76.6, fftIP: 90.4 },
-            { name: 'UCLH', cdiff: 12.6, mrsa: 0, ecoli: 15, fftAE: 85.3, fftIP: 96.4 }
+            { name: 'Birmingham', fftAE: 71.5, fftIP: 92.3, safetyRate: 60.9, safetyLag: 1, incidents: 15421, bedDays: 253424 },
+            { name: 'Cambridge', fftAE: 82.6, fftIP: 94.6, safetyRate: 67.1, safetyLag: 0, incidents: 6123, bedDays: 91277 },
+            { name: 'GSTT', fftAE: 88.2, fftIP: 96.1, safetyRate: 74.5, safetyLag: 1, incidents: 7227, bedDays: 97013 },
+            { name: 'Imperial', fftAE: 85.8, fftIP: 95.9, safetyRate: 71.0, safetyLag: 1, incidents: 6658, bedDays: 93829 },
+            { name: "King's", fftAE: 74.9, fftIP: 95.7, safetyRate: 61.2, safetyLag: 0, incidents: 7095, bedDays: 115967 },
+            { name: 'Manchester', fftAE: 84.4, fftIP: 97.5, safetyRate: 85.7, safetyLag: 0, incidents: 15554, bedDays: 181427 },
+            { name: 'Newcastle', fftAE: 73.7, fftIP: 96.0, safetyRate: 42.6, safetyLag: 1, incidents: 4815, bedDays: 113049 },
+            { name: 'Oxford', fftAE: 84.1, fftIP: 94.0, safetyRate: 80.6, safetyLag: 0, incidents: 7479, bedDays: 92755 },
+            { name: 'Sheffield', fftAE: 76.6, fftIP: 90.4, safetyRate: 60.2, safetyLag: 0, incidents: 7247, bedDays: 120377 },
+            { name: 'UCLH', fftAE: 85.3, fftIP: 96.4, safetyRate: 63.2, safetyLag: 0, incidents: 3855, bedDays: 60997 }
         ];
 
-        function sortQualityTable(sortType, e) {
+        // Sortable table
+        function sortTable(sortType, e) {
             let sorted = [...qualityData];
-            if (sortType === 'cdiff') sorted.sort((a, b) => a.cdiff - b.cdiff);
-            else if (sortType === 'mrsa') sorted.sort((a, b) => a.mrsa - b.mrsa);
-            else if (sortType === 'fftae') sorted.sort((a, b) => b.fftAE - a.fftAE);
+            if (sortType === 'fftae') sorted.sort((a, b) => b.fftAE - a.fftAE);
             else if (sortType === 'fftip') sorted.sort((a, b) => b.fftIP - a.fftIP);
+            else if (sortType === 'safetyRate') sorted.sort((a, b) => b.safetyRate - a.safetyRate);
             document.getElementById('qualityTableBody').innerHTML = sorted.map(t =>
-                '<tr><td class="trust-name">'+t.name+'</td><td>'+t.fftAE+'%</td><td>'+t.fftIP+'%</td><td>'+t.cdiff+'</td><td>'+t.mrsa+'</td><td>'+t.ecoli+'</td></tr>'
+                '<tr><td class="trust-name">'+t.name+'</td><td>'+t.fftAE+'%</td><td>'+t.fftIP+'%</td><td>'+t.incidents.toLocaleString()+'</td><td>'+t.bedDays.toLocaleString()+'</td><td>'+t.safetyRate+'</td></tr>'
             ).join('');
             if (e) { document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
         }
-        sortQualityTable('alpha', null);
+        sortTable('alpha', null);
 
         // FFT Chart
         new Chart(document.getElementById('fftChart'), { type: 'bar', data: { labels: qualityData.map(d=>d.name), datasets: [{ label: 'A&E Recommend %', data: qualityData.map(d=>d.fftAE), backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'Inpatient Recommend %', data: qualityData.map(d=>d.fftIP), backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 65, max: 100, ticks: { callback: v => v+'%' } } } } });
 
-        // C.diff chart
-        const cdiffData = { labels: qualityData.map(d=>d.name), values: qualityData.map(d=>d.cdiff) };
-        let cdiffChart = new Chart(document.getElementById('cdiffChart'), { type: 'bar', data: { labels: cdiffData.labels, datasets: [{ label: 'C. diff Rate (per 100k bed days)', data: cdiffData.values, backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 20 } } } });
-        function sortCDiffChart(sortType) {
-            let indices = cdiffData.labels.map((_,i) => i);
-            if (sortType === 'lowest') indices.sort((a,b) => cdiffData.values[a] - cdiffData.values[b]);
-            else if (sortType === 'highest') indices.sort((a,b) => cdiffData.values[b] - cdiffData.values[a]);
-            cdiffChart.data.labels = indices.map(i => cdiffData.labels[i]);
-            cdiffChart.data.datasets[0].data = indices.map(i => cdiffData.values[i]);
-            cdiffChart.update();
+        // Safety Event Recording Rate Chart
+        const safetyRateData = { labels: qualityData.map(d=>d.name), values: qualityData.map(d=>d.safetyRate) };
+        let safetyRateChart = new Chart(document.getElementById('safetyRateChart'), { type: 'bar', data: { labels: safetyRateData.labels, datasets: [{ label: 'Recording Rate (per 1,000 bed days)', data: safetyRateData.values, backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 100 } } } });
+        function sortSafetyChart(sortType) {
+            let indices = safetyRateData.labels.map((_,i) => i);
+            if (sortType === 'lowest') indices.sort((a,b) => safetyRateData.values[a] - safetyRateData.values[b]);
+            else if (sortType === 'highest') indices.sort((a,b) => safetyRateData.values[b] - safetyRateData.values[a]);
+            safetyRateChart.data.labels = indices.map(i => safetyRateData.labels[i]);
+            safetyRateChart.data.datasets[0].data = indices.map(i => safetyRateData.values[i]);
+            safetyRateChart.update();
         }
 
-        // Infection chart
-        const infectionData = { labels: qualityData.map(d=>d.name), mrsa: qualityData.map(d=>d.mrsa), ecoli: qualityData.map(d=>d.ecoli) };
-        let infectionChart = new Chart(document.getElementById('infectionChart'), { type: 'bar', data: { labels: infectionData.labels, datasets: [{ label: 'MRSA Cases', data: infectionData.mrsa, backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'E. coli Cases', data: infectionData.ecoli, backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } } });
-        function sortInfectionChart(sortType) {
-            let indices = infectionData.labels.map((_,i) => i);
-            if (sortType === 'mrsa') indices.sort((a,b) => infectionData.mrsa[a] - infectionData.mrsa[b]);
-            else if (sortType === 'ecoli') indices.sort((a,b) => infectionData.ecoli[a] - infectionData.ecoli[b]);
-            infectionChart.data.labels = indices.map(i => infectionData.labels[i]);
-            infectionChart.data.datasets[0].data = indices.map(i => infectionData.mrsa[i]);
-            infectionChart.data.datasets[1].data = indices.map(i => infectionData.ecoli[i]);
-            infectionChart.update();
-        }
-
-        // C.diff trends
-        new Chart(document.getElementById('cdiffTrendChart'), { type: 'line', data: { labels: ['Q1 24/25','Q2 24/25','Q3 24/25','Q4 24/25','Q1 25/26','Q2 25/26','Q3 25/26'], datasets: [{ label: 'Shelford Average', data: [15.2,14.8,14.3,14.1,13.9,13.9,13.8], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.1)', tension: 0.4, fill: true },{ label: 'National Average', data: [16.8,16.4,16.0,15.8,15.6,15.5,15.4], borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', tension: 0.4, fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 10, max: 18 } } } });
+        // Safety Volume: incidents vs bed days with rate overlay
+        new Chart(document.getElementById('safetyVolumeChart'), { type: 'bar', data: { labels: qualityData.map(d=>d.name), datasets: [{ label: 'Safety Events (Q2)', data: qualityData.map(d=>d.incidents), backgroundColor: '#007B7F', borderRadius: 6, yAxisID: 'y' },{ label: 'Bed Days (Q2, thousands)', data: qualityData.map(d=>Math.round(d.bedDays/1000)), backgroundColor: '#94A3B8', borderRadius: 6, yAxisID: 'y' },{ label: 'Rate per 1,000 bed days', data: qualityData.map(d=>d.safetyRate), type: 'line', borderColor: '#F59E0B', backgroundColor: '#F59E0B', pointRadius: 6, pointBackgroundColor: '#F59E0B', yAxisID: 'y1', tension: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: function(ctx) { if (ctx.datasetIndex === 0) return ctx.parsed.y.toLocaleString()+' events'; if (ctx.datasetIndex === 1) return (ctx.parsed.y*1000).toLocaleString()+' bed days'; return ctx.parsed.y+' per 1,000'; } } } }, scales: { y: { type: 'linear', position: 'left', beginAtZero: true, title: { display: true, text: 'Count / Bed days (thousands)' } }, y1: { type: 'linear', position: 'right', beginAtZero: true, max: 100, grid: { drawOnChartArea: false }, title: { display: true, text: 'Rate per 1,000 bed days' } } } } });
     </script>
 </body>
 </html>
