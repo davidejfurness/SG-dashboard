@@ -32,6 +32,9 @@
         .chart-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
         .chart-btn:hover { background: var(--shelford-dark-teal); }
         .table-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; overflow-x: auto; }
+        .sort-buttons { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .sort-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .sort-btn:hover { background: var(--shelford-dark-teal); } .sort-btn.active { background: var(--shelford-dark-teal); }
         table { width: 100%; border-collapse: collapse; } thead { background: var(--shelford-teal); color: white; }
         th { padding: 1rem; text-align: left; font-weight: 600; } td { padding: 1rem; border-bottom: 1px solid var(--border-light); }
         tbody tr:hover { background: rgba(0,123,127,0.05); } .trust-name { font-weight: 500; }
@@ -45,133 +48,190 @@
     <div class="container">
         <header>
             <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
-            <div><h1>Workforce</h1><p class="subtitle">Vacancy rates, sickness absence, staff experience and temporary staffing</p></div>
+            <div><h1>Workforce</h1><p class="subtitle">Staff experience from the NHS Staff Survey 2024</p></div>
         </header>
         <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research &amp; Clinical Trials</a><a href="productivity-detail.html">Productivity</a>
+            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT &amp; Elective Care</a><a href="ae-detail.html">A&amp;E &amp; Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety &amp; Quality</a><a href="capacity-detail.html">Capacity &amp; Beds</a><a href="workforce-detail.html" class="active">Workforce</a><a href="research-detail.html">Research &amp; Clinical Trials</a><a href="productivity-detail.html">Productivity</a>
         </div></nav>
 
-        <!-- Vacancy and Sickness -->
-        <h2>Workforce Summary</h2>
-        <p class="source-note">Source: NHS Digital Workforce Statistics, Q3 2025/26 (published November 2025)</p>
+        <!-- Sickness Absence -->
+        <h2>Sickness Absence</h2>
+        <p class="source-note">Source: NHS Sickness Absence Rates, November 2025 (published 26 February 2026). Rates calculated from Electronic Staff Record (ESR).</p>
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">Staff Vacancy Rate (Shelford Avg)</div><div class="metric-value">9.8%</div><div class="metric-benchmark">National average: 6.7%</div></div>
-            <div class="metric-card"><div class="metric-label">Sickness Absence Rate (Shelford Avg)</div><div class="metric-value">4.4%</div><div class="metric-benchmark">National average: 5.1%</div></div>
+            <div class="metric-card"><div class="metric-label">Sickness Absence Rate (Shelford Avg)</div><div class="metric-value">5.26%</div><div class="metric-benchmark">November 2025 · England: 5.61%</div></div>
         </div>
 
-        <div class="chart-container"><h3>Staff Vacancy Rates by Trust</h3><p class="source-note">Source: NHS Digital Workforce Statistics, Q3 2025/26</p>
-            <div class="chart-controls"><button class="chart-btn" onclick="sortVacancyChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortVacancyChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortVacancyChart('lowest')">Lowest to Highest</button></div>
-            <div class="chart-wrapper"><canvas id="vacancyChart"></canvas></div></div>
-
-        <div class="chart-container"><h3>Staff Sickness Absence Rates by Trust</h3><p class="source-note">Source: NHS Digital Workforce Statistics, Q3 2025/26</p>
-            <div class="chart-controls"><button class="chart-btn" onclick="sortSicknessChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortSicknessChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortSicknessChart('lowest')">Lowest to Highest</button></div>
+        <div class="chart-container"><h3>Sickness Absence Rate by Trust – November 2025</h3>
+            <p class="source-note">Source: NHS Sickness Absence Rates, November 2025 (published 26 February 2026). Dashed line shows England average (5.61%).</p>
+            <div class="chart-controls"><button class="chart-btn" onclick="sortSickChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortSickChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortSickChart('lowest')">Lowest to Highest</button></div>
             <div class="chart-wrapper"><canvas id="sicknessChart"></canvas></div></div>
 
+        <div class="chart-container"><h3>Sickness Absence Trend – Shelford Average vs England</h3>
+            <p class="source-note">Source: NHS Sickness Absence Rates, December 2024 – November 2025 (published 26 February 2026).</p>
+            <div class="chart-wrapper"><canvas id="sicknessTrendChart"></canvas></div></div>
+
         <!-- NHS Staff Survey -->
-        <h2>NHS Staff Survey Results</h2>
-        <p class="source-note">Source: NHS Staff Survey 2024, published March 2025. Scores are on a 0–10 scale (higher = more positive). Benchmarked against all acute and acute & community trusts in England.</p>
+        <h2>NHS Staff Survey 2024</h2>
+        <p class="source-note">Source: NHS Staff Survey 2024 Benchmark Report (published March 2025). Benchmarked against all 122 acute and acute &amp; community trusts in England.</p>
         <div class="info-box">
-            <strong>About the data:</strong> The NHS Staff Survey runs annually (September–November) with results published the following March. All 10 Shelford trusts participate. Scores are weighted by occupational group to enable fair comparison. The key metrics below are drawn from the People Promise themes and staff engagement indicators. The 2025 survey results will be published in March 2026.
+            <strong>About the data:</strong> The NHS Staff Survey runs annually (September–November) with results published the following March. All 10 Shelford trusts participate. Theme scores are on a 0–10 scale (higher = more positive); advocacy questions show % agreeing or strongly agreeing. Scores are weighted by occupational group to enable fair comparison.
         </div>
 
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">Staff Engagement Score (Shelford Avg)</div><div class="metric-value">7.1</div><div class="metric-benchmark">Acute trust average: 6.9 | Scale: 0–10</div></div>
-            <div class="metric-card"><div class="metric-label">Recommend as Place to Work</div><div class="metric-value">66.2%</div><div class="metric-benchmark">Acute trust average: 60.8%</div></div>
-            <div class="metric-card"><div class="metric-label">Happy with Standard of Care</div><div class="metric-value">68.4%</div><div class="metric-benchmark">Acute trust average: 61.5%</div></div>
-            <div class="metric-card"><div class="metric-label">Morale Score (Shelford Avg)</div><div class="metric-value">6.0</div><div class="metric-benchmark">Acute trust average: 5.9 | Scale: 0–10</div></div>
+            <div class="metric-card"><div class="metric-label">Staff Engagement Score</div><div class="metric-value">6.92</div><div class="metric-benchmark">Shelford average · Acute trust avg: 6.83</div></div>
+            <div class="metric-card"><div class="metric-label">Recommend as Place to Work</div><div class="metric-value">64.2%</div><div class="metric-benchmark">Shelford average · Acute trust avg: 60.0%</div></div>
+            <div class="metric-card"><div class="metric-label">Happy with Standard of Care</div><div class="metric-value">72.4%</div><div class="metric-benchmark">Shelford average · Acute trust avg: 62.5%</div></div>
+            <div class="metric-card"><div class="metric-label">Morale Score</div><div class="metric-value">5.93</div><div class="metric-benchmark">Shelford average · Acute trust avg: 5.92</div></div>
         </div>
 
-        <div class="chart-container"><h3>Staff Engagement Score by Trust</h3><p class="source-note">Source: NHS Staff Survey 2024 (published March 2025). Score on 0–10 scale.</p>
-            <div class="chart-controls"><button class="chart-btn" onclick="sortEngagementChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortEngagementChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortEngagementChart('lowest')">Lowest to Highest</button></div>
+        <!-- Trust-level table -->
+        <h2>Trust-Level Staff Survey Results</h2>
+        <p class="source-note">Source: NHS Staff Survey 2024 Benchmark Report. Theme scores on 0–10 scale; q25c and q25d are % agree/strongly agree.</p>
+        <div class="table-container">
+            <div class="sort-buttons">
+                <button class="sort-btn active" onclick="sortTable('alpha', event)">A-Z</button>
+                <button class="sort-btn" onclick="sortTable('engagement', event)">Sort by Engagement</button>
+                <button class="sort-btn" onclick="sortTable('recommend', event)">Sort by Recommend</button>
+                <button class="sort-btn" onclick="sortTable('care', event)">Sort by Care</button>
+            </div>
+            <table><thead><tr><th>Trust</th><th>Engagement</th><th>Morale</th><th>Recommend %</th><th>Care %</th></tr></thead>
+            <tbody id="surveyTableBody"></tbody></table>
+        </div>
+
+        <!-- Charts -->
+        <div class="chart-container"><h3>Staff Engagement Score by Trust</h3>
+            <p class="source-note">Source: NHS Staff Survey 2024. Score on 0–10 scale. Dashed line shows acute trust average (6.83).</p>
+            <div class="chart-controls"><button class="chart-btn" onclick="sortEngChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortEngChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortEngChart('lowest')">Lowest to Highest</button></div>
             <div class="chart-wrapper"><canvas id="engagementChart"></canvas></div></div>
 
-        <div class="chart-container"><h3>'Recommend as a Place to Work' by Trust</h3><p class="source-note">Source: NHS Staff Survey 2024 (published March 2025). % of staff who would recommend their trust as a place to work.</p>
-            <div class="chart-controls"><button class="chart-btn" onclick="sortRecommendChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortRecommendChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortRecommendChart('lowest')">Lowest to Highest</button></div>
-            <div class="chart-wrapper"><canvas id="recommendChart"></canvas></div></div>
+        <div class="chart-container"><h3>Recommend as Place to Work &amp; Happy with Standard of Care</h3>
+            <p class="source-note">Source: NHS Staff Survey 2024. q25c: "I would recommend my organisation as a place to work"; q25d: "If a friend or relative needed treatment I would be happy with the standard of care provided by this organisation." % agree/strongly agree.</p>
+            <div class="chart-wrapper"><canvas id="advocacyChart"></canvas></div></div>
 
+        <!-- People Promise -->
         <h2>People Promise Theme Scores</h2>
-        <p class="source-note">Source: NHS Staff Survey 2024 (published March 2025). Scores on 0–10 scale.</p>
+        <p class="source-note">Source: NHS Staff Survey 2024 Benchmark Report. Scores on 0–10 scale. Acute trust averages shown in brackets.</p>
         <div class="table-container">
             <table>
-                <thead><tr><th>Trust</th><th>Compassionate & Inclusive</th><th>Recognised & Rewarded</th><th>Voice that Counts</th><th>Safe & Healthy</th><th>Always Learning</th><th>Work Flexibly</th><th>Team Working</th></tr></thead>
+                <thead><tr><th>Trust</th><th>Compassionate &amp; Inclusive</th><th>Recognised &amp; Rewarded</th><th>Voice that Counts</th><th>Safe &amp; Healthy</th><th>Always Learning</th><th>Work Flexibly</th><th>Team Working</th></tr></thead>
                 <tbody id="ppTableBody"></tbody>
             </table>
         </div>
+
+        <div class="chart-container"><h3>People Promise Scores – Shelford Average vs Acute Trust Average</h3>
+            <p class="source-note">Source: NHS Staff Survey 2024 Benchmark Report. Radar chart comparing Shelford Group average against all acute trust average across 7 People Promise themes.</p>
+            <div class="chart-wrapper"><canvas id="ppRadarChart"></canvas></div></div>
 
         <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
 
     <script>
-        const wfData = {
+        // Sickness absence data - NHS Sickness Absence Rates, November 2025
+        // Published 26 February 2026, from Electronic Staff Record (ESR)
+        const sickData = {
             labels: ['Birmingham','Cambridge','GSTT','Imperial',"King's",'Manchester','Newcastle','Oxford','Sheffield','UCLH'],
-            vacancy: [10.8, 9.2, 8.5, 9.8, 11.2, 9.5, 8.9, 10.1, 10.4, 9.3],
-            sickness: [4.8, 4.2, 3.9, 4.5, 5.1, 4.3, 4.0, 4.6, 4.7, 4.1]
+            nov25: [6.24, 4.56, 4.86, 5.12, 4.57, 6.33, 6.32, 4.43, 5.83, 4.39],
+            // Dec 24 to Nov 25 (12 months) per trust
+            trends: {
+                'Birmingham': [6.49,6.21,5.92,5.52,5.30,5.27,5.54,5.68,5.79,5.84,6.28,6.24],
+                'Cambridge':  [4.35,4.39,4.23,4.02,3.89,3.75,3.90,4.02,4.12,4.26,4.52,4.56],
+                'GSTT':       [5.01,4.90,4.74,4.37,4.21,3.98,4.31,4.40,4.47,4.72,4.87,4.86],
+                'Imperial':   [4.45,4.67,4.51,4.39,4.25,4.21,4.68,4.62,4.54,4.75,5.21,5.12],
+                "King's":     [4.73,4.80,4.58,4.47,4.19,4.14,4.34,4.58,4.42,4.47,4.80,4.57],
+                'Manchester': [6.83,6.83,6.19,5.63,5.46,5.40,5.70,5.84,5.73,5.94,6.39,6.33],
+                'Newcastle':  [6.18,6.13,6.15,5.72,5.49,5.18,5.36,5.39,5.39,5.70,6.31,6.32],
+                'Oxford':     [4.58,4.61,4.36,3.97,3.95,3.98,3.97,3.98,3.82,4.23,4.61,4.43],
+                'Sheffield':  [5.86,5.90,5.47,4.90,4.78,4.47,4.56,4.66,4.73,5.00,5.83,5.83],
+                'UCLH':       [4.92,4.83,4.55,4.24,4.12,4.14,4.18,4.18,3.99,4.23,4.54,4.39]
+            }
         };
+        const englandSickTrend = [5.74,5.71,5.26,4.88,4.79,4.70,4.93,5.08,5.07,5.29,5.67,5.61];
+        const trendLabels = ['Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25'];
 
-        let vacancyChart = new Chart(document.getElementById('vacancyChart'), { type: 'bar', data: { labels: [...wfData.labels], datasets: [{ label: 'Vacancy Rate', data: [...wfData.vacancy], backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 15, ticks: { callback: v => v+'%' } } } } });
-        function sortVacancyChart(sortType) {
-            let indices = wfData.labels.map((_,i) => i);
-            if (sortType === 'highest') indices.sort((a,b) => wfData.vacancy[b] - wfData.vacancy[a]);
-            else if (sortType === 'lowest') indices.sort((a,b) => wfData.vacancy[a] - wfData.vacancy[b]);
-            vacancyChart.data.labels = indices.map(i => wfData.labels[i]);
-            vacancyChart.data.datasets[0].data = indices.map(i => wfData.vacancy[i]);
-            vacancyChart.update();
-        }
-
-        let sicknessChart = new Chart(document.getElementById('sicknessChart'), { type: 'bar', data: { labels: [...wfData.labels], datasets: [{ label: 'Sickness Absence Rate', data: [...wfData.sickness], backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 6, ticks: { callback: v => v+'%' } } } } });
-        function sortSicknessChart(sortType) {
-            let indices = wfData.labels.map((_,i) => i);
-            if (sortType === 'highest') indices.sort((a,b) => wfData.sickness[b] - wfData.sickness[a]);
-            else if (sortType === 'lowest') indices.sort((a,b) => wfData.sickness[a] - wfData.sickness[b]);
-            sicknessChart.data.labels = indices.map(i => wfData.labels[i]);
-            sicknessChart.data.datasets[0].data = indices.map(i => wfData.sickness[i]);
+        // Sickness bar chart
+        const sickBarData = { labels: [...sickData.labels], values: [...sickData.nov25] };
+        let sicknessChart = new Chart(document.getElementById('sicknessChart'), { type: 'bar', data: { labels: sickBarData.labels, datasets: [{ label: 'Sickness Absence Rate (%)', data: sickBarData.values, backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'England avg (5.61%)', data: Array(10).fill(5.61), type: 'line', borderColor: '#94A3B8', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, max: 8, ticks: { callback: v => v+'%' } } } } });
+        function sortSickChart(sortType) {
+            let indices = sickData.labels.map((_,i) => i);
+            if (sortType === 'highest') indices.sort((a,b) => sickData.nov25[b] - sickData.nov25[a]);
+            else if (sortType === 'lowest') indices.sort((a,b) => sickData.nov25[a] - sickData.nov25[b]);
+            sicknessChart.data.labels = indices.map(i => sickData.labels[i]);
+            sicknessChart.data.datasets[0].data = indices.map(i => sickData.nov25[i]);
             sicknessChart.update();
         }
 
-        // Staff Survey Data (2024 survey, published March 2025)
-        const staffSurvey = {
-            labels: ['Birmingham','Cambridge','GSTT','Imperial',"King's",'Manchester','Newcastle','Oxford','Sheffield','UCLH'],
-            engagement: [6.8, 7.0, 7.2, 7.4, 6.7, 6.9, 7.3, 7.1, 7.0, 7.5],
-            recommend: [58.2, 63.4, 68.5, 70.7, 56.8, 61.2, 69.1, 65.8, 62.5, 75.3],
-            care: [60.1, 66.2, 71.3, 74.5, 58.4, 63.8, 70.2, 67.5, 64.1, 73.8],
-            morale: [5.7, 5.9, 6.1, 6.3, 5.6, 5.8, 6.2, 6.0, 5.9, 6.4],
-            pp: {
-                compassionate: [7.2, 7.4, 7.6, 7.8, 7.1, 7.3, 7.7, 7.5, 7.3, 7.9],
-                recognised: [5.8, 6.0, 6.2, 6.4, 5.7, 5.9, 6.3, 6.1, 6.0, 6.5],
-                voice: [6.5, 6.7, 6.9, 7.1, 6.4, 6.6, 7.0, 6.8, 6.7, 7.2],
-                safe: [5.9, 6.1, 6.3, 6.5, 5.8, 6.0, 6.4, 6.2, 6.1, 6.6],
-                learning: [5.4, 5.6, 5.8, 6.0, 5.3, 5.5, 5.9, 5.7, 5.6, 6.1],
-                flexible: [5.7, 5.9, 6.1, 6.0, 5.6, 5.8, 6.2, 6.0, 5.9, 6.3],
-                teamwork: [6.6, 6.8, 7.0, 7.2, 6.5, 6.7, 7.1, 6.9, 6.8, 7.3]
-            }
-        };
+        // Sickness trend chart - Shelford avg vs England
+        const shelfordSickTrend = trendLabels.map((_,m) => {
+            const vals = sickData.labels.map((name,i) => sickData.trends[name][m]);
+            return Math.round(vals.reduce((s,v)=>s+v,0)/vals.length * 100) / 100;
+        });
+        new Chart(document.getElementById('sicknessTrendChart'), { type: 'line', data: { labels: trendLabels, datasets: [{ label: 'Shelford Average', data: shelfordSickTrend, borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.1)', tension: 0.4, fill: true },{ label: 'England', data: englandSickTrend, borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', tension: 0.4, fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 3.5, max: 7, ticks: { callback: v => v+'%' } } } } });
 
-        // Populate People Promise table
-        document.getElementById('ppTableBody').innerHTML = staffSurvey.labels.map((name, i) =>
-            '<tr><td class="trust-name">'+name+'</td><td>'+staffSurvey.pp.compassionate[i]+'</td><td>'+staffSurvey.pp.recognised[i]+'</td><td>'+staffSurvey.pp.voice[i]+'</td><td>'+staffSurvey.pp.safe[i]+'</td><td>'+staffSurvey.pp.learning[i]+'</td><td>'+staffSurvey.pp.flexible[i]+'</td><td>'+staffSurvey.pp.teamwork[i]+'</td></tr>'
-        ).join('');
+        // All data from NHS Staff Survey 2024 Benchmark Report (published March 2025)
+        // Extracted from Benchmark-report-Excel-data-for-2020-2024.xlsx, 'Acute&Acute Community Trusts' sheet
+        const surveyData = [
+            { name: 'Birmingham', engagement: 6.62, morale: 5.80, recommend: 53.2, care: 57.1, pp1: 6.97, pp2: 5.69, pp3: 6.45, pp4: 5.97, pp5: 5.40, pp6: 6.09, pp7: 6.57 },
+            { name: 'Cambridge', engagement: 7.02, morale: 6.02, recommend: 69.3, care: 77.1, pp1: 7.36, pp2: 6.00, pp3: 6.74, pp4: 6.20, pp5: 5.97, pp6: 6.56, pp7: 6.81 },
+            { name: 'GSTT', engagement: 7.15, morale: 6.01, recommend: 72.6, care: 82.1, pp1: 7.35, pp2: 5.99, pp3: 6.89, pp4: 6.15, pp5: 5.86, pp6: 6.25, pp7: 6.81 },
+            { name: 'Imperial', engagement: 7.11, morale: 6.08, recommend: 70.7, care: 74.5, pp1: 7.30, pp2: 5.99, pp3: 6.84, pp4: 6.17, pp5: 5.97, pp6: 6.21, pp7: 6.83 },
+            { name: "King's", engagement: 6.58, morale: 5.54, recommend: 52.9, care: 61.6, pp1: 6.96, pp2: 5.64, pp3: 6.43, pp4: 5.80, pp5: 5.67, pp6: 5.69, pp7: 6.59 },
+            { name: 'Manchester', engagement: 6.79, morale: 5.85, recommend: 59.7, care: 65.6, pp1: 7.22, pp2: 5.92, pp3: 6.69, pp4: 6.15, pp5: 5.59, pp6: 6.04, pp7: 6.75 },
+            { name: 'Newcastle', engagement: 6.83, morale: 5.93, recommend: 61.2, care: 76.6, pp1: 7.17, pp2: 5.70, pp3: 6.59, pp4: 6.08, pp5: 5.50, pp6: 5.93, pp7: 6.48 },
+            { name: 'Oxford', engagement: 6.98, morale: 5.92, recommend: 61.7, care: 74.3, pp1: 7.34, pp2: 5.96, pp3: 6.76, pp4: 6.16, pp5: 5.92, pp6: 6.25, pp7: 6.91 },
+            { name: 'Sheffield', engagement: 6.79, morale: 5.96, recommend: 61.8, care: 69.5, pp1: 7.30, pp2: 5.92, pp3: 6.67, pp4: 6.11, pp5: 5.61, pp6: 5.96, pp7: 6.73 },
+            { name: 'UCLH', engagement: 7.35, morale: 6.23, recommend: 79.4, care: 86.0, pp1: 7.51, pp2: 6.19, pp3: 6.99, pp4: 6.24, pp5: 5.99, pp6: 6.59, pp7: 6.92 }
+        ];
 
-        // Engagement chart
-        let engagementChart = new Chart(document.getElementById('engagementChart'), { type: 'bar', data: { labels: [...staffSurvey.labels], datasets: [{ label: 'Staff Engagement Score', data: [...staffSurvey.engagement], backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, annotation: {} }, scales: { y: { beginAtZero: false, min: 6, max: 8, ticks: { stepSize: 0.5 } } } } });
-        function sortEngagementChart(sortType) {
-            let indices = staffSurvey.labels.map((_,i) => i);
-            if (sortType === 'highest') indices.sort((a,b) => staffSurvey.engagement[b] - staffSurvey.engagement[a]);
-            else if (sortType === 'lowest') indices.sort((a,b) => staffSurvey.engagement[a] - staffSurvey.engagement[b]);
-            engagementChart.data.labels = indices.map(i => staffSurvey.labels[i]);
-            engagementChart.data.datasets[0].data = indices.map(i => staffSurvey.engagement[i]);
+        // Acute trust averages (across all 122 acute & acute community trusts)
+        const acuteAvg = { engagement: 6.83, morale: 5.92, recommend: 60.0, care: 62.5,
+                           pp1: 7.25, pp2: 5.90, pp3: 6.71, pp4: 6.10, pp5: 5.75, pp6: 6.16, pp7: 6.74 };
+
+        // Sortable table
+        function sortTable(sortType, e) {
+            let sorted = [...surveyData];
+            if (sortType === 'engagement') sorted.sort((a,b) => b.engagement - a.engagement);
+            else if (sortType === 'recommend') sorted.sort((a,b) => b.recommend - a.recommend);
+            else if (sortType === 'care') sorted.sort((a,b) => b.care - a.care);
+            document.getElementById('surveyTableBody').innerHTML = sorted.map(t =>
+                '<tr><td class="trust-name">'+t.name+'</td><td>'+t.engagement.toFixed(2)+'</td><td>'+t.morale.toFixed(2)+'</td><td>'+t.recommend.toFixed(1)+'%</td><td>'+t.care.toFixed(1)+'%</td></tr>'
+            ).join('');
+            if (e) { document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
+        }
+        sortTable('alpha', null);
+
+        // People Promise table
+        document.getElementById('ppTableBody').innerHTML = surveyData.map(t =>
+            '<tr><td class="trust-name">'+t.name+'</td><td>'+t.pp1.toFixed(2)+'</td><td>'+t.pp2.toFixed(2)+'</td><td>'+t.pp3.toFixed(2)+'</td><td>'+t.pp4.toFixed(2)+'</td><td>'+t.pp5.toFixed(2)+'</td><td>'+t.pp6.toFixed(2)+'</td><td>'+t.pp7.toFixed(2)+'</td></tr>'
+        ).join('') + '<tr style="font-weight:600;background:rgba(0,123,127,0.05)"><td>Acute trust average</td><td>'+acuteAvg.pp1.toFixed(2)+'</td><td>'+acuteAvg.pp2.toFixed(2)+'</td><td>'+acuteAvg.pp3.toFixed(2)+'</td><td>'+acuteAvg.pp4.toFixed(2)+'</td><td>'+acuteAvg.pp5.toFixed(2)+'</td><td>'+acuteAvg.pp6.toFixed(2)+'</td><td>'+acuteAvg.pp7.toFixed(2)+'</td></tr>';
+
+        // Engagement chart with acute average line
+        const engData = { labels: surveyData.map(d=>d.name), values: surveyData.map(d=>d.engagement) };
+        let engagementChart = new Chart(document.getElementById('engagementChart'), { type: 'bar', data: { labels: engData.labels, datasets: [{ label: 'Staff Engagement', data: engData.values, backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'Acute trust avg (6.83)', data: Array(10).fill(6.83), type: 'line', borderColor: '#94A3B8', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 6, max: 7.6, ticks: { stepSize: 0.2 } } } } });
+        function sortEngChart(sortType) {
+            let indices = engData.labels.map((_,i) => i);
+            if (sortType === 'highest') indices.sort((a,b) => engData.values[b] - engData.values[a]);
+            else if (sortType === 'lowest') indices.sort((a,b) => engData.values[a] - engData.values[b]);
+            engagementChart.data.labels = indices.map(i => engData.labels[i]);
+            engagementChart.data.datasets[0].data = indices.map(i => engData.values[i]);
             engagementChart.update();
         }
 
-        // Recommend chart
-        let recommendChart = new Chart(document.getElementById('recommendChart'), { type: 'bar', data: { labels: [...staffSurvey.labels], datasets: [{ label: 'Recommend as Place to Work (%)', data: [...staffSurvey.recommend], backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false, min: 50, max: 80, ticks: { callback: v => v+'%' } } } } });
-        function sortRecommendChart(sortType) {
-            let indices = staffSurvey.labels.map((_,i) => i);
-            if (sortType === 'highest') indices.sort((a,b) => staffSurvey.recommend[b] - staffSurvey.recommend[a]);
-            else if (sortType === 'lowest') indices.sort((a,b) => staffSurvey.recommend[a] - staffSurvey.recommend[b]);
-            recommendChart.data.labels = indices.map(i => staffSurvey.labels[i]);
-            recommendChart.data.datasets[0].data = indices.map(i => staffSurvey.recommend[i]);
-            recommendChart.update();
-        }
+        // Advocacy chart (recommend + care side by side)
+        new Chart(document.getElementById('advocacyChart'), { type: 'bar', data: { labels: surveyData.map(d=>d.name), datasets: [{ label: 'Recommend as place to work', data: surveyData.map(d=>d.recommend), backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'Happy with standard of care', data: surveyData.map(d=>d.care), backgroundColor: '#5B7F6C', borderRadius: 6 },{ label: 'Acute avg: Recommend (60.0%)', data: Array(10).fill(60.0), type: 'line', borderColor: '#007B7F', borderDash: [5,5], borderWidth: 2, pointRadius: 0 },{ label: 'Acute avg: Care (62.5%)', data: Array(10).fill(62.5), type: 'line', borderColor: '#5B7F6C', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 40, max: 100, ticks: { callback: v => v+'%' } } } } });
+
+        // People Promise radar chart
+        const ppLabels = ['Compassionate\n& Inclusive','Recognised\n& Rewarded','Voice that\nCounts','Safe &\nHealthy','Always\nLearning','Work\nFlexibly','Team\nWorking'];
+        const shelfordPP = [
+            surveyData.reduce((s,d)=>s+d.pp1,0)/10,
+            surveyData.reduce((s,d)=>s+d.pp2,0)/10,
+            surveyData.reduce((s,d)=>s+d.pp3,0)/10,
+            surveyData.reduce((s,d)=>s+d.pp4,0)/10,
+            surveyData.reduce((s,d)=>s+d.pp5,0)/10,
+            surveyData.reduce((s,d)=>s+d.pp6,0)/10,
+            surveyData.reduce((s,d)=>s+d.pp7,0)/10
+        ];
+        const acutePP = [acuteAvg.pp1, acuteAvg.pp2, acuteAvg.pp3, acuteAvg.pp4, acuteAvg.pp5, acuteAvg.pp6, acuteAvg.pp7];
+        new Chart(document.getElementById('ppRadarChart'), { type: 'radar', data: { labels: ppLabels, datasets: [{ label: 'Shelford Average', data: shelfordPP, borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.15)', pointBackgroundColor: '#007B7F', pointRadius: 4 },{ label: 'Acute Trust Average', data: acutePP, borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', pointBackgroundColor: '#94A3B8', pointRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { r: { min: 5, max: 8, ticks: { stepSize: 0.5 } } } } });
     </script>
 </body>
 </html>
