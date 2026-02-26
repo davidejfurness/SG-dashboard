@@ -54,16 +54,15 @@
         </div></nav>
 
         <h2>A&E Performance Summary – Shelford Group Aggregates</h2>
-        <p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, January 2026 (published 12 February 2026). Figures are aggregated totals or weighted averages across all 10 Shelford Group trusts.</p>
+        <p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, January 2026 (published 12 February 2026). Figures are aggregated totals or averages across all 10 Shelford Group trusts.</p>
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">4-Hour Performance (Shelford Avg)</div><div class="metric-value">71.0%</div><div class="metric-benchmark">NHS target: 95% | 2025/26 interim: 78%</div></div>
+            <div class="metric-card"><div class="metric-label">4-Hour Performance (Shelford Avg)</div><div class="metric-value">71.0%</div><div class="metric-benchmark">NHS target: 95% | 2025/26 interim: 78% · England: 72.5%</div></div>
             <div class="metric-card"><div class="metric-label">Total Attendances (Shelford Total)</div><div class="metric-value">241k</div><div class="metric-benchmark">January 2026, all 10 trusts combined</div></div>
-            <div class="metric-card"><div class="metric-label">12-Hour Waits (Shelford Total)</div><div class="metric-value">4,579</div><div class="metric-benchmark">January 2026, all 10 trusts combined</div></div>
-            <div class="metric-card"><div class="metric-label">Ambulance Handovers >60min (Shelford Total)</div><div class="metric-value">3,355</div><div class="metric-benchmark">January 2026, all 10 trusts combined</div></div>
+            <div class="metric-card"><div class="metric-label">12-Hour DTA Waits (Shelford Total)</div><div class="metric-value">4,579</div><div class="metric-benchmark">January 2026, decision to admit to admission · England: 71,517</div></div>
         </div>
 
         <h2>Trust-Level A&E Performance</h2>
-        <p class="source-note">Source: NHS England Acute Provider Table, January 2026</p>
+        <p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, January 2026 (published 12 February 2026)</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortAETable(event, 'alpha')">A-Z</button>
@@ -71,23 +70,20 @@
                 <button class="sort-btn" onclick="sortAETable(event, 'ae12hr')">Sort by 12hr</button>
                 <button class="sort-btn" onclick="sortAETable(event, 'attendances')">Sort by Volume</button>
             </div>
-            <table><thead><tr><th>Trust</th><th>4hr Performance</th><th>12hr Waits</th><th>12hr %</th><th>Attendances</th><th>Amb >30min %</th><th>Amb >60min</th></tr></thead>
+            <table><thead><tr><th>Trust</th><th>4hr Performance</th><th>12hr DTA Waits</th><th>12hr %</th><th>Attendances</th></tr></thead>
             <tbody id="aeTableBody"></tbody></table>
         </div>
 
-        <div class="chart-container"><h3>4-Hour Performance Trends (12 Months)</h3><p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, February 2025 – January 2026</p><div class="chart-wrapper"><canvas id="aeTrendsChart"></canvas></div></div>
+        <div class="chart-container"><h3>4-Hour Performance Trends (12 Months)</h3><p class="source-note">Source: NHS England Acute Provider Time Series (Feb–Dec 2025) and A&E Attendances file (Jan 2026), published 12 February 2026</p><div class="chart-wrapper"><canvas id="aeTrendsChart"></canvas></div></div>
 
-        <div class="chart-container"><h3>A&E Attendances by Trust (Stacked, 12 Months)</h3><p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, February 2025 – January 2026. Each bar shows the contribution of each trust to the Shelford total.</p><div class="chart-wrapper"><canvas id="attendancesChart"></canvas></div></div>
+        <div class="chart-container"><h3>A&E Attendances by Trust – January 2026</h3><p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, January 2026 (published 12 February 2026). Monthly trend unavailable from current sources.</p><div class="chart-wrapper"><canvas id="attendancesChart"></canvas></div></div>
 
-        <div class="chart-container"><h3>12-Hour Waits by Trust</h3><p class="source-note">Source: NHS England Acute Provider Table, January 2026</p>
+        <div class="chart-container"><h3>12-Hour DTA Waits by Trust</h3><p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, January 2026 (published 12 February 2026). Shows patients waiting &gt;12hrs from decision to admit to admission.</p>
             <div class="chart-controls"><button class="chart-btn" onclick="sort12HrChart(event, 'alpha')">A-Z</button><button class="chart-btn" onclick="sort12HrChart(event, 'absolute')">Sort by Number</button><button class="chart-btn" onclick="sort12HrChart(event, 'percent')">Sort by %</button></div>
             <div class="chart-wrapper"><canvas id="wait12hrChart"></canvas></div></div>
 
-        <div class="chart-container"><h3>Ambulance Handover Performance</h3><p class="source-note">Source: NHS England Acute Provider Table, January 2026</p>
-            <div class="chart-controls"><button class="chart-btn" onclick="sortAmbChart(event, 'alpha')">A-Z</button><button class="chart-btn" onclick="sortAmbChart(event, '30min')">Sort by 30min</button><button class="chart-btn" onclick="sortAmbChart(event, '60min')">Sort by 60min</button></div>
-            <div class="chart-wrapper"><canvas id="ambulanceChart"></canvas></div></div>
 
-        <div class="chart-container"><h3>12-Hour Waits Trend (12 Months) – Shelford Group Total</h3><p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, February 2025 – January 2026</p>
+        <div class="chart-container"><h3>12-Hour A&E Waits Trend (% of attendances) – Shelford vs England</h3><p class="source-note">Source: NHS England Acute Provider Time Series, February–December 2025 (published 12 February 2026). Shows % of attendances spending &gt;12hrs (arrival to departure), a different metric from the DTA waits above.</p>
             <div class="data-note"><strong>Note on January 2026 data:</strong> Nationally, 12-hour waits from arrival totalled 71,517 in January 2026 — among the highest on record, driven by severe winter pressures including flu and RSV. The Shelford total of 4,579 represents 6.4% of the national figure. Birmingham (2,076), King's (1,145) and Cambridge (729) account for the majority, while Imperial recorded zero 12-hour waits.</div>
             <div class="chart-wrapper"><canvas id="wait12hrTrendChart"></canvas></div></div>
 
@@ -114,36 +110,24 @@
             else if (sortType === 'ae12hr') sorted.sort((a, b) => b.ae12hr - a.ae12hr);
             else if (sortType === 'attendances') sorted.sort((a, b) => b.attend - a.attend);
             document.getElementById('aeTableBody').innerHTML = sorted.map(t =>
-                '<tr><td class="trust-name">'+t.name+'</td><td>'+t.ae4hr+'%</td><td>'+t.ae12hr.toLocaleString()+'</td><td>'+t.ae12hrPct+'%</td><td>'+(t.attend/1000).toFixed(1)+'k</td><td>'+t.amb30+'%</td><td>'+t.amb60+'</td></tr>'
+                '<tr><td class="trust-name">'+t.name+'</td><td>'+t.ae4hr+'%</td><td>'+t.ae12hr.toLocaleString()+'</td><td>'+t.ae12hrPct+'%</td><td>'+(t.attend/1000).toFixed(1)+'k</td></tr>'
             ).join('');
             document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
             if (event && event.target) event.target.classList.add('active');
         }
         sortAETable(null, 'alpha');
 
-        new Chart(document.getElementById('aeTrendsChart'), { type: 'line', data: { labels: ['Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26'], datasets: [{ label: 'Shelford Average', data: [71.1,72.4,73.6,74.3,74.8,75.2,74.9,73.7,72.5,73.1,73.8,71.0], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.1)', tension: 0.4, fill: true },{ label: 'National Average', data: [70.2,71.4,72.6,73.3,73.8,74.2,73.9,72.7,71.5,73.5,73.8,72.5], borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', tension: 0.4, fill: true },{ label: 'NHS Target (95%)', data: [95,95,95,95,95,95,95,95,95,95,95,95], borderColor: '#10B981', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 60, max: 100, ticks: { callback: v => v+'%' } } } } });
+        // 4hr trend: Feb-Dec 25 from NHS England Acute Provider Time Series, Jan 26 from A&E Attendances file
+        new Chart(document.getElementById('aeTrendsChart'), { type: 'line', data: { labels: ['Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26'], datasets: [{ label: 'Shelford Average', data: [71.7,72.7,72.5,73.3,74.4,74.9,74.2,72.6,73.4,73.0,72.8,71.0], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.1)', tension: 0.4, fill: true },{ label: 'National Average', data: [73.5,75.0,74.8,75.4,75.6,76.4,75.9,75.1,74.1,74.2,73.8,72.5], borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', tension: 0.4, fill: true },{ label: 'NHS Target (95%)', data: [95,95,95,95,95,95,95,95,95,95,95,95], borderColor: '#10B981', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 60, max: 100, ticks: { callback: v => v+'%' } } } } });
 
-        // Stacked attendances by trust
-        const months = ['Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26'];
+        // Attendances by trust - January 2026 snapshot (from A&E Attendances file)
         const trustNames = ['Birmingham','Cambridge','GSTT','Imperial',"King's",'Manchester','Newcastle','Oxford','Sheffield','UCLH'];
         const trustColors = ['#007B7F','#1A8B8F','#339B9F','#5AABAF','#75BBBF','#6A9A87','#4A6A5F','#2F4F47','#1F3F37','#8FB0A3'];
-        // Approximate monthly attendances (thousands) per trust
-        const attendByTrust = [
-            [30,29,29,28,27,26,26,27,27,28,28,29], // Birmingham
-            [31,30,30,29,28,27,27,28,28,29,29,30], // Cambridge
-            [32,31,31,30,29,28,28,28,29,29,30,31], // GSTT
-            [31,30,30,29,28,27,27,28,28,29,29,30], // Imperial
-            [31,30,30,29,28,27,27,28,28,29,29,30], // King's
-            [31,30,30,29,28,27,27,28,28,29,29,30], // Manchester
-            [31,30,30,29,28,27,27,28,28,29,29,30], // Newcastle
-            [31,30,30,29,28,27,27,28,28,29,29,30], // Oxford
-            [31,30,30,29,28,27,27,28,28,29,29,30], // Sheffield
-            [31,30,30,29,28,27,27,28,28,29,29,30]  // UCLH
-        ];
-        new Chart(document.getElementById('attendancesChart'), { type: 'bar', data: { labels: months, datasets: trustNames.map((name, i) => ({ label: name, data: attendByTrust[i], backgroundColor: trustColors[i] })) }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 11 }, boxWidth: 12 } }, tooltip: { callbacks: { footer: items => 'Total: ' + items.reduce((s,i) => s+i.parsed.y, 0) + 'k' } } }, scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: v => v + 'k' } } } } });
+        const attendJan26 = [37394,16902,16995,23299,26110,45829,22017,19497,18745,13778];
+        new Chart(document.getElementById('attendancesChart'), { type: 'bar', data: { labels: trustNames, datasets: [{ label: 'Total Attendances (Jan 26)', data: attendJan26, backgroundColor: trustColors, borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: item => item.parsed.y.toLocaleString()+' attendances' } } }, scales: { y: { beginAtZero: true, ticks: { callback: v => (v/1000).toFixed(0)+'k' } } } } });
 
-        // 12hr waits
-        const wait12hrData = { labels: trustNames, absolute: [4110,3240,400,2420,3270,1530,1010,490,2140,1650], percent: [14.2,10.7,1.3,8.0,10.8,5.1,3.3,1.6,7.1,5.5] };
+        // 12hr DTA waits by trust - January 2026 (from A&E Attendances file)
+        const wait12hrData = { labels: trustNames, absolute: [2076,729,59,0,1145,188,26,23,16,317], percent: [5.6,4.3,0.3,0.0,4.4,0.4,0.1,0.1,0.1,2.3] };
         let wait12hrChart = new Chart(document.getElementById('wait12hrChart'), { type: 'bar', data: { labels: wait12hrData.labels, datasets: [{ label: '12-Hour Waits', data: wait12hrData.absolute, backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y.toLocaleString()+' patients ('+wait12hrData.percent[ctx.dataIndex]+'%)' } } }, scales: { y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString() } } } } });
         function sort12HrChart(event, sortType) {
             let indices = wait12hrData.labels.map((_,i) => i);
@@ -154,21 +138,11 @@
             wait12hrChart.update();
         }
 
-        // Ambulance
-        const ambData = { labels: trustNames, over30: [42,38,28,32,41,35,30,29,34,36], over60: [530,420,185,295,480,325,245,205,315,355] };
-        let ambChart = new Chart(document.getElementById('ambulanceChart'), { type: 'bar', data: { labels: ambData.labels, datasets: [{ label: '>30 min (%)', data: ambData.over30, backgroundColor: '#007B7F', borderRadius: 6, yAxisID: 'y' },{ label: '>60 min (absolute)', data: ambData.over60, backgroundColor: '#5B7F6C', borderRadius: 6, yAxisID: 'y1' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { type: 'linear', position: 'left', ticks: { callback: v => v+'%' } }, y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false } } } } });
-        function sortAmbChart(event, sortType) {
-            let indices = ambData.labels.map((_,i) => i);
-            if (sortType === '30min') indices.sort((a,b) => ambData.over30[b] - ambData.over30[a]);
-            else if (sortType === '60min') indices.sort((a,b) => ambData.over60[b] - ambData.over60[a]);
-            ambChart.data.labels = indices.map(i => ambData.labels[i]);
-            ambChart.data.datasets[0].data = indices.map(i => ambData.over30[i]);
-            ambChart.data.datasets[1].data = indices.map(i => ambData.over60[i]);
-            ambChart.update();
-        }
 
-        // 12hr trend - Shelford total (corrected: Dec not hugely spiked for Shelford specifically)
-        new Chart(document.getElementById('wait12hrTrendChart'), { type: 'line', data: { labels: ['Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26'], datasets: [{ label: 'Shelford 12-Hour Waits', data: [21500,20200,19100,18100,17400,16600,16900,17600,17900,18400,20260,4579], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.2)', tension: 0.4, fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false, ticks: { callback: v => (v/1000).toFixed(0)+'k' } } } } });
+        // 12hr A&E waits trend (% of attendances >12hrs arrival to departure)
+        // Feb-Dec 25 from NHS England Acute Provider Time Series. Note: this is a different metric
+        // from the >12hr DTA waits in the trust table above (which counts decision-to-admit waits only).
+        new Chart(document.getElementById('wait12hrTrendChart'), { type: 'line', data: { labels: ['Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25'], datasets: [{ label: 'Shelford 12-Hour Waits (%)', data: [7.7,6.4,6.4,6.0,5.9,5.6,5.9,6.8,7.0,6.7,6.8], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.2)', tension: 0.4, fill: true },{ label: 'England 12-Hour Waits (%)', data: [11.4,9.9,10.1,9.4,8.9,8.3,8.9,9.8,10.7,10.1,10.5], borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', tension: 0.4, fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, ticks: { callback: v => v+'%' } } } } });
     </script>
 </body>
 </html>
