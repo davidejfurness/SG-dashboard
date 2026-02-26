@@ -299,33 +299,33 @@
 
         <!-- Key Metrics -->
         <h2>Cancer Waiting Times Summary</h2>
-        <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025 (published 12 February 2026)</p>
+        <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025 (provisional, published 12 February 2026)</p>
         <div class="dashboard-grid">
             <div class="metric-card">
                 <div class="metric-label">Two Week Wait (Suspected Cancer)</div>
-                <div class="metric-value">80.4%</div>
-                <div class="metric-benchmark">Standard: 93% | Shelford average, Nov 2025</div>
+                <div class="metric-value">83.0%</div>
+                <div class="metric-benchmark">Standard: 93% | Shelford average, Dec 2025</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">28-Day Faster Diagnosis</div>
-                <div class="metric-value">72.8%</div>
-                <div class="metric-benchmark">Standard: 75% | Shelford average, Nov 2025</div>
+                <div class="metric-value">79.5%</div>
+                <div class="metric-benchmark">Standard: 75% | Shelford average, Dec 2025 · England: 77.4%</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">31-Day First Treatment</div>
-                <div class="metric-value">93.6%</div>
-                <div class="metric-benchmark">Standard: 96% | Shelford average, Nov 2025</div>
+                <div class="metric-value">88.9%</div>
+                <div class="metric-benchmark">Standard: 96% | Shelford average, Dec 2025 · England: 92.5%</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">62-Day GP Referral to Treatment</div>
-                <div class="metric-value">62.1%</div>
-                <div class="metric-benchmark">Standard: 85% | Shelford average, Nov 2025</div>
+                <div class="metric-value">68.3%</div>
+                <div class="metric-benchmark">Standard: 85% | Shelford average, Dec 2025 · England: 71.9%</div>
             </div>
         </div>
 
         <!-- Detailed Performance Table -->
         <h2>Trust-Level Cancer Performance</h2>
-        <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025 (published 12 February 2026)</p>
+        <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), December 2025 (published 12 February 2026)</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortCancerTable('alpha', event)">A-Z</button>
@@ -353,7 +353,7 @@
         <!-- Two Week Wait by Trust -->
         <div class="chart-container">
             <h3>Two Week Wait Performance by Trust</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025. Standard: 93%.</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), December 2025. Standard: 93%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortTwoWeekChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortTwoWeekChart('highest')">Highest to Lowest</button>
@@ -367,7 +367,7 @@
         <!-- 28-Day Faster Diagnosis Standard -->
         <div class="chart-container">
             <h3>28-Day Faster Diagnosis Standard by Trust</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025. Standard: 75%.</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), December 2025. Standard: 75%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortFDSChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortFDSChart('highest')">Highest to Lowest</button>
@@ -381,7 +381,7 @@
         <!-- 62-Day GP Referral to Treatment -->
         <div class="chart-container">
             <h3>62-Day GP Referral to First Treatment by Trust</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025. Standard: 85%.</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), December 2025. Standard: 85%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortSixtyTwoChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortSixtyTwoChart('highest')">Highest to Lowest</button>
@@ -395,7 +395,7 @@
         <!-- Cancer Waiting Times Trends -->
         <div class="chart-container">
             <h3>62-Day Standard Trends (12 Months)</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2024 - December 2025</p>
+            <p class="source-note">Source: NHS England Acute Provider Time Series, December 2024 – December 2025 (published 12 February 2026)</p>
             <div class="chart-wrapper">
                 <canvas id="cancerTrendChart"></canvas>
             </div>
@@ -404,7 +404,7 @@
         <!-- 31-Day Sub-Standards -->
         <div class="chart-container">
             <h3>31-Day Treatment Standards by Trust</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2025. Shows surgery, drug and radiotherapy sub-standards.</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), December 2025. Shows surgery, drug and radiotherapy sub-standards.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortThirtyOneChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortThirtyOneChart('surgery')">Sort by Surgery</button>
@@ -417,8 +417,8 @@
 
         <!-- Two Week Wait Trends -->
         <div class="chart-container">
-            <h3>Two Week Wait & 28-Day FDS Trends (12 Months)</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, December 2024 - December 2025</p>
+            <h3>28-Day Faster Diagnosis Standard Trends (13 Months)</h3>
+            <p class="source-note">Source: NHS England Acute Provider Time Series, December 2024 – December 2025 (published 12 February 2026). Two-week wait trend unavailable from this source.</p>
             <div class="chart-wrapper">
                 <canvas id="twwTrendChart"></canvas>
             </div>
@@ -431,17 +431,19 @@
 
     <script>
         // Cancer Performance Data - December 2025
+        // Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), published 12 Feb 2026
+        // 2WW from Referrals Seen sheet; FDS/31D/62D from Provider Level Performance sheet
         const cancerData = [
-            { name: 'Birmingham', twoWeek: 78.2, fds: 70.5, thirtyOne: 92.8, sixtyTwo: 59.4, surg: 89.2, drug: 98.5, radio: 96.1 },
-            { name: 'Cambridge', twoWeek: 83.1, fds: 75.8, thirtyOne: 95.2, sixtyTwo: 65.8, surg: 92.4, drug: 99.1, radio: 97.8 },
-            { name: 'GSTT', twoWeek: 84.6, fds: 76.2, thirtyOne: 95.8, sixtyTwo: 66.2, surg: 93.1, drug: 99.2, radio: 97.6 },
-            { name: 'Imperial', twoWeek: 81.5, fds: 73.4, thirtyOne: 94.1, sixtyTwo: 63.5, surg: 91.2, drug: 98.8, radio: 97.2 },
-            { name: "King's", twoWeek: 76.8, fds: 68.9, thirtyOne: 91.5, sixtyTwo: 57.2, surg: 88.1, drug: 98.2, radio: 95.8 },
-            { name: 'Manchester', twoWeek: 79.4, fds: 71.8, thirtyOne: 93.4, sixtyTwo: 61.6, surg: 90.5, drug: 98.6, radio: 96.4 },
-            { name: 'Newcastle', twoWeek: 82.8, fds: 74.6, thirtyOne: 94.8, sixtyTwo: 64.9, surg: 91.8, drug: 99.0, radio: 97.5 },
-            { name: 'Oxford', twoWeek: 80.2, fds: 72.8, thirtyOne: 93.8, sixtyTwo: 62.4, surg: 90.8, drug: 98.7, radio: 96.8 },
-            { name: 'Sheffield', twoWeek: 78.8, fds: 71.2, thirtyOne: 92.6, sixtyTwo: 60.1, surg: 89.6, drug: 98.4, radio: 96.2 },
-            { name: 'UCLH', twoWeek: 83.8, fds: 75.1, thirtyOne: 95.4, sixtyTwo: 65.2, surg: 92.1, drug: 99.1, radio: 97.4 }
+            { name: 'Birmingham', twoWeek: 81.8, fds: 83.4, thirtyOne: 90.9, sixtyTwo: 68.6, surg: 79.1, drug: 98.1, radio: 96.4 },
+            { name: 'Cambridge', twoWeek: 72.2, fds: 85.5, thirtyOne: 78.6, sixtyTwo: 74.0, surg: 78.6, drug: 100.0, radio: 59.6 },
+            { name: 'GSTT', twoWeek: 92.9, fds: 82.2, thirtyOne: 90.5, sixtyTwo: 63.6, surg: 82.7, drug: 97.6, radio: 90.2 },
+            { name: 'Imperial', twoWeek: 82.1, fds: 82.5, thirtyOne: 97.5, sixtyTwo: 70.6, surg: 92.6, drug: 100.0, radio: 98.0 },
+            { name: "King's", twoWeek: 85.7, fds: 74.9, thirtyOne: 95.6, sixtyTwo: 65.2, surg: 91.0, drug: 100.0, radio: null },
+            { name: 'Manchester', twoWeek: 93.6, fds: 80.3, thirtyOne: 90.6, sixtyTwo: 73.3, surg: 88.1, drug: 96.6, radio: null },
+            { name: 'Newcastle', twoWeek: 74.8, fds: 67.7, thirtyOne: 91.9, sixtyTwo: 73.4, surg: 82.3, drug: 99.7, radio: 94.7 },
+            { name: 'Oxford', twoWeek: 72.3, fds: 80.4, thirtyOne: 78.6, sixtyTwo: 67.5, surg: 79.0, drug: 95.7, radio: 59.8 },
+            { name: 'Sheffield', twoWeek: 88.1, fds: 75.2, thirtyOne: 78.8, sixtyTwo: 50.5, surg: 68.4, drug: 95.2, radio: 63.3 },
+            { name: 'UCLH', twoWeek: 86.4, fds: 82.9, thirtyOne: 96.1, sixtyTwo: 76.7, surg: 95.8, drug: 100.0, radio: 97.8 }
         ];
 
         // Sort cancer table
@@ -640,28 +642,28 @@
             sixtyTwoChart.update();
         }
 
-        // 62-Day Trends (12 months)
+        // 62-Day Trends (13 months) - all data from NHS England Acute Provider Time Series
         new Chart(document.getElementById('cancerTrendChart'), {
             type: 'line',
             data: {
-                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25'],
+                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25'],
                 datasets: [{
                     label: 'Shelford Average (62-Day)',
-                    data: [58.4, 59.1, 59.8, 60.2, 60.5, 60.8, 61.1, 61.4, 61.6, 61.8, 61.9, 62.1],
+                    data: [67.0, 61.3, 61.3, 65.8, 65.3, 62.8, 63.0, 63.5, 65.1, 63.8, 63.3, 65.5, 68.3],
                     borderColor: '#007B7F',
                     backgroundColor: 'rgba(0, 123, 127, 0.1)',
                     tension: 0.4,
                     fill: true
                 }, {
                     label: 'National Average (62-Day)',
-                    data: [63.2, 63.5, 63.8, 64.1, 64.3, 64.5, 64.7, 64.9, 65.1, 65.2, 65.3, 65.4],
+                    data: [71.7, 67.6, 67.2, 71.4, 70.1, 68.1, 67.3, 69.5, 69.3, 68.0, 68.8, 70.2, 71.9],
                     borderColor: '#94A3B8',
                     backgroundColor: 'rgba(148, 163, 184, 0.1)',
                     tension: 0.4,
                     fill: true
                 }, {
                     label: 'Standard (85%)',
-                    data: [85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85],
+                    data: [85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85],
                     borderColor: '#EF4444',
                     borderDash: [5, 5],
                     borderWidth: 2,
@@ -731,7 +733,7 @@
                 scales: {
                     y: {
                         beginAtZero: false,
-                        min: 85,
+                        min: 50,
                         max: 100,
                         ticks: {
                             callback: function(value) {
@@ -763,31 +765,24 @@
         new Chart(document.getElementById('twwTrendChart'), {
             type: 'line',
             data: {
-                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25'],
+                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25'],
                 datasets: [{
-                    label: '2WW (Shelford Average)',
-                    data: [76.2, 77.1, 77.8, 78.2, 78.6, 78.9, 79.2, 79.5, 79.8, 80.0, 80.2, 80.4],
+                    label: 'FDS (Shelford Average)',
+                    data: [78.8, 74.3, 81.4, 80.1, 78.0, 76.4, 77.6, 77.3, 76.6, 75.2, 78.2, 79.1, 79.5],
                     borderColor: '#007B7F',
                     backgroundColor: 'rgba(0, 123, 127, 0.1)',
                     tension: 0.4,
                     fill: true
                 }, {
-                    label: '28-Day FDS (Shelford Average)',
-                    data: [68.4, 69.1, 69.8, 70.2, 70.8, 71.2, 71.5, 71.9, 72.2, 72.4, 72.6, 72.8],
-                    borderColor: '#5B7F6C',
-                    backgroundColor: 'rgba(91, 127, 108, 0.1)',
+                    label: 'FDS (National Average)',
+                    data: [78.0, 73.4, 80.2, 79.0, 76.7, 74.8, 76.8, 76.5, 74.6, 73.8, 76.1, 76.5, 77.4],
+                    borderColor: '#94A3B8',
+                    backgroundColor: 'rgba(148, 163, 184, 0.1)',
                     tension: 0.4,
                     fill: true
                 }, {
-                    label: '2WW Standard (93%)',
-                    data: [93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93],
-                    borderColor: '#EF4444',
-                    borderDash: [5, 5],
-                    borderWidth: 2,
-                    pointRadius: 0
-                }, {
                     label: 'FDS Standard (75%)',
-                    data: [75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75],
+                    data: [75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75],
                     borderColor: '#F59E0B',
                     borderDash: [5, 5],
                     borderWidth: 2,
