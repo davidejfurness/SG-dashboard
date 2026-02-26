@@ -46,79 +46,76 @@
     <div class="container">
         <header>
             <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
-            <div><h1>Capacity & Beds</h1><p class="subtitle">Bed occupancy, critical care capacity and discharge metrics</p></div>
+            <div><h1>Capacity &amp; Beds</h1><p class="subtitle">Bed availability and occupancy across Shelford Group trusts</p></div>
         </header>
         <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety & Quality</a><a href="capacity-detail.html" class="active">Capacity & Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research &amp; Clinical Trials</a><a href="productivity-detail.html">Productivity</a>
+            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT &amp; Elective Care</a><a href="ae-detail.html">A&amp;E &amp; Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety &amp; Quality</a><a href="capacity-detail.html" class="active">Capacity &amp; Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research &amp; Clinical Trials</a><a href="productivity-detail.html">Productivity</a>
         </div></nav>
 
         <h2>Capacity Summary</h2>
-        <p class="source-note">Source: NHS England Bed Availability and Occupancy Data, January 2026 (published 12 February 2026)</p>
+        <p class="source-note">Source: NHS England KH03 Beds Open Overnight, Q3 2025/26 (October–December 2025), published 19 February 2026. Quarterly average daily beds.</p>
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">General & Acute Bed Occupancy (Shelford Avg)</div><div class="metric-value">92.9%</div><div class="metric-benchmark">Safe threshold: 85%</div></div>
-            <div class="metric-card"><div class="metric-label">Critical Care Occupancy (Shelford Avg)</div><div class="metric-value">84.2%</div><div class="metric-benchmark">Safe threshold: 82%</div></div>
-            <div class="metric-card"><div class="metric-label">Patients Medically Fit for Discharge (Shelford Total)</div><div class="metric-value">8,420</div><div class="metric-benchmark">January 2026</div></div>
+            <div class="metric-card"><div class="metric-label">G&amp;A Bed Occupancy (Shelford Weighted Avg)</div><div class="metric-value">89.7%</div><div class="metric-benchmark">Q3 2025/26 · England: 91.5%</div></div>
+            <div class="metric-card"><div class="metric-label">G&amp;A Beds Available (Shelford Total)</div><div class="metric-value">14,330</div><div class="metric-benchmark">Average daily, Q3 2025/26</div></div>
+            <div class="metric-card"><div class="metric-label">G&amp;A Beds Occupied (Shelford Total)</div><div class="metric-value">12,848</div><div class="metric-benchmark">Average daily, Q3 2025/26</div></div>
         </div>
 
-        <h2>Trust-Level Capacity Metrics</h2>
-        <p class="source-note">Source: NHS England Bed Availability and Occupancy Data, January 2026 (published 12 February 2026)</p>
+        <h2>Trust-Level Bed Occupancy</h2>
+        <p class="source-note">Source: NHS England KH03 Beds Open Overnight, Q3 2025/26 (October–December 2025), published 19 February 2026</p>
         <div class="table-container">
             <div class="sort-buttons">
-                <button class="sort-btn active" onclick="sortCapacityTable('alpha', event)">A-Z</button>
-                <button class="sort-btn" onclick="sortCapacityTable('gaOcc', event)">Sort by G&A Occ</button>
-                <button class="sort-btn" onclick="sortCapacityTable('ccOcc', event)">Sort by CC Occ</button>
-                <button class="sort-btn" onclick="sortCapacityTable('mffd', event)">Sort by MFFD</button>
+                <button class="sort-btn active" onclick="sortTable('alpha', event)">A-Z</button>
+                <button class="sort-btn" onclick="sortTable('gaOcc', event)">Sort by G&amp;A Occ</button>
+                <button class="sort-btn" onclick="sortTable('totalOcc', event)">Sort by Total Occ</button>
+                <button class="sort-btn" onclick="sortTable('availGA', event)">Sort by Beds Available</button>
             </div>
-            <table><thead><tr><th>Trust</th><th>G&A Bed Occupancy</th><th>Critical Care Occupancy</th><th>Total Beds (G&A)</th><th>Medically Fit for Discharge</th><th>MFFD %</th></tr></thead>
+            <table><thead><tr><th>Trust</th><th>G&amp;A Available</th><th>G&amp;A Occupied</th><th>G&amp;A Occupancy</th><th>Total Available</th><th>Total Occupancy</th></tr></thead>
             <tbody id="capacityTableBody"></tbody></table>
         </div>
 
-        <div class="chart-container"><h3>General & Acute Bed Occupancy by Trust</h3><p class="source-note">Source: NHS England Bed Availability and Occupancy Data, January 2026 (published 12 February 2026). Safe threshold is 85%.</p>
+        <div class="chart-container"><h3>General &amp; Acute Bed Occupancy by Trust</h3>
+            <p class="source-note">Source: NHS England KH03 Beds Open Overnight, Q3 2025/26. Average daily beds, October–December 2025.</p>
             <div class="chart-controls"><button class="chart-btn" onclick="sortOccChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortOccChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortOccChart('lowest')">Lowest to Highest</button></div>
             <div class="chart-wrapper"><canvas id="occupancyChart"></canvas></div></div>
 
-        <div class="chart-container"><h3>General & Acute Bed Occupancy Trends (12 Weeks)</h3><p class="source-note">Source: NHS England Bed Availability and Occupancy Data, October 2025 – January 2026</p>
-            <div class="chart-wrapper"><canvas id="occupancyTrendChart"></canvas></div></div>
-
-        <div class="chart-container"><h3>Critical Care Bed Occupancy by Trust</h3><p class="source-note">Source: NHS England Bed Availability and Occupancy Data, January 2026 (published 12 February 2026).</p>
-            <div class="chart-controls"><button class="chart-btn" onclick="sortCCChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortCCChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortCCChart('lowest')">Lowest to Highest</button></div>
-            <div class="chart-wrapper"><canvas id="criticalCareChart"></canvas></div></div>
-
-        <div class="chart-container"><h3>Patients Medically Fit for Discharge</h3><p class="source-note">Source: NHS England Bed Availability and Occupancy Data, January 2026 (published 12 February 2026)</p>
-            <div class="chart-controls"><button class="chart-btn" onclick="sortMFFDChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortMFFDChart('absolute')">Sort by Number</button><button class="chart-btn" onclick="sortMFFDChart('percent')">Sort by %</button></div>
-            <div class="chart-wrapper"><canvas id="mffdChart"></canvas></div></div>
+        <div class="chart-container"><h3>Bed Capacity – Available vs Occupied (G&amp;A)</h3>
+            <p class="source-note">Source: NHS England KH03 Beds Open Overnight, Q3 2025/26. Shows average daily G&amp;A beds available and occupied per trust.</p>
+            <div class="chart-wrapper"><canvas id="bedsCompChart"></canvas></div></div>
 
         <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
 
     <script>
+        // All data from NHS England KH03 Beds Open Overnight, Q3 2025/26
+        // Published 19 February 2026
         const capacityData = [
-            { name: 'Birmingham', gaOcc: 97.4, ccOcc: 88.2, totalBeds: 2502, mffd: 1050, mffdPct: 8.4 },
-            { name: 'Cambridge', gaOcc: 92.9, ccOcc: 84.1, totalBeds: 1090, mffd: 820, mffdPct: 7.5 },
-            { name: 'GSTT', gaOcc: 85.6, ccOcc: 79.8, totalBeds: 1220, mffd: 680, mffdPct: 5.6 },
-            { name: 'Imperial', gaOcc: 94.4, ccOcc: 86.3, totalBeds: 1054, mffd: 870, mffdPct: 8.3 },
-            { name: "King's", gaOcc: 98.7, ccOcc: 89.5, totalBeds: 1380, mffd: 1020, mffdPct: 7.4 },
-            { name: 'Manchester', gaOcc: 93.8, ccOcc: 85.6, totalBeds: 2142, mffd: 980, mffdPct: 4.6 },
-            { name: 'Newcastle', gaOcc: 87.4, ccOcc: 81.2, totalBeds: 1467, mffd: 760, mffdPct: 5.2 },
-            { name: 'Oxford', gaOcc: 95.0, ccOcc: 85.9, totalBeds: 1033, mffd: 830, mffdPct: 8.0 },
-            { name: 'Sheffield', gaOcc: 95.4, ccOcc: 86.8, totalBeds: 1561, mffd: 910, mffdPct: 5.8 },
-            { name: 'UCLH', gaOcc: 88.0, ccOcc: 82.4, totalBeds: 734, mffd: 540, mffdPct: 7.4 }
+            { name: 'Birmingham', availGA: 2769, occGA: 2675, gaOcc: 96.6, availTotal: 2886, totalOcc: 96.6 },
+            { name: 'Cambridge', availGA: 1044, occGA: 952, gaOcc: 91.2, availTotal: 1105, totalOcc: 90.6 },
+            { name: 'GSTT', availGA: 1210, occGA: 1005, gaOcc: 83.1, availTotal: 1286, totalOcc: 83.1 },
+            { name: 'Imperial', availGA: 1039, occGA: 982, gaOcc: 94.6, availTotal: 1093, totalOcc: 94.6 },
+            { name: "King's", availGA: 1357, occGA: 1201, gaOcc: 88.5, availTotal: 1477, totalOcc: 85.7 },
+            { name: 'Manchester', availGA: 2067, occGA: 1842, gaOcc: 89.1, availTotal: 2276, totalOcc: 87.7 },
+            { name: 'Newcastle', availGA: 1458, occGA: 1214, gaOcc: 83.3, availTotal: 1565, totalOcc: 80.4 },
+            { name: 'Oxford', availGA: 1019, occGA: 923, gaOcc: 90.5, availTotal: 1096, totalOcc: 88.7 },
+            { name: 'Sheffield', availGA: 1515, occGA: 1382, gaOcc: 91.2, availTotal: 1633, totalOcc: 89.5 },
+            { name: 'UCLH', availGA: 853, occGA: 672, gaOcc: 78.9, availTotal: 897, totalOcc: 77.4 }
         ];
 
-        function sortCapacityTable(sortType, e) {
+        function sortTable(sortType, e) {
             let sorted = [...capacityData];
             if (sortType === 'gaOcc') sorted.sort((a,b) => b.gaOcc - a.gaOcc);
-            else if (sortType === 'ccOcc') sorted.sort((a,b) => b.ccOcc - a.ccOcc);
-            else if (sortType === 'mffd') sorted.sort((a,b) => b.mffd - a.mffd);
+            else if (sortType === 'totalOcc') sorted.sort((a,b) => b.totalOcc - a.totalOcc);
+            else if (sortType === 'availGA') sorted.sort((a,b) => b.availGA - a.availGA);
             document.getElementById('capacityTableBody').innerHTML = sorted.map(t =>
-                '<tr><td class="trust-name">'+t.name+'</td><td>'+t.gaOcc+'%</td><td>'+t.ccOcc+'%</td><td>'+t.totalBeds+'</td><td>'+t.mffd+'</td><td>'+t.mffdPct+'%</td></tr>'
+                '<tr><td class="trust-name">'+t.name+'</td><td>'+t.availGA.toLocaleString()+'</td><td>'+t.occGA.toLocaleString()+'</td><td>'+t.gaOcc+'%</td><td>'+t.availTotal.toLocaleString()+'</td><td>'+t.totalOcc+'%</td></tr>'
             ).join('');
             if (e) { document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
         }
-        sortCapacityTable('alpha', null);
+        sortTable('alpha', null);
 
+        // G&A Occupancy bar chart
         const occData = { labels: capacityData.map(d=>d.name), values: capacityData.map(d=>d.gaOcc) };
-        let occupancyChart = new Chart(document.getElementById('occupancyChart'), { type: 'bar', data: { labels: occData.labels, datasets: [{ label: 'G&A Bed Occupancy', data: occData.values, backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false, min: 85, max: 100, ticks: { callback: v => v+'%' } } } } });
+        let occupancyChart = new Chart(document.getElementById('occupancyChart'), { type: 'bar', data: { labels: occData.labels, datasets: [{ label: 'G&A Bed Occupancy %', data: occData.values, backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, annotation: {} }, scales: { y: { beginAtZero: false, min: 70, max: 100, ticks: { callback: v => v+'%' } } } } });
         function sortOccChart(sortType) {
             let indices = occData.labels.map((_,i) => i);
             if (sortType === 'highest') indices.sort((a,b) => occData.values[b] - occData.values[a]);
@@ -128,29 +125,8 @@
             occupancyChart.update();
         }
 
-        new Chart(document.getElementById('occupancyTrendChart'), { type: 'line', data: { labels: ['Wk 42','Wk 43','Wk 44','Wk 45','Wk 46','Wk 47','Wk 48','Wk 49','Wk 50','Wk 51','Wk 52','Wk 1','Wk 2'], datasets: [{ label: 'Shelford Average', data: [90.2,90.8,91.2,91.8,92.3,92.8,93.1,93.5,93.8,93.2,92.9,92.8,92.8], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.1)', tension: 0.4, fill: true },{ label: 'Safe Threshold', data: [85,85,85,85,85,85,85,85,85,85,85,85,85], borderColor: '#EF4444', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 80, max: 100, ticks: { callback: v => v+'%' } } } } });
-
-        const ccData = { labels: capacityData.map(d=>d.name), values: capacityData.map(d=>d.ccOcc) };
-        let criticalCareChart = new Chart(document.getElementById('criticalCareChart'), { type: 'bar', data: { labels: ccData.labels, datasets: [{ label: 'Critical Care Occupancy', data: ccData.values, backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false, min: 75, max: 95, ticks: { callback: v => v+'%' } } } } });
-        function sortCCChart(sortType) {
-            let indices = ccData.labels.map((_,i) => i);
-            if (sortType === 'highest') indices.sort((a,b) => ccData.values[b] - ccData.values[a]);
-            else if (sortType === 'lowest') indices.sort((a,b) => ccData.values[a] - ccData.values[b]);
-            criticalCareChart.data.labels = indices.map(i => ccData.labels[i]);
-            criticalCareChart.data.datasets[0].data = indices.map(i => ccData.values[i]);
-            criticalCareChart.update();
-        }
-
-        const mffdData = { labels: capacityData.map(d=>d.name), absolute: capacityData.map(d=>d.mffd), percent: capacityData.map(d=>d.mffdPct) };
-        let mffdChart = new Chart(document.getElementById('mffdChart'), { type: 'bar', data: { labels: mffdData.labels, datasets: [{ label: 'MFFD Patients', data: mffdData.absolute, backgroundColor: '#007B7F', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y+' patients ('+mffdData.percent[ctx.dataIndex]+'%)' } } }, scales: { y: { beginAtZero: true } } } });
-        function sortMFFDChart(sortType) {
-            let indices = mffdData.labels.map((_,i) => i);
-            if (sortType === 'absolute') indices.sort((a,b) => mffdData.absolute[b] - mffdData.absolute[a]);
-            else if (sortType === 'percent') indices.sort((a,b) => mffdData.percent[b] - mffdData.percent[a]);
-            mffdChart.data.labels = indices.map(i => mffdData.labels[i]);
-            mffdChart.data.datasets[0].data = indices.map(i => mffdData.absolute[i]);
-            mffdChart.update();
-        }
+        // Available vs Occupied stacked/grouped bar
+        new Chart(document.getElementById('bedsCompChart'), { type: 'bar', data: { labels: capacityData.map(d=>d.name), datasets: [{ label: 'G&A Occupied', data: capacityData.map(d=>d.occGA), backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'G&A Unoccupied', data: capacityData.map(d=>d.availGA - d.occGA), backgroundColor: '#94A3B8', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, tooltip: { callbacks: { footer: items => { const i = items[0].dataIndex; return 'Total available: '+capacityData[i].availGA.toLocaleString()+' | Occupancy: '+capacityData[i].gaOcc+'%'; } } } }, scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: v => v.toLocaleString() } } } } });
     </script>
 </body>
 </html>
