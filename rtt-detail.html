@@ -68,37 +68,37 @@
         </div></nav>
 
         <h2>RTT Performance Summary</h2>
-        <p class="source-note">Source: NHS England RTT Waiting Times, December 2025 (published 12 February 2026). Sheffield excluded due to data issues.</p>
+        <p class="source-note">Source: NHS England RTT Waiting Times, January 2026 (published 12 March 2026). Sheffield excluded due to data submission issues.</p>
         <div class="dashboard-grid">
             <div class="metric-card">
                 <div class="metric-label">18-Week Performance (Shelford Avg)</div>
-                <div class="metric-value">62.4%</div>
-                <div class="metric-benchmark">NHS target: 92% · England avg: 61.5% · 9 trusts reporting</div>
+                <div class="metric-value">62.6%</div>
+                <div class="metric-benchmark">NHS target: 92% · England avg: 61.4% · 9 trusts reporting</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">Total Waiting List</div>
-                <div class="metric-value">867k</div>
+                <div class="metric-value">854k</div>
                 <div class="metric-benchmark">Patients on incomplete pathways (9 trusts)</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">52+ Week Waiters</div>
-                <div class="metric-value">1.6%</div>
-                <div class="metric-benchmark">13,877 patients · England avg: 1.9%</div>
+                <div class="metric-value">1.5%</div>
+                <div class="metric-benchmark">12,936 patients · England avg: 1.9%</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">78+ Week Waiters</div>
                 <div class="metric-value">&lt;0.01%</div>
-                <div class="metric-benchmark">42 patients across 9 trusts</div>
+                <div class="metric-benchmark">38 patients across 9 trusts</div>
             </div>
         </div>
 
         <div class="benchmark-note">
-            <strong>Elective Recovery Plan Milestones:</strong> The Government's plan aims for <strong>65%</strong> of patients within 18 weeks by March 2026 (with every trust delivering a 5pp improvement), <strong>70%</strong> by March 2027, and the constitutional standard of <strong>92%</strong> by March 2029. The Shelford average currently stands at 62.4% (9 trusts reporting; Sheffield excluded due to data issues). Source: NHS England Medium Term Planning Framework 2026/27–2028/29 and 2025/26 Operational Planning Guidance.
+            <strong>Elective Recovery Plan Milestones:</strong> The Government's plan aims for <strong>65%</strong> of patients within 18 weeks by March 2026 (with every trust delivering a 5pp improvement), <strong>70%</strong> by March 2027, and the constitutional standard of <strong>92%</strong> by March 2029. The Shelford average currently stands at 62.6% (9 trusts reporting; Sheffield excluded due to data submission issues). Source: NHS England Medium Term Planning Framework 2026/27–2028/29 and 2025/26 Operational Planning Guidance.
         </div>
 
         <!-- Trust Table -->
         <h2>Trust-Level RTT Performance</h2>
-        <p class="source-note">Source: NHS England RTT Waiting Times, December 2025 (published 12 February 2026). Sheffield excluded due to data issues.</p>
+        <p class="source-note">Source: NHS England RTT Waiting Times, January 2026 (published 12 March 2026). Sheffield excluded due to data submission issues.</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortRTTTable(event, 'alpha')">A-Z</button>
@@ -138,7 +138,7 @@
         <!-- Total Waiting List by Trust -->
         <div class="chart-container">
             <h3>Waiting List Size by Trust (thousands)</h3>
-            <p class="source-note">Source: NHS England RTT Waiting Times, December 2025. Sheffield excluded due to data issues.</p>
+            <p class="source-note">Source: NHS England RTT Waiting Times, January 2026. Sheffield excluded due to data submission issues.</p>
             <div class="chart-wrapper">
                 <canvas id="rttWaitingListChart"></canvas>
             </div>
@@ -147,7 +147,7 @@
         <!-- Long Waiters by Trust -->
         <div class="chart-container">
             <h3>Long Waiters by Trust (% of waiting list)</h3>
-            <p class="source-note">Source: NHS England RTT Waiting Times, December 2025. Sheffield excluded due to data issues.</p>
+            <p class="source-note">Source: NHS England RTT Waiting Times, January 2026. Sheffield excluded due to data submission issues.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortLongWaiters(event, 'alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortLongWaiters(event, '52week')">Sort by 52wk</button>
@@ -167,20 +167,20 @@
             </div>
         </div>
 
-        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | Data updated March 2026</p></footer>
     </div>
 
     <script>
         const rttData = [
-            { name: 'Birmingham', rtt18: 61.5, list: 95, rtt52pct: 1.0, rtt78pct: 0.00 },
-            { name: 'Cambridge', rtt18: 59.5, list: 64, rtt52pct: 3.0, rtt78pct: 0.01 },
-            { name: 'GSTT', rtt18: 66.3, list: 108, rtt52pct: 1.0, rtt78pct: 0.00 },
-            { name: 'Imperial', rtt18: 64.2, list: 90, rtt52pct: 0.7, rtt78pct: 0.00 },
-            { name: "King's", rtt18: 63.9, list: 88, rtt52pct: 1.8, rtt78pct: 0.04 },
-            { name: 'Manchester', rtt18: 56.1, list: 178, rtt52pct: 2.0, rtt78pct: 0.00 },
-            { name: 'Newcastle', rtt18: 71.4, list: 85, rtt52pct: 1.0, rtt78pct: 0.00 },
-            { name: 'Oxford', rtt18: 59.9, list: 84, rtt52pct: 2.5, rtt78pct: 0.00 },
-            { name: 'UCLH', rtt18: 59.2, list: 74, rtt52pct: 1.5, rtt78pct: 0.00 }
+            { name: 'Birmingham', rtt18: 61.2, list: 93, rtt52pct: 0.8, rtt78pct: 0.00 },
+            { name: 'Cambridge', rtt18: 59.9, list: 62, rtt52pct: 2.7, rtt78pct: 0.01 },
+            { name: 'GSTT', rtt18: 66.5, list: 108, rtt52pct: 1.1, rtt78pct: 0.00 },
+            { name: 'Imperial', rtt18: 64.4, list: 88, rtt52pct: 0.5, rtt78pct: 0.00 },
+            { name: "King's", rtt18: 63.0, list: 84, rtt52pct: 2.1, rtt78pct: 0.03 },
+            { name: 'Manchester', rtt18: 57.6, list: 175, rtt52pct: 1.8, rtt78pct: 0.00 },
+            { name: 'Newcastle', rtt18: 71.0, list: 84, rtt52pct: 1.1, rtt78pct: 0.00 },
+            { name: 'Oxford', rtt18: 59.7, list: 85, rtt52pct: 2.4, rtt78pct: 0.00 },
+            { name: 'UCLH', rtt18: 60.4, list: 76, rtt52pct: 1.5, rtt78pct: 0.00 }
         ];
 
         function sortRTTTable(event, sortType) {
@@ -268,13 +268,13 @@
             rttPerfChart.update();
         }
 
-        // Waiting list by trust - December 2025 (thousands)
+        // Waiting list by trust - January 2026 (thousands)
         new Chart(document.getElementById('rttWaitingListChart'), {
             type: 'bar',
             data: {
-                labels: ['Manchester', 'GSTT', 'Birmingham', 'Imperial', "King's", 'Newcastle', 'Oxford', 'UCLH', 'Cambridge'],
+                labels: ['Manchester', 'GSTT', 'Birmingham', 'Imperial', 'Oxford', "King's", 'Newcastle', 'UCLH', 'Cambridge'],
                 datasets: [
-                    { label: 'Waiting list (thousands)', data: [178, 108, 95, 90, 88, 85, 84, 74, 64], backgroundColor: ['#007B7F','#1A8B8F','#339B9F','#5AABAF','#75BBBF','#6A9A87','#5B7F6C','#4A6A5F','#8FB0A3'], borderRadius: 6 }
+                    { label: 'Waiting list (thousands)', data: [175, 108, 93, 88, 85, 84, 84, 76, 62], backgroundColor: ['#007B7F','#1A8B8F','#339B9F','#5AABAF','#75BBBF','#6A9A87','#5B7F6C','#4A6A5F','#8FB0A3'], borderRadius: 6 }
                 ]
             },
             options: {
@@ -285,11 +285,11 @@
             }
         });
 
-        // Long waiters by trust - December 2025
+        // Long waiters by trust - January 2026
         const longWaitersData = {
             labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'UCLH'],
-            week52: [1.0, 3.0, 1.0, 0.7, 1.8, 2.0, 1.0, 2.5, 1.5],
-            week78: [0.00, 0.01, 0.00, 0.00, 0.04, 0.00, 0.00, 0.00, 0.00]
+            week52: [0.8, 2.7, 1.1, 0.5, 2.1, 1.8, 1.1, 2.4, 1.5],
+            week78: [0.00, 0.01, 0.00, 0.00, 0.03, 0.00, 0.00, 0.00, 0.00]
         };
 
         let longWaitersChart = new Chart(document.getElementById('longWaitersChart'), {
