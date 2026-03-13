@@ -51,7 +51,7 @@
     <div class="container">
         <header>
             <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
-            <div><h1>NHS Productivity & Finance</h1><p class="subtitle">Trust-level productivity growth estimates and in-year financial positions</p></div>
+            <div><h1>NHS Productivity & Finance</h1><p class="subtitle">Trust-level productivity growth estimates</p></div>
         </header>
         <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
             <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research & Clinical Trials</a><a href="productivity-detail.html" class="active">Productivity & Finance</a>
@@ -116,12 +116,12 @@
             <div class="chart-wrapper" style="height: 450px;"><canvas id="trendChart"></canvas></div>
         </div>
 
-        <!-- ===== FINANCE SECTION ===== -->
+        <!-- ===== FINANCE SECTION (hidden pending data review) ===== -->
+        <!--
         <div style="border-top: 3px solid var(--shelford-teal); margin-top: 4rem; padding-top: 2rem;">
         <h2>Financial Position – 2025/26</h2>
         <p class="source-note">Source: Shelford Group CFO Monthly Updates, M9 YTD (December 2025). Figures are provider surplus/(deficit) in £000s. Manchester data incomplete and excluded from some charts.</p>
 
-        <!-- YTD Position Bar Chart -->
         <div class="chart-container">
             <h3>M9 YTD Surplus / (Deficit) – Actual vs Plan</h3>
             <p class="source-note">Source: Shelford CFO Monthly Updates, December 2025. All figures £000s.</p>
@@ -133,7 +133,6 @@
             <div class="chart-wrapper"><canvas id="finPosChart"></canvas></div>
         </div>
 
-        <!-- Monthly Trajectory -->
         <div class="chart-container">
             <h3>YTD Financial Position Trajectory</h3>
             <p class="source-note">Source: Shelford CFO Monthly Updates. Each point shows cumulative YTD surplus/(deficit) in £000s. Months with missing data are omitted per trust.</p>
@@ -141,7 +140,6 @@
             <div class="chart-wrapper" style="height:450px;"><canvas id="finTrajectoryChart"></canvas></div>
         </div>
 
-        <!-- CIP Delivery -->
         <div class="chart-container">
             <h3>CIP Delivery – M9 YTD Plan vs Actual</h3>
             <p class="source-note">Source: Shelford CFO Monthly Updates, December 2025. CIP = Cost Improvement Programme. £000s.</p>
@@ -152,7 +150,6 @@
             <div class="chart-wrapper"><canvas id="cipChart"></canvas></div>
         </div>
 
-        <!-- Finance Summary Table -->
         <div class="table-container">
             <h3>Financial Summary</h3>
             <div class="chart-controls">
@@ -167,6 +164,7 @@
             </table>
         </div>
         </div>
+        -->
 
         <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
@@ -301,7 +299,8 @@
             }
         });
 
-        // ===== FINANCE SECTION =====
+        // ===== FINANCE SECTION (hidden pending data review) =====
+        /*
         const finData = [
             { name: 'Birmingham', outturn24: -30700, fyPlan: -4200, m9Plan: -11187, m9Actual: -36766, m9Var: -25579, cipPct: 5.0, cipPlan: 92452, cipActual: 84876, cipVar: -7576,
               trend: [{m:'M1',v:-8600},{m:'M2',v:-14000},{m:'M3',v:-18807},{m:'M4',v:-21473},{m:'M5',v:-12700},{m:'M6',v:-27841},{m:'M7',v:-31216},{m:'M8',v:-36941},{m:'M9',v:-36766}] },
@@ -325,7 +324,6 @@
               trend: [{m:'M1',v:-6166},{m:'M2',v:-8498},{m:'M3',v:-9675},{m:'M4',v:-7477},{m:'M5',v:-8347},{m:'M6',v:-6646},{m:'M7',v:-4512},{m:'M8',v:-2949},{m:'M9',v:-6444}] }
         ];
 
-        // YTD Position Chart
         const finWithM9 = finData.filter(d => d.m9Actual !== null);
         let finPosChart = new Chart(document.getElementById('finPosChart'), {
             type: 'bar',
@@ -353,7 +351,6 @@
             finPosChart.update();
         }
 
-        // Trajectory Chart
         const allMonths = ['M1','M2','M3','M4','M5','M6','M7','M8','M9'];
         const finColors = ['#DC2626','#059669','#2563EB','#7C3AED','#DB2777','#EA580C','#0891B2','#4F46E5','#CA8A04','#007B7F'];
         let finActive = new Set([0, 2, 4, 9]);
@@ -394,7 +391,6 @@
         }
         updateFinTrajectory();
 
-        // CIP Chart
         const cipSource = finData.filter(d => d.cipPlan !== null);
         let cipChartInst = new Chart(document.getElementById('cipChart'), {
             type: 'bar',
@@ -421,7 +417,6 @@
             cipChartInst.update();
         }
 
-        // Finance Summary Table
         const fmt = v => { if (v === null) return '\u2014'; const m = v/1000; return (m < 0 ? '\u2212' : '') + '\u00a3' + Math.abs(m).toFixed(1) + 'm'; };
         let finTableSort = 'alpha';
         let finTableAsc = true;
@@ -446,6 +441,7 @@
             renderFinTable(sorted);
         }
         renderFinTable(finData);
+        */
     </script>
 </body>
 </html>
