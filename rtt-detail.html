@@ -115,7 +115,7 @@
         <!-- 18-Week Trends with Elective Recovery Benchmarks -->
         <div class="chart-container">
             <h3>18-Week Performance Trends with Elective Recovery Benchmarks</h3>
-            <p class="source-note">Source: NHS England Acute Provider Time Series, December 2024 – December 2025 (published 12 February 2026). Sheffield excluded due to data issues. Benchmark lines from Elective Reform Plan (Jan 2025) and Medium Term Planning Framework.</p>
+            <p class="source-note">Source: NHS England Acute Provider Time Series, January 2025 – January 2026 (published 12 March 2026). Sheffield excluded due to data submission issues. Benchmark lines from Elective Reform Plan (Jan 2025) and Medium Term Planning Framework.</p>
             <div class="chart-wrapper">
                 <canvas id="rttTrendsChart"></canvas>
             </div>
@@ -124,7 +124,7 @@
         <!-- RTT Performance by Trust (moved from overview) -->
         <div class="chart-container">
             <h3>18-Week Performance by Trust – 3 Month Comparison</h3>
-            <p class="source-note">Source: NHS England Acute Provider Time Series, October – December 2025 (published 12 February 2026). Sheffield excluded due to data issues.</p>
+            <p class="source-note">Source: NHS England Acute Provider Time Series, November 2025 – January 2026 (published 12 March 2026). Sheffield excluded due to data submission issues.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortRTTChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortRTTChart('highest')">Highest to Lowest</button>
@@ -161,7 +161,7 @@
         <!-- 52+ Week Waiters Trends -->
         <div class="chart-container">
             <h3>52+ Week Waiters Trend (% of waiting list)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Time Series, December 2024 – December 2025 (published 12 February 2026). Interim target: less than 1% by March 2026. Sheffield excluded due to data issues.</p>
+            <p class="source-note">Source: NHS England Acute Provider Time Series, January 2025 – January 2026 (published 12 March 2026). Interim target: less than 1% by March 2026. Sheffield excluded due to data submission issues.</p>
             <div class="chart-wrapper">
                 <canvas id="longWaitersTrendChart"></canvas>
             </div>
@@ -197,11 +197,11 @@
         sortRTTTable(null, 'alpha');
 
         // 18-week trends with elective recovery benchmarks
-        // All data points verified from NHS England Acute Provider Time Series (Feb 2026 publication)
+        // All data points verified from NHS England Acute Provider Time Series (Mar 2026 publication)
         new Chart(document.getElementById('rttTrendsChart'), {
             type: 'line',
             data: {
-                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25'],
+                labels: ['Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26'],
                 datasets: [{
                     label: 'Shelford Average (excl Sheffield)',
                     data: [57.9, 58.4, 58.8, 59.3, 58.9, 59.8, 60.5, 60.4, 60.1, 61.3, 61.8, 62.1, 62.4],
@@ -232,12 +232,12 @@
         });
 
         // RTT Performance by Trust - 3 Month Comparison
-        // All data from NHS England Acute Provider Time Series (Feb 2026 publication)
+        // All data from NHS England Acute Provider Time Series (Mar 2026 publication)
         const rttPerfData = {
             labels: ['Birmingham', 'Cambridge', 'GSTT', 'Imperial', "King's", 'Manchester', 'Newcastle', 'Oxford', 'UCLH'],
-            oct: [60.6, 59.3, 65.9, 62.1, 63.0, 53.8, 73.5, 60.0, 58.1],
-            nov: [61.4, 59.4, 66.4, 62.6, 63.9, 54.1, 72.1, 60.4, 58.9],
-            dec: [61.5, 59.5, 66.3, 64.2, 63.9, 56.1, 71.4, 59.9, 59.2]
+            nov: [60.6, 59.3, 65.9, 62.1, 63.0, 53.8, 73.5, 60.0, 58.1],
+            dec: [61.4, 59.4, 66.4, 62.6, 63.9, 54.1, 72.1, 60.4, 58.9],
+            jan: [61.5, 59.5, 66.3, 64.2, 63.9, 56.1, 71.4, 59.9, 59.2]
         };
 
         let rttPerfChart = new Chart(document.getElementById('rttPerformanceChart'), {
@@ -245,9 +245,9 @@
             data: {
                 labels: rttPerfData.labels,
                 datasets: [
-                    { label: 'Oct 25', data: rttPerfData.oct, backgroundColor: 'rgba(91,127,108,0.4)', borderRadius: 6 },
-                    { label: 'Nov 25', data: rttPerfData.nov, backgroundColor: 'rgba(91,127,108,0.7)', borderRadius: 6 },
-                    { label: 'Dec 25', data: rttPerfData.dec, backgroundColor: '#5B7F6C', borderRadius: 6 }
+                    { label: 'Nov 25', data: rttPerfData.nov, backgroundColor: 'rgba(91,127,108,0.4)', borderRadius: 6 },
+                    { label: 'Dec 25', data: rttPerfData.dec, backgroundColor: 'rgba(91,127,108,0.7)', borderRadius: 6 },
+                    { label: 'Jan 26', data: rttPerfData.jan, backgroundColor: '#5B7F6C', borderRadius: 6 }
                 ]
             },
             options: {
@@ -259,12 +259,12 @@
 
         function sortRTTChart(sortType) {
             let indices = rttPerfData.labels.map((_, i) => i);
-            if (sortType === 'highest') indices.sort((a, b) => rttPerfData.dec[b] - rttPerfData.dec[a]);
-            else if (sortType === 'lowest') indices.sort((a, b) => rttPerfData.dec[a] - rttPerfData.dec[b]);
+            if (sortType === 'highest') indices.sort((a, b) => rttPerfData.jan[b] - rttPerfData.jan[a]);
+            else if (sortType === 'lowest') indices.sort((a, b) => rttPerfData.jan[a] - rttPerfData.jan[b]);
             rttPerfChart.data.labels = indices.map(i => rttPerfData.labels[i]);
-            rttPerfChart.data.datasets[0].data = indices.map(i => rttPerfData.oct[i]);
-            rttPerfChart.data.datasets[1].data = indices.map(i => rttPerfData.nov[i]);
-            rttPerfChart.data.datasets[2].data = indices.map(i => rttPerfData.dec[i]);
+            rttPerfChart.data.datasets[0].data = indices.map(i => rttPerfData.nov[i]);
+            rttPerfChart.data.datasets[1].data = indices.map(i => rttPerfData.dec[i]);
+            rttPerfChart.data.datasets[2].data = indices.map(i => rttPerfData.jan[i]);
             rttPerfChart.update();
         }
 
@@ -315,11 +315,11 @@
         }
 
         // 52+ week trend with 1% target
-        // All data from NHS England Acute Provider Time Series (Feb 2026 publication)
+        // All data from NHS England Acute Provider Time Series (Mar 2026 publication)
         new Chart(document.getElementById('longWaitersTrendChart'), {
             type: 'line',
             data: {
-                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25'],
+                labels: ['Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26'],
                 datasets: [{
                     label: '52+ week waiters (%)', data: [2.8, 2.8, 2.8, 2.7, 2.8, 3.0, 2.9, 2.9, 2.7, 2.4, 2.2, 2.0, 1.6],
                     borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.2)', tension: 0.4, fill: true

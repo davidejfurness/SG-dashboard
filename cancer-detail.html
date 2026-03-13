@@ -394,8 +394,8 @@
 
         <!-- Cancer Waiting Times Trends -->
         <div class="chart-container">
-            <h3>62-Day Standard Trends (12 Months)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Time Series, December 2024 – December 2025 (published 12 February 2026)</p>
+            <h3>62-Day Standard Trends (13 Months)</h3>
+            <p class="source-note">Source: NHS England Acute Provider Time Series, January 2025 – January 2026 (published 12 March 2026)</p>
             <div class="chart-wrapper">
                 <canvas id="cancerTrendChart"></canvas>
             </div>
@@ -418,7 +418,7 @@
         <!-- Two Week Wait Trends -->
         <div class="chart-container">
             <h3>28-Day Faster Diagnosis Standard Trends (13 Months)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Time Series, December 2024 – December 2025 (published 12 February 2026). Two-week wait trend unavailable from this source.</p>
+            <p class="source-note">Source: NHS England Acute Provider Time Series, January 2025 – January 2026 (published 12 March 2026). Two-week wait trend unavailable from this source.</p>
             <div class="chart-wrapper">
                 <canvas id="twwTrendChart"></canvas>
             </div>
@@ -646,7 +646,7 @@
         new Chart(document.getElementById('cancerTrendChart'), {
             type: 'line',
             data: {
-                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25'],
+                labels: ['Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26'],
                 datasets: [{
                     label: 'Shelford Average (62-Day)',
                     data: [67.0, 61.3, 61.3, 65.8, 65.3, 62.8, 63.0, 63.5, 65.1, 63.8, 63.3, 65.5, 68.3],
@@ -765,7 +765,7 @@
         new Chart(document.getElementById('twwTrendChart'), {
             type: 'line',
             data: {
-                labels: ['Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25'],
+                labels: ['Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26'],
                 datasets: [{
                     label: 'FDS (Shelford Average)',
                     data: [78.8, 74.3, 81.4, 80.1, 78.0, 76.4, 77.6, 77.3, 76.6, 75.2, 78.2, 79.1, 79.5],

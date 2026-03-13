@@ -74,7 +74,7 @@
             <tbody id="aeTableBody"></tbody></table>
         </div>
 
-        <div class="chart-container"><h3>4-Hour Performance Trends (13 Months)</h3><p class="source-note">Source: NHS England Acute Provider Time Series (Feb–Dec 2025, published 12 February 2026) and A&E Attendances file (Jan–Feb 2026, published 12 March 2026)</p><div class="chart-wrapper"><canvas id="aeTrendsChart"></canvas></div></div>
+        <div class="chart-container"><h3>4-Hour Performance Trends (13 Months)</h3><p class="source-note">Source: NHS England Acute Provider Time Series (Feb 2025 – Feb 2026, published 12 March 2026)</p><div class="chart-wrapper"><canvas id="aeTrendsChart"></canvas></div></div>
 
         <div class="chart-container"><h3>A&E Attendances by Trust – February 2026</h3><p class="source-note">Source: NHS England A&E Attendances and Emergency Admissions, February 2026 (published 12 March 2026). Monthly trend unavailable from current sources.</p><div class="chart-wrapper"><canvas id="attendancesChart"></canvas></div></div>
 
@@ -83,7 +83,7 @@
             <div class="chart-wrapper"><canvas id="wait12hrChart"></canvas></div></div>
 
 
-        <div class="chart-container"><h3>12-Hour A&E Waits Trend (% of attendances) – Shelford vs England</h3><p class="source-note">Source: NHS England Acute Provider Time Series, February–December 2025 (published 12 February 2026). Shows % of attendances spending &gt;12hrs (arrival to departure), a different metric from the DTA waits above.</p>
+        <div class="chart-container"><h3>12-Hour A&E Waits Trend (% of attendances) – Shelford vs England</h3><p class="source-note">Source: NHS England Acute Provider Time Series, February 2025 – February 2026 (published 12 March 2026). Shows % of attendances spending &gt;12hrs (arrival to departure), a different metric from the DTA waits above.</p>
             <div class="data-note"><strong>Note on February 2026 data:</strong> Nationally, 12-hour DTA waits totalled 54,649 in February 2026. The Shelford total of 3,818 represents 7.0% of the national figure. Birmingham (1,923), King's (833) and Cambridge (558) account for the majority, while Imperial and Oxford recorded zero 12-hour DTA waits.</div>
             <div class="chart-wrapper"><canvas id="wait12hrTrendChart"></canvas></div></div>
 
@@ -117,8 +117,8 @@
         }
         sortAETable(null, 'alpha');
 
-        // 4hr trend: Feb-Dec 25 from NHS England Acute Provider Time Series, Jan-Feb 26 from A&E Attendances file
-        new Chart(document.getElementById('aeTrendsChart'), { type: 'line', data: { labels: ['Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26'], datasets: [{ label: 'Shelford Average', data: [71.7,72.7,72.5,73.3,74.4,74.9,74.2,72.6,73.4,73.0,72.8,71.0,73.1], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.1)', tension: 0.4, fill: true },{ label: 'National Average', data: [73.5,75.0,74.8,75.4,75.6,76.4,75.9,75.1,74.1,74.2,73.8,72.5,74.1], borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', tension: 0.4, fill: true },{ label: 'NHS Target (95%)', data: [95,95,95,95,95,95,95,95,95,95,95,95,95], borderColor: '#10B981', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 60, max: 100, ticks: { callback: v => v+'%' } } } } });
+        // 4hr trend: Feb 25 – Feb 26 from NHS England Acute Provider Time Series (Mar 2026 publication)
+        new Chart(document.getElementById('aeTrendsChart'), { type: 'line', data: { labels: ['Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26'], datasets: [{ label: 'Shelford Average', data: [71.2,71.7,72.7,72.5,73.3,74.4,74.9,74.2,72.6,73.4,73.0,72.8,71.0], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.1)', tension: 0.4, fill: true },{ label: 'National Average', data: [73.0,73.5,75.0,74.8,75.4,75.6,76.4,75.9,75.1,74.1,74.2,73.8,72.5], borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', tension: 0.4, fill: true },{ label: 'NHS Target (95%)', data: [95,95,95,95,95,95,95,95,95,95,95,95,95], borderColor: '#10B981', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 60, max: 100, ticks: { callback: v => v+'%' } } } } });
 
         // Attendances by trust - February 2026 snapshot (from A&E Attendances file)
         const trustNames = ['Birmingham','Cambridge','GSTT','Imperial',"King's",'Manchester','Newcastle','Oxford','Sheffield','UCLH'];
@@ -140,9 +140,9 @@
 
 
         // 12hr A&E waits trend (% of attendances >12hrs arrival to departure)
-        // Feb-Dec 25 from NHS England Acute Provider Time Series. Note: this is a different metric
-        // from the >12hr DTA waits in the trust table above (which counts decision-to-admit waits only).
-        new Chart(document.getElementById('wait12hrTrendChart'), { type: 'line', data: { labels: ['Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25'], datasets: [{ label: 'Shelford 12-Hour Waits (%)', data: [7.7,6.4,6.4,6.0,5.9,5.6,5.9,6.8,7.0,6.7,6.8], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.2)', tension: 0.4, fill: true },{ label: 'England 12-Hour Waits (%)', data: [11.4,9.9,10.1,9.4,8.9,8.3,8.9,9.8,10.7,10.1,10.5], borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', tension: 0.4, fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, ticks: { callback: v => v+'%' } } } } });
+        // All data from NHS England Acute Provider Time Series (Mar 2026 publication)
+        // Note: this is a different metric from the >12hr DTA waits in the trust table above
+        new Chart(document.getElementById('wait12hrTrendChart'), { type: 'line', data: { labels: ['Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26'], datasets: [{ label: 'Shelford 12-Hour Waits (%)', data: [8.5,7.4,6.6,6.3,6.0,5.8,5.7,5.9,6.8,7.0,6.6,7.0,8.5], borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.2)', tension: 0.4, fill: true },{ label: 'England 12-Hour Waits (%)', data: [11.4,9.9,10.1,9.4,8.9,8.3,8.9,9.8,10.7,10.1,10.5,13.1,11.3], borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', tension: 0.4, fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, ticks: { callback: v => v+'%' } } } } });
     </script>
 </body>
 </html>
