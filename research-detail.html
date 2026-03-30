@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7BPNEWM659"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-7BPNEWM659');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research & Clinical Trials - Shelford Group Dashboard</title>
@@ -93,20 +101,16 @@ else{document.getElementById("authError").style.display="block";document.getElem
             <strong>The 150-day target:</strong> The government's Life Sciences Sector Plan commits to reducing clinical trial setup time to under 150 days by March 2026 — from regulatory submission to first participant recruited. The 150-day clock comprises three stages: MHRA/HRA approval (target: 60 days), site opening after approval (target: 60 days), and first participant recruited after site opening (target: 30 days). The data below relates to the site-level component: whether studies recruited their first participant within 90 days of HRA approval. This is a key NIHR Research Delivery Network performance metric, with funding implications for trusts.
         </div>
 
-        <div class="info-box">
-            <strong>How this data is derived:</strong> The data is extracted from the NIHR Open Data Platform dashboard, filtered to <strong>commercial interventional</strong> studies in <strong>FY 2025/26</strong>. "Interventional" is defined by the dashboard as the first four IRAS categories (covering clinical trials and clinical investigations). DHSC applies additional filters to determine which studies are included in national reporting: rare disease studies, extension studies, and low-recruiting studies are excluded. Definitions for these exclusions, and the date parameters for study inclusion, are set out in the <a href="https://ukcrd.org/ukcrd-projects/ukcrd-projects/study-set-up/study-set-up-latest-news/ukcrd-priority-to-streamline-and-reform-the-set-up-and-delivery-of-clinical-trials-frequently-asked-questions-faqs/" style="color: var(--shelford-teal);">UKCRD FAQ (point 2)</a>. For studies approved in 2026, the metric uses updated criteria.
-        </div>
-
         <h2>Trial Setup Summary – Shelford Group</h2>
-        <p class="source-note">Source: Shelford Group data collection via NIHR Open Data Platform. Latest period: March 2026. Previous period: January 2026. Commercial interventional studies only (FY 2025/26).</p>
+        <p class="source-note">Source: NIHR Open Data Platform. Latest period: 12 months to February 2026. Previous period: 12 months to December 2025.</p>
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">Total Studies (Latest)</div><div class="metric-value">207</div><div class="metric-benchmark">Commercial interventional studies, all 10 trusts, March 2026</div></div>
-            <div class="metric-card"><div class="metric-label">First Participant Within 90 Days</div><div class="metric-value">92</div><div class="metric-benchmark">44.4% of studies met the benchmark</div></div>
-            <div class="metric-card"><div class="metric-label">Shelford 90-Day Achievement Rate</div><div class="metric-value positive">44.4%</div><div class="metric-benchmark">Up from 34.3% in January 2026 · NIHR target: 80%</div></div>
+            <div class="metric-card"><div class="metric-label">Total Studies Recruiting (Latest)</div><div class="metric-value">175</div><div class="metric-benchmark">Across all 10 trusts, 12 months to Feb 2026</div></div>
+            <div class="metric-card"><div class="metric-label">First Participant Within 90 Days</div><div class="metric-value">76</div><div class="metric-benchmark">43.4% of studies met the benchmark</div></div>
+            <div class="metric-card"><div class="metric-label">Shelford 90-Day Achievement Rate</div><div class="metric-value positive">43.4%</div><div class="metric-benchmark">Up from 30.3% previous period · NIHR target: 80%</div></div>
         </div>
 
         <h2>Trust-Level Trial Setup Performance</h2>
-        <p class="source-note">Source: Shelford Group data collection via NIHR Open Data Platform, March 2026. Commercial interventional studies, FY 2025/26. Change column shows percentage point difference from January 2026.</p>
+        <p class="source-note">Source: NIHR Open Data Platform, 12 months to February 2026. Change column shows percentage point difference from previous period (12 months to December 2025).</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortTable('alpha', event)">A-Z</button>
@@ -115,13 +119,13 @@ else{document.getElementById("authError").style.display="block";document.getElem
                 <button class="sort-btn" onclick="sortTable('within', event)">Sort by Within 90 Days</button>
             </div>
             <table>
-                <thead><tr><th>Trust</th><th>Total Studies</th><th>Within 90 Days</th><th>After 90 Days</th><th>% Within 90d</th><th>Change (pp)</th></tr></thead>
+                <thead><tr><th>Trust</th><th>Total Studies</th><th>Within 90 Days</th><th>After 90 Days</th><th>% Within 90d</th><th>Median Days</th><th>Change (pp)</th></tr></thead>
                 <tbody id="trialTableBody"></tbody>
             </table>
         </div>
 
         <div class="chart-container"><h3>First Participant Recruited Within 90 Days (% to Target)</h3>
-            <p class="source-note">Source: Shelford Group data collection via NIHR Open Data Platform. Latest: March 2026. Previous: January 2026. NIHR target is 80%.</p>
+            <p class="source-note">Source: NIHR Open Data Platform. Latest: 12 months to February 2026. Previous: 12 months to December 2025. NIHR target is 80%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortPctChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortPctChart('highest')">Highest to Lowest</button>
@@ -131,7 +135,8 @@ else{document.getElementById("authError").style.display="block";document.getElem
         </div>
 
         <div class="chart-container"><h3>Study Volume and Setup Performance by Trust</h3>
-            <p class="source-note">Source: Shelford Group data collection via NIHR Open Data Platform, March 2026. Each bar shows the split between studies that recruited within 90 days (teal) and those that took longer (grey).</p>
+            <p class="source-note">Source: NIHR Open Data Platform, 12 months to February 2026.</p>
+            <p class="source-note">Source: Shelford Group data collection, 12 months to December 2025. Each bar shows the split between studies that recruited within 90 days (teal) and those that took longer (grey).</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortStackedChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortStackedChart('total')">Sort by Total Volume</button>
@@ -152,21 +157,21 @@ else{document.getElementById("authError").style.display="block";document.getElem
             </ul>
         </div>
 
-        <footer><p>&copy; 2026 Shelford Group | Data updated March 2026</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
 
     <script>
         const trialData = [
-            { name: 'Birmingham', code: 'RRK', total: 21, within: 8, after: 13, pct: 38.1, prevPct: 25.0 },
-            { name: 'Cambridge', code: 'RGT', total: 16, within: 4, after: 12, pct: 25.0, prevPct: 27.3 },
-            { name: 'GSTT', code: 'RJ1', total: 27, within: 5, after: 22, pct: 18.5, prevPct: 20.0 },
-            { name: 'Imperial', code: 'RYJ', total: 20, within: 10, after: 10, pct: 50.0, prevPct: 50.0 },
-            { name: "King's", code: 'RJZ', total: 18, within: 3, after: 15, pct: 16.7, prevPct: 11.1 },
-            { name: 'Manchester', code: 'R0A', total: 15, within: 10, after: 5, pct: 66.7, prevPct: 88.9 },
-            { name: 'Newcastle', code: 'RTD', total: 32, within: 27, after: 5, pct: 84.4, prevPct: 90.9 },
-            { name: 'Oxford', code: 'RTH', total: 19, within: 7, after: 12, pct: 36.8, prevPct: 41.2 },
-            { name: 'Sheffield', code: 'RHQ', total: 7, within: 2, after: 5, pct: 28.6, prevPct: 33.3 },
-            { name: 'UCLH', code: 'RRV', total: 32, within: 16, after: 16, pct: 50.0, prevPct: 13.6 }
+            { name: 'Birmingham', code: 'RRK', total: 16, within: 5, after: 11, pct: 31.3, median: 116, prevPct: 23.8 },
+            { name: 'Cambridge', code: 'RGT', total: 14, within: 3, after: 11, pct: 21.4, median: 146, prevPct: 27.8 },
+            { name: 'GSTT', code: 'RJ1', total: 19, within: 4, after: 15, pct: 21.1, median: 145.5, prevPct: 14.3 },
+            { name: 'Imperial', code: 'RYJ', total: 17, within: 8, after: 9, pct: 47.1, median: 66, prevPct: 34.8 },
+            { name: "King's", code: 'RJZ', total: 16, within: 2, after: 14, pct: 12.5, median: 154.5, prevPct: 11.8 },
+            { name: 'Manchester', code: 'R0A', total: 12, within: 8, after: 4, pct: 66.7, median: 85, prevPct: 58.8 },
+            { name: 'Newcastle', code: 'RTD', total: 28, within: 23, after: 5, pct: 82.1, median: 53, prevPct: 44.8 },
+            { name: 'Oxford', code: 'RTH', total: 18, within: 8, after: 10, pct: 44.4, median: 73, prevPct: 28.6 },
+            { name: 'Sheffield', code: 'RHQ', total: 5, within: 1, after: 4, pct: 20.0, median: 166.5, prevPct: 44.4 },
+            { name: 'UCLH', code: 'RRV', total: 30, within: 14, after: 16, pct: 46.7, median: 83, prevPct: 21.9 }
         ];
 
         // Table
@@ -178,7 +183,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
             document.getElementById('trialTableBody').innerHTML = sorted.map(t => {
                 const change = (t.pct - t.prevPct).toFixed(1);
                 const arrow = change > 0 ? '\u25B2' : change < 0 ? '\u25BC' : '\u2013';
-                return '<tr><td class="trust-name">' + t.name + '</td><td>' + t.total + '</td><td>' + t.within + '</td><td>' + t.after + '</td><td>' + t.pct.toFixed(1) + '%</td><td>' + arrow + ' ' + (change > 0 ? '+' : '') + change + '</td></tr>';
+                return '<tr><td class="trust-name">' + t.name + '</td><td>' + t.total + '</td><td>' + t.within + '</td><td>' + t.after + '</td><td>' + t.pct.toFixed(1) + '%</td><td>' + t.median + '</td><td>' + arrow + ' ' + (change > 0 ? '+' : '') + change + '</td></tr>';
             }).join('');
             if (e) { document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
         }
@@ -191,13 +196,13 @@ else{document.getElementById("authError").style.display="block";document.getElem
             data: {
                 labels: [...pctData.labels],
                 datasets: [{
-                    label: 'Latest (March 2026)',
+                    label: 'Latest (12m to Feb 2026)',
                     data: [...pctData.values],
                     backgroundColor: '#007B7F',
                     borderRadius: 6
                 },
                 {
-                    label: 'Previous (January 2026)',
+                    label: 'Previous (12m to Dec 2025)',
                     data: [...pctData.prev],
                     backgroundColor: 'rgba(0,123,127,0.25)',
                     borderRadius: 6

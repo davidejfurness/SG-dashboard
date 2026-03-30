@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7BPNEWM659"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-7BPNEWM659');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shelford Group Performance Dashboard</title>
@@ -150,8 +158,8 @@ else{document.getElementById("authError").style.display="block";document.getElem
             </table>
         </div>
 
-        <h2>NHS Oversight Framework – Q3 2025/26</h2>
-        <p class="source-note">Source: NHS England Oversight Framework Acute Trust Data, Q3 2025/26. Segment 1 = highest performing, Segment 4 = requires most improvement. Scores range from 1 (best) to 4 (worst).</p>
+        <h2>NHS Oversight Framework – Q2 2025/26</h2>
+        <p class="source-note">Source: NHS England Oversight Framework Acute Trust Data, Q2 2025/26. Segment 1 = highest performing, Segment 4 = requires most improvement. Scores range from 1 (best) to 4 (worst).</p>
 
         <!-- Overall Summary Table -->
         <div class="table-container">
@@ -159,16 +167,16 @@ else{document.getElementById("authError").style.display="block";document.getElem
             <table>
                 <thead><tr><th>Trust</th><th>Segment</th><th>Overall Score</th></tr></thead>
                 <tbody>
-                    <tr><td class="trust-name">Imperial</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.66</td></tr>
-                    <tr><td class="trust-name">GSTT</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.67</td></tr>
-                    <tr><td class="trust-name">UCLH</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.84</td></tr>
-                    <tr><td class="trust-name">Oxford</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.18</td></tr>
-                    <tr><td class="trust-name">Cambridge</td><td><span class="oversight-badge segment-2">Segment 2</span></td><td>2.19</td></tr>
-                    <tr><td class="trust-name">Sheffield</td><td><span class="oversight-badge segment-2">Segment 2</span></td><td>2.32</td></tr>
-                    <tr><td class="trust-name">Manchester</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.36</td></tr>
-                    <tr><td class="trust-name">Newcastle</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.39</td></tr>
-                    <tr><td class="trust-name">Birmingham</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.50</td></tr>
+                    <tr><td class="trust-name">Imperial</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.76</td></tr>
+                    <tr><td class="trust-name">GSTT</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.78</td></tr>
+                    <tr><td class="trust-name">UCLH</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.79</td></tr>
+                    <tr><td class="trust-name">Newcastle</td><td><span class="oversight-badge segment-2">Segment 2</span></td><td>2.19</td></tr>
+                    <tr><td class="trust-name">Sheffield</td><td><span class="oversight-badge segment-2">Segment 2</span></td><td>2.33</td></tr>
+                    <tr><td class="trust-name">Oxford</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.27</td></tr>
+                    <tr><td class="trust-name">Cambridge</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.37</td></tr>
+                    <tr><td class="trust-name">Manchester</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.50</td></tr>
                     <tr><td class="trust-name">King's</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.59</td></tr>
+                    <tr><td class="trust-name">Birmingham</td><td><span class="oversight-badge segment-4">Segment 4</span></td><td>2.87</td></tr>
                 </tbody>
             </table>
         </div>
@@ -195,7 +203,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
         <!-- Domain Scores Radar -->
         <div class="chart-container">
             <h3>Domain Score Profiles</h3>
-            <p class="source-note">Source: NHS England Oversight Framework Q3 2025/26. Lower scores = better performance. Select trusts to compare.</p>
+            <p class="source-note">Source: NHS England Oversight Framework Q2 2025/26. Lower scores = better performance. Select trusts to compare.</p>
             <div style="margin-bottom:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;" id="radarBtns"></div>
             <div class="chart-wrapper"><canvas id="radarChart"></canvas></div>
         </div>
@@ -203,7 +211,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
         <!-- Key Metrics vs National Benchmarks -->
         <div class="chart-container">
             <h3>National Ranking – Key Metrics</h3>
-            <p class="source-note">Source: NHS England (various). RTT, A&amp;E, Cancer and FDS from Oversight Framework Q3 2025/26. Sickness from ESR Q2 2025/26. Staff engagement from NHS Staff Survey 2024. Median/quartile benchmarks from ~130 acute trusts. Note: NOF metric values are from Q3 2025/26 and may differ from the latest monthly figures shown elsewhere on this dashboard.</p>
+            <p class="source-note">Source: NHS England (various). RTT, A&amp;E, Cancer and FDS from Oversight Framework Q2 2025/26. Sickness from ESR November 2025. Staff engagement from NHS Staff Survey 2024. Median/quartile benchmarks from ~130 acute trusts. Note: NOF metric values are from Q2 2025/26 and may differ from the latest monthly figures shown elsewhere on this dashboard.</p>
             <div style="margin-bottom:1rem">
                 <select id="metricSelector" style="padding:0.5rem 1rem; border-radius:6px; border:1px solid var(--border-light); font-size:0.95rem; min-width:300px;" onchange="updateMetricChart()">
                     <option value="rtt18">RTT 18-week % (higher = better)</option>
@@ -218,7 +226,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
             <div class="chart-wrapper"><canvas id="metricChart"></canvas></div>
         </div>
 
-        <footer><p>&copy; 2026 Shelford Group | Data updated March 2026</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
 
     <script>
@@ -272,16 +280,16 @@ else{document.getElementById("authError").style.display="block";document.getElem
 
         // ===== NOF Domain Heatmap =====
         const nofData = [
-            { name: 'Birmingham', overall: 3, access: 2, effectiveness: 1, finance: 4, safety: 4, people: 4 },
-            { name: 'Cambridge', overall: 2, access: 3, effectiveness: 3, finance: 1, safety: 2, people: 1 },
-            { name: 'GSTT', overall: 1, access: 1, effectiveness: 1, finance: 1, safety: 1, people: 1 },
-            { name: 'Imperial', overall: 1, access: 1, effectiveness: 2, finance: 1, safety: 2, people: 1 },
+            { name: 'Birmingham', overall: 4, access: 3, effectiveness: 4, finance: 4, safety: 4, people: 4 },
+            { name: 'Cambridge', overall: 3, access: 4, effectiveness: 3, finance: 1, safety: 2, people: 1 },
+            { name: 'GSTT', overall: 1, access: 2, effectiveness: 1, finance: 1, safety: 1, people: 1 },
+            { name: 'Imperial', overall: 1, access: 1, effectiveness: 2, finance: 2, safety: 2, people: 1 },
             { name: "King's", overall: 3, access: 3, effectiveness: 3, finance: 2, safety: 4, people: 3 },
-            { name: 'Manchester', overall: 3, access: 3, effectiveness: 2, finance: 1, safety: 2, people: 4 },
-            { name: 'Newcastle', overall: 3, access: 2, effectiveness: 1, finance: 2, safety: 4, people: 3 },
-            { name: 'Oxford', overall: 3, access: 2, effectiveness: 2, finance: 2, safety: 3, people: 1 },
-            { name: 'Sheffield', overall: 2, access: 2, effectiveness: 3, finance: 2, safety: 2, people: 2 },
-            { name: 'UCLH', overall: 1, access: 2, effectiveness: 1, finance: 2, safety: 2, people: 1 }
+            { name: 'Manchester', overall: 3, access: 4, effectiveness: 1, finance: 2, safety: 2, people: 4 },
+            { name: 'Newcastle', overall: 2, access: 2, effectiveness: 1, finance: 1, safety: 4, people: 3 },
+            { name: 'Oxford', overall: 3, access: 3, effectiveness: 2, finance: 3, safety: 3, people: 1 },
+            { name: 'Sheffield', overall: 2, access: 3, effectiveness: 4, finance: 1, safety: 2, people: 2 },
+            { name: 'UCLH', overall: 1, access: 2, effectiveness: 1, finance: 1, safety: 2, people: 1 }
         ];
         const hmBody = document.querySelector('#heatmapTable tbody');
         const hmFields = ['overall','access','effectiveness','finance','safety','people'];
@@ -319,16 +327,16 @@ else{document.getElementById("authError").style.display="block";document.getElem
 
         // ===== Radar Chart =====
         const nofScores = [
-            { name: 'Birmingham', scores: [2.21, 1.79, 2.87, 3.53, 3.35] },
-            { name: 'Cambridge', scores: [2.54, 2.50, 1.14, 2.20, 1.57] },
-            { name: 'GSTT', scores: [1.78, 1.72, 1.12, 1.88, 1.48] },
-            { name: 'Imperial', scores: [1.41, 2.07, 1.56, 2.18, 1.63] },
-            { name: "King's", scores: [2.69, 2.35, 1.83, 3.39, 2.57] },
-            { name: 'Manchester', scores: [2.58, 1.89, 1.68, 2.32, 3.08] },
-            { name: 'Newcastle', scores: [2.37, 1.86, 2.23, 2.99, 2.79] },
-            { name: 'Oxford', scores: [2.28, 2.10, 2.02, 2.66, 1.58] },
-            { name: 'Sheffield', scores: [2.37, 2.45, 1.83, 2.28, 2.44] },
-            { name: 'UCLH', scores: [2.05, 1.48, 1.81, 2.29, 1.22] }
+            { name: 'Birmingham', scores: [2.64, 2.75, 2.94, 3.48, 3.31] },
+            { name: 'Cambridge', scores: [2.91, 2.47, 1.34, 2.18, 1.56] },
+            { name: 'GSTT', scores: [2.00, 1.78, 1.10, 1.85, 1.49] },
+            { name: 'Imperial', scores: [1.63, 1.91, 1.74, 2.16, 1.69] },
+            { name: "King's", scores: [2.66, 2.34, 1.86, 3.38, 2.61] },
+            { name: 'Manchester', scores: [2.85, 1.86, 1.79, 2.37, 3.09] },
+            { name: 'Newcastle', scores: [1.98, 1.85, 1.58, 3.02, 2.90] },
+            { name: 'Oxford', scores: [2.40, 2.03, 2.19, 2.84, 1.67] },
+            { name: 'Sheffield', scores: [2.39, 2.74, 1.00, 2.39, 2.53] },
+            { name: 'UCLH', scores: [2.06, 1.46, 1.38, 2.20, 1.34] }
         ];
         const radarLabels = ['Access', 'Effectiveness', 'Finance', 'Safety', 'People'];
         const radarColors = ['#007B7F','#059669','#2563EB','#7C3AED','#DB2777','#EA580C','#0891B2','#4F46E5','#CA8A04','#DC2626'];
@@ -370,18 +378,18 @@ else{document.getElementById("authError").style.display="block";document.getElem
 
         // ===== Key Metrics vs National Benchmarks =====
         const metricData = {
-            rtt18: { label: 'RTT 18-week %', higherBetter: true, median: 60.9, lq: 57.45, uq: 65.35,
-                values: { Birmingham: 61.5, Cambridge: 59.5, GSTT: 66.3, Imperial: 64.2, "King's": 63.9, Manchester: 56.1, Newcastle: 71.4, Oxford: 59.9, Sheffield: 66.04, UCLH: 59.2 }},
-            ae4hr: { label: 'A&E 4-hour %', higherBetter: true, median: 73.05, lq: 70.07, uq: 78.18,
-                values: { Birmingham: 70.94, Cambridge: 71.28, GSTT: 78.81, Imperial: 81.43, "King's": 71.84, Manchester: 72.45, Newcastle: 76.15, Oxford: 79.59, Sheffield: 72.27, UCLH: 77.31 }},
-            ae12hr: { label: 'A&E 12-hour %', higherBetter: false, median: 8.17, lq: 4.8, uq: 10.58,
-                values: { Birmingham: 13.2, Cambridge: 7.48, GSTT: 0.86, Imperial: 5.86, "King's": 9.56, Manchester: 3.64, Newcastle: 2.3, Oxford: 2.08, Sheffield: 6.56, UCLH: 4.54 }},
-            cancer62: { label: 'Cancer 62-day %', higherBetter: true, median: 71.48, lq: 65.35, uq: 77.92,
-                values: { Birmingham: 65.31, Cambridge: 72.18, GSTT: 56.43, Imperial: 71.74, "King's": 60.97, Manchester: 67.64, Newcastle: 72.21, Oxford: 64.83, Sheffield: 47.22, UCLH: 78.65 }},
-            cancerfds: { label: 'Cancer FDS 28-day %', higherBetter: true, median: 77.61, lq: 74.84, uq: 81.97,
-                values: { Birmingham: 78.6, Cambridge: 84.01, GSTT: 83.41, Imperial: 82.32, "King's": 73.38, Manchester: 79.7, Newcastle: 67.53, Oxford: 80.89, Sheffield: 73.6, UCLH: 85.27 }},
-            sickness: { label: 'Sickness absence %', higherBetter: false, median: 5.03, lq: 4.49, uq: 5.5,
-                values: { Birmingham: 5.77, Cambridge: 4.14, GSTT: 4.53, Imperial: 4.64, "King's": 4.49, Manchester: 5.84, Newcastle: 5.5, Oxford: 4.01, Sheffield: 4.8, UCLH: 4.14 }},
+            rtt18: { label: 'RTT 18-week %', higherBetter: true, median: 61.18, lq: 57.82, uq: 65.21,
+                values: { Birmingham: 58.99, Cambridge: 58.86, GSTT: 65.21, Imperial: 62.02, "King's": 61.55, Manchester: 53.78, Newcastle: 73.24, Oxford: 59.65, Sheffield: 66.04, UCLH: 58.54 }},
+            ae4hr: { label: 'A&E 4-hour %', higherBetter: true, median: 75.70, lq: 71.65, uq: 79.10,
+                values: { Birmingham: 71.4, Cambridge: 73.5, GSTT: 78.2, Imperial: 81.0, "King's": 79.3, Manchester: 72.4, Newcastle: 78.3, Oxford: 82.8, Sheffield: 71.5, UCLH: 77.9 }},
+            ae12hr: { label: 'A&E 12-hour %', higherBetter: false, median: 8.61, lq: 4.91, uq: 12.35,
+                values: { Birmingham: 13.58, Cambridge: 10.14, GSTT: 1.39, Imperial: 7.03, "King's": 11.50, Manchester: 4.24, Newcastle: 1.86, Oxford: 0.91, Sheffield: 7.08, UCLH: 3.02 }},
+            cancer62: { label: 'Cancer 62-day %', higherBetter: true, median: 69.28, lq: 64.93, uq: 75.92,
+                values: { Birmingham: 62.82, Cambridge: 69.34, GSTT: 56.17, Imperial: 70.14, "King's": 60.87, Manchester: 62.16, Newcastle: 70.54, Oxford: 59.14, Sheffield: 50.86, UCLH: 78.29 }},
+            cancerfds: { label: 'Cancer FDS 28-day %', higherBetter: true, median: 76.04, lq: 72.63, uq: 80.19,
+                values: { Birmingham: 74.61, Cambridge: 72.43, GSTT: 82.84, Imperial: 81.47, "King's": 73.13, Manchester: 73.50, Newcastle: 71.68, Oxford: 79.79, Sheffield: 70.14, UCLH: 84.38 }},
+            sickness: { label: 'Sickness absence %', higherBetter: false, median: 5.21, lq: 4.60, uq: 5.77,
+                values: { Birmingham: 6.24, Cambridge: 4.56, GSTT: 4.86, Imperial: 5.12, "King's": 4.57, Manchester: 6.33, Newcastle: 6.32, Oxford: 4.43, Sheffield: 5.83, UCLH: 4.39 }},
             engagement: { label: 'Staff engagement', higherBetter: true, median: 6.88, lq: 6.71, uq: 7.04,
                 values: { Birmingham: 6.62, Cambridge: 7.02, GSTT: 7.15, Imperial: 7.11, "King's": 6.58, Manchester: 6.79, Newcastle: 6.83, Oxford: 6.98, Sheffield: 6.79, UCLH: 7.35 }}
         };
