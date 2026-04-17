@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7BPNEWM659"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-7BPNEWM659');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research & Clinical Trials - Shelford Group Dashboard</title>
@@ -29,18 +21,21 @@
         nav a { color: var(--shelford-teal); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; transition: all 0.2s; display: inline-block; }
         nav a:hover { background: rgba(0,123,127,0.1); border-radius: 6px; }
         nav a.active { color: var(--shelford-dark-teal); background: rgba(0,123,127,0.1); border-radius: 6px; font-weight: 600; }
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
         .metric-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,123,127,0.08); border-left: 4px solid var(--shelford-teal); }
         .metric-label { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 0.5rem; font-weight: 500; }
         .metric-value { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; margin-bottom: 0.25rem; }
+        .metric-value.positive { color: #059669; }
         .metric-benchmark { font-size: 0.85rem; color: var(--text-mid); }
         .table-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; overflow-x: auto; }
         .sort-buttons { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
         .sort-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
         .sort-btn:hover { background: var(--shelford-dark-teal); } .sort-btn.active { background: var(--shelford-dark-teal); }
         table { width: 100%; border-collapse: collapse; } thead { background: var(--shelford-teal); color: white; }
-        th { padding: 1rem; text-align: left; font-weight: 600; } td { padding: 1rem; border-bottom: 1px solid var(--border-light); }
+        th { padding: 1rem; text-align: left; font-weight: 600; font-size: 0.9rem; } td { padding: 1rem; border-bottom: 1px solid var(--border-light); }
         tbody tr:hover { background: rgba(0,123,127,0.05); } .trust-name { font-weight: 500; }
+        .summary-row { background: rgba(0,123,127,0.06); font-weight: 600; }
+        .summary-row td { border-top: 2px solid var(--shelford-teal); }
         .chart-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; }
         .chart-wrapper { position: relative; height: 400px; margin-top: 1rem; }
         .chart-controls { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
@@ -48,11 +43,23 @@
         .chart-btn:hover { background: var(--shelford-dark-teal); }
         .info-box { background: rgba(0,123,127,0.05); border-left: 3px solid var(--shelford-teal); padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem; font-size: 0.95rem; color: var(--text-mid); }
         .info-box strong { color: var(--shelford-dark-teal); }
-        .future-box { background: rgba(91,127,108,0.08); border: 2px dashed var(--shelford-sage); border-radius: 12px; padding: 2rem; margin-bottom: 3rem; }
-        .future-box h3 { color: var(--shelford-sage); margin-bottom: 0.5rem; }
-        .future-box ul { margin-top: 0.5rem; margin-left: 1.5rem; color: var(--text-mid); }
-        .future-box li { margin-bottom: 0.5rem; }
+        .section-divider { border: none; border-top: 2px solid var(--border-light); margin: 3rem 0; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .kpi-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,123,127,0.08); border-top: 4px solid var(--shelford-sage); }
+        .kpi-card h4 { font-size: 1rem; color: var(--shelford-dark-teal); margin-bottom: 0.5rem; }
+        .kpi-card .kpi-value { font-size: 2rem; font-weight: 700; color: var(--shelford-dark-teal); }
+        .kpi-card .kpi-detail { font-size: 0.85rem; color: var(--text-mid); margin-top: 0.25rem; }
+        .methodology-note { background: rgba(91,127,108,0.06); border: 1px solid rgba(91,127,108,0.2); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; font-size: 0.9rem; color: var(--text-mid); }
+        .methodology-note summary { cursor: pointer; font-weight: 600; color: var(--shelford-dark-teal); }
+        .methodology-note p { margin-top: 0.75rem; }
         footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-mid); font-size: 0.9rem; }
+        .change-positive { color: #059669; font-weight: 600; }
+        .change-negative { color: #DC2626; font-weight: 600; }
+        .tab-container { display: flex; gap: 0; margin-bottom: 0; border-bottom: 2px solid var(--border-light); }
+        .tab-btn { padding: 0.75rem 1.5rem; background: transparent; color: var(--text-mid); border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 1rem; font-weight: 500; transition: all 0.2s; margin-bottom: -2px; }
+        .tab-btn:hover { color: var(--shelford-teal); }
+        .tab-btn.active { color: var(--shelford-dark-teal); border-bottom-color: var(--shelford-teal); font-weight: 600; }
+        .tab-panel { display: none; } .tab-panel.active { display: block; }
         @media (max-width: 768px) { body { padding: 1rem; } h1 { font-size: 1.8rem; } .metric-value { font-size: 2rem; } .chart-wrapper { height: 300px; } }
     </style>
 </head>
@@ -91,177 +98,317 @@ else{document.getElementById("authError").style.display="block";document.getElem
     <div class="container">
         <header>
             <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
-            <div><h1>Research & Clinical Trials</h1><p class="subtitle">Clinical trial setup performance and research activity across the Shelford Group</p></div>
+            <div><h1>Research & Clinical Trials</h1><p class="subtitle">Clinical trial setup performance and national research delivery indicators</p></div>
         </header>
         <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
             <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html" class="active">Research & Clinical Trials</a><a href="productivity-detail.html">Productivity &amp; Finance</a>
         </div></nav>
 
+        <!-- ==========================================================
+             SECTION 1: SHELFORD TRIAL SETUP PERFORMANCE
+             ========================================================== -->
+
         <div class="info-box">
-            <strong>The 150-day target:</strong> The government's Life Sciences Sector Plan commits to reducing clinical trial setup time to under 150 days by March 2026 — from regulatory submission to first participant recruited. The 150-day clock comprises three stages: MHRA/HRA approval (target: 60 days), site opening after approval (target: 60 days), and first participant recruited after site opening (target: 30 days). The data below relates to the site-level component: whether studies recruited their first participant within 90 days of HRA approval. This is a key NIHR Research Delivery Network performance metric, with funding implications for trusts.
+            <strong>About this page:</strong> This page brings together two data sources. The first section shows <strong>Shelford Group trial setup performance</strong> — whether studies at each trust completed setup on target — from Shelford Group data collection. The second section presents <strong>UK-wide clinical research delivery KPIs</strong> published by DHSC, covering study approval times, recruitment volumes, and portfolio activity across the whole system.
         </div>
 
-        <h2>Trial Setup Summary – Shelford Group</h2>
-        <p class="source-note">Source: NIHR Open Data Platform. Latest period: 12 months to February 2026. Previous period: 12 months to December 2025.</p>
+        <h2>Trial Setup Performance — Shelford Group</h2>
+        <p class="source-note">Source: Shelford Group data collection, April 2026. Metric: % of studies completing setup on target. Two snapshots shown: January 2026 and April 2026.</p>
+
+        <details class="methodology-note">
+            <summary>Methodology and data notes</summary>
+            <p>Data is collected directly from each Shelford Group trust. The metric measures the proportion of studies that completed setup within the target timeframe. The numerator (studies completing setup on target) and denominator (total studies with known status) are reported by each trust. Percentage figures are computed as numerator ÷ denominator. The Shelford Group total is an aggregate (sum of all trust numerators ÷ sum of all trust denominators), not a simple average of percentages. The 'whole system' total covers all trusts reporting to this data collection, not just Shelford.</p>
+            <p>The denominators vary substantially between trusts and between time periods (reflecting different volumes of trial activity and different stages of reporting maturity), so percentage changes should be interpreted alongside the absolute numbers.</p>
+        </details>
+
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">Total Studies Recruiting (Latest)</div><div class="metric-value">175</div><div class="metric-benchmark">Across all 10 trusts, 12 months to Feb 2026</div></div>
-            <div class="metric-card"><div class="metric-label">First Participant Within 90 Days</div><div class="metric-value">76</div><div class="metric-benchmark">43.4% of studies met the benchmark</div></div>
-            <div class="metric-card"><div class="metric-label">Shelford 90-Day Achievement Rate</div><div class="metric-value positive">43.4%</div><div class="metric-benchmark">Up from 30.3% previous period · NIHR target: 80%</div></div>
+            <div class="metric-card">
+                <div class="metric-label">Shelford Setup Rate (Apr 2026)</div>
+                <div class="metric-value positive">45.1%</div>
+                <div class="metric-benchmark">102 of 226 studies on target</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Change Since Jan 2026</div>
+                <div class="metric-value positive">+10.8pp</div>
+                <div class="metric-benchmark">Up from 34.3% (47/137) in January</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Whole System Rate (Apr 2026)</div>
+                <div class="metric-value">43.4%</div>
+                <div class="metric-benchmark">362 of 835 studies on target</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Shelford vs System</div>
+                <div class="metric-value positive">+1.7pp</div>
+                <div class="metric-benchmark">Shelford 45.1% vs whole system 43.4%</div>
+            </div>
         </div>
 
-        <h2>Trust-Level Trial Setup Performance</h2>
-        <p class="source-note">Source: NIHR Open Data Platform, 12 months to February 2026. Change column shows percentage point difference from previous period (12 months to December 2025).</p>
+        <h3>Trust-Level Detail</h3>
+        <p class="source-note">Each cell shows the number of studies on target out of total studies (fraction) and the percentage. Change column shows pp difference from January to April 2026.</p>
         <div class="table-container">
             <div class="sort-buttons">
-                <button class="sort-btn active" onclick="sortTable('alpha', event)">A-Z</button>
-                <button class="sort-btn" onclick="sortTable('pct', event)">Sort by % to Target</button>
-                <button class="sort-btn" onclick="sortTable('total', event)">Sort by Total Studies</button>
-                <button class="sort-btn" onclick="sortTable('within', event)">Sort by Within 90 Days</button>
+                <button class="sort-btn active" onclick="sortTrialTable('alpha', event)">A–Z</button>
+                <button class="sort-btn" onclick="sortTrialTable('apr_pct', event)">Sort by Apr %</button>
+                <button class="sort-btn" onclick="sortTrialTable('change', event)">Sort by Change</button>
+                <button class="sort-btn" onclick="sortTrialTable('apr_total', event)">Sort by Apr Volume</button>
             </div>
             <table>
-                <thead><tr><th>Trust</th><th>Total Studies</th><th>Within 90 Days</th><th>After 90 Days</th><th>% Within 90d</th><th>Median Days</th><th>Change (pp)</th></tr></thead>
+                <thead><tr>
+                    <th>Trust</th>
+                    <th>Jan 2026</th>
+                    <th>Jan %</th>
+                    <th>Apr 2026</th>
+                    <th>Apr %</th>
+                    <th>Change (pp)</th>
+                </tr></thead>
                 <tbody id="trialTableBody"></tbody>
             </table>
         </div>
 
-        <div class="chart-container"><h3>First Participant Recruited Within 90 Days (% to Target)</h3>
-            <p class="source-note">Source: NIHR Open Data Platform. Latest: 12 months to February 2026. Previous: 12 months to December 2025. NIHR target is 80%.</p>
+        <div class="chart-container">
+            <h3>Trial Setup Performance: January vs April 2026</h3>
+            <p class="source-note">Source: Shelford Group data collection. Grouped bar chart showing each trust's performance at both time points. Trusts ordered alphabetically.</p>
             <div class="chart-controls">
-                <button class="chart-btn" onclick="sortPctChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortPctChart('highest')">Highest to Lowest</button>
-                <button class="chart-btn" onclick="sortPctChart('lowest')">Lowest to Highest</button>
+                <button class="chart-btn" onclick="sortTrialChart('alpha')">A–Z</button>
+                <button class="chart-btn" onclick="sortTrialChart('apr_high')">Highest Apr %</button>
+                <button class="chart-btn" onclick="sortTrialChart('change')">Biggest Improvement</button>
             </div>
-            <div class="chart-wrapper"><canvas id="pctChart"></canvas></div>
+            <div class="chart-wrapper"><canvas id="trialChart"></canvas></div>
         </div>
 
-        <div class="chart-container"><h3>Study Volume and Setup Performance by Trust</h3>
-            <p class="source-note">Source: NIHR Open Data Platform, 12 months to February 2026.</p>
-            <p class="source-note">Source: Shelford Group data collection, 12 months to December 2025. Each bar shows the split between studies that recruited within 90 days (teal) and those that took longer (grey).</p>
-            <div class="chart-controls">
-                <button class="chart-btn" onclick="sortStackedChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortStackedChart('total')">Sort by Total Volume</button>
+        <hr class="section-divider">
+
+        <!-- ==========================================================
+             SECTION 2: DHSC UK CLINICAL RESEARCH KPIs
+             ========================================================== -->
+
+        <h2>UK Clinical Research Delivery — National KPIs</h2>
+        <p class="source-note">Source: DHSC, UK Clinical Research Delivery Key Performance Indicators data tables, data to March 2026. Published April 2026.</p>
+
+        <div class="info-box">
+            <strong>About these indicators:</strong> DHSC publishes national KPIs tracking the UK's clinical research delivery system. These cover the pipeline from regulatory approval through to participant recruitment. The data covers all study types across the whole UK system (not just Shelford trusts). The 150-day setup target comprises three stages: MHRA/HRA combined review approval (target: 60 days), site opening after approval (target: 60 days), and first participant recruited after opening (target: 30 days).
+        </div>
+
+        <div class="tab-container">
+            <button class="tab-btn active" onclick="switchTab('approval', event)">Regulatory Approval</button>
+            <button class="tab-btn" onclick="switchTab('setup', event)">Study Setup</button>
+            <button class="tab-btn" onclick="switchTab('recruitment', event)">Recruitment</button>
+            <button class="tab-btn" onclick="switchTab('portfolio', event)">Portfolio</button>
+        </div>
+
+        <!-- TAB 1: Regulatory Approval -->
+        <div id="tab-approval" class="tab-panel active" style="padding-top: 1.5rem;">
+            <h3>Combined Review Approval Within 60 Days</h3>
+            <p class="source-note">Source: DHSC Table 2. Data from MHRA. Shows % of approved studies receiving combined review approval within 60 days (90 days for ATIMPs).</p>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <h4>Latest Month (Feb 2026)</h4>
+                    <div class="kpi-value">99%</div>
+                    <div class="kpi-detail">67 of 68 studies approved within target</div>
+                </div>
+                <div class="kpi-card">
+                    <h4>Average (Jun 2024 – Feb 2026)</h4>
+                    <div class="kpi-value">97%</div>
+                    <div class="kpi-detail">Consistently above 85% across all months</div>
+                </div>
             </div>
-            <div class="chart-wrapper"><canvas id="stackedChart"></canvas></div>
+            <div class="chart-container">
+                <h3>Monthly Combined Review Approval Rate</h3>
+                <div class="chart-wrapper"><canvas id="approvalChart"></canvas></div>
+            </div>
         </div>
 
-        <h2>Future Additions</h2>
-        <div class="future-box">
-            <h3>Planned data for future updates</h3>
-            <p>This page will be expanded as additional research performance data becomes available. Potential additions include:</p>
-            <ul>
-                <li><strong>NIHR RDN recruitment data</strong> — commercial and non-commercial trial participant numbers by trust (published monthly by NIHR)</li>
-                <li><strong>Commercial trial income</strong> — revenue from industry-sponsored trials (from trust annual reports, available July)</li>
-                <li><strong>Recruitment to time and target</strong> — proportion of commercial trials meeting agreed recruitment targets</li>
-                <li><strong>Trial portfolio size</strong> — number of active studies per trust on the NIHR portfolio</li>
-                <li><strong>Setup time trends</strong> — quarterly tracking of 90-day performance against the March 2026 target</li>
-            </ul>
+        <!-- TAB 2: Study Setup -->
+        <div id="tab-setup" class="tab-panel" style="padding-top: 1.5rem;">
+            <h3>Commercial Study Setup Within 150 Days</h3>
+            <p class="source-note">Source: DHSC Table 1. Data from NIHR. Commercial contract interventional studies only. Data available from April 2025.</p>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <h4>Latest Month (Sep 2025)</h4>
+                    <div class="kpi-value">78%</div>
+                    <div class="kpi-detail">7 of 9 commercial studies set up within 150 days</div>
+                </div>
+                <div class="kpi-card">
+                    <h4>Average (Apr–Sep 2025)</h4>
+                    <div class="kpi-value">71%</div>
+                    <div class="kpi-detail">59 of 83 studies met the 150-day target</div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>Monthly Commercial Study Setup Rate</h3>
+                <div class="chart-wrapper" style="height:300px;"><canvas id="setupChart"></canvas></div>
+            </div>
+
+            <h3>Time to Open to Recruitment After Regulatory Approval</h3>
+            <p class="source-note">Source: DHSC Table 3a. All study types, all designs. Target: 60 days. Monthly data from CPMS.</p>
+            <div class="chart-container">
+                <h3>% Opening to Recruitment Within 60 Days (monthly, all studies)</h3>
+                <div class="chart-wrapper"><canvas id="openingChart"></canvas></div>
+            </div>
+
+            <h3>Time to First Participant After Site Opening</h3>
+            <p class="source-note">Source: DHSC Table 4a. All study types, all designs. Target: 30 days. Monthly data from CPMS.</p>
+            <div class="chart-container">
+                <h3>% Recruiting First Participant Within 30 Days (monthly, all studies)</h3>
+                <div class="chart-wrapper"><canvas id="firstPtChart"></canvas></div>
+            </div>
         </div>
 
-        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
+        <!-- TAB 3: Recruitment -->
+        <div id="tab-recruitment" class="tab-panel" style="padding-top: 1.5rem;">
+            <h3>Recruitment to Time and Target</h3>
+            <p class="source-note">Source: DHSC Table 5. All study types, all designs. Shows % of open studies recruiting to time and target.</p>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <h4>Latest Month (Mar 2026)</h4>
+                    <div class="kpi-value">82%</div>
+                    <div class="kpi-detail">4,264 open studies; 82% recruiting to time and target</div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>Recruitment to Time and Target — Monthly Trend</h3>
+                <div class="chart-wrapper"><canvas id="rttChart"></canvas></div>
+            </div>
+
+            <h3>Participant Recruitment Volume</h3>
+            <p class="source-note">Source: DHSC Table 6b. Annual total participants recruited to clinical research studies (CPMS). All study types, all designs. 2025 figure covers 12 months of available data.</p>
+            <div class="chart-container">
+                <h3>Annual Recruitment to Clinical Research (participants)</h3>
+                <div class="chart-wrapper"><canvas id="recruitVolChart"></canvas></div>
+            </div>
+
+            <h3>Monthly Recruitment Trend</h3>
+            <p class="source-note">Source: DHSC Table 6a. All study types, all designs. Monthly participants recruited.</p>
+            <div class="chart-container">
+                <div class="chart-wrapper"><canvas id="recruitMonthlyChart"></canvas></div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Portfolio -->
+        <div id="tab-portfolio" class="tab-panel" style="padding-top: 1.5rem;">
+            <h3>New Studies Added to the CPMS</h3>
+            <p class="source-note">Source: DHSC Table 7a/7b. All study types, all designs. CPMS = Central Portfolio Management System.</p>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <h4>New Studies (2025)</h4>
+                    <div class="kpi-value">1,852</div>
+                    <div class="kpi-detail">All types, full calendar year 2025</div>
+                </div>
+                <div class="kpi-card">
+                    <h4>Latest Month (Feb 2026)</h4>
+                    <div class="kpi-value">154</div>
+                    <div class="kpi-detail">New studies added in February 2026</div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>New Studies Added Monthly (all types, all designs)</h3>
+                <div class="chart-wrapper"><canvas id="newStudiesChart"></canvas></div>
+            </div>
+            <div class="chart-container">
+                <h3>New Studies by Calendar Year</h3>
+                <div class="chart-wrapper"><canvas id="newStudiesYearChart"></canvas></div>
+            </div>
+        </div>
+
+        <footer><p>&copy; 2026 Shelford Group | Shelford trial data updated April 2026 | DHSC national KPI data published April 2026 (data to March 2026)</p></footer>
     </div>
 
     <script>
+        // =============================================================
+        // SECTION 1 DATA: SHELFORD TRIAL SETUP PERFORMANCE
+        // Source: April_2026_Shelford_trials_performance.xlsx
+        // Fractions decoded from Excel (fraction column stored as dates
+        // due to Excel auto-formatting; verified against row 13/14 totals)
+        // Jan 2026 total: 47/137 = 34.3% | Apr 2026 total: 102/226 = 45.1%
+        // =============================================================
         const trialData = [
-            { name: 'Birmingham', code: 'RRK', total: 16, within: 5, after: 11, pct: 31.3, median: 116, prevPct: 23.8 },
-            { name: 'Cambridge', code: 'RGT', total: 14, within: 3, after: 11, pct: 21.4, median: 146, prevPct: 27.8 },
-            { name: 'GSTT', code: 'RJ1', total: 19, within: 4, after: 15, pct: 21.1, median: 145.5, prevPct: 14.3 },
-            { name: 'Imperial', code: 'RYJ', total: 17, within: 8, after: 9, pct: 47.1, median: 66, prevPct: 34.8 },
-            { name: "King's", code: 'RJZ', total: 16, within: 2, after: 14, pct: 12.5, median: 154.5, prevPct: 11.8 },
-            { name: 'Manchester', code: 'R0A', total: 12, within: 8, after: 4, pct: 66.7, median: 85, prevPct: 58.8 },
-            { name: 'Newcastle', code: 'RTD', total: 28, within: 23, after: 5, pct: 82.1, median: 53, prevPct: 44.8 },
-            { name: 'Oxford', code: 'RTH', total: 18, within: 8, after: 10, pct: 44.4, median: 73, prevPct: 28.6 },
-            { name: 'Sheffield', code: 'RHQ', total: 5, within: 1, after: 4, pct: 20.0, median: 166.5, prevPct: 44.4 },
-            { name: 'UCLH', code: 'RRV', total: 30, within: 14, after: 16, pct: 46.7, median: 83, prevPct: 21.9 }
+            { name: 'Birmingham',  code: 'RRK', jan_n: 4,  jan_d: 16, apr_n: 10, apr_d: 24 },
+            { name: 'Cambridge',   code: 'RGT', jan_n: 3,  jan_d: 11, apr_n: 4,  apr_d: 15 },
+            { name: 'GSTT',        code: 'RJ1', jan_n: 4,  jan_d: 20, apr_n: 5,  apr_d: 34 },
+            { name: 'Imperial',    code: 'RYJ', jan_n: 5,  jan_d: 10, apr_n: 11, apr_d: 20 },
+            { name: "King's",      code: 'RJZ', jan_n: 2,  jan_d: 18, apr_n: 4,  apr_d: 21 },
+            { name: 'Manchester',  code: 'R0A', jan_n: 8,  jan_d: 9,  apr_n: 9,  apr_d: 14 },
+            { name: 'Newcastle',   code: 'RTD', jan_n: 10, jan_d: 11, apr_n: 32, apr_d: 39 },
+            { name: 'Oxford',      code: 'RTH', jan_n: 7,  jan_d: 17, apr_n: 6,  apr_d: 19 },
+            { name: 'Sheffield',   code: 'RHQ', jan_n: 1,  jan_d: 3,  apr_n: 2,  apr_d: 7 },
+            { name: 'UCLH',        code: 'RRV', jan_n: 3,  jan_d: 22, apr_n: 19, apr_d: 33 }
         ];
+        // Verification: Jan sum = 3+10+5+3+8+7+4+2+4+1 = 47 ✓ / 11+11+10+22+9+17+20+18+16+3 = 137 ✓
+        // Verification: Apr sum = 4+32+11+19+9+6+5+4+10+2 = 102 ✓ / 15+39+20+33+14+19+34+21+24+7 = 226 ✓
+
+        const shelfordJan = { n: 47, d: 137 };
+        const shelfordApr = { n: 102, d: 226 };
+        const systemJan = { n: 195, d: 501 };
+        const systemApr = { n: 362, d: 835 };
+
+        // Compute percentages
+        trialData.forEach(t => {
+            t.jan_pct = (t.jan_n / t.jan_d * 100);
+            t.apr_pct = (t.apr_n / t.apr_d * 100);
+            t.change = t.apr_pct - t.jan_pct;
+        });
 
         // Table
-        function sortTable(sortType, e) {
+        function sortTrialTable(sortType, e) {
             let sorted = [...trialData];
-            if (sortType === 'pct') sorted.sort((a, b) => b.pct - a.pct);
-            else if (sortType === 'total') sorted.sort((a, b) => b.total - a.total);
-            else if (sortType === 'within') sorted.sort((a, b) => b.within - a.within);
-            document.getElementById('trialTableBody').innerHTML = sorted.map(t => {
-                const change = (t.pct - t.prevPct).toFixed(1);
-                const arrow = change > 0 ? '\u25B2' : change < 0 ? '\u25BC' : '\u2013';
-                return '<tr><td class="trust-name">' + t.name + '</td><td>' + t.total + '</td><td>' + t.within + '</td><td>' + t.after + '</td><td>' + t.pct.toFixed(1) + '%</td><td>' + t.median + '</td><td>' + arrow + ' ' + (change > 0 ? '+' : '') + change + '</td></tr>';
+            if (sortType === 'apr_pct') sorted.sort((a, b) => b.apr_pct - a.apr_pct);
+            else if (sortType === 'change') sorted.sort((a, b) => b.change - a.change);
+            else if (sortType === 'apr_total') sorted.sort((a, b) => b.apr_d - a.apr_d);
+            else sorted.sort((a, b) => a.name.localeCompare(b.name));
+
+            let html = sorted.map(t => {
+                const arrow = t.change > 0.5 ? '▲' : t.change < -0.5 ? '▼' : '–';
+                const cls = t.change > 0.5 ? 'change-positive' : t.change < -0.5 ? 'change-negative' : '';
+                return '<tr>' +
+                    '<td class="trust-name">' + t.name + '</td>' +
+                    '<td>' + t.jan_n + '/' + t.jan_d + '</td>' +
+                    '<td>' + t.jan_pct.toFixed(1) + '%</td>' +
+                    '<td>' + t.apr_n + '/' + t.apr_d + '</td>' +
+                    '<td>' + t.apr_pct.toFixed(1) + '%</td>' +
+                    '<td class="' + cls + '">' + arrow + ' ' + (t.change > 0 ? '+' : '') + t.change.toFixed(1) + '</td>' +
+                    '</tr>';
             }).join('');
-            if (e) { document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
-        }
-        sortTable('alpha', null);
 
-        // Percentage chart with period comparison
-        const pctData = { labels: trialData.map(d => d.name), values: trialData.map(d => d.pct), prev: trialData.map(d => d.prevPct) };
-        let pctChart = new Chart(document.getElementById('pctChart'), {
-            type: 'bar',
-            data: {
-                labels: [...pctData.labels],
-                datasets: [{
-                    label: 'Latest (12m to Feb 2026)',
-                    data: [...pctData.values],
-                    backgroundColor: '#007B7F',
-                    borderRadius: 6
-                },
-                {
-                    label: 'Previous (12m to Dec 2025)',
-                    data: [...pctData.prev],
-                    backgroundColor: 'rgba(0,123,127,0.25)',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'top' },
-                    annotation: {}
-                },
-                scales: {
-                    y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } }
-                }
-            },
-            plugins: [{
-                id: 'targetLine',
-                afterDraw(chart) {
-                    const ctx = chart.ctx;
-                    const yScale = chart.scales.y;
-                    const y = yScale.getPixelForValue(80);
-                    ctx.save();
-                    ctx.strokeStyle = '#EF4444';
-                    ctx.lineWidth = 2;
-                    ctx.setLineDash([6, 4]);
-                    ctx.beginPath();
-                    ctx.moveTo(chart.chartArea.left, y);
-                    ctx.lineTo(chart.chartArea.right, y);
-                    ctx.stroke();
-                    ctx.fillStyle = '#EF4444';
-                    ctx.font = '12px -apple-system, sans-serif';
-                    ctx.fillText('NIHR Target: 80%', chart.chartArea.right - 120, y - 8);
-                    ctx.restore();
-                }
-            }]
-        });
-        function sortPctChart(sortType) {
-            let indices = pctData.labels.map((_, i) => i);
-            if (sortType === 'highest') indices.sort((a, b) => pctData.values[b] - pctData.values[a]);
-            else if (sortType === 'lowest') indices.sort((a, b) => pctData.values[a] - pctData.values[b]);
-            pctChart.data.labels = indices.map(i => pctData.labels[i]);
-            pctChart.data.datasets[0].data = indices.map(i => pctData.values[i]);
-            pctChart.data.datasets[1].data = indices.map(i => pctData.prev[i]);
-            pctChart.update();
-        }
+            // Add Shelford and whole system summary rows
+            const sgJanPct = (shelfordJan.n / shelfordJan.d * 100);
+            const sgAprPct = (shelfordApr.n / shelfordApr.d * 100);
+            const sgChange = sgAprPct - sgJanPct;
+            const wsJanPct = (systemJan.n / systemJan.d * 100);
+            const wsAprPct = (systemApr.n / systemApr.d * 100);
+            const wsChange = wsAprPct - wsJanPct;
 
-        // Stacked volume chart
-        const stackedData = {
+            html += '<tr class="summary-row"><td class="trust-name">Shelford Group</td>' +
+                '<td>' + shelfordJan.n + '/' + shelfordJan.d + '</td>' +
+                '<td>' + sgJanPct.toFixed(1) + '%</td>' +
+                '<td>' + shelfordApr.n + '/' + shelfordApr.d + '</td>' +
+                '<td>' + sgAprPct.toFixed(1) + '%</td>' +
+                '<td class="change-positive">▲ +' + sgChange.toFixed(1) + '</td></tr>';
+            html += '<tr class="summary-row"><td class="trust-name">Whole System</td>' +
+                '<td>' + systemJan.n + '/' + systemJan.d + '</td>' +
+                '<td>' + wsJanPct.toFixed(1) + '%</td>' +
+                '<td>' + systemApr.n + '/' + systemApr.d + '</td>' +
+                '<td>' + wsAprPct.toFixed(1) + '%</td>' +
+                '<td class="change-positive">▲ +' + wsChange.toFixed(1) + '</td></tr>';
+
+            document.getElementById('trialTableBody').innerHTML = html;
+            if (e) { document.querySelectorAll('#trialTableBody').forEach(() => {}); document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
+        }
+        sortTrialTable('alpha', null);
+
+        // Grouped bar chart: Jan vs Apr
+        const trialChartData = {
             labels: trialData.map(d => d.name),
-            within: trialData.map(d => d.within),
-            after: trialData.map(d => d.after)
+            jan: trialData.map(d => d.jan_pct),
+            apr: trialData.map(d => d.apr_pct)
         };
-        let stackedChart = new Chart(document.getElementById('stackedChart'), {
+        let trialChart = new Chart(document.getElementById('trialChart'), {
             type: 'bar',
             data: {
-                labels: [...stackedData.labels],
+                labels: [...trialChartData.labels],
                 datasets: [
-                    { label: 'Within 90 Days', data: [...stackedData.within], backgroundColor: '#007B7F', borderRadius: { topLeft: 0, topRight: 0, bottomLeft: 6, bottomRight: 6 } },
-                    { label: 'After 90 Days', data: [...stackedData.after], backgroundColor: '#CBD5E1', borderRadius: { topLeft: 6, topRight: 6, bottomLeft: 0, bottomRight: 0 } }
+                    { label: 'January 2026', data: [...trialChartData.jan], backgroundColor: 'rgba(0,123,127,0.3)', borderRadius: 6 },
+                    { label: 'April 2026', data: [...trialChartData.apr], backgroundColor: '#007B7F', borderRadius: 6 }
                 ]
             },
             options: {
@@ -270,29 +417,337 @@ else{document.getElementById("authError").style.display="block";document.getElem
                     legend: { position: 'top' },
                     tooltip: {
                         callbacks: {
-                            footer: function(items) {
-                                const idx = items[0].dataIndex;
-                                const total = stackedChart.data.datasets[0].data[idx] + stackedChart.data.datasets[1].data[idx];
-                                const within = stackedChart.data.datasets[0].data[idx];
-                                return 'Total: ' + total + ' | ' + (within / total * 100).toFixed(1) + '% within 90 days';
+                            label: function(ctx) {
+                                const i = ctx.dataIndex;
+                                const t = trialData[i];
+                                if (ctx.datasetIndex === 0) return 'Jan: ' + t.jan_n + '/' + t.jan_d + ' (' + t.jan_pct.toFixed(1) + '%)';
+                                return 'Apr: ' + t.apr_n + '/' + t.apr_d + ' (' + t.apr_pct.toFixed(1) + '%)';
                             }
                         }
                     }
                 },
-                scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } }
+                scales: {
+                    y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } }
+                }
+            },
+            plugins: [{
+                id: 'systemLine',
+                afterDraw(chart) {
+                    const ctx = chart.ctx;
+                    const yScale = chart.scales.y;
+                    // Whole system Apr line
+                    const yWS = yScale.getPixelForValue(systemApr.n / systemApr.d * 100);
+                    ctx.save();
+                    ctx.strokeStyle = '#EF4444';
+                    ctx.lineWidth = 1.5;
+                    ctx.setLineDash([6, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(chart.chartArea.left, yWS);
+                    ctx.lineTo(chart.chartArea.right, yWS);
+                    ctx.stroke();
+                    ctx.fillStyle = '#EF4444';
+                    ctx.font = '11px -apple-system, sans-serif';
+                    ctx.fillText('Whole system Apr: ' + (systemApr.n / systemApr.d * 100).toFixed(1) + '%', chart.chartArea.right - 185, yWS - 6);
+                    ctx.restore();
+                }
+            }]
+        });
+        function sortTrialChart(sortType) {
+            let indices = trialChartData.labels.map((_, i) => i);
+            if (sortType === 'apr_high') indices.sort((a, b) => trialChartData.apr[b] - trialChartData.apr[a]);
+            else if (sortType === 'change') indices.sort((a, b) => (trialChartData.apr[b] - trialChartData.jan[b]) - (trialChartData.apr[a] - trialChartData.jan[a]));
+            trialChart.data.labels = indices.map(i => trialChartData.labels[i]);
+            trialChart.data.datasets[0].data = indices.map(i => trialChartData.jan[i]);
+            trialChart.data.datasets[1].data = indices.map(i => trialChartData.apr[i]);
+            trialChart.update();
+        }
+
+        // =============================================================
+        // TAB SWITCHING
+        // =============================================================
+        function switchTab(tabId, e) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            e.target.classList.add('active');
+        }
+
+        // =============================================================
+        // SECTION 2 DATA: DHSC NATIONAL KPIs
+        // Source: uk-clinical-research-data-tables-to-march-2026.ods
+        // =============================================================
+
+        // Table 2: Combined review approval (Indicator 2)
+        // Source: MHRA, via DHSC Table 2
+        const approvalData = {
+            labels: ['Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26'],
+            pct: [89,98,95,86,99,98,96,92,100,98,100,96,98,97,98,100,98,100,99,97,99],
+            total: [57,80,56,64,70,62,54,63,64,58,66,69,66,76,64,63,93,76,74,61,68],
+            within: [51,78,53,55,69,61,52,58,64,57,66,66,65,74,63,63,91,76,73,59,67]
+        };
+        new Chart(document.getElementById('approvalChart'), {
+            type: 'bar',
+            data: {
+                labels: approvalData.labels,
+                datasets: [{
+                    label: '% approved within target',
+                    data: approvalData.pct,
+                    backgroundColor: approvalData.pct.map(v => v >= 95 ? '#007B7F' : v >= 90 ? '#5B7F6C' : '#F59E0B'),
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, max: 105, ticks: { callback: v => v + '%' } }
+                }
             }
         });
-        function sortStackedChart(sortType) {
-            let indices = stackedData.labels.map((_, i) => i);
-            if (sortType === 'total') {
-                const totals = stackedData.labels.map((_, i) => stackedData.within[i] + stackedData.after[i]);
-                indices.sort((a, b) => totals[b] - totals[a]);
+
+        // Table 1: Commercial study setup within 150 days (Indicator 1)
+        // Source: NIHR, via DHSC Table 1. Commercial contract, interventional only.
+        const setupData = {
+            labels: ['Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25'],
+            pct: [58,64,72,80,73,78],
+            within: [7,9,13,12,11,7],
+            total: [12,14,18,15,15,9]
+        };
+        new Chart(document.getElementById('setupChart'), {
+            type: 'bar',
+            data: {
+                labels: setupData.labels,
+                datasets: [{
+                    label: '% set up within 150 days',
+                    data: setupData.pct,
+                    backgroundColor: '#007B7F',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => setupData.within[ctx.dataIndex] + '/' + setupData.total[ctx.dataIndex] + ' (' + ctx.parsed.y + '%)' } }
+                },
+                scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
             }
-            stackedChart.data.labels = indices.map(i => stackedData.labels[i]);
-            stackedChart.data.datasets[0].data = indices.map(i => stackedData.within[i]);
-            stackedChart.data.datasets[1].data = indices.map(i => stackedData.after[i]);
-            stackedChart.update();
-        }
+        });
+
+        // Table 3a: Opening to recruitment within 60 days (Indicator 3)
+        // All types, all designs, monthly. Last 24 months shown.
+        // Source: CPMS, via DHSC Table 3a
+        const openingLabels = [];
+        const openingPct = [];
+        const openingRaw = [
+            ['Oct 23',40],['Nov 23',31],['Dec 23',29],['Jan 24',36],['Feb 24',32],['Mar 24',41],
+            ['Apr 24',37],['May 24',30],['Jun 24',42],['Jul 24',30],['Aug 24',32],['Sep 24',32],
+            ['Oct 24',38],['Nov 24',40],['Dec 24',33],['Jan 25',47],['Feb 25',41],['Mar 25',42],
+            ['Apr 25',42],['May 25',43],['Jun 25',33],['Jul 25',50],['Aug 25',44],['Sep 25',58]
+        ];
+        openingRaw.forEach(d => { openingLabels.push(d[0]); openingPct.push(d[1]); });
+        new Chart(document.getElementById('openingChart'), {
+            type: 'line',
+            data: {
+                labels: openingLabels,
+                datasets: [{
+                    label: '% opened within 60 days',
+                    data: openingPct,
+                    borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.1)',
+                    fill: true, tension: 0.3, pointRadius: 3
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    annotation: {}
+                },
+                scales: {
+                    y: { beginAtZero: false, min: 20, max: 70, ticks: { callback: v => v + '%' } }
+                }
+            },
+            plugins: [{
+                id: 'targetLine60',
+                afterDraw(chart) {
+                    const ctx = chart.ctx; const yScale = chart.scales.y;
+                    const y = yScale.getPixelForValue(60);
+                    if (y >= chart.chartArea.top && y <= chart.chartArea.bottom) {
+                        ctx.save(); ctx.strokeStyle = '#EF4444'; ctx.lineWidth = 1.5; ctx.setLineDash([6,4]);
+                        ctx.beginPath(); ctx.moveTo(chart.chartArea.left, y); ctx.lineTo(chart.chartArea.right, y); ctx.stroke();
+                        ctx.fillStyle = '#EF4444'; ctx.font = '11px -apple-system, sans-serif'; ctx.fillText('Target: 60%', chart.chartArea.right - 80, y - 6);
+                        ctx.restore();
+                    }
+                }
+            }]
+        });
+
+        // Table 4a: First participant within 30 days (Indicator 4)
+        // All types, all designs, monthly. Last 24 months.
+        // Source: CPMS, via DHSC Table 4a
+        const firstPtLabels = [];
+        const firstPtPct = [];
+        const firstPtRaw = [
+            ['Oct 23',46],['Nov 23',51],['Dec 23',37],['Jan 24',58],['Feb 24',53],['Mar 24',56],
+            ['Apr 24',58],['May 24',43],['Jun 24',47],['Jul 24',54],['Aug 24',47],['Sep 24',47],
+            ['Oct 24',51],['Nov 24',49],['Dec 24',49],['Jan 25',51],['Feb 25',50],['Mar 25',50],
+            ['Apr 25',53],['May 25',58],['Jun 25',58],['Jul 25',42],['Aug 25',57],['Sep 25',62]
+        ];
+        firstPtRaw.forEach(d => { firstPtLabels.push(d[0]); firstPtPct.push(d[1]); });
+        new Chart(document.getElementById('firstPtChart'), {
+            type: 'line',
+            data: {
+                labels: firstPtLabels,
+                datasets: [{
+                    label: '% first participant within 30 days',
+                    data: firstPtPct,
+                    borderColor: '#5B7F6C', backgroundColor: 'rgba(91,127,108,0.1)',
+                    fill: true, tension: 0.3, pointRadius: 3
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: false, min: 30, max: 70, ticks: { callback: v => v + '%' } } }
+            }
+        });
+
+        // Table 5: Recruitment to time and target (Indicator 5)
+        // All types, all designs
+        // Source: CPMS, via DHSC Table 5
+        const rttLabels = ['Jul 23','Oct 23','Jan 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26'];
+        const rttPct = [76,78,78,79,78,79,81,82,83,83,83,84,83,83,83,84,83,82,84,83,83,83,83,83,82,83,82];
+        new Chart(document.getElementById('rttChart'), {
+            type: 'line',
+            data: {
+                labels: rttLabels,
+                datasets: [{
+                    label: '% recruiting to time and target',
+                    data: rttPct,
+                    borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.1)',
+                    fill: true, tension: 0.3, pointRadius: 3
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: false, min: 70, max: 90, ticks: { callback: v => v + '%' } } }
+            }
+        });
+
+        // Table 6b: Annual recruitment volume (Indicator 6)
+        // All types, all designs, calendar year
+        // Source: CPMS, via DHSC Table 6b
+        const recruitYears = ['2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'];
+        const recruitVol = [692301,824257,930133,875640,1872505,1808981,1108456,1114239,1199702,1033806];
+        new Chart(document.getElementById('recruitVolChart'), {
+            type: 'bar',
+            data: {
+                labels: recruitYears,
+                datasets: [{
+                    label: 'Participants recruited',
+                    data: recruitVol,
+                    backgroundColor: recruitYears.map((y,i) => i >= 4 && i <= 5 ? 'rgba(0,123,127,0.4)' : '#007B7F'),
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => ctx.parsed.y.toLocaleString() + ' participants' } }
+                },
+                scales: { y: { beginAtZero: true, ticks: { callback: v => (v/1000000).toFixed(1) + 'M' } } }
+            },
+            plugins: [{
+                id: 'covidNote',
+                afterDraw(chart) {
+                    const ctx = chart.ctx;
+                    const xScale = chart.scales.x;
+                    const yScale = chart.scales.y;
+                    // Mark 2020-21 as COVID-boosted
+                    const x2020 = xScale.getPixelForValue(4);
+                    const y2020 = yScale.getPixelForValue(recruitVol[4]);
+                    ctx.save();
+                    ctx.fillStyle = '#94A3AF';
+                    ctx.font = '10px -apple-system, sans-serif';
+                    ctx.fillText('COVID-19 studies', x2020 - 15, y2020 - 8);
+                    ctx.restore();
+                }
+            }]
+        });
+
+        // Table 6a: Monthly recruitment (last 24 months)
+        // Source: CPMS, via DHSC Table 6a. All types, all designs.
+        const recruitMonths = ['Feb 24','Mar 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26'];
+        const recruitMonthly = [102875,101720,126458,97419,93380,147796,81072,78444,85763,109031,79428,100446,86441,120120,124326,82994,88301,83411,65745,66114,80210,73614,62084,62423];
+        new Chart(document.getElementById('recruitMonthlyChart'), {
+            type: 'bar',
+            data: {
+                labels: recruitMonths,
+                datasets: [{
+                    label: 'Participants recruited',
+                    data: recruitMonthly,
+                    backgroundColor: '#007B7F',
+                    borderRadius: 3
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => ctx.parsed.y.toLocaleString() } }
+                },
+                scales: { y: { beginAtZero: true, ticks: { callback: v => (v/1000).toFixed(0) + 'k' } } }
+            }
+        });
+
+        // Table 7a: New studies monthly
+        // Source: CPMS, via DHSC Table 7a. All types, all designs.
+        const newStudiesMonths = ['Mar 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26'];
+        const newStudiesData = [171,181,148,147,202,116,145,172,158,118,154,139,147,132,161,164,210,167,187,143,131,117,148,154];
+        new Chart(document.getElementById('newStudiesChart'), {
+            type: 'bar',
+            data: {
+                labels: newStudiesMonths,
+                datasets: [{
+                    label: 'New studies',
+                    data: newStudiesData,
+                    backgroundColor: '#5B7F6C',
+                    borderRadius: 3
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // Table 7b: New studies by calendar year
+        // Source: CPMS, via DHSC Table 7b. All types, all designs.
+        const nsYears = ['2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'];
+        const nsYearData = [2076,2312,2440,2246,1771,2190,2021,2002,1856,1852];
+        new Chart(document.getElementById('newStudiesYearChart'), {
+            type: 'bar',
+            data: {
+                labels: nsYears,
+                datasets: [{
+                    label: 'New studies added',
+                    data: nsYearData,
+                    backgroundColor: '#5B7F6C',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => ctx.parsed.y.toLocaleString() + ' studies' } }
+                },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
     </script>
 </body>
 </html>
