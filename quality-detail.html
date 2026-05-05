@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7BPNEWM659"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-7BPNEWM659');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Safety & Quality - Shelford Group Dashboard</title>
@@ -62,24 +54,26 @@
 
         <!-- KPI Summary -->
         <h2>Patient Experience &amp; Safety Summary</h2>
-        <p class="source-note">Source: NHS England Friends &amp; Family Test MacroWebfiles, December 2025; Learning from Patient Safety Events Quarterly Publication, Q2 2025/26</p>
+        <p class="source-note">Source: NHS England Friends &amp; Family Test MacroWebfiles, February 2026; Learning from Patient Safety Events Quarterly Publication, Q3 2025/26</p>
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">FFT: A&amp;E Recommend</div><div class="metric-value">80.7%</div><div class="metric-benchmark">Shelford average, December 2025 · England: 78.2%</div></div>
-            <div class="metric-card"><div class="metric-label">FFT: Inpatient Recommend</div><div class="metric-value">94.9%</div><div class="metric-benchmark">Shelford average, December 2025 · England: 94.8%</div></div>
-            <div class="metric-card"><div class="metric-label">Safety Event Recording Rate</div><div class="metric-value">66.7</div><div class="metric-benchmark">Per 1,000 bed days · Shelford average, Q2 2025/26</div></div>
+            <div class="metric-card"><div class="metric-label">FFT: A&amp;E Recommend</div><div class="metric-value">80.8%</div><div class="metric-benchmark">Shelford average, February 2026 · England: 79.2%</div></div>
+            <div class="metric-card"><div class="metric-label">FFT: Inpatient Recommend</div><div class="metric-value">94.3%</div><div class="metric-benchmark">Shelford average, February 2026 · England: 94.8%</div></div>
+            <div class="metric-card"><div class="metric-label">FFT: Outpatient Recommend</div><div class="metric-value">93.7%</div><div class="metric-benchmark">Shelford average, February 2026 · England: 94.3%</div></div>
+            <div class="metric-card"><div class="metric-label">Safety Event Recording Rate</div><div class="metric-value">69.5</div><div class="metric-benchmark">Per 1,000 bed days · Shelford average, Q3 2025/26</div></div>
         </div>
 
         <!-- Combined Performance Table -->
         <h2>Trust-Level Quality Performance</h2>
-        <p class="source-note">Source: NHS England FFT MacroWebfiles (A&amp;E and Inpatient), December 2025; Learning from Patient Safety Events, Q2 2025/26</p>
+        <p class="source-note">Source: NHS England FFT MacroWebfiles (A&amp;E, Inpatient, Outpatient), February 2026; Learning from Patient Safety Events, Q3 2025/26</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortTable('alpha', event)">A-Z</button>
                 <button class="sort-btn" onclick="sortTable('fftae', event)">Sort by FFT A&amp;E</button>
                 <button class="sort-btn" onclick="sortTable('fftip', event)">Sort by FFT IP</button>
+                <button class="sort-btn" onclick="sortTable('fftop', event)">Sort by FFT OP</button>
                 <button class="sort-btn" onclick="sortTable('safetyRate', event)">Sort by Safety Rate</button>
             </div>
-            <table><thead><tr><th>Trust</th><th>FFT A&amp;E %</th><th>FFT Inpatient %</th><th>Safety Events</th><th>Bed Days</th><th>Rate (per 1,000)</th></tr></thead>
+            <table><thead><tr><th>Trust</th><th>FFT A&amp;E %</th><th>FFT Inpatient %</th><th>FFT Outpatient %</th><th>Safety Events</th><th>Bed Days</th><th>Rate (per 1,000)</th></tr></thead>
             <tbody id="qualityTableBody"></tbody></table>
         </div>
 
@@ -87,40 +81,39 @@
         <h2>Patient Experience – Friends &amp; Family Test</h2>
 
         <div class="chart-container"><h3>Friends &amp; Family Test – Recommendation Rates by Trust</h3>
-            <p class="source-note">Source: NHS England FFT MacroWebfiles (A&amp;E and Inpatient), December 2025 (published February 2026). Shows % of respondents rating experience as 'Good' or 'Very Good'.</p>
+            <p class="source-note">Source: NHS England FFT MacroWebfiles (A&amp;E, Inpatient, Outpatient), February 2026 (published April 2026). Shows % of respondents rating experience as 'Good' or 'Very Good'.</p>
             <div class="chart-wrapper"><canvas id="fftChart"></canvas></div></div>
 
         <!-- Patient Safety Events -->
         <h2>Learning from Patient Safety Events</h2>
 
         <div class="chart-container"><h3>Patient Safety Event Recording Rate by Trust</h3>
-            <p class="source-note">Source: NHS England Learning from Patient Safety Events Quarterly Publication, Q2 2025/26. Rate per 1,000 bed days. Higher rates generally indicate a stronger reporting culture.</p>
+            <p class="source-note">Source: NHS England Learning from Patient Safety Events Quarterly Publication, Q3 2025/26. Rate per 1,000 bed days. Higher rates generally indicate a stronger reporting culture.</p>
             <div class="chart-controls"><button class="chart-btn" onclick="sortSafetyChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortSafetyChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortSafetyChart('lowest')">Lowest to Highest</button></div>
             <div class="chart-wrapper"><canvas id="safetyRateChart"></canvas></div></div>
 
         <div class="chart-container"><h3>Safety Events, Bed Days and Recording Rate by Trust</h3>
-            <p class="source-note">Source: NHS England Learning from Patient Safety Events Quarterly Publication, Q2 2025/26. Bars show event counts and bed days (activity denominator); line shows the resulting rate per 1,000 bed days.</p>
+            <p class="source-note">Source: NHS England Learning from Patient Safety Events Quarterly Publication, Q3 2025/26. Bars show event counts and bed days (activity denominator); line shows the resulting rate per 1,000 bed days.</p>
             <div class="chart-wrapper"><canvas id="safetyVolumeChart"></canvas></div></div>
 
-        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | Data updated April 2026</p></footer>
     </div>
 
     <script>
         // Quality data - all verified from source files
-        // FFT: NHS England FFT MacroWebfiles (A&E and Inpatient), December 2025
-        // Safety: NHS England Learning from Patient Safety Events Q2 2025/26
-        // ratio = incidents / bedDays (raw proportion, i.e. rate per 1 bed day)
+        // FFT: NHS England FFT MacroWebfiles (A&E, Inpatient, Outpatient), February 2026
+        // Safety: NHS England Learning from Patient Safety Events Q3 2025/26
         const qualityData = [
-            { name: 'Birmingham', fftAE: 71.5, fftIP: 92.3, safetyRate: 60.9, safetyLag: 1, incidents: 15421, bedDays: 253424 },
-            { name: 'Cambridge', fftAE: 82.6, fftIP: 94.6, safetyRate: 67.1, safetyLag: 0, incidents: 6123, bedDays: 91277 },
-            { name: 'GSTT', fftAE: 88.2, fftIP: 96.1, safetyRate: 74.5, safetyLag: 1, incidents: 7227, bedDays: 97013 },
-            { name: 'Imperial', fftAE: 85.8, fftIP: 95.9, safetyRate: 71.0, safetyLag: 1, incidents: 6658, bedDays: 93829 },
-            { name: "King's", fftAE: 74.9, fftIP: 95.7, safetyRate: 61.2, safetyLag: 0, incidents: 7095, bedDays: 115967 },
-            { name: 'Manchester', fftAE: 84.4, fftIP: 97.5, safetyRate: 85.7, safetyLag: 0, incidents: 15554, bedDays: 181427 },
-            { name: 'Newcastle', fftAE: 73.7, fftIP: 96.0, safetyRate: 42.6, safetyLag: 1, incidents: 4815, bedDays: 113049 },
-            { name: 'Oxford', fftAE: 84.1, fftIP: 94.0, safetyRate: 80.6, safetyLag: 0, incidents: 7479, bedDays: 92755 },
-            { name: 'Sheffield', fftAE: 76.6, fftIP: 90.4, safetyRate: 60.2, safetyLag: 0, incidents: 7247, bedDays: 120377 },
-            { name: 'UCLH', fftAE: 85.3, fftIP: 96.4, safetyRate: 63.2, safetyLag: 0, incidents: 3855, bedDays: 60997 }
+            { name: 'Birmingham', fftAE: 71.5, fftIP: 87.1, fftOP: 89.1, safetyRate: 63.8, safetyLag: 0, incidents: 16184, bedDays: 253662 },
+            { name: 'Cambridge', fftAE: 79.2, fftIP: 92.9, fftOP: 92.5, safetyRate: 72.2, safetyLag: 0, incidents: 6577, bedDays: 91069 },
+            { name: 'GSTT', fftAE: 88.3, fftIP: 96.2, fftOP: 94.6, safetyRate: 81.9, safetyLag: 0, incidents: 7971, bedDays: 97291 },
+            { name: 'Imperial', fftAE: 85.9, fftIP: 95.6, fftOP: 94.3, safetyRate: 81.2, safetyLag: 1, incidents: 7641, bedDays: 94049 },
+            { name: "King's", fftAE: 71.4, fftIP: 95.9, fftOP: 92.5, safetyRate: 63.0, safetyLag: 0, incidents: 7255, bedDays: 115154 },
+            { name: 'Manchester', fftAE: 85.2, fftIP: 97.4, fftOP: 98.0, safetyRate: 87.2, safetyLag: 0, incidents: 15832, bedDays: 181570 },
+            { name: 'Newcastle', fftAE: 71.8, fftIP: 94.0, fftOP: 94.7, safetyRate: 42.7, safetyLag: 0, incidents: 4886, bedDays: 114464 },
+            { name: 'Oxford', fftAE: 85.7, fftIP: 94.1, fftOP: 93.3, safetyRate: 81.6, safetyLag: 0, incidents: 7225, bedDays: 88518 },
+            { name: 'Sheffield', fftAE: 80.6, fftIP: 92.8, fftOP: 94.0, safetyRate: 60.6, safetyLag: 0, incidents: 8057, bedDays: 132970 },
+            { name: 'UCLH', fftAE: 88.2, fftIP: 96.8, fftOP: 94.3, safetyRate: 60.3, safetyLag: 0, incidents: 3805, bedDays: 63140 }
         ];
 
         // Sortable table
@@ -128,16 +121,17 @@
             let sorted = [...qualityData];
             if (sortType === 'fftae') sorted.sort((a, b) => b.fftAE - a.fftAE);
             else if (sortType === 'fftip') sorted.sort((a, b) => b.fftIP - a.fftIP);
+            else if (sortType === 'fftop') sorted.sort((a, b) => b.fftOP - a.fftOP);
             else if (sortType === 'safetyRate') sorted.sort((a, b) => b.safetyRate - a.safetyRate);
             document.getElementById('qualityTableBody').innerHTML = sorted.map(t =>
-                '<tr><td class="trust-name">'+t.name+'</td><td>'+t.fftAE+'%</td><td>'+t.fftIP+'%</td><td>'+t.incidents.toLocaleString()+'</td><td>'+t.bedDays.toLocaleString()+'</td><td>'+t.safetyRate+'</td></tr>'
+                '<tr><td class="trust-name">'+t.name+'</td><td>'+t.fftAE+'%</td><td>'+t.fftIP+'%</td><td>'+t.fftOP+'%</td><td>'+t.incidents.toLocaleString()+'</td><td>'+t.bedDays.toLocaleString()+'</td><td>'+t.safetyRate+'</td></tr>'
             ).join('');
             if (e) { document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
         }
         sortTable('alpha', null);
 
-        // FFT Chart
-        new Chart(document.getElementById('fftChart'), { type: 'bar', data: { labels: qualityData.map(d=>d.name), datasets: [{ label: 'A&E Recommend %', data: qualityData.map(d=>d.fftAE), backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'Inpatient Recommend %', data: qualityData.map(d=>d.fftIP), backgroundColor: '#5B7F6C', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 65, max: 100, ticks: { callback: v => v+'%' } } } } });
+        // FFT Chart — A&E, Inpatient, Outpatient
+        new Chart(document.getElementById('fftChart'), { type: 'bar', data: { labels: qualityData.map(d=>d.name), datasets: [{ label: 'A&E Recommend %', data: qualityData.map(d=>d.fftAE), backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'Inpatient Recommend %', data: qualityData.map(d=>d.fftIP), backgroundColor: '#5B7F6C', borderRadius: 6 },{ label: 'Outpatient Recommend %', data: qualityData.map(d=>d.fftOP), backgroundColor: '#94A3B8', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, min: 65, max: 100, ticks: { callback: v => v+'%' } } } } });
 
         // Safety Event Recording Rate Chart
         const safetyRateData = { labels: qualityData.map(d=>d.name), values: qualityData.map(d=>d.safetyRate) };
@@ -152,7 +146,7 @@
         }
 
         // Safety Volume: incidents vs bed days with rate overlay
-        new Chart(document.getElementById('safetyVolumeChart'), { type: 'bar', data: { labels: qualityData.map(d=>d.name), datasets: [{ label: 'Safety Events (Q2)', data: qualityData.map(d=>d.incidents), backgroundColor: '#007B7F', borderRadius: 6, yAxisID: 'y' },{ label: 'Bed Days (Q2, thousands)', data: qualityData.map(d=>Math.round(d.bedDays/1000)), backgroundColor: '#94A3B8', borderRadius: 6, yAxisID: 'y' },{ label: 'Rate per 1,000 bed days', data: qualityData.map(d=>d.safetyRate), type: 'line', borderColor: '#F59E0B', backgroundColor: '#F59E0B', pointRadius: 6, pointBackgroundColor: '#F59E0B', yAxisID: 'y1', tension: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: function(ctx) { if (ctx.datasetIndex === 0) return ctx.parsed.y.toLocaleString()+' events'; if (ctx.datasetIndex === 1) return (ctx.parsed.y*1000).toLocaleString()+' bed days'; return ctx.parsed.y+' per 1,000'; } } } }, scales: { y: { type: 'linear', position: 'left', beginAtZero: true, title: { display: true, text: 'Count / Bed days (thousands)' } }, y1: { type: 'linear', position: 'right', beginAtZero: true, max: 100, grid: { drawOnChartArea: false }, title: { display: true, text: 'Rate per 1,000 bed days' } } } } });
+        new Chart(document.getElementById('safetyVolumeChart'), { type: 'bar', data: { labels: qualityData.map(d=>d.name), datasets: [{ label: 'Safety Events (Q3)', data: qualityData.map(d=>d.incidents), backgroundColor: '#007B7F', borderRadius: 6, yAxisID: 'y' },{ label: 'Bed Days (Q3, thousands)', data: qualityData.map(d=>Math.round(d.bedDays/1000)), backgroundColor: '#94A3B8', borderRadius: 6, yAxisID: 'y' },{ label: 'Rate per 1,000 bed days', data: qualityData.map(d=>d.safetyRate), type: 'line', borderColor: '#F59E0B', backgroundColor: '#F59E0B', pointRadius: 6, pointBackgroundColor: '#F59E0B', yAxisID: 'y1', tension: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: function(ctx) { if (ctx.datasetIndex === 0) return ctx.parsed.y.toLocaleString()+' events'; if (ctx.datasetIndex === 1) return (ctx.parsed.y*1000).toLocaleString()+' bed days'; return ctx.parsed.y+' per 1,000'; } } } }, scales: { y: { type: 'linear', position: 'left', beginAtZero: true, title: { display: true, text: 'Count / Bed days (thousands)' } }, y1: { type: 'linear', position: 'right', beginAtZero: true, max: 100, grid: { drawOnChartArea: false }, title: { display: true, text: 'Rate per 1,000 bed days' } } } } });
     </script>
 </body>
 </html>
