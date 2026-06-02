@@ -116,7 +116,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
         </div></nav>
 
         <h2>Key Performance Indicators – Shelford Group Averages</h2>
-        <p class="source-note">Source: A&amp;E from NHS England A&amp;E Attendances &amp; Emergency Admissions, March 2026. RTT from NHS England, February 2026. Cancer from NHS England Cancer Waiting Times, February 2026 (provisional). Figures are averages across Shelford Group trusts (RTT excludes Sheffield due to data issues).</p>
+        <p class="source-note">Source: A&amp;E and RTT from NHS England, March 2026. Cancer 62-day from NHS England Acute Provider Time Series, March 2026. Figures are averages across Shelford Group trusts (RTT excludes Sheffield due to data submission issues).</p>
         <div class="dashboard-grid">
             <div class="metric-card">
                 <div class="metric-label">A&E 4-Hour Standard (Shelford Avg)</div>
@@ -125,18 +125,18 @@ else{document.getElementById("authError").style.display="block";document.getElem
             </div>
             <div class="metric-card">
                 <div class="metric-label">RTT 18-Week Standard (Shelford Avg)</div>
-                <div class="metric-value">63.9%</div>
-                <div class="metric-benchmark">National average: 62.5% | NHS target: 92%</div>
+                <div class="metric-value">66.4%</div>
+                <div class="metric-benchmark">National average: 65.3% | NHS target: 92%</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">Cancer 62-Day Standard (Shelford Avg)</div>
-                <div class="metric-value">64.4%</div>
-                <div class="metric-benchmark">National average: 68.6% | NHS target: 85%</div>
+                <div class="metric-value">69.4%</div>
+                <div class="metric-benchmark">National average: 72.8% | NHS target: 85%</div>
             </div>
         </div>
 
         <h2>Trust Performance Comparison</h2>
-        <p class="source-note">Source: A&amp;E from March 2026; RTT and Cancer from February 2026.</p>
+        <p class="source-note">Source: A&amp;E 4hr% from NHS England A&amp;E Attendances file, March 2026. RTT 18wk% from NHS England RTT Waiting Times, March 2026 (Sheffield frozen — data submission issue). Cancer 62-day from NHS England Acute Provider Time Series, March 2026.</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortTable('alpha')">A-Z</button>
@@ -203,7 +203,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
         <!-- Key Metrics vs National Benchmarks -->
         <div class="chart-container">
             <h3>National Ranking – Key Metrics</h3>
-            <p class="source-note">Source: NHS England (various). RTT, A&amp;E, Cancer and FDS from Oversight Framework Q2 2025/26. Sickness from ESR November 2025. Staff engagement from NHS Staff Survey 2024. Median/quartile benchmarks from ~130 acute trusts. Note: NOF metric values are from Q2 2025/26 and may differ from the latest monthly figures shown elsewhere on this dashboard.</p>
+            <p class="source-note">Source: NHS England (various). RTT, A&amp;E, Cancer and FDS from Oversight Framework Q2 2025/26. Sickness from ESR February 2026. Staff engagement from NHS Staff Survey 2025. Median/quartile benchmarks from ~130 acute trusts. Note: NOF metric values are from Q2 2025/26 and may differ from the latest monthly figures shown elsewhere on this dashboard.</p>
             <div style="margin-bottom:1rem">
                 <select id="metricSelector" style="padding:0.5rem 1rem; border-radius:6px; border:1px solid var(--border-light); font-size:0.95rem; min-width:300px;" onchange="updateMetricChart()">
                     <option value="rtt18">RTT 18-week % (higher = better)</option>
@@ -218,21 +218,26 @@ else{document.getElementById("authError").style.display="block";document.getElem
             <div class="chart-wrapper"><canvas id="metricChart"></canvas></div>
         </div>
 
-        <footer><p>&copy; 2026 Shelford Group | Data updated April 2026</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | Data updated May 2026</p></footer>
     </div>
 
     <script>
+        // trustData: March 2026
+        // RTT: NHS England RTT Waiting Times March 2026 + Acute Provider Time Series May 2026
+        // A&E: NHS England A&E Attendances March 2026 (all-types 4hr%)
+        // Cancer: NHS England Acute Provider Time Series May 2026 (consistent longitudinal basis)
+        // Sheffield RTT frozen at 66.0% — known data submission issue
         const trustData = [
-            { name: 'Birmingham', rtt: 62.5, ae: 64.3, cancer: 67.3 },
-            { name: 'Cambridge', rtt: 60.8, ae: 71.5, cancer: 67.9 },
-            { name: 'GSTT', rtt: 67.3, ae: 74.4, cancer: 53.5 },
-            { name: 'Imperial', rtt: 66.8, ae: 80.1, cancer: 70.3 },
-            { name: "King's", rtt: 64.3, ae: 72.1, cancer: 61.1 },
-            { name: 'Manchester', rtt: 60.0, ae: 77.2, cancer: 74.0 },
-            { name: 'Newcastle', rtt: 71.0, ae: 79.8, cancer: 68.5 },
-            { name: 'Oxford', rtt: 60.6, ae: 80.2, cancer: 57.0 },
-            { name: 'Sheffield', rtt: 66.0, ae: 75.8, cancer: 46.7 },
-            { name: 'UCLH', rtt: 61.8, ae: 80.9, cancer: 77.5 }
+            { name: 'Birmingham', rtt: 68.6, ae: 64.3, cancer: 72.3 },
+            { name: 'Cambridge', rtt: 62.9, ae: 71.5, cancer: 72.8 },
+            { name: 'GSTT', rtt: 68.5, ae: 74.4, cancer: 65.0 },
+            { name: 'Imperial', rtt: 69.1, ae: 80.1, cancer: 75.3 },
+            { name: "King's", rtt: 66.4, ae: 72.1, cancer: 73.3 },
+            { name: 'Manchester', rtt: 63.0, ae: 77.2, cancer: 76.3 },
+            { name: 'Newcastle', rtt: 72.5, ae: 79.8, cancer: 63.6 },
+            { name: 'Oxford', rtt: 63.0, ae: 80.2, cancer: 56.5 },
+            { name: 'Sheffield', rtt: 66.0, ae: 75.8, cancer: 57.5 },
+            { name: 'UCLH', rtt: 63.2, ae: 80.9, cancer: 81.7 }
         ];
 
         let currentSortField = 'alpha';
@@ -381,7 +386,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
             cancerfds: { label: 'Cancer FDS 28-day %', higherBetter: true, median: 76.04, lq: 72.63, uq: 80.19,
                 values: { Birmingham: 74.61, Cambridge: 72.43, GSTT: 82.84, Imperial: 81.47, "King's": 73.13, Manchester: 73.50, Newcastle: 71.68, Oxford: 79.79, Sheffield: 70.14, UCLH: 84.38 }},
             sickness: { label: 'Sickness absence %', higherBetter: false, median: 5.21, lq: 4.60, uq: 5.77,
-                values: { Birmingham: 6.24, Cambridge: 4.56, GSTT: 4.86, Imperial: 5.12, "King's": 4.57, Manchester: 6.33, Newcastle: 6.32, Oxford: 4.43, Sheffield: 5.83, UCLH: 4.39 }},
+                values: { Birmingham: 6.12, Cambridge: 4.47, GSTT: 4.81, Imperial: 4.75, "King's": 4.68, Manchester: 5.96, Newcastle: 6.18, Oxford: 4.43, Sheffield: 5.52, UCLH: 4.44 }},
             engagement: { label: 'Staff engagement', higherBetter: true, median: 6.88, lq: 6.71, uq: 7.04,
                 values: { Birmingham: 6.62, Cambridge: 7.02, GSTT: 7.15, Imperial: 7.11, "King's": 6.58, Manchester: 6.79, Newcastle: 6.83, Oxford: 6.98, Sheffield: 6.79, UCLH: 7.35 }}
         };

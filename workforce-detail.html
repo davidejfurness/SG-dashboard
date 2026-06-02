@@ -56,18 +56,18 @@
 
         <!-- Sickness Absence -->
         <h2>Sickness Absence</h2>
-        <p class="source-note">Source: NHS Sickness Absence Rates, January 2026 (published April 2026). Rates calculated from Electronic Staff Record (ESR).</p>
+        <p class="source-note">Source: NHS Sickness Absence Rates, February 2026 (published May 2026). Rates calculated from Electronic Staff Record (ESR).</p>
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">Sickness Absence Rate (Shelford Avg)</div><div class="metric-value">5.36%</div><div class="metric-benchmark">January 2026 · England: 5.74%</div></div>
+            <div class="metric-card"><div class="metric-label">Sickness Absence Rate (Shelford Avg)</div><div class="metric-value">5.14%</div><div class="metric-benchmark">February 2026 · England: 5.43%</div></div>
         </div>
 
-        <div class="chart-container"><h3>Sickness Absence Rate by Trust – January 2026</h3>
-            <p class="source-note">Source: NHS Sickness Absence Rates, January 2026 (published April 2026). Dashed line shows England average (5.74%).</p>
+        <div class="chart-container"><h3>Sickness Absence Rate by Trust – February 2026</h3>
+            <p class="source-note">Source: NHS Sickness Absence Rates, February 2026 (published May 2026). Dashed line shows England average (5.43%).</p>
             <div class="chart-controls"><button class="chart-btn" onclick="sortSickChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortSickChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortSickChart('lowest')">Lowest to Highest</button></div>
             <div class="chart-wrapper"><canvas id="sicknessChart"></canvas></div></div>
 
         <div class="chart-container"><h3>Sickness Absence Trend – Shelford Average vs England</h3>
-            <p class="source-note">Source: NHS Sickness Absence Rates, February 2025 – January 2026 (published April 2026).</p>
+            <p class="source-note">Source: NHS Sickness Absence Rates, February 2025 – February 2026 (published May 2026).</p>
             <div class="chart-wrapper"><canvas id="sicknessTrendChart"></canvas></div></div>
 
         <!-- NHS Staff Survey -->
@@ -122,41 +122,43 @@
             <p class="source-note">Source: NHS Staff Survey 2025 Benchmark Report. Radar chart comparing Shelford Group average against all acute trust average across 7 People Promise themes.</p>
             <div class="chart-wrapper"><canvas id="ppRadarChart"></canvas></div></div>
 
-        <footer><p>&copy; 2026 Shelford Group | Data updated April 2026</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | Data updated May 2026</p></footer>
     </div>
 
     <script>
-        // Sickness absence data - NHS Sickness Absence Rates, January 2026
-        // Published April 2026, from Electronic Staff Record (ESR)
+        // Sickness absence data - NHS Sickness Absence Rates, February 2026
+        // Published May 2026, from Electronic Staff Record (ESR)
+        // Trend: Feb 2025 – Feb 2026 (13 months), cols 148–160 from Table 4
+        // England rate from Table 1; trend continuity verified against prior publication
         const sickData = {
             labels: ['Birmingham','Cambridge','GSTT','Imperial',"King's",'Manchester','Newcastle','Oxford','Sheffield','UCLH'],
-            nov25: [6.31, 4.40, 5.06, 5.02, 4.84, 6.39, 6.27, 4.84, 5.82, 4.65],
-            // Feb 25 to Jan 26 (12 months) per trust
+            feb26: [6.12, 4.47, 4.81, 4.75, 4.68, 5.96, 6.18, 4.43, 5.52, 4.44],
+            // Feb 25 to Feb 26 (13 months) per trust
             trends: {
-                'Birmingham': [5.92,5.52,5.30,5.27,5.54,5.68,5.79,5.84,6.28,6.24,6.41,6.31],
-                'Cambridge':  [4.23,4.02,3.89,3.75,3.90,4.02,4.12,4.26,4.52,4.56,4.54,4.40],
-                'GSTT':       [4.74,4.37,4.21,3.98,4.31,4.40,4.47,4.72,4.87,4.86,5.12,5.06],
-                'Imperial':   [4.51,4.39,4.25,4.21,4.68,4.62,4.54,4.75,5.21,5.12,5.22,5.02],
-                "King's":     [4.58,4.47,4.19,4.14,4.34,4.58,4.42,4.47,4.80,4.57,4.83,4.84],
-                'Manchester': [6.19,5.63,5.46,5.40,5.70,5.84,5.73,5.94,6.39,6.33,6.58,6.39],
-                'Newcastle':  [6.15,5.72,5.49,5.18,5.36,5.39,5.39,5.70,6.31,6.32,6.51,6.27],
-                'Oxford':     [4.36,3.97,3.95,3.98,3.97,3.98,3.82,4.23,4.61,4.43,4.79,4.84],
-                'Sheffield':  [5.47,4.90,4.78,4.47,4.56,4.66,4.73,5.00,5.83,5.83,6.06,5.82],
-                'UCLH':       [4.55,4.24,4.12,4.14,4.18,4.18,3.99,4.23,4.54,4.39,4.67,4.65]
+                'Birmingham': [5.92,5.52,5.30,5.27,5.54,5.68,5.79,5.84,6.28,6.24,6.41,6.31,6.12],
+                'Cambridge':  [4.23,4.02,3.89,3.75,3.90,4.02,4.12,4.26,4.52,4.56,4.54,4.40,4.47],
+                'GSTT':       [4.74,4.37,4.21,3.98,4.31,4.40,4.47,4.72,4.87,4.86,5.12,5.06,4.81],
+                'Imperial':   [4.51,4.39,4.25,4.21,4.68,4.62,4.54,4.75,5.21,5.12,5.22,5.02,4.75],
+                "King's":     [4.58,4.47,4.19,4.14,4.34,4.58,4.42,4.47,4.80,4.57,4.83,4.84,4.68],
+                'Manchester': [6.19,5.63,5.46,5.40,5.70,5.84,5.73,5.94,6.39,6.33,6.58,6.39,5.96],
+                'Newcastle':  [6.15,5.72,5.49,5.18,5.36,5.39,5.39,5.70,6.31,6.32,6.51,6.27,6.18],
+                'Oxford':     [4.36,3.97,3.95,3.98,3.97,3.98,3.82,4.23,4.61,4.43,4.79,4.84,4.43],
+                'Sheffield':  [5.47,4.90,4.78,4.47,4.56,4.66,4.73,5.00,5.83,5.83,6.06,5.82,5.52],
+                'UCLH':       [4.55,4.24,4.12,4.14,4.18,4.18,3.99,4.23,4.54,4.39,4.67,4.65,4.44]
             }
         };
-        const englandSickTrend = [5.26,4.88,4.79,4.70,4.93,5.08,5.07,5.29,5.67,5.61,5.91,5.74];
-        const trendLabels = ['Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26'];
+        const englandSickTrend = [5.26,4.88,4.79,4.70,4.93,5.08,5.07,5.29,5.67,5.61,5.91,5.74,5.43];
+        const trendLabels = ['Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26'];
 
-        // Sickness bar chart
-        const sickBarData = { labels: [...sickData.labels], values: [...sickData.nov25] };
-        let sicknessChart = new Chart(document.getElementById('sicknessChart'), { type: 'bar', data: { labels: sickBarData.labels, datasets: [{ label: 'Sickness Absence Rate (%)', data: sickBarData.values, backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'England avg (5.74%)', data: Array(10).fill(5.74), type: 'line', borderColor: '#94A3B8', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, max: 8, ticks: { callback: v => v+'%' } } } } });
+        // Sickness bar chart - February 2026
+        const sickBarData = { labels: [...sickData.labels], values: [...sickData.feb26] };
+        let sicknessChart = new Chart(document.getElementById('sicknessChart'), { type: 'bar', data: { labels: sickBarData.labels, datasets: [{ label: 'Sickness Absence Rate (%)', data: sickBarData.values, backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'England avg (5.43%)', data: Array(10).fill(5.43), type: 'line', borderColor: '#94A3B8', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, max: 8, ticks: { callback: v => v+'%' } } } } });
         function sortSickChart(sortType) {
             let indices = sickData.labels.map((_,i) => i);
-            if (sortType === 'highest') indices.sort((a,b) => sickData.nov25[b] - sickData.nov25[a]);
-            else if (sortType === 'lowest') indices.sort((a,b) => sickData.nov25[a] - sickData.nov25[b]);
+            if (sortType === 'highest') indices.sort((a,b) => sickData.feb26[b] - sickData.feb26[a]);
+            else if (sortType === 'lowest') indices.sort((a,b) => sickData.feb26[a] - sickData.feb26[b]);
             sicknessChart.data.labels = indices.map(i => sickData.labels[i]);
-            sicknessChart.data.datasets[0].data = indices.map(i => sickData.nov25[i]);
+            sicknessChart.data.datasets[0].data = indices.map(i => sickData.feb26[i]);
             sicknessChart.update();
         }
 
