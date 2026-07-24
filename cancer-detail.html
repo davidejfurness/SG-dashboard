@@ -299,33 +299,33 @@
 
         <!-- Key Metrics -->
         <h2>Cancer Waiting Times Summary</h2>
-        <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, March 2026 (provisional, published 14 May 2026)</p>
+        <p class="source-note">Source: NHS England Cancer Waiting Times Statistics, May 2026 (provisional, published 9 July 2026)</p>
         <div class="dashboard-grid">
             <div class="metric-card">
                 <div class="metric-label">Two Week Wait (Suspected Cancer)</div>
-                <div class="metric-value">81.9%</div>
-                <div class="metric-benchmark">Standard: 93% | Shelford average, Mar 2026</div>
+                <div class="metric-value">80.6%</div>
+                <div class="metric-benchmark">Standard: 93% | Shelford average, May 2026 · England: 76.8%</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">28-Day Faster Diagnosis</div>
-                <div class="metric-value">84.1%</div>
-                <div class="metric-benchmark">Standard: 75% | Shelford average, Mar 2026 · England: 79.4%</div>
+                <div class="metric-value">83.2%</div>
+                <div class="metric-benchmark">Standard: 75% | Shelford average, May 2026 · England: 79.0%</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">31-Day First Treatment</div>
-                <div class="metric-value">84.0%</div>
-                <div class="metric-benchmark">Standard: 96% | Shelford average, Mar 2026 · England: 90.9%</div>
+                <div class="metric-value">90.3%</div>
+                <div class="metric-benchmark">Standard: 96% | Shelford average, May 2026 · England: 92.8%</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">62-Day GP Referral to Treatment</div>
-                <div class="metric-value">85.2%</div>
-                <div class="metric-benchmark">Standard: 85% | Shelford average, Mar 2026 · England: 88.4%</div>
+                <div class="metric-value">67.3%</div>
+                <div class="metric-benchmark">Standard: 85% | Shelford average, May 2026 · England: 69.6%</div>
             </div>
         </div>
 
         <!-- Detailed Performance Table -->
         <h2>Trust-Level Cancer Performance</h2>
-        <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), March 2026 (published 14 May 2026)</p>
+        <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), May 2026 (published 9 July 2026)</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortCancerTable('alpha', event)">A-Z</button>
@@ -353,7 +353,7 @@
         <!-- Two Week Wait by Trust -->
         <div class="chart-container">
             <h3>Two Week Wait Performance by Trust</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), March 2026. Standard: 93%.</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), May 2026. Standard: 93%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortTwoWeekChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortTwoWeekChart('highest')">Highest to Lowest</button>
@@ -367,7 +367,7 @@
         <!-- 28-Day Faster Diagnosis Standard -->
         <div class="chart-container">
             <h3>28-Day Faster Diagnosis Standard by Trust</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), March 2026. Standard: 75%.</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), May 2026. Standard: 75%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortFDSChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortFDSChart('highest')">Highest to Lowest</button>
@@ -381,7 +381,7 @@
         <!-- 62-Day GP Referral to Treatment -->
         <div class="chart-container">
             <h3>62-Day GP Referral to First Treatment by Trust</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), March 2026. Standard: 85%.</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), May 2026. Standard: 85%.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortSixtyTwoChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortSixtyTwoChart('highest')">Highest to Lowest</button>
@@ -395,8 +395,8 @@
         <!-- Cancer Waiting Times Trends -->
         <div class="chart-container">
             <h3>62-Day Standard Trends (12 Months)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Time Series, March 2025 – March 2026 (published May 2026)</p>
-            <div class="chart-wrapper">
+            <p class="source-note">Source: NHS England Acute Provider Time Series, June 2025 – May 2026 (published 9 July 2026). Individual trust lines shown alongside Shelford and national averages.</p>
+            <div class="chart-wrapper" style="height: 500px;">
                 <canvas id="cancerTrendChart"></canvas>
             </div>
         </div>
@@ -404,7 +404,7 @@
         <!-- 31-Day Sub-Standards -->
         <div class="chart-container">
             <h3>31-Day Treatment Standards by Trust</h3>
-            <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), March 2026. Shows surgery, drug and radiotherapy sub-standards.</p>
+            <p class="source-note">Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), May 2026. Shows surgery, drug and radiotherapy sub-standards. King's radiotherapy figure suppressed (denominator of 2 patients this month); Manchester had no radiotherapy patients this month.</p>
             <div class="chart-controls">
                 <button class="chart-btn" onclick="sortThirtyOneChart('alpha')">A-Z</button>
                 <button class="chart-btn" onclick="sortThirtyOneChart('surgery')">Sort by Surgery</button>
@@ -417,35 +417,33 @@
 
         <!-- Two Week Wait Trends -->
         <div class="chart-container">
-            <h3>28-Day Faster Diagnosis Standard Trends (13 Months)</h3>
-            <p class="source-note">Source: NHS England Acute Provider Time Series, March 2025 – March 2026 (published May 2026). Two-week wait trend unavailable from this source.</p>
-            <div class="chart-wrapper">
+            <h3>28-Day Faster Diagnosis Standard Trends (12 Months)</h3>
+            <p class="source-note">Source: NHS England Acute Provider Time Series, June 2025 – May 2026 (published 9 July 2026). Two-week wait trend unavailable from this source. Individual trust lines shown alongside Shelford and national averages.</p>
+            <div class="chart-wrapper" style="height: 500px;">
                 <canvas id="twwTrendChart"></canvas>
             </div>
         </div>
 
         <footer>
-            <p>&copy; 2026 Shelford Group | Data updated May 2026</p>
+            <p>&copy; 2026 Shelford Group | Data updated July 2026</p>
         </footer>
     </div>
 
     <script>
-        // Cancer Performance Data - March 2026 (Provisional)
-        // Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), published 14 May 2026
-        // 2WW from Referrals Seen sheet (within14/total); FDS/31D/62D from Provider Level Performance sheet
-        // 62D: ALL MODALITIES, ALL STAGES | 31D: ALL STAGES | FDS: ALL CANCERS, ALL ROUTES
-        // Note: 62D figures have small n for some trusts (Newcastle n=2.5, Imperial n=5) — normal monthly volatility
+        // Cancer Performance Data - May 2026
+        // Source: NHS England Cancer Waiting Times Monthly Combined Workbook (Provisional), published 9 Jul 2026
+        // 2WW from Referrals Seen sheet; FDS/31D/62D from Provider Level Performance sheet
         const cancerData = [
-            { name: 'Birmingham', twoWeek: 78.1, fds: 85.4, thirtyOne: 86.8, sixtyTwo: 95.8, surg: 82.2, drug: 98.3, radio: 97.3 },
-            { name: 'Cambridge', twoWeek: 83.8, fds: 86.8, thirtyOne: 66.4, sixtyTwo: 100.0, surg: 83.7, drug: 100.0, radio: 58.7 },
-            { name: 'GSTT', twoWeek: 96.8, fds: 86.8, thirtyOne: 82.8, sixtyTwo: 58.8, surg: 83.4, drug: 97.6, radio: 82.9 },
-            { name: 'Imperial', twoWeek: 76.4, fds: 84.2, thirtyOne: 90.7, sixtyTwo: 100.0, surg: 92.9, drug: 99.6, radio: 96.2 },
-            { name: "King's", twoWeek: 86.0, fds: 78.9, thirtyOne: 100.0, sixtyTwo: 75.0, surg: 96.4, drug: 100.0, radio: 100.0 },
-            { name: 'Manchester', twoWeek: 91.9, fds: 83.4, thirtyOne: 100.0, sixtyTwo: 93.5, surg: 89.1, drug: 100.0, radio: 100.0 },
-            { name: 'Newcastle', twoWeek: 75.4, fds: 86.5, thirtyOne: 65.0, sixtyTwo: 100.0, surg: 79.3, drug: 93.9, radio: 84.4 },
-            { name: 'Oxford', twoWeek: 63.8, fds: 82.9, thirtyOne: 68.8, sixtyTwo: 61.5, surg: 76.5, drug: 96.7, radio: 52.1 },
-            { name: 'Sheffield', twoWeek: 82.1, fds: 80.9, thirtyOne: 87.2, sixtyTwo: 83.3, surg: 68.6, drug: 98.4, radio: 86.9 },
-            { name: 'UCLH', twoWeek: 84.6, fds: 84.8, thirtyOne: 91.8, sixtyTwo: 84.6, surg: 96.2, drug: 100.0, radio: 97.1 }
+            { name: 'Birmingham', twoWeek: 87.0, fds: 87.0, thirtyOne: 92.4, sixtyTwo: 68.0, surg: 84.9, drug: 96.0, radio: 95.8 },
+            { name: 'Cambridge', twoWeek: 75.1, fds: 84.0, thirtyOne: 86.5, sixtyTwo: 70.1, surg: 88.5, drug: 100.0, radio: 75.3 },
+            { name: 'GSTT', twoWeek: 95.1, fds: 85.4, thirtyOne: 90.6, sixtyTwo: 69.4, surg: 86.5, drug: 97.5, radio: 88.4 },
+            { name: 'Imperial', twoWeek: 77.7, fds: 82.3, thirtyOne: 96.1, sixtyTwo: 68.5, surg: 92.6, drug: 99.7, radio: 97.1 },
+            { name: "King's", twoWeek: 77.7, fds: 79.5, thirtyOne: 96.9, sixtyTwo: 65.8, surg: 96.5, drug: 99.2, radio: null },
+            { name: 'Manchester', twoWeek: 86.7, fds: 83.0, thirtyOne: 91.9, sixtyTwo: 73.5, surg: 89.8, drug: 100.0, radio: null },
+            { name: 'Newcastle', twoWeek: 76.8, fds: 85.0, thirtyOne: 83.4, sixtyTwo: 65.1, surg: 88.1, drug: 97.9, radio: 67.9 },
+            { name: 'Oxford', twoWeek: 88.7, fds: 85.3, thirtyOne: 79.8, sixtyTwo: 63.5, surg: 82.9, drug: 93.0, radio: 59.6 },
+            { name: 'Sheffield', twoWeek: 65.6, fds: 77.8, thirtyOne: 88.6, sixtyTwo: 50.8, surg: 67.6, drug: 99.1, radio: 91.8 },
+            { name: 'UCLH', twoWeek: 75.5, fds: 82.4, thirtyOne: 96.5, sixtyTwo: 78.3, surg: 96.6, drug: 100.0, radio: 94.7 }
         ];
 
         // Sort cancer table
@@ -644,32 +642,44 @@
             sixtyTwoChart.update();
         }
 
-        // 62-Day Trends (13 months) - all data from NHS England Acute Provider Time Series (May 2026 publication)
+        // 62-Day Trends (12 months) - all data from NHS England Acute Provider Time Series
+        // Individual trust lines (thin, no fill) plus Shelford and national averages (bold, filled)
         new Chart(document.getElementById('cancerTrendChart'), {
             type: 'line',
             data: {
-                labels: ['Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26', 'Feb 26', 'Mar 26'],
+                labels: ['Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26', 'Feb 26', 'Mar 26', 'Apr 26', 'May 26'],
                 datasets: [{
                     label: 'Shelford Average (62-Day)',
-                    data: [65.8, 65.3, 62.8, 63.0, 63.5, 65.1, 63.8, 63.3, 65.5, 68.3, 64.6, 64.4, 69.4],
-                    borderColor: '#007B7F',
-                    backgroundColor: 'rgba(0, 123, 127, 0.1)',
-                    tension: 0.4,
-                    fill: true
+                    data: [63.0, 63.5, 65.1, 63.8, 63.3, 65.5, 68.3, 64.6, 64.4, 69.4, 67.0, 67.3],
+                    borderColor: '#007B7F', backgroundColor: 'rgba(0, 123, 127, 0.1)', borderWidth: 3, tension: 0.4, fill: true, order: 1
                 }, {
                     label: 'National Average (62-Day)',
-                    data: [71.4, 70.1, 68.1, 67.3, 69.5, 69.3, 68.0, 68.8, 70.2, 71.9, 68.4, 68.6, 72.8],
-                    borderColor: '#94A3B8',
-                    backgroundColor: 'rgba(148, 163, 184, 0.1)',
-                    tension: 0.4,
-                    fill: true
+                    data: [67.3, 69.5, 69.3, 68.0, 68.8, 70.2, 71.9, 68.4, 68.6, 72.8, 70.0, 69.6],
+                    borderColor: '#94A3B8', backgroundColor: 'rgba(148, 163, 184, 0.1)', borderWidth: 3, borderDash: [6,3], tension: 0.4, fill: true, order: 2
                 }, {
                     label: 'Standard (85%)',
-                    data: [85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85],
-                    borderColor: '#EF4444',
-                    borderDash: [5, 5],
-                    borderWidth: 2,
-                    pointRadius: 0
+                    data: [85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85],
+                    borderColor: '#EF4444', borderDash: [5, 5], borderWidth: 2, pointRadius: 0, fill: false, order: 3
+                }, {
+                    label: 'Birmingham', data: [57.9, 62.0, 64.1, 62.2, 63.2, 64.3, 68.6, 63.5, 67.3, 72.3, 65.4, 68.0], borderColor: '#007B7F', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'Cambridge', data: [72.2, 66.3, 72.5, 70.4, 68.3, 74.1, 74.0, 65.4, 67.9, 72.8, 68.7, 70.1], borderColor: '#1A8B8F', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'GSTT', data: [55.4, 56.3, 61.0, 50.3, 50.8, 54.6, 63.6, 57.7, 53.5, 65.0, 67.5, 69.4], borderColor: '#339B9F', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'Imperial', data: [69.6, 71.0, 69.6, 70.3, 72.7, 71.9, 70.6, 71.8, 70.3, 75.3, 68.7, 68.5], borderColor: '#5AABAF', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: "King's", data: [68.8, 60.8, 64.5, 58.4, 57.5, 60.4, 65.2, 61.3, 61.1, 73.3, 67.6, 65.8], borderColor: '#75BBBF', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'Manchester', data: [61.4, 61.4, 63.1, 62.7, 64.2, 66.2, 73.3, 70.1, 74.0, 76.3, 75.5, 73.5], borderColor: '#6A9A87', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'Newcastle', data: [63.9, 71.1, 70.2, 70.4, 71.7, 71.5, 73.4, 66.0, 68.5, 63.6, 65.0, 65.1], borderColor: '#4A6A5F', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'Oxford', data: [61.8, 62.0, 53.2, 61.5, 63.5, 63.6, 67.5, 66.5, 57.0, 56.5, 60.2, 63.5], borderColor: '#2F4F47', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'Sheffield', data: [48.6, 49.3, 53.5, 51.5, 42.8, 48.3, 50.5, 47.8, 46.7, 57.5, 53.4, 50.8], borderColor: '#1F3F37', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'UCLH', data: [70.9, 75.1, 79.1, 80.1, 78.5, 80.6, 76.7, 75.8, 77.5, 81.7, 78.4, 78.3], borderColor: '#8FB0A3', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
                 }]
             },
             options: {
@@ -677,13 +687,14 @@
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'top'
+                        position: 'top',
+                        labels: { boxWidth: 12, font: { size: 10 } }
                     }
                 },
                 scales: {
                     y: {
                         beginAtZero: false,
-                        min: 50,
+                        min: 40,
                         max: 90,
                         ticks: {
                             callback: function(value) {
@@ -763,32 +774,43 @@
             thirtyOneChart.update();
         }
 
-        // Two Week Wait & FDS Trends - all data from NHS England Acute Provider Time Series (May 2026 publication)
+        // Two Week Wait & FDS Trends
         new Chart(document.getElementById('twwTrendChart'), {
             type: 'line',
             data: {
-                labels: ['Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26', 'Feb 26', 'Mar 26'],
+                labels: ['Jun 25', 'Jul 25', 'Aug 25', 'Sep 25', 'Oct 25', 'Nov 25', 'Dec 25', 'Jan 26', 'Feb 26', 'Mar 26', 'Apr 26', 'May 26'],
                 datasets: [{
                     label: 'FDS (Shelford Average)',
-                    data: [80.1, 78.0, 76.4, 77.6, 77.3, 76.6, 75.2, 78.2, 79.1, 79.5, 76.6, 84.5, 84.0],
-                    borderColor: '#007B7F',
-                    backgroundColor: 'rgba(0, 123, 127, 0.1)',
-                    tension: 0.4,
-                    fill: true
+                    data: [77.6, 77.3, 76.6, 75.2, 78.2, 79.1, 79.5, 76.6, 84.5, 84.0, 80.1, 83.2],
+                    borderColor: '#007B7F', backgroundColor: 'rgba(0, 123, 127, 0.1)', borderWidth: 3, tension: 0.4, fill: true, order: 1
                 }, {
                     label: 'FDS (National Average)',
-                    data: [79.0, 76.7, 74.8, 76.8, 76.5, 74.6, 73.8, 76.1, 76.5, 77.4, 72.8, 80.5, 79.4],
-                    borderColor: '#94A3B8',
-                    backgroundColor: 'rgba(148, 163, 184, 0.1)',
-                    tension: 0.4,
-                    fill: true
+                    data: [76.8, 76.5, 74.6, 73.8, 76.1, 76.5, 77.4, 72.8, 80.5, 79.4, 75.9, 79.0],
+                    borderColor: '#94A3B8', backgroundColor: 'rgba(148, 163, 184, 0.1)', borderWidth: 3, borderDash: [6,3], tension: 0.4, fill: true, order: 2
                 }, {
                     label: 'FDS Standard (75%)',
-                    data: [75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75],
-                    borderColor: '#F59E0B',
-                    borderDash: [5, 5],
-                    borderWidth: 2,
-                    pointRadius: 0
+                    data: [75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75, 75],
+                    borderColor: '#F59E0B', borderDash: [5, 5], borderWidth: 2, pointRadius: 0, fill: false, order: 3
+                }, {
+                    label: 'Birmingham', data: [73.2, 74.0, 75.2, 75.0, 75.0, 78.5, 83.4, 80.8, 86.0, 85.4, 84.4, 87.0], borderColor: '#007B7F', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'Cambridge', data: [76.2, 73.8, 73.4, 69.4, 81.9, 85.1, 85.5, 82.7, 89.2, 86.8, 80.3, 84.0], borderColor: '#1A8B8F', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'GSTT', data: [80.8, 81.5, 83.2, 83.6, 82.8, 85.2, 82.2, 75.7, 84.3, 86.8, 79.1, 85.4], borderColor: '#339B9F', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'Imperial', data: [84.9, 80.8, 82.6, 81.3, 82.3, 82.1, 82.5, 80.4, 84.5, 84.2, 80.0, 82.3], borderColor: '#5AABAF', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: "King's", data: [75.6, 75.0, 73.0, 71.3, 72.5, 72.7, 74.9, 73.0, 81.9, 78.9, 76.7, 79.5], borderColor: '#75BBBF', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'Manchester', data: [78.4, 75.3, 73.3, 72.1, 78.1, 80.8, 80.3, 78.7, 84.5, 83.4, 79.1, 83.0], borderColor: '#6A9A87', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'Newcastle', data: [78.1, 74.1, 72.0, 68.6, 69.1, 65.6, 67.7, 66.5, 85.6, 86.5, 83.1, 85.0], borderColor: '#4A6A5F', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'Oxford', data: [77.0, 81.9, 79.6, 77.8, 81.0, 81.3, 80.4, 76.1, 82.7, 82.9, 80.5, 85.3], borderColor: '#2F4F47', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'Sheffield', data: [71.2, 72.8, 69.0, 68.2, 71.5, 74.5, 75.2, 71.7, 80.9, 80.9, 77.3, 77.8], borderColor: '#1F3F37', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
+                }, {
+                    label: 'UCLH', data: [80.6, 83.6, 84.9, 84.6, 88.0, 84.9, 82.9, 80.8, 85.5, 84.8, 80.8, 82.4], borderColor: '#8FB0A3', borderWidth: 1, pointRadius: 0, tension: 0.4, fill: false, order: 4
                 }]
             },
             options: {
@@ -796,7 +818,8 @@
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'top'
+                        position: 'top',
+                        labels: { boxWidth: 12, font: { size: 10 } }
                     }
                 },
                 scales: {
