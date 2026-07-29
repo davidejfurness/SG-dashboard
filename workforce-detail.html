@@ -51,23 +51,23 @@
             <div><h1>Workforce</h1><p class="subtitle">Staff experience from the NHS Staff Survey 2024</p></div>
         </header>
         <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT &amp; Elective Care</a><a href="ae-detail.html">A&amp;E &amp; Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety &amp; Quality</a><a href="capacity-detail.html">Capacity &amp; Beds</a><a href="workforce-detail.html" class="active">Workforce</a><a href="research-detail.html">Research &amp; Clinical Trials</a><a href="productivity-detail.html">Productivity</a>
+            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT &amp; Elective Care</a><a href="ae-detail.html">A&amp;E &amp; Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="outpatient-detail.html">Outpatient Transformation</a><a href="quality-detail.html">Patient Safety &amp; Quality</a><a href="capacity-detail.html">Capacity &amp; Beds</a><a href="workforce-detail.html" class="active">Workforce</a><a href="research-detail.html">Research &amp; Clinical Trials</a><a href="productivity-detail.html">Productivity</a>
         </div></nav>
 
         <!-- Sickness Absence -->
         <h2>Sickness Absence</h2>
-        <p class="source-note">Source: NHS Sickness Absence Rates, March 2026 (published 25 June 2026). Rates calculated from Electronic Staff Record (ESR).</p>
+        <p class="source-note">Source: NHS Sickness Absence Rates, November 2025 (published 26 February 2026). Rates calculated from Electronic Staff Record (ESR).</p>
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">Sickness Absence Rate (Shelford Avg)</div><div class="metric-value">4.83%</div><div class="metric-benchmark">March 2026 · England: 5.11%</div></div>
+            <div class="metric-card"><div class="metric-label">Sickness Absence Rate (Shelford Avg)</div><div class="metric-value">5.26%</div><div class="metric-benchmark">November 2025 · England: 5.61%</div></div>
         </div>
 
-        <div class="chart-container"><h3>Sickness Absence Rate by Trust – March 2026</h3>
-            <p class="source-note">Source: NHS Sickness Absence Rates, March 2026 (published 25 June 2026). Dashed line shows England average (5.11%).</p>
+        <div class="chart-container"><h3>Sickness Absence Rate by Trust – November 2025</h3>
+            <p class="source-note">Source: NHS Sickness Absence Rates, November 2025 (published 26 February 2026). Dashed line shows England average (5.61%).</p>
             <div class="chart-controls"><button class="chart-btn" onclick="sortSickChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortSickChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortSickChart('lowest')">Lowest to Highest</button></div>
             <div class="chart-wrapper"><canvas id="sicknessChart"></canvas></div></div>
 
         <div class="chart-container"><h3>Sickness Absence Trend – Shelford Average vs England</h3>
-            <p class="source-note">Source: NHS Sickness Absence Rates, April 2025 – March 2026 (published 25 June 2026).</p>
+            <p class="source-note">Source: NHS Sickness Absence Rates, December 2024 – November 2025 (published 26 February 2026).</p>
             <div class="chart-wrapper"><canvas id="sicknessTrendChart"></canvas></div></div>
 
         <!-- NHS Staff Survey -->
@@ -122,41 +122,41 @@
             <p class="source-note">Source: NHS Staff Survey 2024 Benchmark Report. Radar chart comparing Shelford Group average against all acute trust average across 7 People Promise themes.</p>
             <div class="chart-wrapper"><canvas id="ppRadarChart"></canvas></div></div>
 
-        <footer><p>&copy; 2026 Shelford Group | Sickness Absence updated July 2026 (March 2026 data) · Staff Survey last updated February 2026 (2024 survey)</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
 
     <script>
-        // Sickness absence data - NHS Sickness Absence Rates, March 2026
-        // Published 25 June 2026, from Electronic Staff Record (ESR)
+        // Sickness absence data - NHS Sickness Absence Rates, November 2025
+        // Published 26 February 2026, from Electronic Staff Record (ESR)
         const sickData = {
             labels: ['Birmingham','Cambridge','GSTT','Imperial',"King's",'Manchester','Newcastle','Oxford','Sheffield','UCLH'],
-            mar26: [5.83, 4.20, 4.59, 4.68, 4.28, 5.57, 5.83, 4.03, 5.04, 4.26],
-            // Apr 25 to Mar 26 (12 months) per trust
+            nov25: [6.24, 4.56, 4.86, 5.12, 4.57, 6.33, 6.32, 4.43, 5.83, 4.39],
+            // Dec 24 to Nov 25 (12 months) per trust
             trends: {
-                'Birmingham': [5.30,5.27,5.54,5.68,5.79,5.84,6.28,6.24,6.41,6.31,6.12,5.83],
-                'Cambridge':  [3.89,3.75,3.90,4.02,4.12,4.26,4.52,4.56,4.54,4.40,4.47,4.20],
-                'GSTT':       [4.21,3.98,4.31,4.40,4.47,4.72,4.87,4.86,5.12,5.06,4.81,4.59],
-                'Imperial':   [4.25,4.21,4.68,4.62,4.54,4.75,5.21,5.12,5.22,5.02,4.75,4.68],
-                "King's":     [4.19,4.14,4.34,4.58,4.42,4.47,4.80,4.57,4.83,4.84,4.68,4.28],
-                'Manchester': [5.46,5.40,5.70,5.84,5.73,5.94,6.39,6.33,6.58,6.39,5.96,5.57],
-                'Newcastle':  [5.49,5.18,5.36,5.39,5.39,5.70,6.31,6.32,6.51,6.27,6.18,5.83],
-                'Oxford':     [3.95,3.98,3.97,3.98,3.82,4.23,4.61,4.43,4.79,4.84,4.43,4.03],
-                'Sheffield':  [4.78,4.47,4.56,4.66,4.73,5.00,5.83,5.83,6.06,5.82,5.52,5.04],
-                'UCLH':       [4.12,4.14,4.18,4.18,3.99,4.23,4.54,4.39,4.67,4.65,4.44,4.26]
+                'Birmingham': [6.49,6.21,5.92,5.52,5.30,5.27,5.54,5.68,5.79,5.84,6.28,6.24],
+                'Cambridge':  [4.35,4.39,4.23,4.02,3.89,3.75,3.90,4.02,4.12,4.26,4.52,4.56],
+                'GSTT':       [5.01,4.90,4.74,4.37,4.21,3.98,4.31,4.40,4.47,4.72,4.87,4.86],
+                'Imperial':   [4.45,4.67,4.51,4.39,4.25,4.21,4.68,4.62,4.54,4.75,5.21,5.12],
+                "King's":     [4.73,4.80,4.58,4.47,4.19,4.14,4.34,4.58,4.42,4.47,4.80,4.57],
+                'Manchester': [6.83,6.83,6.19,5.63,5.46,5.40,5.70,5.84,5.73,5.94,6.39,6.33],
+                'Newcastle':  [6.18,6.13,6.15,5.72,5.49,5.18,5.36,5.39,5.39,5.70,6.31,6.32],
+                'Oxford':     [4.58,4.61,4.36,3.97,3.95,3.98,3.97,3.98,3.82,4.23,4.61,4.43],
+                'Sheffield':  [5.86,5.90,5.47,4.90,4.78,4.47,4.56,4.66,4.73,5.00,5.83,5.83],
+                'UCLH':       [4.92,4.83,4.55,4.24,4.12,4.14,4.18,4.18,3.99,4.23,4.54,4.39]
             }
         };
-        const englandSickTrend = [4.79,4.70,4.93,5.08,5.07,5.29,5.67,5.61,5.91,5.74,5.43,5.11];
-        const trendLabels = ['Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26'];
+        const englandSickTrend = [5.74,5.71,5.26,4.88,4.79,4.70,4.93,5.08,5.07,5.29,5.67,5.61];
+        const trendLabels = ['Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25'];
 
         // Sickness bar chart
-        const sickBarData = { labels: [...sickData.labels], values: [...sickData.mar26] };
-        let sicknessChart = new Chart(document.getElementById('sicknessChart'), { type: 'bar', data: { labels: sickBarData.labels, datasets: [{ label: 'Sickness Absence Rate (%)', data: sickBarData.values, backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'England avg (5.11%)', data: Array(10).fill(5.11), type: 'line', borderColor: '#94A3B8', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, max: 8, ticks: { callback: v => v+'%' } } } } });
+        const sickBarData = { labels: [...sickData.labels], values: [...sickData.nov25] };
+        let sicknessChart = new Chart(document.getElementById('sicknessChart'), { type: 'bar', data: { labels: sickBarData.labels, datasets: [{ label: 'Sickness Absence Rate (%)', data: sickBarData.values, backgroundColor: '#007B7F', borderRadius: 6 },{ label: 'England avg (5.61%)', data: Array(10).fill(5.61), type: 'line', borderColor: '#94A3B8', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, max: 8, ticks: { callback: v => v+'%' } } } } });
         function sortSickChart(sortType) {
             let indices = sickData.labels.map((_,i) => i);
-            if (sortType === 'highest') indices.sort((a,b) => sickData.mar26[b] - sickData.mar26[a]);
-            else if (sortType === 'lowest') indices.sort((a,b) => sickData.mar26[a] - sickData.mar26[b]);
+            if (sortType === 'highest') indices.sort((a,b) => sickData.nov25[b] - sickData.nov25[a]);
+            else if (sortType === 'lowest') indices.sort((a,b) => sickData.nov25[a] - sickData.nov25[b]);
             sicknessChart.data.labels = indices.map(i => sickData.labels[i]);
-            sicknessChart.data.datasets[0].data = indices.map(i => sickData.mar26[i]);
+            sicknessChart.data.datasets[0].data = indices.map(i => sickData.nov25[i]);
             sicknessChart.update();
         }
 

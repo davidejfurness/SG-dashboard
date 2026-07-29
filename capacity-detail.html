@@ -49,19 +49,19 @@
             <div><h1>Capacity &amp; Beds</h1><p class="subtitle">Bed availability and occupancy across Shelford Group trusts</p></div>
         </header>
         <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT &amp; Elective Care</a><a href="ae-detail.html">A&amp;E &amp; Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="quality-detail.html">Patient Safety &amp; Quality</a><a href="capacity-detail.html" class="active">Capacity &amp; Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research &amp; Clinical Trials</a><a href="productivity-detail.html">Productivity</a>
+            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT &amp; Elective Care</a><a href="ae-detail.html">A&amp;E &amp; Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="outpatient-detail.html">Outpatient Transformation</a><a href="quality-detail.html">Patient Safety &amp; Quality</a><a href="capacity-detail.html" class="active">Capacity &amp; Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research &amp; Clinical Trials</a><a href="productivity-detail.html">Productivity</a>
         </div></nav>
 
         <h2>Capacity Summary</h2>
-        <p class="source-note">Source: NHS England KH03 Beds Open Overnight, Q4 2025/26 (January–March 2026), published 21 May 2026. Quarterly average daily beds.</p>
+        <p class="source-note">Source: NHS England KH03 Beds Open Overnight, Q3 2025/26 (October–December 2025), published 19 February 2026. Quarterly average daily beds.</p>
         <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">G&amp;A Bed Occupancy (Shelford Weighted Avg)</div><div class="metric-value">90.6%</div><div class="metric-benchmark">Q4 2025/26 · England: 92.5%</div></div>
-            <div class="metric-card"><div class="metric-label">G&amp;A Beds Available (Shelford Total)</div><div class="metric-value">14,370</div><div class="metric-benchmark">Average daily, Q4 2025/26</div></div>
-            <div class="metric-card"><div class="metric-label">G&amp;A Beds Occupied (Shelford Total)</div><div class="metric-value">13,014</div><div class="metric-benchmark">Average daily, Q4 2025/26</div></div>
+            <div class="metric-card"><div class="metric-label">G&amp;A Bed Occupancy (Shelford Weighted Avg)</div><div class="metric-value">89.7%</div><div class="metric-benchmark">Q3 2025/26 · England: 91.5%</div></div>
+            <div class="metric-card"><div class="metric-label">G&amp;A Beds Available (Shelford Total)</div><div class="metric-value">14,330</div><div class="metric-benchmark">Average daily, Q3 2025/26</div></div>
+            <div class="metric-card"><div class="metric-label">G&amp;A Beds Occupied (Shelford Total)</div><div class="metric-value">12,848</div><div class="metric-benchmark">Average daily, Q3 2025/26</div></div>
         </div>
 
         <h2>Trust-Level Bed Occupancy</h2>
-        <p class="source-note">Source: NHS England KH03 Beds Open Overnight, Q4 2025/26 (January–March 2026), published 21 May 2026</p>
+        <p class="source-note">Source: NHS England KH03 Beds Open Overnight, Q3 2025/26 (October–December 2025), published 19 February 2026</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortTable('alpha', event)">A-Z</button>
@@ -74,31 +74,31 @@
         </div>
 
         <div class="chart-container"><h3>General &amp; Acute Bed Occupancy by Trust</h3>
-            <p class="source-note">Source: NHS England KH03 Beds Open Overnight, Q4 2025/26. Average daily beds, January–March 2026.</p>
+            <p class="source-note">Source: NHS England KH03 Beds Open Overnight, Q3 2025/26. Average daily beds, October–December 2025.</p>
             <div class="chart-controls"><button class="chart-btn" onclick="sortOccChart('alpha')">A-Z</button><button class="chart-btn" onclick="sortOccChart('highest')">Highest to Lowest</button><button class="chart-btn" onclick="sortOccChart('lowest')">Lowest to Highest</button></div>
             <div class="chart-wrapper"><canvas id="occupancyChart"></canvas></div></div>
 
         <div class="chart-container"><h3>Bed Capacity – Available vs Occupied (G&amp;A)</h3>
-            <p class="source-note">Source: NHS England KH03 Beds Open Overnight, Q4 2025/26. Shows average daily G&amp;A beds available and occupied per trust.</p>
+            <p class="source-note">Source: NHS England KH03 Beds Open Overnight, Q3 2025/26. Shows average daily G&amp;A beds available and occupied per trust.</p>
             <div class="chart-wrapper"><canvas id="bedsCompChart"></canvas></div></div>
 
-        <footer><p>&copy; 2026 Shelford Group | Data updated July 2026</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
     </div>
 
     <script>
-        // All data from NHS England KH03 Beds Open Overnight, Q4 2025/26
-        // Published 21 May 2026
+        // All data from NHS England KH03 Beds Open Overnight, Q3 2025/26
+        // Published 19 February 2026
         const capacityData = [
-            { name: 'Birmingham', availGA: 2769, occGA: 2682, gaOcc: 96.9, availTotal: 2886, totalOcc: 96.7 },
-            { name: 'Cambridge', availGA: 1068, occGA: 953, gaOcc: 89.3, availTotal: 1127, totalOcc: 88.9 },
-            { name: 'GSTT', availGA: 1217, occGA: 1033, gaOcc: 84.9, availTotal: 1293, totalOcc: 84.8 },
-            { name: 'Imperial', availGA: 1039, occGA: 1008, gaOcc: 97.1, availTotal: 1095, totalOcc: 96.8 },
-            { name: "King's", availGA: 1357, occGA: 1232, gaOcc: 90.8, availTotal: 1477, totalOcc: 87.9 },
-            { name: 'Manchester', availGA: 2067, occGA: 1865, gaOcc: 90.2, availTotal: 2275, totalOcc: 88.4 },
-            { name: 'Newcastle', availGA: 1455, occGA: 1256, gaOcc: 86.3, availTotal: 1563, totalOcc: 83.6 },
-            { name: 'Oxford', availGA: 1026, occGA: 932, gaOcc: 90.8, availTotal: 1103, totalOcc: 88.7 },
-            { name: 'Sheffield', availGA: 1518, occGA: 1375, gaOcc: 90.6, availTotal: 1640, totalOcc: 88.2 },
-            { name: 'UCLH', availGA: 855, occGA: 678, gaOcc: 79.3, availTotal: 899, totalOcc: 77.4 }
+            { name: 'Birmingham', availGA: 2769, occGA: 2675, gaOcc: 96.6, availTotal: 2886, totalOcc: 96.6 },
+            { name: 'Cambridge', availGA: 1044, occGA: 952, gaOcc: 91.2, availTotal: 1105, totalOcc: 90.6 },
+            { name: 'GSTT', availGA: 1210, occGA: 1005, gaOcc: 83.1, availTotal: 1286, totalOcc: 83.1 },
+            { name: 'Imperial', availGA: 1039, occGA: 982, gaOcc: 94.6, availTotal: 1093, totalOcc: 94.6 },
+            { name: "King's", availGA: 1357, occGA: 1201, gaOcc: 88.5, availTotal: 1477, totalOcc: 85.7 },
+            { name: 'Manchester', availGA: 2067, occGA: 1842, gaOcc: 89.1, availTotal: 2276, totalOcc: 87.7 },
+            { name: 'Newcastle', availGA: 1458, occGA: 1214, gaOcc: 83.3, availTotal: 1565, totalOcc: 80.4 },
+            { name: 'Oxford', availGA: 1019, occGA: 923, gaOcc: 90.5, availTotal: 1096, totalOcc: 88.7 },
+            { name: 'Sheffield', availGA: 1515, occGA: 1382, gaOcc: 91.2, availTotal: 1633, totalOcc: 89.5 },
+            { name: 'UCLH', availGA: 853, occGA: 672, gaOcc: 78.9, availTotal: 897, totalOcc: 77.4 }
         ];
 
         function sortTable(sortType, e) {

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outpatient Transformation - Shelford Group Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root { --shelford-teal: #007B7F; --shelford-dark-teal: #005A5D; --shelford-sage: #5B7F6C; --shelford-cream: #FDFBF7; --text-dark: #1A1A1A; --text-mid: #4A4A4A; --border-light: #E5E5E5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--shelford-cream); color: var(--text-dark); line-height: 1.6; padding: 2rem; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 3px solid var(--shelford-teal); }
+        .logo-link { display: inline-block; } .logo { width: 120px; height: auto; }
+        h1 { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; }
+        .subtitle { font-size: 1.1rem; color: var(--text-mid); margin-top: 0.5rem; }
+        h2 { font-size: 1.8rem; color: var(--shelford-dark-teal); margin: 3rem 0 1rem 0; font-weight: 600; }
+        h3 { font-size: 1.3rem; color: var(--shelford-dark-teal); margin: 1rem 0; }
+        .pillar-intro { font-size: 1rem; color: var(--text-mid); margin: 0.75rem 0 1.5rem 0; max-width: 900px; }
+        .source-note { font-size: 0.9rem; color: var(--text-mid); margin-top: 0.5rem; margin-bottom: 1.5rem; font-style: italic; }
+        nav { background: white; padding: 1rem 2rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); }
+        nav a { color: var(--shelford-teal); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; transition: all 0.2s; display: inline-block; }
+        nav a:hover { background: rgba(0,123,127,0.1); border-radius: 6px; }
+        nav a.active { color: var(--shelford-dark-teal); background: rgba(0,123,127,0.1); border-radius: 6px; font-weight: 600; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .metric-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,123,127,0.08); border-left: 4px solid var(--shelford-teal); }
+        .metric-label { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 0.5rem; font-weight: 500; }
+        .metric-value { font-size: 2.5rem; color: var(--shelford-dark-teal); font-weight: 700; margin-bottom: 0.25rem; }
+        .metric-benchmark { font-size: 0.85rem; color: var(--text-mid); }
+        .table-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; overflow-x: auto; }
+        .sort-buttons { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .sort-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .sort-btn:hover { background: var(--shelford-dark-teal); } .sort-btn.active { background: var(--shelford-dark-teal); }
+        table { width: 100%; border-collapse: collapse; } thead { background: var(--shelford-teal); color: white; }
+        th { padding: 1rem; text-align: left; font-weight: 600; } td { padding: 1rem; border-bottom: 1px solid var(--border-light); }
+        tbody tr:hover { background: rgba(0,123,127,0.05); } .trust-name { font-weight: 500; }
+        .chart-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; }
+        .chart-wrapper { position: relative; height: 400px; margin-top: 1rem; }
+        .chart-controls { margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .chart-btn { padding: 0.5rem 1rem; background: var(--shelford-teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+        .chart-btn:hover { background: var(--shelford-dark-teal); }
+        .data-note { background: #FEF3C7; border-left: 3px solid #F59E0B; padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-mid); }
+        .coming-soon { background: #EEF6F5; border-left: 3px solid var(--shelford-sage); padding: 1.25rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem; font-size: 0.9rem; color: var(--text-mid); }
+        .asterisk-note { font-size: 0.8rem; color: var(--text-mid); font-style: italic; margin-top: 0.75rem; }
+        .placeholder-cell { color: #B8BEC2; text-align: center; font-style: italic; }
+        .placeholder-row td { border-bottom: 1px dashed var(--border-light); }
+        footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-mid); font-size: 0.9rem; }
+        @media (max-width: 768px) { body { padding: 1rem; } h1 { font-size: 1.8rem; } .metric-value { font-size: 2rem; } .chart-wrapper { height: 300px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
+            <div><h1>Outpatient Transformation</h1><p class="subtitle">Progress against NHS England's Outpatient Recovery and Transformation Programme across the Shelford Group</p></div>
+        </header>
+        <nav><div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+            <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="outpatient-detail.html" class="active">Outpatient Transformation</a><a href="quality-detail.html">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research &amp; Clinical Trials</a><a href="productivity-detail.html">Productivity</a>
+        </div></nav>
+
+        <p class="pillar-intro" style="margin-top:0;">NHS England's Outpatient Recovery and Transformation Programme is built around three strands: <strong>personalised follow-up</strong> (e.g. Patient Initiated Follow-Up), <strong>referral optimisation</strong> (e.g. Specialist Advice &amp; Guidance), and <strong>specialty redesign</strong>. This page tracks the first two, which have robust national data collections; the third — specialty-level progress — is being sourced directly from Shelford trusts and will be added once available (see note at the foot of the Referral Optimisation section).</p>
+
+        <div class="data-note"><strong>Data caveats affecting this page's methodology:</strong><br>
+        1) <strong>Sheffield PIFU (monthly)</strong> data stops at August 2025 in the source file — held over with a note throughout, and excluded from the Shelford PIFU monthly trend line to avoid distorting the time series (consistent with how Sheffield is handled on the RTT page). This does <em>not</em> affect the FY2024/25 PIFU utilisation rate below, where a full 12 months of Sheffield data is available.<br>
+        2) <strong>Specialist A&amp;G "Processed" and "Diverted" figures lag behind "Total Requests."</strong> England's processed-to-total ratio holds steady at 84–90% every month back to April 2025, then falls sharply to 72.1% in May 2026 — a clear sign May's outcomes are still being reported, not a real change in practice. Total Requests, Pre-referral and Post-referral splits are recorded at request time and show no such drop, so those use May 2026; Processed, Diverted and Diversion Rate use April 2026, the latest month before this lag effect appears.<br>
+        3) <strong>PIFU Utilisation Rate and DNA Rate are FY2024/25 figures</strong> from NHS Hospital Episode Statistics (Outpatient, Provider-Level Analysis) — 2025/26 data isn't published until September. These are annual, not monthly, and sit alongside (not blended with) the live monthly PIFU episode counts elsewhere on this page. PIFU Utilisation Rate = FY24/25 PIFU episodes &divide; FY24/25 attended outpatient attendances. DNA Rate = DNA &divide; (Attended + DNA). Three trusts (Birmingham, GSTT, Manchester) appear in the HES file under suffixed codes (RRK-X, RJ1-X, R0A-X respectively) rather than their standard ODS codes — mapped and verified before extraction.<br>
+        4) <strong>England benchmark lines on the trend charts</strong> use the national per-provider average scaled to Shelford's trust count (&times;9 for PIFU ex-Sheffield, &times;10 for Specialist A&amp;G), not the raw England total, since Shelford is a small subset of the ~134–140 providers in each file and a direct total-to-total comparison would not be meaningful.</div>
+
+        <h2>Referral Optimisation (Specialist Advice &amp; Guidance)</h2>
+        <p class="pillar-intro">Specialists respond to GP requests for advice before or after a referral is made, diverting patients who don't need an outpatient appointment away from the referral pathway entirely.</p>
+
+        <p class="source-note">Source: Provider Specialist Advice Activity full dataset from April 2022 (NHS England, data extract to May 2026). Total/Pre/Post: May 2026. Processed/Diverted/Diversion Rate: April 2026 (see reporting-lag note above).</p>
+        <div class="dashboard-grid">
+            <div class="metric-card"><div class="metric-label">Specialist A&amp;G Requests (Shelford Total)</div><div class="metric-value">114,004</div><div class="metric-benchmark">May 2026 · Pre-referral share: 32.9%</div></div>
+            <div class="metric-card"><div class="metric-label">A&amp;G Diversion Rate (Shelford Weighted)</div><div class="metric-value">29.2%</div><div class="metric-benchmark">April 2026 · England: 27.7%</div></div>
+            <div class="metric-card"><div class="metric-label">Pre-Referral A&amp;G Share (Shelford)</div><div class="metric-value">32.9%</div><div class="metric-benchmark">of 114,004 total requests · May 2026</div></div>
+        </div>
+
+        <h3>Trust-Level Specialist Advice &amp; Guidance Activity</h3>
+        <div class="table-container">
+            <div class="sort-buttons">
+                <button class="sort-btn active" onclick="sortOPTable(event, 'alpha')">A-Z</button>
+                <button class="sort-btn" onclick="sortOPTable(event, 'saTotal')">Sort by A&amp;G Total</button>
+                <button class="sort-btn" onclick="sortOPTable(event, 'divRate')">Sort by Diversion Rate</button>
+            </div>
+            <table>
+                <thead><tr><th>Trust</th><th>A&amp;G Total</th><th>Pre-referral</th><th>Post-referral</th><th>Processed†</th><th>Diverted†</th><th>Diversion Rate†</th></tr></thead>
+                <tbody id="opTableBody"></tbody>
+            </table>
+            <p class="asterisk-note">† Processed/Diverted/Diversion Rate figures are April 2026 (see reporting-lag note above).</p>
+        </div>
+
+        <div class="chart-container"><h3>Specialist A&amp;G Total Requests Trend – Shelford vs England Benchmark</h3><p class="source-note">Source: Provider Specialist Advice Activity full dataset, Apr 2022 – May 2026. Shelford = sum of all 10 trusts. England benchmark = national average per provider &times; 10.</p><div class="chart-wrapper"><canvas id="saTrendChart"></canvas></div></div>
+
+        <div class="chart-container"><h3>A&amp;G Diversion Rate Trend – Shelford (Weighted) vs England</h3><p class="source-note">Source: Provider Specialist Advice Activity full dataset, Apr 2022 – Apr 2026 (May 2026 excluded — see reporting-lag note above). Diversion rate = diverted &divide; processed requests.</p><div class="chart-wrapper"><canvas id="divRateTrendChart"></canvas></div></div>
+
+        <div class="chart-container"><h3>Pre- vs Post-Referral A&amp;G by Trust – May 2026</h3><p class="source-note">Source: Provider Specialist Advice Activity full dataset, May 2026. Pre-referral (Advice &amp; Guidance) occurs before a referral is made; post-referral occurs afterwards. The split varies significantly by trust, reflecting different service models.</p>
+            <div class="chart-wrapper"><canvas id="prePostChart"></canvas></div></div>
+
+        <h3>Specialty-Level Referral Optimisation <span style="font-size:0.9rem; font-weight:500; color:var(--shelford-sage); background:#EEF6F5; padding:0.2rem 0.7rem; border-radius:12px; vertical-align:middle;">Awaiting trust submissions</span></h3>
+        <p class="pillar-intro">Neither NHS England source file on this page carries a specialty breakdown, so this section is a <strong>placeholder</strong> showing the shape the data will take once each trust submits its own specialty-level A&amp;G figures directly. Columns show NHS England's cited highest-activity "crossover" specialties as an illustrative starting scope — the final columns will follow whatever trusts actually submit.</p>
+        <div class="table-container">
+            <table>
+                <thead><tr><th>Trust</th><th>T&amp;O</th><th>Physio-therapy</th><th>Audiology</th><th>Cardiology</th><th>Dermatology</th><th>Diabetes</th><th>Oncology</th><th>Ophthalmology</th><th>Rehabilitation</th></tr></thead>
+                <tbody id="specialtyTableBody"></tbody>
+            </table>
+            <p class="asterisk-note">Diversion rate would be shown per trust per specialty once submitted (e.g. "58%"); cells show "—" until then. Specialty list is illustrative — see note above.</p>
+        </div>
+
+        <h2 style="margin-top:4rem;">Personalised Follow-Up (PIFU)</h2>
+        <p class="pillar-intro">Patients initiate their own follow-up appointment when needed, rather than being brought back on a fixed schedule. NHS England's target is for PIFU to reach at least 5% of all outpatient appointments by March 2029.</p>
+
+        <p class="source-note">Sources: PIFU Activity by Month and Provider (latest available month per trust, to May 2026; Sheffield Aug 2025) and Hospital Episode Statistics Outpatient Provider-Level Analysis FY2024/25 (utilisation rate &amp; DNA rate).</p>
+        <div class="dashboard-grid">
+            <div class="metric-card"><div class="metric-label">PIFU Episodes (Shelford Total)</div><div class="metric-value">44,607</div><div class="metric-benchmark">Latest available month per trust · Sheffield frozen at Aug 2025</div></div>
+            <div class="metric-card"><div class="metric-label">PIFU Utilisation Rate (Shelford Weighted)</div><div class="metric-value">2.43%</div><div class="metric-benchmark">FY2024/25 · England: 2.98% · NHS target: 5% by Mar 2029</div></div>
+            <div class="metric-card"><div class="metric-label">Outpatient DNA Rate (Shelford Weighted)</div><div class="metric-value">7.9%</div><div class="metric-benchmark">FY2024/25 · England: 6.7%</div></div>
+            <div class="metric-card"><div class="metric-label">Outpatient Attendances (Shelford Total)</div><div class="metric-value">18.3m</div><div class="metric-benchmark">FY2024/25 attended appointments, all 10 trusts</div></div>
+        </div>
+
+        <h3>Trust-Level PIFU Activity</h3>
+        <p class="source-note">PIFU Episodes: latest available month (May 2026; Sheffield Aug 2025†). Attendances, DNA Rate, PIFU Utilisation Rate: FY2024/25.</p>
+        <div class="table-container">
+            <div class="sort-buttons">
+                <button class="sort-btn active" onclick="sortPifuTable(event, 'alpha')">A-Z</button>
+                <button class="sort-btn" onclick="sortPifuTable(event, 'pifuLatest')">Sort by PIFU Episodes</button>
+                <button class="sort-btn" onclick="sortPifuTable(event, 'pifuRate')">Sort by Utilisation Rate</button>
+                <button class="sort-btn" onclick="sortPifuTable(event, 'dnaRate')">Sort by DNA Rate</button>
+            </div>
+            <table>
+                <thead><tr><th>Trust</th><th>PIFU Episodes</th><th>Attendances (FY24/25)</th><th>DNA Rate (FY24/25)</th><th>PIFU Utilisation Rate (FY24/25)</th></tr></thead>
+                <tbody id="pifuTableBody"></tbody>
+            </table>
+            <p class="asterisk-note">† Sheffield PIFU episode figure is Aug 2025 (last available month); its FY2024/25 utilisation rate and DNA rate are unaffected and based on a complete year.</p>
+        </div>
+
+        <div class="chart-container"><h3>PIFU Episodes Trend – Shelford (ex-Sheffield) vs England Benchmark</h3><p class="source-note">Source: PIFU Activity by Month and Provider, Aug 2021 – May 2026. Shelford = sum of 9 trusts (Sheffield excluded from trend due to data gap since Aug 2025). England benchmark = national average per provider &times; 9.</p><div class="chart-wrapper"><canvas id="pifuTrendChart"></canvas></div></div>
+
+        <div class="chart-container"><h3>PIFU Utilisation Rate by Trust – FY2024/25</h3><p class="source-note">Source: PIFU episodes (Apr 2024 – Mar 2025 sum) &divide; attended outpatient attendances, HES Outpatient Provider-Level Analysis FY2024/25. Dashed line: NHS England's 5%-by-March-2029 target.</p>
+            <div class="chart-controls"><button class="chart-btn" onclick="sortPifuRateChart(event, 'alpha')">A-Z</button><button class="chart-btn" onclick="sortPifuRateChart(event, 'rate')">Sort by Rate</button></div>
+            <div class="chart-wrapper"><canvas id="pifuRateChart"></canvas></div></div>
+
+        <div class="chart-container"><h3>Outpatient DNA Rate by Trust – FY2024/25</h3><p class="source-note">Source: HES Outpatient Provider-Level Analysis FY2024/25. DNA Rate = Did Not Attend &divide; (Attended + DNA).</p>
+            <div class="chart-controls"><button class="chart-btn" onclick="sortDnaChart(event, 'alpha')">A-Z</button><button class="chart-btn" onclick="sortDnaChart(event, 'rate')">Sort by DNA Rate</button></div>
+            <div class="chart-wrapper"><canvas id="dnaRateChart"></canvas></div></div>
+
+        <footer><p>&copy; 2026 Shelford Group | Data updated July 2026</p></footer>
+    </div>
+
+    <script>
+        const opData = [{"name": "Birmingham", "pifu": 5007, "pifuNote": false, "saTotal": 23097, "pre": 17686, "post": 5411, "proc": 19318, "div": 4193, "divRate": 21.7}, {"name": "Cambridge", "pifu": 4790, "pifuNote": false, "saTotal": 4359, "pre": 3940, "post": 419, "proc": 3940, "div": 2458, "divRate": 62.4}, {"name": "GSTT", "pifu": 9099, "pifuNote": false, "saTotal": 15607, "pre": 2925, "post": 12682, "proc": 14927, "div": 4054, "divRate": 27.2}, {"name": "Imperial", "pifu": 1989, "pifuNote": false, "saTotal": 9995, "pre": 2739, "post": 7256, "proc": 7257, "div": 2027, "divRate": 27.9}, {"name": "King's", "pifu": 4872, "pifuNote": false, "saTotal": 5094, "pre": 2209, "post": 2885, "proc": 4712, "div": 1655, "divRate": 35.1}, {"name": "Manchester", "pifu": 7059, "pifuNote": false, "saTotal": 18258, "pre": 297, "post": 17961, "proc": 16363, "div": 6232, "divRate": 38.1}, {"name": "Newcastle", "pifu": 3999, "pifuNote": false, "saTotal": 13919, "pre": 3167, "post": 10752, "proc": 13527, "div": 2486, "divRate": 18.4}, {"name": "Oxford", "pifu": 1642, "pifuNote": false, "saTotal": 7016, "pre": 3424, "post": 3592, "proc": 5449, "div": 2098, "divRate": 38.5}, {"name": "Sheffield", "pifu": 2675, "pifuNote": true, "saTotal": 7755, "pre": 291, "post": 7464, "proc": 7400, "div": 1375, "divRate": 18.6}, {"name": "UCLH", "pifu": 3475, "pifuNote": false, "saTotal": 8904, "pre": 867, "post": 8037, "proc": 1958, "div": 1091, "divRate": 55.7}];
+
+        const pifuData = [{"name": "Birmingham", "pifuLatest": 5007, "pifuNote": false, "attended": 2614080, "dna": 198655, "dnaRate": 7.1, "pifuFY": 61163, "pifuRate": 2.34}, {"name": "Cambridge", "pifuLatest": 4790, "pifuNote": false, "attended": 1157255, "dna": 60715, "dnaRate": 5.0, "pifuFY": 43720, "pifuRate": 3.78}, {"name": "GSTT", "pifuLatest": 9099, "pifuNote": false, "attended": 2650610, "dna": 305525, "dnaRate": 10.3, "pifuFY": 74890, "pifuRate": 2.83}, {"name": "Imperial", "pifuLatest": 1989, "pifuNote": false, "attended": 1351080, "dna": 136220, "dnaRate": 9.2, "pifuFY": 15690, "pifuRate": 1.16}, {"name": "King's", "pifuLatest": 4872, "pifuNote": false, "attended": 1886940, "dna": 217205, "dnaRate": 10.3, "pifuFY": 35362, "pifuRate": 1.87}, {"name": "Manchester", "pifuLatest": 7059, "pifuNote": false, "attended": 2509700, "dna": 265180, "dnaRate": 9.6, "pifuFY": 53549, "pifuRate": 2.13}, {"name": "Newcastle", "pifuLatest": 3999, "pifuNote": false, "attended": 1421775, "dna": 104325, "dnaRate": 6.8, "pifuFY": 37479, "pifuRate": 2.64}, {"name": "Oxford", "pifuLatest": 1642, "pifuNote": false, "attended": 1585095, "dna": 72470, "dnaRate": 4.4, "pifuFY": 18159, "pifuRate": 1.15}, {"name": "Sheffield", "pifuLatest": 2675, "pifuNote": true, "attended": 1325625, "dna": 84790, "dnaRate": 6.0, "pifuFY": 65463, "pifuRate": 4.94}, {"name": "UCLH", "pifuLatest": 3475, "pifuNote": false, "attended": 1845130, "dna": 130215, "dnaRate": 6.6, "pifuFY": 39546, "pifuRate": 2.14}];
+
+        function sortOPTable(event, sortType) {
+            let sorted = [...opData];
+            if (sortType === 'saTotal') sorted.sort((a, b) => b.saTotal - a.saTotal);
+            else if (sortType === 'divRate') sorted.sort((a, b) => b.divRate - a.divRate);
+            else sorted.sort((a, b) => a.name.localeCompare(b.name));
+            document.getElementById('opTableBody').innerHTML = sorted.map(t =>
+                '<tr><td class="trust-name">'+t.name+'</td><td>'+t.saTotal.toLocaleString()+'</td><td>'+t.pre.toLocaleString()+'</td><td>'+t.post.toLocaleString()+'</td><td>'+t.proc.toLocaleString()+'</td><td>'+t.div.toLocaleString()+'</td><td>'+t.divRate+'%</td></tr>'
+            ).join('');
+            document.querySelectorAll('#opTableBody').forEach(()=>{});
+            const btns = event ? event.target.parentElement.querySelectorAll('.sort-btn') : null;
+            if (btns) { btns.forEach(b => b.classList.remove('active')); if (event.target) event.target.classList.add('active'); }
+        }
+        sortOPTable(null, 'alpha');
+
+        // Specialty-level placeholder — no source file yet; every cell is an explicit "awaiting data" marker, never a number.
+        const specialtyPlaceholderCols = 9;
+        document.getElementById('specialtyTableBody').innerHTML = opData.map(t =>
+            '<tr class="placeholder-row"><td class="trust-name">'+t.name+'</td>' + '<td class="placeholder-cell">—</td>'.repeat(specialtyPlaceholderCols) + '</tr>'
+        ).join('');
+
+        function sortPifuTable(event, sortType) {
+            let sorted = [...pifuData];
+            if (sortType === 'pifuLatest') sorted.sort((a, b) => b.pifuLatest - a.pifuLatest);
+            else if (sortType === 'pifuRate') sorted.sort((a, b) => b.pifuRate - a.pifuRate);
+            else if (sortType === 'dnaRate') sorted.sort((a, b) => b.dnaRate - a.dnaRate);
+            else sorted.sort((a, b) => a.name.localeCompare(b.name));
+            document.getElementById('pifuTableBody').innerHTML = sorted.map(t =>
+                '<tr><td class="trust-name">'+t.name+(t.pifuNote ? ' †' : '')+'</td><td>'+t.pifuLatest.toLocaleString()+'</td><td>'+t.attended.toLocaleString()+'</td><td>'+t.dnaRate+'%</td><td>'+t.pifuRate+'%</td></tr>'
+            ).join('');
+            const btns = event ? event.target.parentElement.querySelectorAll('.sort-btn') : null;
+            if (btns) { btns.forEach(b => b.classList.remove('active')); if (event.target) event.target.classList.add('active'); }
+        }
+        sortPifuTable(null, 'alpha');
+
+        // PIFU trend: Shelford (ex-Sheffield, 9 trusts) vs England benchmark (avg per provider x9)
+        const pifuMonths = ["Aug-21", "Sep-21", "Oct-21", "Nov-21", "Dec-21", "Jan-22", "Feb-22", "Mar-22", "Apr-22", "May-22", "Jun-22", "Jul-22", "Aug-22", "Sep-22", "Oct-22", "Nov-22", "Dec-22", "Jan-23", "Feb-23", "Mar-23", "Apr-23", "May-23", "Jun-23", "Jul-23", "Aug-23", "Sep-23", "Oct-23", "Nov-23", "Dec-23", "Jan-24", "Feb-24", "Mar-24", "Apr-24", "May-24", "Jun-24", "Jul-24", "Aug-24", "Sep-24", "Oct-24", "Nov-24", "Dec-24", "Jan-25", "Feb-25", "Mar-25", "Apr-25", "May-25", "Jun-25", "Jul-25", "Aug-25", "Sep-25", "Oct-25", "Nov-25", "Dec-25", "Jan-26", "Feb-26", "Mar-26", "Apr-26", "May-26"];
+        const pifuShelford = [3969, 5112, 5502, 5669, 5830, 6896, 7509, 9002, 7860, 9481, 11247, 10584, 13104, 12943, 14082, 16626, 13528, 19845, 17815, 21106, 17424, 21229, 23273, 22590, 22732, 22638, 21415, 26403, 19284, 24394, 23473, 22887, 27260, 28705, 28304, 31899, 28754, 30921, 35164, 34115, 28860, 36344, 32974, 36258, 36653, 37243, 40013, 43561, 36790, 42835, 44878, 41434, 40247, 45402, 42011, 46604, 43184, 41932];
+        const pifuEnglandBenchmark = [4162.0, 4686.0, 4761.0, 5532.0, 5391.0, 5882.0, 5977.0, 7021.0, 6026.0, 7534.0, 7608.0, 7548.0, 8053.0, 8466.0, 8863.0, 10449.0, 8497.0, 11067.0, 10546.0, 12346.0, 10604.0, 12820.0, 13506.0, 13031.0, 13230.0, 13877.0, 15275.0, 16778.0, 13031.0, 16596.0, 15557.0, 15245.0, 16725.0, 17106.0, 16275.0, 19013.0, 16547.0, 17868.0, 20334.0, 19331.0, 16813.0, 20356.0, 18949.0, 19972.0, 19923.0, 20169.0, 21390.0, 22424.0, 19030.0, 22304.0, 22907.0, 21245.0, 20440.0, 22686.0, 21373.0, 23476.0, 21851.0, 21306.0];
+        new Chart(document.getElementById('pifuTrendChart'), { type: 'line', data: { labels: pifuMonths, datasets: [
+            { label: 'Shelford Total (9 trusts, ex-Sheffield)', data: pifuShelford, borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.1)', tension: 0.4, fill: true },
+            { label: 'England Benchmark (avg per provider \u00d7 9)', data: pifuEnglandBenchmark, borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', tension: 0.4, fill: true }
+        ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, ticks: { callback: v => (v/1000).toFixed(0)+'k' } } } } });
+
+        // PIFU utilisation rate by trust - FY2024/25
+        let pifuRateChart = new Chart(document.getElementById('pifuRateChart'), { type: 'bar', data: { labels: pifuData.map(t=>t.name), datasets: [
+            { label: 'PIFU Utilisation Rate', data: pifuData.map(t=>t.pifuRate), backgroundColor: '#007B7F', borderRadius: 6 },
+            { label: 'NHS Target (5% by Mar 2029)', data: pifuData.map(()=>5), type: 'line', borderColor: '#10B981', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }
+        ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y + '%' } } }, scales: { y: { beginAtZero: true, max: 6, ticks: { callback: v => v+'%' } } } } });
+        function sortPifuRateChart(event, sortType) {
+            let indices = pifuData.map((_,i)=>i);
+            if (sortType === 'rate') indices.sort((a,b) => pifuData[b].pifuRate - pifuData[a].pifuRate);
+            else indices.sort((a,b) => pifuData[a].name.localeCompare(pifuData[b].name));
+            pifuRateChart.data.labels = indices.map(i => pifuData[i].name);
+            pifuRateChart.data.datasets[0].data = indices.map(i => pifuData[i].pifuRate);
+            pifuRateChart.update();
+            const btns = event ? event.target.parentElement.querySelectorAll('.chart-btn') : null;
+            if (btns) { btns.forEach(b => b.classList.remove('active')); if (event.target) event.target.classList.add('active'); }
+        }
+
+        // DNA rate by trust - FY2024/25
+        let dnaRateChart = new Chart(document.getElementById('dnaRateChart'), { type: 'bar', data: { labels: pifuData.map(t=>t.name), datasets: [
+            { label: 'DNA Rate', data: pifuData.map(t=>t.dnaRate), backgroundColor: '#E08030', borderRadius: 6 }
+        ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y + '%' } } }, scales: { y: { beginAtZero: true, max: 12, ticks: { callback: v => v+'%' } } } } });
+        function sortDnaChart(event, sortType) {
+            let indices = pifuData.map((_,i)=>i);
+            if (sortType === 'rate') indices.sort((a,b) => pifuData[b].dnaRate - pifuData[a].dnaRate);
+            else indices.sort((a,b) => pifuData[a].name.localeCompare(pifuData[b].name));
+            dnaRateChart.data.labels = indices.map(i => pifuData[i].name);
+            dnaRateChart.data.datasets[0].data = indices.map(i => pifuData[i].dnaRate);
+            dnaRateChart.update();
+            const btns = event ? event.target.parentElement.querySelectorAll('.chart-btn') : null;
+            if (btns) { btns.forEach(b => b.classList.remove('active')); if (event.target) event.target.classList.add('active'); }
+        }
+
+        // Specialist A&G Total Requests trend: Shelford (10 trusts) vs England benchmark (avg per provider x10)
+        const saMonths = ["Apr-22", "May-22", "Jun-22", "Jul-22", "Aug-22", "Sep-22", "Oct-22", "Nov-22", "Dec-22", "Jan-23", "Feb-23", "Mar-23", "Apr-23", "May-23", "Jun-23", "Jul-23", "Aug-23", "Sep-23", "Oct-23", "Nov-23", "Dec-23", "Jan-24", "Feb-24", "Mar-24", "Apr-24", "May-24", "Jun-24", "Jul-24", "Aug-24", "Sep-24", "Oct-24", "Nov-24", "Dec-24", "Jan-25", "Feb-25", "Mar-25", "Apr-25", "May-25", "Jun-25", "Jul-25", "Aug-25", "Sep-25", "Oct-25", "Nov-25", "Dec-25", "Jan-26", "Feb-26", "Mar-26", "Apr-26", "May-26"];
+        const saShelfordTotal = [49351, 62710, 60638, 64337, 66343, 75118, 75874, 78693, 57982, 76641, 75501, 90237, 80806, 92769, 98850, 97869, 98650, 96211, 102566, 101936, 83519, 104230, 100504, 96527, 101853, 108751, 102991, 112986, 96471, 102881, 111144, 104147, 93454, 108385, 106138, 116820, 112173, 115114, 120180, 130417, 107546, 125514, 125606, 112398, 107560, 115914, 117900, 133711, 118409, 114004];
+        const saEnglandBenchmark = [33413.0, 40392.0, 37641.0, 39226.0, 40618.0, 42147.0, 42366.0, 45642.0, 34403.0, 43399.0, 43096.0, 51293.0, 43663.0, 50919.0, 55290.0, 52163.0, 53076.0, 51841.0, 54559.0, 54696.0, 44585.0, 54835.0, 55186.0, 52443.0, 56545.0, 59573.0, 55639.0, 61339.0, 53678.0, 56314.0, 62074.0, 56944.0, 50992.0, 58669.0, 56794.0, 62382.0, 58667.0, 60931.0, 63877.0, 69833.0, 57623.0, 67290.0, 69000.0, 60727.0, 58978.0, 63536.0, 63423.0, 69011.0, 60013.0, 58198.0];
+        const saTrustColors = ['#E07A5F','#3D5A80','#81B29A','#C9A227','#9B5DE5','#00A896','#F15BB5','#6A994E','#606C38','#BC6C25'];
+        const saByTrust = {"Birmingham": [11719, 13740, 12770, 13767, 14611, 14220, 14053, 15170, 11036, 14452, 14607, 17486, 13666, 15701, 16914, 17047, 16904, 16628, 17123, 17321, 13929, 18293, 17961, 16974, 17970, 19193, 17612, 19442, 17276, 18739, 20983, 19470, 17362, 21689, 21373, 22906, 21203, 22734, 23393, 25856, 20809, 25044, 25540, 22643, 21526, 24107, 23753, 26349, 24642, 23097], "Cambridge": [2504, 3045, 2599, 2736, 2981, 2728, 2971, 3140, 2528, 2542, 3037, 3576, 2915, 3138, 3400, 3328, 3011, 3048, 3503, 3546, 2964, 3373, 3416, 3417, 3965, 3590, 3368, 3806, 2963, 3492, 3815, 3490, 3387, 3855, 3587, 4014, 3707, 3979, 4082, 4602, 3748, 4633, 4688, 3982, 4207, 4201, 4440, 5076, 4593, 4359], "GSTT": [3121, 4341, 4517, 4458, 4366, 4336, 4921, 5115, 4568, 5652, 5443, 6810, 5354, 6446, 6911, 6684, 6771, 6586, 6477, 6778, 5432, 7128, 6977, 6790, 7184, 8923, 9445, 10256, 9249, 9673, 10712, 9637, 8575, 10531, 10690, 12401, 13590, 12984, 13981, 16393, 14628, 16551, 16374, 14817, 14483, 15298, 16098, 17697, 16161, 15607], "Imperial": [9448, 11567, 11215, 11223, 11695, 12024, 12105, 10073, 6800, 12162, 10565, 14123, 11039, 13089, 13816, 13192, 12782, 12632, 13602, 13458, 10593, 13374, 13805, 12401, 13288, 14314, 13075, 14396, 11724, 13123, 13824, 12202, 11181, 12367, 12524, 13568, 12228, 12769, 13142, 13772, 11428, 13395, 12244, 12193, 10954, 11271, 10968, 12617, 10695, 9995], "King's": [1393, 1703, 1787, 1952, 1883, 1956, 2342, 2485, 2151, 2535, 2492, 3101, 2440, 2877, 2992, 2886, 2835, 2786, 2858, 2972, 2453, 2918, 3091, 3029, 3170, 3287, 3071, 3367, 2882, 3061, 3949, 3916, 3524, 4222, 4308, 5124, 5302, 4820, 5305, 5621, 4814, 5484, 5518, 5190, 5112, 5231, 5290, 6011, 5427, 5094], "Manchester": [586, 3898, 785, 830, 909, 11246, 12251, 12856, 9493, 12633, 12455, 14305, 12084, 13540, 13720, 14646, 14977, 13968, 15001, 15343, 12481, 16207, 15634, 15839, 15652, 16888, 15921, 17486, 15649, 16103, 17230, 16132, 14579, 16011, 15715, 17210, 15828, 17361, 17889, 19160, 16521, 17859, 18110, 17297, 16679, 18651, 18695, 20398, 18378, 18258], "Newcastle": [10147, 11260, 10563, 11131, 11186, 10479, 10609, 11215, 8053, 10582, 10620, 12547, 10861, 12154, 12885, 11762, 12109, 12724, 13047, 12505, 10201, 13238, 13066, 11803, 12682, 13044, 12966, 14501, 12462, 12989, 13793, 12393, 10864, 13614, 12680, 13473, 13763, 13021, 13759, 14498, 11871, 14139, 14242, 12760, 11043, 12399, 12950, 15700, 14446, 13919], "Oxford": [3942, 4986, 4878, 4821, 4993, 4733, 5068, 5464, 4003, 4959, 5280, 5833, 4725, 5281, 5611, 4845, 4837, 5108, 5663, 5460, 4469, 5441, 5632, 5274, 5273, 5569, 5288, 5762, 5197, 5517, 6358, 6048, 5406, 5823, 6220, 6982, 6526, 6994, 7276, 8070, 6378, 7164, 7704, 6930, 6794, 7459, 7405, 8522, 7234, 7016], "Sheffield": [388, 535, 4864, 6446, 6593, 6185, 3737, 5398, 3623, 3523, 3784, 3516, 10800, 12539, 14101, 15243, 15993, 14336, 16605, 15551, 14201, 15346, 12049, 13035, 14384, 14789, 13713, 14527, 11157, 11372, 10797, 12227, 10978, 11674, 10663, 11811, 11037, 11478, 12126, 12290, 9223, 11655, 11391, 7690, 8453, 8198, 9323, 11456, 7553, 7755], "UCLH": [6103, 7635, 6660, 6973, 7126, 7211, 7817, 7777, 5727, 7601, 7218, 8940, 6922, 8004, 8500, 8236, 8431, 8395, 8687, 9002, 6796, 8912, 8873, 7965, 8285, 9154, 8532, 9443, 7912, 8812, 9683, 8632, 7598, 8599, 8378, 9331, 8989, 8974, 9227, 10155, 8126, 9590, 9795, 8896, 8309, 9099, 8978, 9885, 9280, 8904]};
+        new Chart(document.getElementById('saTrendChart'), { type: 'line', data: { labels: saMonths, datasets: [
+            { label: 'Shelford Total (10 trusts)', data: saShelfordTotal, borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.15)', borderWidth: 3, tension: 0.4, fill: true, order: 0 },
+            { label: 'England Benchmark (avg per provider \u00d7 10)', data: saEnglandBenchmark, borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.08)', borderDash: [6,4], borderWidth: 2, tension: 0.4, fill: false, order: 0 },
+            ...Object.keys(saByTrust).map((name,i) => ({ label: name, data: saByTrust[name], borderColor: saTrustColors[i], borderWidth: 1.25, pointRadius: 0, tension: 0.4, fill: false, order: 1 }))
+        ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } } }, scales: { y: { beginAtZero: true, ticks: { callback: v => (v/1000).toFixed(0)+'k' } } } } });
+
+        // Diversion rate trend (capped Apr-2026 — see reporting lag note)
+        const divRateMonths = ["Apr-22", "May-22", "Jun-22", "Jul-22", "Aug-22", "Sep-22", "Oct-22", "Nov-22", "Dec-22", "Jan-23", "Feb-23", "Mar-23", "Apr-23", "May-23", "Jun-23", "Jul-23", "Aug-23", "Sep-23", "Oct-23", "Nov-23", "Dec-23", "Jan-24", "Feb-24", "Mar-24", "Apr-24", "May-24", "Jun-24", "Jul-24", "Aug-24", "Sep-24", "Oct-24", "Nov-24", "Dec-24", "Jan-25", "Feb-25", "Mar-25", "Apr-25", "May-25", "Jun-25", "Jul-25", "Aug-25", "Sep-25", "Oct-25", "Nov-25", "Dec-25", "Jan-26", "Feb-26", "Mar-26", "Apr-26"];
+        const divRateShelford = [26.6, 26.7, 25.8, 26.6, 26.3, 28.0, 29.5, 30.8, 30.5, 29.8, 31.1, 31.9, 27.2, 27.6, 27.2, 30.0, 30.2, 28.9, 30.1, 30.4, 30.6, 30.6, 29.1, 32.3, 29.9, 30.2, 29.6, 29.8, 30.6, 31.2, 31.0, 30.9, 30.5, 29.6, 29.6, 29.9, 30.2, 30.1, 30.1, 30.3, 30.4, 30.2, 31.5, 32.0, 32.1, 31.0, 30.1, 29.1, 29.2];
+        const divRateEngland = [26.0, 26.4, 26.8, 27.5, 27.4, 27.2, 27.5, 27.5, 28.0, 26.8, 27.2, 27.9, 26.0, 26.5, 26.4, 27.4, 27.4, 27.1, 27.6, 27.6, 27.9, 27.6, 26.9, 27.7, 27.3, 27.2, 27.3, 27.5, 27.2, 26.9, 27.0, 27.1, 27.3, 27.1, 26.8, 27.0, 27.4, 27.6, 27.9, 28.2, 28.0, 28.2, 28.8, 29.0, 29.6, 28.5, 28.6, 28.0, 27.7];
+        const divRateByTrust = {"Birmingham": [21.4, 22.5, 21.1, 22.5, 22.0, 24.7, 24.4, 27.5, 27.7, 25.4, 28.0, 27.0, 25.9, 27.1, 25.8, 26.8, 25.0, 24.3, 24.7, 24.7, 26.1, 27.2, 26.3, 28.0, 27.2, 26.6, 26.5, 27.0, 28.0, 26.2, 27.4, 27.4, 26.6, 24.8, 24.9, 25.7, 26.6, 24.8, 24.6, 26.6, 25.4, 25.9, 27.3, 26.3, 25.2, 25.0, 24.7, 23.6, 21.7], "Cambridge": [56.9, 56.0, 56.1, 57.8, 56.1, 58.6, 60.8, 59.0, 59.7, 64.3, 59.2, 56.9, 55.1, 55.5, 55.9, 58.0, 62.1, 62.2, 63.8, 63.4, 64.0, 65.3, 64.7, 62.8, 60.3, 62.4, 62.1, 62.8, 63.0, 62.2, 64.8, 64.9, 65.2, 63.1, 64.6, 64.5, 64.2, 66.9, 65.3, 65.3, 64.7, 64.4, 63.1, 68.5, 65.1, 63.5, 64.3, 63.8, 62.4], "GSTT": [55.4, 50.6, 47.3, 47.3, 46.6, 46.1, 45.1, 43.7, 36.9, 36.7, 39.8, 40.2, 38.8, 38.6, 40.2, 41.6, 42.6, 43.2, 45.9, 43.5, 43.4, 39.8, 40.2, 42.8, 41.7, 43.2, 35.2, 34.4, 32.7, 34.5, 35.2, 37.3, 36.0, 33.7, 31.1, 30.0, 28.5, 27.8, 27.7, 27.8, 28.3, 27.2, 28.5, 29.3, 29.9, 29.9, 28.2, 27.5, 27.2], "Imperial": [20.7, 23.7, 27.1, 30.1, 30.8, 29.2, 28.8, 32.4, 31.5, 31.4, 27.3, 31.3, 31.2, 31.0, 32.7, 33.6, 34.1, 32.9, 31.8, 31.6, 32.1, 33.0, 33.5, 33.0, 32.8, 32.0, 33.2, 33.8, 35.2, 35.2, 34.6, 34.9, 37.0, 34.7, 35.7, 34.9, 37.2, 37.3, 39.0, 36.2, 36.2, 35.4, 38.5, 36.3, 37.0, 35.0, 31.1, 30.0, 27.9], "King's": [64.2, 63.2, 61.3, 60.8, 59.5, 55.0, 50.3, 52.4, 48.3, 47.7, 50.0, 48.4, 45.7, 47.3, 49.4, 50.4, 50.5, 49.2, 52.3, 48.2, 47.9, 47.3, 46.1, 44.8, 46.6, 47.2, 46.7, 45.0, 47.5, 46.6, 43.4, 43.3, 45.6, 38.7, 35.1, 32.6, 31.5, 36.0, 36.4, 35.5, 37.9, 34.7, 38.9, 37.5, 36.7, 37.6, 35.8, 36.1, 35.1], "Manchester": [27.6, 17.8, 23.8, 29.0, 29.4, 35.7, 36.0, 33.1, 36.6, 36.1, 37.3, 36.5, 32.9, 34.3, 35.0, 33.4, 35.8, 33.5, 33.5, 31.8, 33.0, 34.9, 36.6, 35.8, 36.0, 35.2, 36.2, 36.5, 37.0, 36.2, 37.6, 38.1, 36.1, 39.8, 38.5, 39.4, 40.4, 39.1, 36.8, 35.3, 36.1, 36.2, 39.8, 42.6, 42.6, 39.0, 38.0, 37.8, 38.1], "Newcastle": [20.9, 19.7, 20.5, 21.8, 21.2, 22.2, 22.3, 21.3, 22.8, 21.3, 21.6, 21.3, 21.4, 22.1, 21.4, 21.0, 21.7, 21.2, 22.8, 22.9, 23.9, 21.7, 22.0, 22.6, 21.5, 21.4, 20.0, 21.0, 19.3, 19.9, 20.4, 20.4, 21.4, 19.5, 19.7, 20.4, 19.6, 19.8, 19.8, 20.6, 20.3, 21.6, 21.9, 20.9, 22.6, 20.9, 21.1, 19.4, 18.4], "Oxford": [25.1, 24.9, 23.3, 22.3, 20.6, 22.9, 23.7, 24.0, 23.0, 24.4, 25.0, 26.4, 23.6, 23.8, 19.6, 25.4, 25.9, 22.8, 24.9, 25.4, 26.7, 27.3, 27.7, 38.5, 39.5, 43.0, 37.6, 39.6, 30.6, 33.8, 31.9, 33.1, 31.6, 31.4, 30.9, 30.4, 34.6, 31.9, 36.0, 33.6, 34.0, 35.0, 32.1, 33.5, 32.5, 32.2, 29.4, 29.5, 38.5], "Sheffield": [15.2, 16.7, 6.5, 7.1, 8.1, 6.6, 12.5, 26.6, 13.6, 13.4, 30.4, 40.2, 7.5, 7.4, 8.1, 21.7, 22.2, 19.7, 22.6, 26.1, 23.8, 25.4, 10.1, 25.0, 13.0, 13.8, 14.1, 11.9, 18.4, 22.6, 15.3, 13.6, 12.6, 14.0, 14.7, 15.0, 14.5, 16.1, 18.1, 17.0, 17.8, 16.7, 17.7, 18.1, 18.9, 17.8, 18.8, 18.2, 18.6], "UCLH": [21.9, 23.9, 23.6, 25.7, 27.1, 28.2, 28.1, 31.4, 30.2, 30.5, 31.5, 34.4, 36.0, 32.0, 31.8, 31.8, 31.0, 30.1, 33.0, 34.5, 34.7, 29.2, 32.2, 32.3, 31.7, 33.8, 35.7, 37.7, 42.8, 39.7, 38.9, 40.3, 39.9, 37.5, 38.7, 43.4, 44.7, 42.7, 42.1, 45.0, 44.0, 47.7, 49.9, 53.1, 55.1, 55.6, 59.4, 57.0, 55.7]};
+        new Chart(document.getElementById('divRateTrendChart'), { type: 'line', data: { labels: divRateMonths, datasets: [
+            { label: 'Shelford Diversion Rate (weighted)', data: divRateShelford, borderColor: '#007B7F', backgroundColor: 'rgba(0,123,127,0.15)', borderWidth: 3, tension: 0.4, fill: true, order: 0 },
+            { label: 'England Diversion Rate', data: divRateEngland, borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.08)', borderDash: [6,4], borderWidth: 2, tension: 0.4, fill: false, order: 0 },
+            ...Object.keys(divRateByTrust).map((name,i) => ({ label: name, data: divRateByTrust[name], borderColor: saTrustColors[i], borderWidth: 1.25, pointRadius: 0, tension: 0.4, fill: false, order: 1 }))
+        ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } } }, scales: { y: { beginAtZero: false, min: 0, max: 70, ticks: { callback: v => v+'%' } } } } });
+
+        // Pre vs Post referral by trust - May 2026
+        new Chart(document.getElementById('prePostChart'), { type: 'bar', data: { labels: opData.map(t => t.name), datasets: [
+            { label: 'Pre-referral A&G (Advice & Guidance)', data: opData.map(t => t.pre), backgroundColor: '#007B7F', borderRadius: 4 },
+            { label: 'Post-referral A&G', data: opData.map(t => t.post), backgroundColor: '#6A9A87', borderRadius: 4 }
+        ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString() } } }, scales: { y: { beginAtZero: true, ticks: { callback: v => (v/1000).toFixed(0)+'k' } } } } });
+    </script>
+</body>
+</html>
