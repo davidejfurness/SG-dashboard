@@ -93,6 +93,47 @@ else{document.getElementById("authError").style.display="block";document.getElem
             <strong>The 150-day target:</strong> The government's Life Sciences Sector Plan commits to reducing clinical trial setup time to under 150 days by March 2026 — from regulatory submission to first participant recruited. The 150-day clock comprises three stages: MHRA/HRA approval (target: 60 days), site opening after approval (target: 60 days), and first participant recruited after site opening (target: 30 days). The data below relates to the site-level component: whether studies recruited their first participant within 90 days of HRA approval. This is a key NIHR Research Delivery Network performance metric, with funding implications for trusts.
         </div>
 
+        <h2>FY 2026/27 Trial Setup Performance — Early Tracking</h2>
+        <div class="info-box">
+            <strong>A new, separate series — not directly comparable to the figures above.</strong> This tracks financial-year-to-date performance for 2026/27 (from April 2026), refreshed as NIHR publishes updated cuts through the year. It is <strong>not</strong> the next data point in the rolling 12-month series above — the two use different windows and shouldn't be read as a continuous trend. Volumes are currently small (1–9 studies per trust), so trust-level percentages will be volatile until more studies accumulate. Early-year figures are also structurally biased low on this metric: many studies opened this financial year haven't yet reached their 90-day decision point, so some "after 90 days" cases may simply still be inside their window rather than genuinely late. This first reading is expected to firm up as the year progresses.
+        </div>
+        <p class="source-note">Source: Shelford Group data collection (NIHR Open Data Platform extract), FY2026/27 year-to-date as published 15 July 2026.</p>
+        <div class="dashboard-grid">
+            <div class="metric-card"><div class="metric-label">Total Studies (Shelford, FYTD)</div><div class="metric-value">59</div><div class="metric-benchmark">Across all 10 trusts · National: 215 (373 trusts)</div></div>
+            <div class="metric-card"><div class="metric-label">Shelford 90-Day Achievement Rate (FYTD)</div><div class="metric-value">30.5%</div><div class="metric-benchmark">18 of 59 studies · National: 46.5% · NIHR target: 80%</div></div>
+            <div class="metric-card"><div class="metric-label">Median Days to First Participant (FYTD)</div><div class="metric-value">123</div><div class="metric-benchmark">Shelford · National: 102 days</div></div>
+        </div>
+
+        <h2>Trust-Level Trial Setup Performance — FY2026/27 YTD</h2>
+        <p class="source-note">Source: Shelford Group data collection (NIHR Open Data Platform extract), FY2026/27 year-to-date as published 15 July 2026. First reading of this series — no prior-period comparison yet.</p>
+        <div class="table-container">
+            <div class="sort-buttons">
+                <button class="sort-btn active" onclick="sortFYTable('alpha', event)">A-Z</button>
+                <button class="sort-btn" onclick="sortFYTable('pct', event)">Sort by % to Target</button>
+                <button class="sort-btn" onclick="sortFYTable('total', event)">Sort by Total Studies</button>
+                <button class="sort-btn" onclick="sortFYTable('within', event)">Sort by Within 90 Days</button>
+            </div>
+            <table>
+                <thead><tr><th>Trust</th><th>Total Studies</th><th>Within 90 Days</th><th>After 90 Days</th><th>% Within 90d</th><th>Median Days</th></tr></thead>
+                <tbody id="fyTableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="chart-container"><h3>FY2026/27 YTD: First Participant Recruited Within 90 Days (% to Target)</h3>
+            <p class="source-note">Source: Shelford Group data collection (NIHR Open Data Platform extract), FY2026/27 YTD. NIHR target is 80%. Small sample sizes per trust (see table above) — treat individual trust rates with caution this early in the year.</p>
+            <div class="chart-controls">
+                <button class="chart-btn" onclick="sortFYPctChart('alpha')">A-Z</button>
+                <button class="chart-btn" onclick="sortFYPctChart('highest')">Highest to Lowest</button>
+                <button class="chart-btn" onclick="sortFYPctChart('lowest')">Lowest to Highest</button>
+            </div>
+            <div class="chart-wrapper"><canvas id="fyPctChart"></canvas></div>
+        </div>
+
+        <div class="chart-container"><h3>FY2026/27 YTD Trend — Shelford vs National (builds monthly)</h3>
+            <p class="source-note">Source: Shelford Group data collection (NIHR Open Data Platform extract). This is the first monthly reading for FY2026/27 — further points will be added as each month's cumulative data is received, building a genuine within-year trend over time.</p>
+            <div class="chart-wrapper"><canvas id="fyTrendChart"></canvas></div>
+        </div>
+
         <h2>Trial Setup Summary – Shelford Group</h2>
         <p class="source-note">Source: NIHR Open Data Platform. Latest period: 12 months to February 2026. Previous period: 12 months to December 2025.</p>
         <div class="dashboard-grid">
@@ -145,11 +186,10 @@ else{document.getElementById("authError").style.display="block";document.getElem
                 <li><strong>Commercial trial income</strong> — revenue from industry-sponsored trials (from trust annual reports, available July)</li>
                 <li><strong>Recruitment to time and target</strong> — proportion of commercial trials meeting agreed recruitment targets</li>
                 <li><strong>Trial portfolio size</strong> — number of active studies per trust on the NIHR portfolio</li>
-                <li><strong>Setup time trends</strong> — quarterly tracking of 90-day performance against the March 2026 target</li>
             </ul>
         </div>
 
-        <footer><p>&copy; 2026 Shelford Group | Data updated February 2026</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | Rolling 12-month figures last updated February 2026 · FY2026/27 tracking added July 2026</p></footer>
     </div>
 
     <script>
@@ -177,7 +217,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
                 const arrow = change > 0 ? '\u25B2' : change < 0 ? '\u25BC' : '\u2013';
                 return '<tr><td class="trust-name">' + t.name + '</td><td>' + t.total + '</td><td>' + t.within + '</td><td>' + t.after + '</td><td>' + t.pct.toFixed(1) + '%</td><td>' + t.median + '</td><td>' + arrow + ' ' + (change > 0 ? '+' : '') + change + '</td></tr>';
             }).join('');
-            if (e) { document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
+            if (e) { e.target.closest('.sort-buttons').querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
         }
         sortTable('alpha', null);
 
@@ -285,6 +325,106 @@ else{document.getElementById("authError").style.display="block";document.getElem
             stackedChart.data.datasets[1].data = indices.map(i => stackedData.after[i]);
             stackedChart.update();
         }
+
+        // ===== FY2026/27 YTD TRACKING (new series, separate from rolling 12-month data above) =====
+        // Source: Shelford Group data collection (NIHR Open Data Platform extract), FYTD as published 15 July 2026
+        const fyData = [
+            { name: 'Birmingham', total: 7, within: 2, after: 5, pct: 28.6, median: 175 },
+            { name: 'Cambridge', total: 6, within: 1, after: 5, pct: 16.7, median: 135.5 },
+            { name: 'GSTT', total: 8, within: 3, after: 5, pct: 37.5, median: 120 },
+            { name: 'Imperial', total: 3, within: 2, after: 1, pct: 66.7, median: 66 },
+            { name: "King's", total: 8, within: 0, after: 8, pct: 0.0, median: 194.5 },
+            { name: 'Manchester', total: 9, within: 2, after: 7, pct: 22.2, median: 115 },
+            { name: 'Newcastle', total: 8, within: 5, after: 3, pct: 62.5, median: 80 },
+            { name: 'Oxford', total: 5, within: 0, after: 5, pct: 0.0, median: 243 },
+            { name: 'Sheffield', total: 1, within: 1, after: 0, pct: 100.0, median: 70 },
+            { name: 'UCLH', total: 4, within: 2, after: 2, pct: 50.0, median: 92 }
+        ];
+
+        function sortFYTable(sortType, e) {
+            let sorted = [...fyData];
+            if (sortType === 'pct') sorted.sort((a, b) => b.pct - a.pct);
+            else if (sortType === 'total') sorted.sort((a, b) => b.total - a.total);
+            else if (sortType === 'within') sorted.sort((a, b) => b.within - a.within);
+            document.getElementById('fyTableBody').innerHTML = sorted.map(t =>
+                '<tr><td class="trust-name">' + t.name + '</td><td>' + t.total + '</td><td>' + t.within + '</td><td>' + t.after + '</td><td>' + t.pct.toFixed(1) + '%</td><td>' + t.median + '</td></tr>'
+            ).join('');
+            if (e) { e.target.closest('.sort-buttons').querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
+        }
+        sortFYTable('alpha', null);
+
+        // FY percentage chart (single period so far — no previous-period bar yet)
+        const fyPctData = { labels: fyData.map(d => d.name), values: fyData.map(d => d.pct) };
+        let fyPctChart = new Chart(document.getElementById('fyPctChart'), {
+            type: 'bar',
+            data: {
+                labels: [...fyPctData.labels],
+                datasets: [{
+                    label: 'FY2026/27 YTD',
+                    data: [...fyPctData.values],
+                    backgroundColor: '#5B7F6C',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'top' } },
+                scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
+            },
+            plugins: [{
+                id: 'fyTargetLine',
+                afterDraw(chart) {
+                    const ctx = chart.ctx;
+                    const yScale = chart.scales.y;
+                    const y = yScale.getPixelForValue(80);
+                    ctx.save();
+                    ctx.strokeStyle = '#EF4444';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([6, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(chart.chartArea.left, y);
+                    ctx.lineTo(chart.chartArea.right, y);
+                    ctx.stroke();
+                    ctx.fillStyle = '#EF4444';
+                    ctx.font = '12px -apple-system, sans-serif';
+                    ctx.fillText('NIHR Target: 80%', chart.chartArea.right - 120, y - 8);
+                    ctx.restore();
+                }
+            }]
+        });
+        function sortFYPctChart(sortType) {
+            let indices = fyPctData.labels.map((_, i) => i);
+            if (sortType === 'highest') indices.sort((a, b) => fyPctData.values[b] - fyPctData.values[a]);
+            else if (sortType === 'lowest') indices.sort((a, b) => fyPctData.values[a] - fyPctData.values[b]);
+            fyPctChart.data.labels = indices.map(i => fyPctData.labels[i]);
+            fyPctChart.data.datasets[0].data = indices.map(i => fyPctData.values[i]);
+            fyPctChart.update();
+        }
+
+        // FY trend chart — starts with one point; append future months' cumulative figures to these arrays as they arrive
+        const fyTrendLabels = ['FYTD (as at 15 Jul 2026)'];
+        const fyShelfordTrend = [30.5];
+        const fyNationalTrend = [46.5];
+        new Chart(document.getElementById('fyTrendChart'), {
+            type: 'line',
+            data: {
+                labels: fyTrendLabels,
+                datasets: [{
+                    label: 'Shelford (FY2026/27 cumulative)',
+                    data: fyShelfordTrend,
+                    borderColor: '#5B7F6C', backgroundColor: 'rgba(91,127,108,0.15)', tension: 0.3, fill: true, pointRadius: 5
+                }, {
+                    label: 'National (FY2026/27 cumulative)',
+                    data: fyNationalTrend,
+                    borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', borderDash: [6,3], tension: 0.3, fill: true, pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'top' } },
+                scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
+            }
+        });
     </script>
 </body>
 </html>

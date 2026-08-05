@@ -58,7 +58,7 @@
             <a href="index.html">Overview</a><a href="rtt-detail.html">RTT & Elective Care</a><a href="ae-detail.html">A&E & Urgent Care</a><a href="cancer-detail.html">Cancer Services</a><a href="outpatient-detail.html" class="active">Outpatient Transformation</a><a href="quality-detail.html">Patient Safety & Quality</a><a href="capacity-detail.html">Capacity & Beds</a><a href="workforce-detail.html">Workforce</a><a href="research-detail.html">Research &amp; Clinical Trials</a><a href="productivity-detail.html">Productivity</a>
         </div></nav>
 
-        <p class="pillar-intro" style="margin-top:0;">NHS England's Outpatient Recovery and Transformation Programme is built around three strands: <strong>personalised follow-up</strong> (e.g. Patient Initiated Follow-Up), <strong>referral optimisation</strong> (e.g. Specialist Advice &amp; Guidance), and <strong>specialty redesign</strong>. This page tracks the first two, which have robust national data collections; the third — specialty-level progress — is being sourced directly from Shelford trusts and is shown in the section immediately below, as submissions arrive.</p>
+        <p class="pillar-intro" style="margin-top:0;">NHS England's Outpatient Recovery and Transformation Programme is built around three strands: <strong>personalised follow-up</strong> (e.g. Patient Initiated Follow-Up), <strong>referral optimisation</strong> (e.g. Specialist Advice &amp; Guidance), and <strong>specialty redesign</strong>. This page tracks the first two, which have robust national data collections; the third — specialty-level progress — is being sourced directly from Shelford trusts and will be added once available (see note at the foot of the Referral Optimisation section).</p>
 
         <div class="data-note"><strong>Data caveats affecting this page's methodology:</strong><br>
         1) <strong>Sheffield PIFU (monthly)</strong> data stops at August 2025 in the source file — held over with a note throughout, and excluded from the Shelford PIFU monthly trend line to avoid distorting the time series (consistent with how Sheffield is handled on the RTT page). This does <em>not</em> affect the FY2024/25 PIFU utilisation rate below, where a full 12 months of Sheffield data is available.<br>
@@ -66,50 +66,7 @@
         3) <strong>PIFU Utilisation Rate and DNA Rate are FY2024/25 figures</strong> from NHS Hospital Episode Statistics (Outpatient, Provider-Level Analysis) — 2025/26 data isn't published until September. These are annual, not monthly, and sit alongside (not blended with) the live monthly PIFU episode counts elsewhere on this page. PIFU Utilisation Rate = FY24/25 PIFU episodes &divide; FY24/25 attended outpatient attendances. DNA Rate = DNA &divide; (Attended + DNA). Three trusts (Birmingham, GSTT, Manchester) appear in the HES file under suffixed codes (RRK-X, RJ1-X, R0A-X respectively) rather than their standard ODS codes — mapped and verified before extraction.<br>
         4) <strong>England benchmark lines on the trend charts</strong> use the national per-provider average scaled to Shelford's trust count (&times;9 for PIFU ex-Sheffield, &times;10 for Specialist A&amp;G), not the raw England total, since Shelford is a small subset of the ~134–140 providers in each file and a direct total-to-total comparison would not be meaningful.</div>
 
-        <h2>Specialty-Level Referral Optimisation <span style="font-size:0.9rem; font-weight:500; color:var(--shelford-sage); background:#EEF6F5; padding:0.2rem 0.7rem; border-radius:12px; vertical-align:middle;">2 of 10 trusts reporting</span></h2>
-        <p class="pillar-intro">Neither NHS England source file on this page carries a specialty breakdown, so this section is built directly from data trusts submit to Shelford Group under an agreed specialty-level A&amp;G benchmarking template. The ten specialty columns below are the standard set trusts have agreed to report against; trusts are added to the table as their submissions arrive. Cell values show the share of A&amp;G requests resolved with advice only, i.e. without an outpatient appointment being needed.</p>
-
-        <div class="data-note"><strong>Data caveats — specialty-level A&amp;G submissions:</strong><br>
-        1) <strong>Total A&amp;G requests include closed and cancelled requests</strong>; average response days excludes them.<br>
-        2) <strong>Downstream re-referral</strong> is defined as a second A&amp;G request to the same specialty between 3 and 6 months after the first; it is dated to the month of the <em>second</em> request, not the first. Newcastle shows 0 re-referrals throughout — expected, not a data gap, since a re-referral to an April request can't land until July at the earliest and Newcastle's data doesn't yet extend that far.<br>
-        3) <strong>Reporting periods differ by trust and aren't yet like-for-like:</strong> Imperial covers April–July 2026 (M1–4, July provisional as of 30 July 2026); Newcastle covers April–June 2026 (M1–3). Totals under the "Total A&amp;G Requests" view reflect these different-length periods, not comparative demand.<br>
-        4) Cells are suppressed ("—") rather than shown as 0 where a specialty shows zero across every field for a trust (e.g. Imperial Haematology, Newcastle Gastroenterology) — trusts have different specialty mixes under A&amp;G, and an all-zero row most likely means the specialty wasn't part of that trust's submission rather than a true nil return. Newcastle's backlog columns are shown as literal 0s throughout, as submitted.</div>
-
-        <p class="source-note">Sources: Shelford Group Advice &amp; Guidance Benchmarking submissions — Imperial College Healthcare NHS Trust (April–July 2026, provisional for July); Newcastle upon Tyne Hospitals NHS Foundation Trust (April–June 2026).</p>
-        <div class="table-container">
-            <div class="chart-controls">
-                <button class="chart-btn active" onclick="renderSpecialtyTable(event, 'pctAdvice')">% Advice-only</button>
-                <button class="chart-btn" onclick="renderSpecialtyTable(event, 'total')">Total A&amp;G Requests</button>
-                <button class="chart-btn" onclick="renderSpecialtyTable(event, 'pctConverted')">% Converted to OP</button>
-            </div>
-            <table>
-                <thead><tr><th>Trust</th><th>Gastroenterology</th><th>Cardiology</th><th>Neurology</th><th>Gynaecology</th><th>Urology</th><th>Rheumatology</th><th>Dermatology</th><th>ENT</th><th>Respiratory</th><th>Haematology</th></tr></thead>
-                <tbody id="specialtyTableBody"></tbody>
-            </table>
-            <p class="asterisk-note" id="specialtyTableNote">Cell values are the % of A&amp;G requests resolved with advice only (no outpatient appointment required). "—" = not yet submitted by that trust, or no requests recorded for that specialty in the period. Reporting periods vary by trust — see data caveats above.</p>
-        </div>
-
-        <h3 style="margin-top:1.5rem;">Imperial — Full Specialty-Level Detail</h3>
-        <p class="pillar-intro" style="margin-top:0.25rem;">April–July 2026 (M1–4, July provisional). The full submission carries more detail than the comparison grid above can show per cell. Shown in full here for transparency while only a small number of trusts are reporting; will move to a per-trust drill-down view as more submissions arrive.</p>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Specialty</th><th>Total Requests†</th><th>Avg Backlog</th><th>%≤2 Days</th><th>Avg Response Days‡</th><th>%Advice-Only</th><th>%Converted to OP</th><th>New OP Clocks</th><th>Re-referrals</th><th>Re-referral Rate§</th></tr></thead>
-                <tbody id="imperialDetailTableBody"></tbody>
-            </table>
-            <p class="asterisk-note">† Includes closed/cancelled requests. ‡ Excludes closed/cancelled requests. § Re-referrals ÷ advice-only resolutions; suppressed where advice-only count is 0 (e.g. ENT).</p>
-        </div>
-
-        <h3 style="margin-top:1.5rem;">Newcastle — Full Specialty-Level Detail</h3>
-        <p class="pillar-intro" style="margin-top:0.25rem;">April–June 2026 (M1–3). Gastroenterology shown as "—" throughout — not part of Newcastle's submission for this period, treated as a nil return rather than a true zero (see data caveats above).</p>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Specialty</th><th>Total Requests†</th><th>Avg Backlog</th><th>%≤2 Days</th><th>Avg Response Days‡</th><th>%Advice-Only</th><th>%Converted to OP</th><th>New OP Clocks</th><th>Re-referrals</th><th>Re-referral Rate§</th></tr></thead>
-                <tbody id="newcastleDetailTableBody"></tbody>
-            </table>
-            <p class="asterisk-note">† Includes closed/cancelled requests. ‡ Excludes closed/cancelled requests. § Re-referrals ÷ advice-only resolutions; 0 throughout — expected given the M1–3 reporting window (see data caveats above).</p>
-        </div>
-
-        <h2 style="margin-top:4rem;">Referral Optimisation (Specialist Advice &amp; Guidance)</h2>
+        <h2>Referral Optimisation (Specialist Advice &amp; Guidance)</h2>
         <p class="pillar-intro">Specialists respond to GP requests for advice before or after a referral is made, diverting patients who don't need an outpatient appointment away from the referral pathway entirely.</p>
 
         <p class="source-note">Source: Provider Specialist Advice Activity full dataset from April 2022 (NHS England, data extract to May 2026). Total/Pre/Post: May 2026. Processed/Diverted/Diversion Rate: April 2026 (see reporting-lag note above).</p>
@@ -139,6 +96,16 @@
 
         <div class="chart-container"><h3>Pre- vs Post-Referral A&amp;G by Trust – May 2026</h3><p class="source-note">Source: Provider Specialist Advice Activity full dataset, May 2026. Pre-referral (Advice &amp; Guidance) occurs before a referral is made; post-referral occurs afterwards. The split varies significantly by trust, reflecting different service models.</p>
             <div class="chart-wrapper"><canvas id="prePostChart"></canvas></div></div>
+
+        <h3>Specialty-Level Referral Optimisation <span style="font-size:0.9rem; font-weight:500; color:var(--shelford-sage); background:#EEF6F5; padding:0.2rem 0.7rem; border-radius:12px; vertical-align:middle;">Awaiting trust submissions</span></h3>
+        <p class="pillar-intro">Neither NHS England source file on this page carries a specialty breakdown, so this section is a <strong>placeholder</strong> showing the shape the data will take once each trust submits its own specialty-level A&amp;G figures directly. Columns show NHS England's cited highest-activity "crossover" specialties as an illustrative starting scope — the final columns will follow whatever trusts actually submit.</p>
+        <div class="table-container">
+            <table>
+                <thead><tr><th>Trust</th><th>T&amp;O</th><th>Physio-therapy</th><th>Audiology</th><th>Cardiology</th><th>Dermatology</th><th>Diabetes</th><th>Oncology</th><th>Ophthalmology</th><th>Rehabilitation</th></tr></thead>
+                <tbody id="specialtyTableBody"></tbody>
+            </table>
+            <p class="asterisk-note">Diversion rate would be shown per trust per specialty once submitted (e.g. "58%"); cells show "—" until then. Specialty list is illustrative — see note above.</p>
+        </div>
 
         <h2 style="margin-top:4rem;">Personalised Follow-Up (PIFU)</h2>
         <p class="pillar-intro">Patients initiate their own follow-up appointment when needed, rather than being brought back on a fixed schedule. NHS England's target is for PIFU to reach at least 5% of all outpatient appointments by March 2029.</p>
@@ -199,71 +166,11 @@
         }
         sortOPTable(null, 'alpha');
 
-        // Specialty-level A&G submissions — trust-agreed standard specialty set.
-        // Source: Shelford Group Advice & Guidance Benchmarking submission, Imperial College Healthcare NHS Trust,
-        // "Performance Dashboard" sheet (formula-aggregated from "A&G data entry"). Imperial: Apr-Jul 2026 / M1-4 FY2026/27, July provisional.
-        // Newcastle: Apr-Jun 2026 / M1-3 FY2026/27.
-        const opSpecialties = ['Gastroenterology','Cardiology','Neurology','Gynaecology','Urology','Rheumatology','Dermatology','ENT','Respiratory','Haematology'];
-        const opSpecialtyData = {
-            'Imperial': {
-                'Gastroenterology': { total: 1079, backlog: 11.5, pct2day: 95.2, respDays: 0.14, pctAdvice: 19.8, pctConverted: 38.2, newOP: 172, rereferrals: 10, rereferralRate: 4.7 },
-                'Cardiology':        { total: 929,  backlog: 57.5, pct2day: 92.9, respDays: 0.49, pctAdvice: 24.2, pctConverted: 5.3,  newOP: 64,  rereferrals: 15, rereferralRate: 6.7 },
-                'Neurology':         { total: 1588, backlog: 36.5, pct2day: 93.4, respDays: 0.99, pctAdvice: 20.2, pctConverted: 29.6, newOP: 30,  rereferrals: 11, rereferralRate: 3.4 },
-                'Gynaecology':       { total: 552,  backlog: 5.0,  pct2day: 94.7, respDays: 0.20, pctAdvice: 46.0, pctConverted: 12.9, newOP: 51,  rereferrals: 10, rereferralRate: 3.9 },
-                'Urology':           { total: 53,   backlog: 1.75, pct2day: 84.9, respDays: 2.16, pctAdvice: 11.3, pctConverted: 28.3, newOP: 27,  rereferrals: 0,  rereferralRate: 0.0 },
-                'Rheumatology':      { total: 632,  backlog: 5.25, pct2day: 96.0, respDays: 0.28, pctAdvice: 21.2, pctConverted: 53.5, newOP: 17,  rereferrals: 4,  rereferralRate: 3.0 },
-                'Dermatology':       { total: 1104, backlog: 7.0,  pct2day: 93.8, respDays: 0.78, pctAdvice: 37.8, pctConverted: 8.2,  newOP: 9,   rereferrals: 9,  rereferralRate: 2.2 },
-                'ENT':               { total: 9,    backlog: 1.5,  pct2day: 11.1, respDays: 0.00, pctAdvice: 0.0,  pctConverted: 0.0,  newOP: 38,  rereferrals: 0,  rereferralRate: null },
-                'Respiratory':       { total: 134,  backlog: 0,    pct2day: 95.5, respDays: 0.10, pctAdvice: 58.2, pctConverted: 12.7, newOP: 19,  rereferrals: 1,  rereferralRate: 1.3 },
-                'Haematology':       { total: 0,    backlog: 0,    pct2day: null, respDays: null, pctAdvice: null, pctConverted: null, newOP: 0,   rereferrals: 0,  rereferralRate: null }
-            },
-            'Newcastle': {
-                'Gastroenterology': { total: 0,    backlog: 0, pct2day: null, respDays: null, pctAdvice: null, pctConverted: null, newOP: 0,    rereferrals: 0, rereferralRate: null },
-                'Cardiology':        { total: 383,  backlog: 0, pct2day: 26.4, respDays: 5.00,  pctAdvice: 65.8, pctConverted: 15.1, newOP: 1669, rereferrals: 0, rereferralRate: 0.0 },
-                'Neurology':         { total: 2498, backlog: 0, pct2day: 10.9, respDays: 10.00, pctAdvice: 53.7, pctConverted: 32.6, newOP: 1491, rereferrals: 0, rereferralRate: 0.0 },
-                'Gynaecology':       { total: 595,  backlog: 0, pct2day: 49.6, respDays: 2.33,  pctAdvice: 49.7, pctConverted: 30.1, newOP: 2798, rereferrals: 0, rereferralRate: 0.0 },
-                'Urology':           { total: 302,  backlog: 0, pct2day: 0.0,  respDays: 17.67, pctAdvice: 33.4, pctConverted: 50.3, newOP: 1506, rereferrals: 0, rereferralRate: 0.0 },
-                'Rheumatology':      { total: 303,  backlog: 0, pct2day: 74.6, respDays: 1.67,  pctAdvice: 37.3, pctConverted: 48.8, newOP: 759,  rereferrals: 0, rereferralRate: 0.0 },
-                'Dermatology':       { total: 1182, backlog: 0, pct2day: 17.9, respDays: 7.67,  pctAdvice: 29.9, pctConverted: 26.7, newOP: 5336, rereferrals: 0, rereferralRate: 0.0 },
-                'ENT':               { total: 550,  backlog: 0, pct2day: 29.5, respDays: 4.00,  pctAdvice: 21.8, pctConverted: 37.3, newOP: 5650, rereferrals: 0, rereferralRate: 0.0 },
-                'Respiratory':       { total: 119,  backlog: 0, pct2day: 94.1, respDays: 1.00,  pctAdvice: 39.5, pctConverted: 26.9, newOP: 1190, rereferrals: 0, rereferralRate: 0.0 },
-                'Haematology':       { total: 392,  backlog: 0, pct2day: 90.8, respDays: 1.33,  pctAdvice: 62.0, pctConverted: 8.4,  newOP: 309,  rereferrals: 0, rereferralRate: 0.0 }
-            }
-        };
-        const specialtyMetricMeta = {
-            pctAdvice:    { label: '% of A&amp;G requests resolved with advice only (no outpatient appointment required)', suffix: '%', dp: 1 },
-            total:        { label: 'Total A&amp;G requests received (includes closed/cancelled)', suffix: '', dp: 0 },
-            pctConverted: { label: '% of A&amp;G requests converted to an outpatient appointment', suffix: '%', dp: 1 }
-        };
-        function renderSpecialtyTable(event, metric) {
-            document.getElementById('specialtyTableBody').innerHTML = opData.map(t => {
-                const trustSpecs = opSpecialtyData[t.name];
-                const cells = opSpecialties.map(sp => {
-                    if (!trustSpecs) return '<td class="placeholder-cell">—</td>';
-                    const v = trustSpecs[sp];
-                    const val = v ? v[metric] : null;
-                    if (v === undefined || val === null || v.total === 0) return '<td class="placeholder-cell">—</td>';
-                    const meta = specialtyMetricMeta[metric];
-                    return '<td>' + val.toLocaleString(undefined, {minimumFractionDigits: meta.dp, maximumFractionDigits: meta.dp}) + meta.suffix + '</td>';
-                }).join('');
-                return '<tr' + (!trustSpecs ? ' class="placeholder-row"' : '') + '><td class="trust-name">' + t.name + '</td>' + cells + '</tr>';
-            }).join('');
-            document.getElementById('specialtyTableNote').innerHTML = 'Cell values show: ' + specialtyMetricMeta[metric].label + '. "—" = not yet submitted by that trust, or no requests recorded for that specialty in the period. Reporting periods vary by trust — see data caveats above.';
-            const btns = event ? event.target.parentElement.querySelectorAll('.chart-btn') : null;
-            if (btns) { btns.forEach(b => b.classList.remove('active')); if (event.target) event.target.classList.add('active'); }
-        }
-        renderSpecialtyTable(null, 'pctAdvice');
-
-        function renderDetailTable(elId, trustKey) {
-            document.getElementById(elId).innerHTML = opSpecialties.map(sp => {
-                const v = opSpecialtyData[trustKey][sp];
-                const pct = (x, dp=1) => x === null ? '—' : x.toFixed(dp) + '%';
-                const num = (x, dp=2) => x === null ? '—' : x.toFixed(dp);
-                return '<tr><td class="trust-name">' + sp + '</td><td>' + v.total.toLocaleString() + '</td><td>' + v.backlog + '</td><td>' + pct(v.pct2day) + '</td><td>' + num(v.respDays) + '</td><td>' + pct(v.pctAdvice) + '</td><td>' + pct(v.pctConverted) + '</td><td>' + v.newOP + '</td><td>' + v.rereferrals + '</td><td>' + pct(v.rereferralRate) + '</td></tr>';
-            }).join('');
-        }
-        renderDetailTable('imperialDetailTableBody', 'Imperial');
-        renderDetailTable('newcastleDetailTableBody', 'Newcastle');
+        // Specialty-level placeholder — no source file yet; every cell is an explicit "awaiting data" marker, never a number.
+        const specialtyPlaceholderCols = 9;
+        document.getElementById('specialtyTableBody').innerHTML = opData.map(t =>
+            '<tr class="placeholder-row"><td class="trust-name">'+t.name+'</td>' + '<td class="placeholder-cell">—</td>'.repeat(specialtyPlaceholderCols) + '</tr>'
+        ).join('');
 
         function sortPifuTable(event, sortType) {
             let sorted = [...pifuData];
