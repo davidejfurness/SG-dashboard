@@ -97,14 +97,39 @@
         <div class="chart-container"><h3>Pre- vs Post-Referral A&amp;G by Trust – May 2026</h3><p class="source-note">Source: Provider Specialist Advice Activity full dataset, May 2026. Pre-referral (Advice &amp; Guidance) occurs before a referral is made; post-referral occurs afterwards. The split varies significantly by trust, reflecting different service models.</p>
             <div class="chart-wrapper"><canvas id="prePostChart"></canvas></div></div>
 
-        <h3>Specialty-Level Referral Optimisation <span style="font-size:0.9rem; font-weight:500; color:var(--shelford-sage); background:#EEF6F5; padding:0.2rem 0.7rem; border-radius:12px; vertical-align:middle;">Awaiting trust submissions</span></h3>
-        <p class="pillar-intro">Neither NHS England source file on this page carries a specialty breakdown, so this section is a <strong>placeholder</strong> showing the shape the data will take once each trust submits its own specialty-level A&amp;G figures directly. Columns show NHS England's cited highest-activity "crossover" specialties as an illustrative starting scope — the final columns will follow whatever trusts actually submit.</p>
+        <h3>Specialty-Level Referral Optimisation <span style="font-size:0.9rem; font-weight:500; color:var(--shelford-sage); background:#EEF6F5; padding:0.2rem 0.7rem; border-radius:12px; vertical-align:middle;">3 of 10 trusts reporting</span></h3>
+        <p class="pillar-intro">Neither NHS England source file on this page carries a specialty breakdown, so this data is sourced directly from Shelford trusts via a shared benchmarking template. Three trusts have submitted so far: GSTT and Imperial (April–July 2026, 4 months) and Newcastle (April–June 2026, 3 months). The remaining seven trusts have not yet submitted. Columns use the agreed standard specialty set.</p>
         <div class="table-container">
+            <div class="sort-buttons">
+                <button class="sort-btn active" onclick="renderSpecialtyMatrix(event, 'avgRequests')">Monthly Avg A&amp;G Requests</button>
+                <button class="sort-btn" onclick="renderSpecialtyMatrix(event, 'pctAdvice')">% Advice-only</button>
+                <button class="sort-btn" onclick="renderSpecialtyMatrix(event, 'pctConverted')">% Converted to OP</button>
+            </div>
             <table>
-                <thead><tr><th>Trust</th><th>T&amp;O</th><th>Physio-therapy</th><th>Audiology</th><th>Cardiology</th><th>Dermatology</th><th>Diabetes</th><th>Oncology</th><th>Ophthalmology</th><th>Rehabilitation</th></tr></thead>
+                <thead><tr><th>Trust</th><th>Gastroenterology</th><th>Cardiology</th><th>Neurology</th><th>Gynaecology</th><th>Urology</th><th>Rheumatology</th><th>Dermatology</th><th>ENT</th><th>Respiratory</th><th>Haematology</th></tr></thead>
                 <tbody id="specialtyTableBody"></tbody>
             </table>
-            <p class="asterisk-note">Diversion rate would be shown per trust per specialty once submitted (e.g. "58%"); cells show "—" until then. Specialty list is illustrative — see note above.</p>
+            <p class="asterisk-note">"Monthly Avg A&amp;G Requests" divides each reporting trust's period total by its number of reporting months, since trusts have submitted different-length windows so far — this keeps trusts comparable despite that. % Advice-only and % Converted to OP are rates and unaffected by window length. "—" indicates either a nil return (an all-zero submission for that specialty) or a trust that has not yet submitted.</p>
+        </div>
+
+        <h3>Trust-Level Detail — Full Monthly Breakdown</h3>
+        <p class="pillar-intro">Month-by-month figures for each specialty, for the three trusts that have submitted so far.</p>
+        <div class="table-container">
+            <div class="sort-buttons" id="specialtyDetailTrustBtns">
+                <button class="sort-btn active" onclick="renderSpecialtyDetail(event, 'GSTT')">GSTT</button>
+                <button class="sort-btn" onclick="renderSpecialtyDetail(event, 'Newcastle')">Newcastle</button>
+                <button class="sort-btn" onclick="renderSpecialtyDetail(event, 'Imperial')">Imperial</button>
+            </div>
+            <div class="sort-buttons" id="specialtyDetailMetricBtns">
+                <button class="chart-btn" onclick="setSpecialtyDetailMetric(event, 'total')">Total A&amp;G Requests</button>
+                <button class="chart-btn" onclick="setSpecialtyDetailMetric(event, 'pctAdvice')">% Advice-only</button>
+                <button class="chart-btn" onclick="setSpecialtyDetailMetric(event, 'pctConverted')">% Converted to OP</button>
+            </div>
+            <table>
+                <thead id="specialtyDetailHead"></thead>
+                <tbody id="specialtyDetailBody"></tbody>
+            </table>
+            <p class="asterisk-note">"—" indicates a nil return (all-zero submission) for that specialty in that trust's reporting window.</p>
         </div>
 
         <h2 style="margin-top:4rem;">Personalised Follow-Up (PIFU)</h2>
@@ -166,11 +191,67 @@
         }
         sortOPTable(null, 'alpha');
 
-        // Specialty-level placeholder — no source file yet; every cell is an explicit "awaiting data" marker, never a number.
-        const specialtyPlaceholderCols = 9;
-        document.getElementById('specialtyTableBody').innerHTML = opData.map(t =>
-            '<tr class="placeholder-row"><td class="trust-name">'+t.name+'</td>' + '<td class="placeholder-cell">—</td>'.repeat(specialtyPlaceholderCols) + '</tr>'
-        ).join('');
+        // Specialty-level A&G — trust-submitted data. Source: Shelford Group Advice & Guidance
+        // benchmarking templates, 'A&G data entry' sheet, cross-checked against each trust's own
+        // 'Performance Dashboard' rollup tab. GSTT & Imperial: Apr-Jul 2026 (4 months). Newcastle: Apr-Jun 2026 (3 months).
+        const agSpecialties = ['Gastroenterology','Cardiology','Neurology','Gynaecology','Urology','Rheumatology','Dermatology','ENT','Respiratory','Haematology'];
+        const agMonths = { 'GSTT': ['Apr 2026','May 2026','Jun 2026','Jul 2026'], 'Newcastle': ['Apr 2026','May 2026','Jun 2026'], 'Imperial': ['Apr 2026','May 2026','Jun 2026','Jul 2026'] };
+        const agSpecialtyData = {"GSTT":{"Gastroenterology":{"total":[180,177,202,208],"pctAdvice":[92.2,93.8,87.6,94.2],"pctConverted":[15.0,45.0,46.0,28.0]},"Cardiology":{"total":[328,320,341,406],"pctAdvice":[84.5,88.1,77.7,97.9],"pctConverted":[52.0,48.0,68.0,54.0]},"Neurology":{"total":[102,110,108,153],"pctAdvice":[85.3,92.7,85.1,93.4],"pctConverted":[71.0,53.0,15.0,72.0]},"Gynaecology":{"total":[260,258,273,296],"pctAdvice":[71.5,65.1,40.0,88.3],"pctConverted":[61.0,62.0,46.0,56.0]},"Urology":{"total":[91,85,122,131],"pctAdvice":[60.4,65.9,66.4,90.4],"pctConverted":[48.0,46.0,41.0,35.0]},"Rheumatology":{"total":[77,63,100,83],"pctAdvice":[85.7,81.0,90.0,94.9],"pctConverted":[20.0,39.0,13.0,25.0]},"Dermatology":{"total":[181,203,204,227],"pctAdvice":[63.0,55.7,61.7,94.9],"pctConverted":[60.0,70.0,78.0,73.0]},"ENT":{"total":[9,6,13,10],"pctAdvice":[22.2,33.3,38.0,76.6],"pctConverted":[79.0,89.0,68.0,56.0]},"Respiratory":{"total":[89,83,120,87],"pctAdvice":[89.9,84.3,85.8,96.5],"pctConverted":[51.0,49.0,49.0,50.0]},"Haematology":{"total":[195,205,167,233],"pctAdvice":[84.6,86.8,88.0,96.9],"pctConverted":[66.0,54.0,47.0,40.0]}},"Newcastle":{"Gastroenterology":{"total":[0,0,0],"pctAdvice":[0.0,0.0,0.0],"pctConverted":[0.0,0.0,0.0]},"Cardiology":{"total":[113,140,130],"pctAdvice":[65.5,72.1,59.2],"pctConverted":[19.5,12.9,13.8]},"Neurology":{"total":[779,768,951],"pctAdvice":[54.4,60.2,47.9],"pctConverted":[35.7,29.2,32.9]},"Gynaecology":{"total":[165,203,227],"pctAdvice":[50.9,49.3,49.3],"pctConverted":[29.1,31.5,29.5]},"Urology":{"total":[95,97,110],"pctAdvice":[33.7,36.1,30.9],"pctConverted":[53.7,46.4,50.9]},"Rheumatology":{"total":[89,99,115],"pctAdvice":[34.8,38.4,38.3],"pctConverted":[49.4,51.5,46.1]},"Dermatology":{"total":[378,373,431],"pctAdvice":[28.0,24.9,35.7],"pctConverted":[30.7,28.2,22.0]},"ENT":{"total":[165,160,225],"pctAdvice":[22.4,23.8,20.0],"pctConverted":[40.0,31.9,39.1]},"Respiratory":{"total":[37,38,44],"pctAdvice":[40.5,42.1,36.4],"pctConverted":[29.7,31.6,20.5]},"Haematology":{"total":[127,137,128],"pctAdvice":[67.7,55.5,63.3],"pctConverted":[7.1,12.4,5.5]}},"Imperial":{"Gastroenterology":{"total":[128,254,317,380],"pctAdvice":[31.2,16.9,20.2,17.6],"pctConverted":[25.0,45.3,42.3,34.5]},"Cardiology":{"total":[211,228,245,245],"pctAdvice":[41.7,18.4,16.3,22.4],"pctConverted":[11.4,6.1,3.3,1.2]},"Neurology":{"total":[188,434,508,458],"pctAdvice":[19.7,19.4,21.5,19.9],"pctConverted":[19.7,30.0,35.4,26.9]},"Gynaecology":{"total":[125,122,148,157],"pctAdvice":[52.8,51.6,48.0,34.4],"pctConverted":[14.4,4.1,18.9,12.7]},"Urology":{"total":[16,12,15,10],"pctAdvice":[6.2,8.3,20.0,10.0],"pctConverted":[37.5,25.0,33.3,10.0]},"Rheumatology":{"total":[99,183,181,169],"pctAdvice":[16.2,30.1,21.0,14.8],"pctConverted":[39.4,49.7,65.7,52.7]},"Dermatology":{"total":[237,261,302,304],"pctAdvice":[39.2,39.1,36.4,36.8],"pctConverted":[5.5,9.6,11.6,5.9]},"ENT":{"total":[0,0,0,9],"pctAdvice":[0.0,0.0,0.0,0.0],"pctConverted":[0.0,0.0,0.0,0.0]},"Respiratory":{"total":[22,42,43,27],"pctAdvice":[54.5,69.0,62.8,37.0],"pctConverted":[4.5,16.7,4.7,25.9]},"Haematology":{"total":[0,0,0,0],"pctAdvice":[0.0,0.0,0.0,0.0],"pctConverted":[0.0,0.0,0.0,0.0]}}};
+        const agReportingTrusts = Object.keys(agSpecialtyData);
+
+        function agAggregate(trust, specialty, metric) {
+            const rec = agSpecialtyData[trust][specialty];
+            const periodTotal = rec.total.reduce((a,b) => a+b, 0);
+            if (periodTotal === 0) return null; // nil return
+            if (metric === 'avgRequests') return Math.round(periodTotal / rec.total.length);
+            if (metric === 'pctAdvice') return Math.round(10*rec.pctAdvice.reduce((a,v,i) => a+v*rec.total[i], 0)/periodTotal)/10;
+            if (metric === 'pctConverted') return Math.round(10*rec.pctConverted.reduce((a,v,i) => a+v*rec.total[i], 0)/periodTotal)/10;
+        }
+
+        function renderSpecialtyMatrix(event, metric) {
+            document.getElementById('specialtyTableBody').innerHTML = opData.map(t => {
+                if (!agReportingTrusts.includes(t.name)) {
+                    return '<tr class="placeholder-row"><td class="trust-name">'+t.name+'</td>' + '<td class="placeholder-cell">—</td>'.repeat(agSpecialties.length) + '</tr>';
+                }
+                const cells = agSpecialties.map(sp => {
+                    const v = agAggregate(t.name, sp, metric);
+                    if (v === null) return '<td class="placeholder-cell">—</td>';
+                    return metric === 'avgRequests' ? '<td>'+v.toLocaleString()+'</td>' : '<td>'+v+'%</td>';
+                }).join('');
+                return '<tr><td class="trust-name">'+t.name+'</td>'+cells+'</tr>';
+            }).join('');
+            if (event) { event.target.parentElement.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active')); event.target.classList.add('active'); }
+        }
+        renderSpecialtyMatrix(null, 'avgRequests');
+
+        let specialtyDetailTrust = 'GSTT';
+        let specialtyDetailMetric = 'total';
+        function renderSpecialtyDetail(event, trust) {
+            specialtyDetailTrust = trust;
+            if (event) { event.target.parentElement.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active')); event.target.classList.add('active'); }
+            drawSpecialtyDetail();
+        }
+        function setSpecialtyDetailMetric(event, metric) {
+            specialtyDetailMetric = metric;
+            if (event) { event.target.parentElement.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active')); event.target.classList.add('active'); }
+            drawSpecialtyDetail();
+        }
+        function drawSpecialtyDetail() {
+            const months = agMonths[specialtyDetailTrust];
+            document.getElementById('specialtyDetailHead').innerHTML = '<tr><th>Specialty</th>' + months.map(m => '<th>'+m+'</th>').join('') + '</tr>';
+            document.getElementById('specialtyDetailBody').innerHTML = agSpecialties.map(sp => {
+                const rec = agSpecialtyData[specialtyDetailTrust][sp];
+                const periodTotal = rec.total.reduce((a,b) => a+b, 0);
+                if (periodTotal === 0) {
+                    return '<tr class="placeholder-row"><td class="trust-name">'+sp+'</td>' + '<td class="placeholder-cell">—</td>'.repeat(months.length) + '</tr>';
+                }
+                const cells = rec[specialtyDetailMetric].map(v => specialtyDetailMetric === 'total' ? '<td>'+v.toLocaleString()+'</td>' : '<td>'+v+'%</td>').join('');
+                return '<tr><td class="trust-name">'+sp+'</td>'+cells+'</tr>';
+            }).join('');
+        }
+        // initialise metric button active state and first render
+        document.getElementById('specialtyDetailMetricBtns').querySelector('.chart-btn').classList.add('active');
+        drawSpecialtyDetail();
 
         function sortPifuTable(event, sortType) {
             let sorted = [...pifuData];
