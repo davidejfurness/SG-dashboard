@@ -32,6 +32,8 @@
         .sort-btn:hover { background: var(--shelford-dark-teal); } .sort-btn.active { background: var(--shelford-dark-teal); }
         table { width: 100%; border-collapse: collapse; } thead { background: var(--shelford-teal); color: white; }
         th { padding: 1rem; text-align: left; font-weight: 600; } td { padding: 1rem; border-bottom: 1px solid var(--border-light); }
+        th[data-key] { cursor: pointer; user-select: none; } th[data-key]:hover { background: var(--shelford-dark-teal); }
+        .sort-arrow { display: inline-block; width: 1em; font-size: 0.85em; }
         tbody tr:hover { background: rgba(0,123,127,0.05); } .trust-name { font-weight: 500; }
         .chart-container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,123,127,0.08); margin-bottom: 3rem; }
         .chart-wrapper { position: relative; height: 400px; margin-top: 1rem; }
@@ -80,7 +82,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
 })();
 </script>
 <!-- End Access Gate -->
-    <div class="container">
+<div class="container">
         <header>
             <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
             <div><h1>Research & Clinical Trials</h1><p class="subtitle">Clinical trial setup performance and research activity across the Shelford Group</p></div>
@@ -93,335 +95,274 @@ else{document.getElementById("authError").style.display="block";document.getElem
             <strong>The 150-day target:</strong> The government's Life Sciences Sector Plan commits to reducing clinical trial setup time to under 150 days by March 2026 — from regulatory submission to first participant recruited. The 150-day clock comprises three stages: MHRA/HRA approval (target: 60 days), site opening after approval (target: 60 days), and first participant recruited after site opening (target: 30 days). The data below relates to the site-level component: whether studies recruited their first participant within 90 days of HRA approval. This is a key NIHR Research Delivery Network performance metric, with funding implications for trusts.
         </div>
 
-        <h2>FY 2026/27 Trial Setup Performance — Early Tracking</h2>
+                <h2>Site Set-Up Performance — UKCRD Monthly Tracking</h2>
         <div class="info-box">
-            <strong>A new, separate series — not directly comparable to the figures above.</strong> This tracks financial-year-to-date performance for 2026/27 (from April 2026), refreshed as NIHR publishes updated cuts through the year. It is <strong>not</strong> the next data point in the rolling 12-month series above — the two use different windows and shouldn't be read as a continuous trend. Volumes are currently small (1–9 studies per trust), so trust-level percentages will be volatile until more studies accumulate. Early-year figures are also structurally biased low on this metric: many studies opened this financial year haven't yet reached their 90-day decision point, so some "after 90 days" cases may simply still be inside their window rather than genuinely late. This first reading is expected to firm up as the year progresses.
+            <strong>Primary tracking series for this page.</strong> Sourced directly from the UK Clinical Research Delivery (UKCRD) programme's Trust Level Set-Up Report (ukcrd.org), drawing on the NIHR Research Delivery Network's Central Portfolio Management System (CPMS). Tracks commercial interventional studies recruiting their first participant within 90 days of HRA approval or site selection, excluding extension, rare disease and low-recruiting studies. Republished monthly on a rolling 6-month window. The <strong>Shelford aggregate</strong> below adds up the studies across all 10 trusts and works out what share hit each milestone — not an average of the ten trusts' separate percentages, which would count a 3-study trust the same as a 25-study trust. UKCRD only publishes rounded percentages per trust, not the underlying study counts, so we back-calculated each trust's count from its percentage and total studies before adding them up.
         </div>
-        <p class="source-note">Source: Shelford Group data collection (NIHR Open Data Platform extract), FY2026/27 year-to-date as published 15 July 2026.</p>
-        <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">Total Studies (Shelford, FYTD)</div><div class="metric-value">59</div><div class="metric-benchmark">Across all 10 trusts · National: 215 (373 trusts)</div></div>
-            <div class="metric-card"><div class="metric-label">Shelford 90-Day Achievement Rate (FYTD)</div><div class="metric-value">30.5%</div><div class="metric-benchmark">18 of 59 studies · National: 46.5% · NIHR target: 80%</div></div>
-            <div class="metric-card"><div class="metric-label">Median Days to First Participant (FYTD)</div><div class="metric-value">123</div><div class="metric-benchmark">Shelford · National: 102 days</div></div>
+        <p class="source-note">Source: UKCRD Trust Level Set-Up Report, ukcrd.org (NIHR RDN CPMS data). Four consecutive monthly snapshots — report dates 03 Jun, 03 Jul, 04 Aug and 03 Sep 2026, each a rolling 6-month window. An earlier snapshot (30 Apr 2026, cut 25 Apr 2026, window since 07 Apr 2025) used the pre-format-change methodology and is shown separately below as a baseline, not part of the trend. No May 2026 snapshot exists on the archive — the site jumps from the 25 Apr cut straight to the 01 Jun cut.</p>
+
+        <div class="dashboard-grid" id="ukcrdAggCards"></div>
+        <p class="source-note">Why the 60-day and 30-day rates can be higher than the 90-day rate: the 90-day figure measures the <em>full</em> elapsed time from approval to first participant. The 60-day and 30-day figures each measure only one segment of that journey (approval → site confirmed; and site ready → first participant) and explicitly exclude the stage in between (site confirmed → site ready, e.g. contracting), which UKCRD treats as outside the site's control but which still counts toward the 90-day clock. A study can clear both segment milestones and still miss the overall 90-day target if enough time is lost in that excluded middle stage — so the three percentages aren't nested and shouldn't be expected to move together.</p>
+
+        <div class="chart-container"><h3>% Studies Completing Set-Up Within 90 Days — Shelford Aggregate vs Trusts</h3>
+            <p class="source-note">Bold teal line: Shelford weighted aggregate. Thinner lines: individual trusts — click a name in the legend to isolate it. Hover a point for the study count (n) behind each percentage; several trusts have small monthly samples, so month-to-month swings can reflect a handful of studies rather than a genuine shift in performance.</p>
+            <div class="chart-wrapper"><canvas id="ukcrdTrendChart"></canvas></div>
         </div>
 
-        <h2>Trust-Level Trial Setup Performance — FY2026/27 YTD</h2>
-        <p class="source-note">Source: Shelford Group data collection (NIHR Open Data Platform extract), FY2026/27 year-to-date as published 15 July 2026. First reading of this series — no prior-period comparison yet.</p>
         <div class="table-container">
-            <div class="sort-buttons">
-                <button class="sort-btn active" onclick="sortFYTable('alpha', event)">A-Z</button>
-                <button class="sort-btn" onclick="sortFYTable('pct', event)">Sort by % to Target</button>
-                <button class="sort-btn" onclick="sortFYTable('total', event)">Sort by Total Studies</button>
-                <button class="sort-btn" onclick="sortFYTable('within', event)">Sort by Within 90 Days</button>
+            <h3>Trust-level detail by month</h3>
+            <div class="chart-controls" id="ukcrdMonthTabs">
+                <button class="chart-btn" data-month="Jun 2026">Jun 2026</button>
+                <button class="chart-btn" data-month="Jul 2026">Jul 2026</button>
+                <button class="chart-btn" data-month="Aug 2026">Aug 2026</button>
+                <button class="chart-btn" data-month="Sep 2026">Sep 2026</button>
             </div>
-            <table>
-                <thead><tr><th>Trust</th><th>Total Studies</th><th>Within 90 Days</th><th>After 90 Days</th><th>% Within 90d</th><th>Median Days</th></tr></thead>
-                <tbody id="fyTableBody"></tbody>
+            <p class="source-note" id="ukcrdTabSourceNote"></p>
+            <p class="source-note">Note: the 60-day and 30-day columns cover different, non-adjacent segments of the process and exclude the site-confirmed-to-ready stage in between — a trust can score well on both and still score lower on the 90-day column overall (see note above cards).</p>
+            <table id="ukcrdTable">
+                <thead><tr>
+                    <th data-key="name">Trust<span class="sort-arrow" data-key="name"></span></th>
+                    <th data-key="n">Studies (n)<span class="sort-arrow" data-key="n"></span></th>
+                    <th data-key="p90">% within 90 days<span class="sort-arrow" data-key="p90"></span></th>
+                    <th data-key="med90">Median days (set-up)<span class="sort-arrow" data-key="med90"></span></th>
+                    <th data-key="p60">% opening within 60 days<span class="sort-arrow" data-key="p60"></span></th>
+                    <th data-key="p30">% recruiting within 30 days of opening<span class="sort-arrow" data-key="p30"></span></th>
+                </tr></thead>
+                <tbody id="ukcrdTableBody"></tbody>
             </table>
         </div>
 
-        <div class="chart-container"><h3>FY2026/27 YTD: First Participant Recruited Within 90 Days (% to Target)</h3>
-            <p class="source-note">Source: Shelford Group data collection (NIHR Open Data Platform extract), FY2026/27 YTD. NIHR target is 80%. Small sample sizes per trust (see table above) — treat individual trust rates with caution this early in the year.</p>
-            <div class="chart-controls">
-                <button class="chart-btn" onclick="sortFYPctChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortFYPctChart('highest')">Highest to Lowest</button>
-                <button class="chart-btn" onclick="sortFYPctChart('lowest')">Lowest to Highest</button>
-            </div>
-            <div class="chart-wrapper"><canvas id="fyPctChart"></canvas></div>
-        </div>
-
-        <div class="chart-container"><h3>FY2026/27 YTD Trend — Shelford vs National (builds monthly)</h3>
-            <p class="source-note">Source: Shelford Group data collection (NIHR Open Data Platform extract). This is the first monthly reading for FY2026/27 — further points will be added as each month's cumulative data is received, building a genuine within-year trend over time.</p>
-            <div class="chart-wrapper"><canvas id="fyTrendChart"></canvas></div>
-        </div>
-
-        <h2>Trial Setup Summary – Shelford Group</h2>
-        <p class="source-note">Source: NIHR Open Data Platform. Latest period: 12 months to February 2026. Previous period: 12 months to December 2025.</p>
-        <div class="dashboard-grid">
-            <div class="metric-card"><div class="metric-label">Total Studies Recruiting (Latest)</div><div class="metric-value">175</div><div class="metric-benchmark">Across all 10 trusts, 12 months to Feb 2026</div></div>
-            <div class="metric-card"><div class="metric-label">First Participant Within 90 Days</div><div class="metric-value">76</div><div class="metric-benchmark">43.4% of studies met the benchmark</div></div>
-            <div class="metric-card"><div class="metric-label">Shelford 90-Day Achievement Rate</div><div class="metric-value positive">43.4%</div><div class="metric-benchmark">Up from 30.3% previous period · NIHR target: 80%</div></div>
-        </div>
-
-        <h2>Trust-Level Trial Setup Performance</h2>
-        <p class="source-note">Source: NIHR Open Data Platform, 12 months to February 2026. Change column shows percentage point difference from previous period (12 months to December 2025).</p>
         <div class="table-container">
-            <div class="sort-buttons">
-                <button class="sort-btn active" onclick="sortTable('alpha', event)">A-Z</button>
-                <button class="sort-btn" onclick="sortTable('pct', event)">Sort by % to Target</button>
-                <button class="sort-btn" onclick="sortTable('total', event)">Sort by Total Studies</button>
-                <button class="sort-btn" onclick="sortTable('within', event)">Sort by Within 90 Days</button>
-            </div>
-            <table>
-                <thead><tr><th>Trust</th><th>Total Studies</th><th>Within 90 Days</th><th>After 90 Days</th><th>% Within 90d</th><th>Median Days</th><th>Change (pp)</th></tr></thead>
-                <tbody id="trialTableBody"></tbody>
+            <h3>Baseline reference — 30 April 2026 (different window, not part of trend)</h3>
+            <p class="source-note">Report date 30 April 2026, data cut 25 April 2026. Window: since 07 April 2025 (13-month cumulative, pre-format-change methodology).</p>
+            <table id="aprilTable">
+                <thead><tr>
+                    <th data-key="name">Trust<span class="sort-arrow" data-key="name"></span></th>
+                    <th data-key="n">Studies (n)<span class="sort-arrow" data-key="n"></span></th>
+                    <th data-key="p90">% within 90 days<span class="sort-arrow" data-key="p90"></span></th>
+                    <th data-key="med90">Median days (set-up)<span class="sort-arrow" data-key="med90"></span></th>
+                    <th data-key="p60">% opening within 60 days<span class="sort-arrow" data-key="p60"></span></th>
+                    <th data-key="p30">% recruiting within 30 days of opening<span class="sort-arrow" data-key="p30"></span></th>
+                </tr></thead>
+                <tbody id="aprilTableBody"></tbody>
             </table>
         </div>
 
-        <div class="chart-container"><h3>First Participant Recruited Within 90 Days (% to Target)</h3>
-            <p class="source-note">Source: NIHR Open Data Platform. Latest: 12 months to February 2026. Previous: 12 months to December 2025. NIHR target is 80%.</p>
-            <div class="chart-controls">
-                <button class="chart-btn" onclick="sortPctChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortPctChart('highest')">Highest to Lowest</button>
-                <button class="chart-btn" onclick="sortPctChart('lowest')">Lowest to Highest</button>
-            </div>
-            <div class="chart-wrapper"><canvas id="pctChart"></canvas></div>
-        </div>
-
-        <div class="chart-container"><h3>Study Volume and Setup Performance by Trust</h3>
-            <p class="source-note">Source: NIHR Open Data Platform, 12 months to February 2026.</p>
-            <p class="source-note">Source: Shelford Group data collection, 12 months to December 2025. Each bar shows the split between studies that recruited within 90 days (teal) and those that took longer (grey).</p>
-            <div class="chart-controls">
-                <button class="chart-btn" onclick="sortStackedChart('alpha')">A-Z</button>
-                <button class="chart-btn" onclick="sortStackedChart('total')">Sort by Total Volume</button>
-            </div>
-            <div class="chart-wrapper"><canvas id="stackedChart"></canvas></div>
-        </div>
+<p class="source-note" style="margin-bottom:2rem;">An NIHR Open Data Platform series (12 months to Feb 2026) previously tracked trial set-up performance on this page using a broader, differently-defined dataset; it has been retired in favour of the more current, tightly-specified UKCRD monthly series above.</p>
 
         <h2>Future Additions</h2>
         <div class="future-box">
             <h3>Planned data for future updates</h3>
             <p>This page will be expanded as additional research performance data becomes available. Potential additions include:</p>
             <ul>
-                <li><strong>NIHR RDN recruitment data</strong> — commercial and non-commercial trial participant numbers by trust (published monthly by NIHR)</li>
                 <li><strong>Commercial trial income</strong> — revenue from industry-sponsored trials (from trust annual reports, available July)</li>
                 <li><strong>Recruitment to time and target</strong> — proportion of commercial trials meeting agreed recruitment targets</li>
                 <li><strong>Trial portfolio size</strong> — number of active studies per trust on the NIHR portfolio</li>
             </ul>
         </div>
 
-        <footer><p>&copy; 2026 Shelford Group | Rolling 12-month figures last updated February 2026 · FY2026/27 tracking added July 2026</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | UKCRD site set-up monthly tracking (primary series) added September 2026 · NIHR ODP series retired September 2026</p></footer>
     </div>
 
     <script>
-        const trialData = [
-            { name: 'Birmingham', code: 'RRK', total: 16, within: 5, after: 11, pct: 31.3, median: 116, prevPct: 23.8 },
-            { name: 'Cambridge', code: 'RGT', total: 14, within: 3, after: 11, pct: 21.4, median: 146, prevPct: 27.8 },
-            { name: 'GSTT', code: 'RJ1', total: 19, within: 4, after: 15, pct: 21.1, median: 145.5, prevPct: 14.3 },
-            { name: 'Imperial', code: 'RYJ', total: 17, within: 8, after: 9, pct: 47.1, median: 66, prevPct: 34.8 },
-            { name: "King's", code: 'RJZ', total: 16, within: 2, after: 14, pct: 12.5, median: 154.5, prevPct: 11.8 },
-            { name: 'Manchester', code: 'R0A', total: 12, within: 8, after: 4, pct: 66.7, median: 85, prevPct: 58.8 },
-            { name: 'Newcastle', code: 'RTD', total: 28, within: 23, after: 5, pct: 82.1, median: 53, prevPct: 44.8 },
-            { name: 'Oxford', code: 'RTH', total: 18, within: 8, after: 10, pct: 44.4, median: 73, prevPct: 28.6 },
-            { name: 'Sheffield', code: 'RHQ', total: 5, within: 1, after: 4, pct: 20.0, median: 166.5, prevPct: 44.4 },
-            { name: 'UCLH', code: 'RRV', total: 30, within: 14, after: 16, pct: 46.7, median: 83, prevPct: 21.9 }
-        ];
-
-        // Table
-        function sortTable(sortType, e) {
-            let sorted = [...trialData];
-            if (sortType === 'pct') sorted.sort((a, b) => b.pct - a.pct);
-            else if (sortType === 'total') sorted.sort((a, b) => b.total - a.total);
-            else if (sortType === 'within') sorted.sort((a, b) => b.within - a.within);
-            document.getElementById('trialTableBody').innerHTML = sorted.map(t => {
-                const change = (t.pct - t.prevPct).toFixed(1);
-                const arrow = change > 0 ? '\u25B2' : change < 0 ? '\u25BC' : '\u2013';
-                return '<tr><td class="trust-name">' + t.name + '</td><td>' + t.total + '</td><td>' + t.within + '</td><td>' + t.after + '</td><td>' + t.pct.toFixed(1) + '%</td><td>' + t.median + '</td><td>' + arrow + ' ' + (change > 0 ? '+' : '') + change + '</td></tr>';
-            }).join('');
-            if (e) { e.target.closest('.sort-buttons').querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
-        }
-        sortTable('alpha', null);
-
-        // Percentage chart with period comparison
-        const pctData = { labels: trialData.map(d => d.name), values: trialData.map(d => d.pct), prev: trialData.map(d => d.prevPct) };
-        let pctChart = new Chart(document.getElementById('pctChart'), {
-            type: 'bar',
-            data: {
-                labels: [...pctData.labels],
-                datasets: [{
-                    label: 'Latest (12m to Feb 2026)',
-                    data: [...pctData.values],
-                    backgroundColor: '#007B7F',
-                    borderRadius: 6
-                },
-                {
-                    label: 'Previous (12m to Dec 2025)',
-                    data: [...pctData.prev],
-                    backgroundColor: 'rgba(0,123,127,0.25)',
-                    borderRadius: 6
-                }]
+// ===== UKCRD Trust Level Set-Up Report — primary monthly tracking series =====
+        // Source: UKCRD Trust Level Set-Up Report, ukcrd.org (NIHR RDN CPMS data).
+        // Shelford aggregate = studies across all 10 trusts summed, then divided (not an average of trust %s).
+        // Each trust's pass count was derived from its
+        // published % and study count (n), verified to be the unique integer consistent with
+        // standard rounding for that n before being summed. See info box above for detail.
+        const ukcrdMonthly = {
+            'Jun 2026': { reportDate: '03 Jun 2026', cutDate: '01 Jun 2026', window: 'since 01 Dec 2025',
+                trusts: [
+                    { name: 'Birmingham', n: 13, p90: 38, med90: 123, p60: 54, p30: 31 },
+                    { name: 'Cambridge',  n: 7,  p90: 29, med90: 161, p60: 43, p30: 43 },
+                    { name: 'GSTT',       n: 21, p90: 14, med90: 181, p60: 10, p30: 38 },
+                    { name: 'Imperial',   n: 8,  p90: 63, med90: 66,  p60: 88, p30: 50 },
+                    { name: "King's",     n: 12, p90: 25, med90: 177, p60: 25, p30: 17 },
+                    { name: 'Manchester', n: 12, p90: 33, med90: 104, p60: 83, p30: 25 },
+                    { name: 'Newcastle',  n: 23, p90: 78, med90: 56,  p60: 91, p30: 57 },
+                    { name: 'Oxford',     n: 8,  p90: 13, med90: 141, p60: 38, p30: 25 },
+                    { name: 'Sheffield',  n: 3,  p90: 33, med90: 109, p60: 33, p30: 67 },
+                    { name: 'UCLH',       n: 14, p90: 36, med90: 119, p60: 50, p30: 21 }
+                ],
+                agg: { n: 121, p90: 38.8, p60: 52.9, p30: 36.4 }
             },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'top' },
-                    annotation: {}
-                },
-                scales: {
-                    y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } }
-                }
+            'Jul 2026': { reportDate: '03 Jul 2026', cutDate: '01 Jul 2026', window: 'since 01 Jan 2026',
+                trusts: [
+                    { name: 'Birmingham', n: 14, p90: 43, med90: 122, p60: 64, p30: 29 },
+                    { name: 'Cambridge',  n: 6,  p90: 33, med90: 130, p60: 83, p30: 33 },
+                    { name: 'GSTT',       n: 24, p90: 13, med90: 174, p60: 13, p30: 38 },
+                    { name: 'Imperial',   n: 9,  p90: 67, med90: 42,  p60: 89, p30: 67 },
+                    { name: "King's",     n: 13, p90: 23, med90: 163, p60: 31, p30: 15 },
+                    { name: 'Manchester', n: 10, p90: 40, med90: 104, p60: 80, p30: 30 },
+                    { name: 'Newcastle',  n: 22, p90: 73, med90: 58,  p60: 91, p30: 55 },
+                    { name: 'Oxford',     n: 7,  p90: 0,  med90: 150, p60: 29, p30: 14 },
+                    { name: 'Sheffield',  n: 3,  p90: 67, med90: 70,  p60: 67, p30: 67 },
+                    { name: 'UCLH',       n: 11, p90: 55, med90: 87,  p60: 64, p30: 36 }
+                ],
+                agg: { n: 119, p90: 40.3, p60: 57.1, p30: 37.8 }
             },
-            plugins: [{
-                id: 'targetLine',
-                afterDraw(chart) {
-                    const ctx = chart.ctx;
-                    const yScale = chart.scales.y;
-                    const y = yScale.getPixelForValue(80);
-                    ctx.save();
-                    ctx.strokeStyle = '#EF4444';
-                    ctx.lineWidth = 2;
-                    ctx.setLineDash([6, 4]);
-                    ctx.beginPath();
-                    ctx.moveTo(chart.chartArea.left, y);
-                    ctx.lineTo(chart.chartArea.right, y);
-                    ctx.stroke();
-                    ctx.fillStyle = '#EF4444';
-                    ctx.font = '12px -apple-system, sans-serif';
-                    ctx.fillText('NIHR Target: 80%', chart.chartArea.right - 120, y - 8);
-                    ctx.restore();
-                }
-            }]
-        });
-        function sortPctChart(sortType) {
-            let indices = pctData.labels.map((_, i) => i);
-            if (sortType === 'highest') indices.sort((a, b) => pctData.values[b] - pctData.values[a]);
-            else if (sortType === 'lowest') indices.sort((a, b) => pctData.values[a] - pctData.values[b]);
-            pctChart.data.labels = indices.map(i => pctData.labels[i]);
-            pctChart.data.datasets[0].data = indices.map(i => pctData.values[i]);
-            pctChart.data.datasets[1].data = indices.map(i => pctData.prev[i]);
-            pctChart.update();
-        }
-
-        // Stacked volume chart
-        const stackedData = {
-            labels: trialData.map(d => d.name),
-            within: trialData.map(d => d.within),
-            after: trialData.map(d => d.after)
+            'Aug 2026': { reportDate: '04 Aug 2026', cutDate: '03 Aug 2026', window: 'since 01 Feb 2026',
+                trusts: [
+                    { name: 'Birmingham', n: 15, p90: 40, med90: 144, p60: 53, p30: 33 },
+                    { name: 'Cambridge',  n: 11, p90: 27, med90: 130, p60: 64, p30: 45 },
+                    { name: 'GSTT',       n: 25, p90: 32, med90: 145, p60: 32, p30: 56 },
+                    { name: 'Imperial',   n: 12, p90: 42, med90: 95,  p60: 75, p30: 50 },
+                    { name: "King's",     n: 13, p90: 23, med90: 163, p60: 31, p30: 15 },
+                    { name: 'Manchester', n: 13, p90: 38, med90: 104, p60: 77, p30: 31 },
+                    { name: 'Newcastle',  n: 21, p90: 81, med90: 46,  p60: 100, p30: 52 },
+                    { name: 'Oxford',     n: 12, p90: 0,  med90: 192, p60: 17, p30: 25 },
+                    { name: 'Sheffield',  n: 3,  p90: 67, med90: 70,  p60: 67, p30: 67 },
+                    { name: 'UCLH',       n: 10, p90: 60, med90: 87,  p60: 70, p30: 50 }
+                ],
+                agg: { n: 135, p90: 40.7, p60: 57.8, p30: 42.2 }
+            },
+            'Sep 2026': { reportDate: '03 Sep 2026', cutDate: '01 Sep 2026', window: 'since 01 Mar 2026',
+                trusts: [
+                    { name: 'Birmingham', n: 17, p90: 41, med90: 144, p60: 53, p30: 35 },
+                    { name: 'Cambridge',  n: 12, p90: 25, med90: 133, p60: 58, p30: 42 },
+                    { name: 'GSTT',       n: 25, p90: 32, med90: 145, p60: 32, p30: 56 },
+                    { name: 'Imperial',   n: 13, p90: 54, med90: 66,  p60: 77, p30: 62 },
+                    { name: "King's",     n: 14, p90: 21, med90: 159, p60: 29, p30: 14 },
+                    { name: 'Manchester', n: 13, p90: 38, med90: 104, p60: 77, p30: 31 },
+                    { name: 'Newcastle',  n: 22, p90: 77, med90: 52,  p60: 100, p30: 50 },
+                    { name: 'Oxford',     n: 12, p90: 0,  med90: 199, p60: 17, p30: 25 },
+                    { name: 'Sheffield',  n: 3,  p90: 67, med90: 70,  p60: 67, p30: 67 },
+                    { name: 'UCLH',       n: 13, p90: 54, med90: 87,  p60: 62, p30: 38 }
+                ],
+                agg: { n: 144, p90: 41.0, p60: 56.9, p30: 41.7 }
+            }
         };
-        let stackedChart = new Chart(document.getElementById('stackedChart'), {
-            type: 'bar',
-            data: {
-                labels: [...stackedData.labels],
-                datasets: [
-                    { label: 'Within 90 Days', data: [...stackedData.within], backgroundColor: '#007B7F', borderRadius: { topLeft: 0, topRight: 0, bottomLeft: 6, bottomRight: 6 } },
-                    { label: 'After 90 Days', data: [...stackedData.after], backgroundColor: '#CBD5E1', borderRadius: { topLeft: 6, topRight: 6, bottomLeft: 0, bottomRight: 0 } }
-                ]
-            },
+        const ukcrdMonthOrder = ['Jun 2026', 'Jul 2026', 'Aug 2026', 'Sep 2026'];
+        let currentUkcrdMonth = 'Sep 2026';
+        let ukcrdSort = { key: 'name', dir: 1 };
+        let aprilSort = { key: 'name', dir: 1 };
+
+        function sortRows(rows, key, dir) {
+            return [...rows].sort((a, b) => {
+                const av = a[key], bv = b[key];
+                if (typeof av === 'string') return dir * av.localeCompare(bv);
+                return dir * (av - bv);
+            });
+        }
+        function updateSortArrows(tableId, state) {
+            document.querySelectorAll('#' + tableId + ' .sort-arrow').forEach(span => {
+                span.textContent = span.dataset.key === state.key ? (state.dir === 1 ? ' ▲' : ' ▼') : '';
+            });
+        }
+        function attachSortHeaders(tableId, getState, onSort) {
+            document.querySelectorAll('#' + tableId + ' th[data-key]').forEach(th => {
+                th.addEventListener('click', () => {
+                    const key = th.dataset.key;
+                    const state = getState();
+                    if (state.key === key) state.dir *= -1; else { state.key = key; state.dir = 1; }
+                    onSort();
+                });
+            });
+        }
+
+        function renderUkcrdTable(month) {
+            const m = ukcrdMonthly[month];
+            document.getElementById('ukcrdTabSourceNote').textContent =
+                'Report date ' + m.reportDate + ', NIHR RDN data cut ' + m.cutDate + '. Window: studies recruiting first participant ' + m.window + '.';
+            const sorted = sortRows(m.trusts, ukcrdSort.key, ukcrdSort.dir);
+            let rows = sorted.map(t =>
+                '<tr><td class="trust-name">' + t.name + '</td><td>' + t.n + '</td><td>' + t.p90 + '%</td><td>' + t.med90 + '</td><td>' + t.p60 + '%</td><td>' + t.p30 + '%</td></tr>'
+            ).join('');
+            rows += '<tr style="font-weight:600;background:rgba(0,123,127,0.06);"><td class="trust-name">Shelford aggregate (weighted)</td><td>' + m.agg.n + '</td><td>' + m.agg.p90.toFixed(1) + '%</td><td>—</td><td>' + m.agg.p60.toFixed(1) + '%</td><td>' + m.agg.p30.toFixed(1) + '%</td></tr>';
+            document.getElementById('ukcrdTableBody').innerHTML = rows;
+            updateSortArrows('ukcrdTable', ukcrdSort);
+        }
+
+        function renderUkcrdCards(month) {
+            const idx = ukcrdMonthOrder.indexOf(month);
+            const m = ukcrdMonthly[month];
+            const prev = idx > 0 ? ukcrdMonthly[ukcrdMonthOrder[idx - 1]] : null;
+            const delta = prev ? (m.agg.p90 - prev.agg.p90) : null;
+            const deltaText = delta === null ? 'First point in this series'
+                : (delta >= 0 ? '▲ +' : '▼ ') + delta.toFixed(1) + 'pp vs ' + ukcrdMonthOrder[idx - 1];
+            document.getElementById('ukcrdAggCards').innerHTML =
+                '<div class="metric-card"><div class="metric-label">Shelford Studies (' + month + ')</div><div class="metric-value">' + m.agg.n + '</div><div class="metric-benchmark">Across all 10 trusts, rolling 6-month window</div></div>' +
+                '<div class="metric-card"><div class="metric-label">Shelford Aggregate — Within 90 Days</div><div class="metric-value">' + m.agg.p90.toFixed(1) + '%</div><div class="metric-benchmark">' + deltaText + ' · NIHR target: 80%</div></div>' +
+                '<div class="metric-card"><div class="metric-label">Shelford Aggregate — Opening Within 60 Days</div><div class="metric-value">' + m.agg.p60.toFixed(1) + '%</div><div class="metric-benchmark">Weighted across all 10 trusts</div></div>' +
+                '<div class="metric-card"><div class="metric-label">Shelford Aggregate — Recruiting Within 30 Days of Opening</div><div class="metric-value">' + m.agg.p30.toFixed(1) + '%</div><div class="metric-benchmark">Weighted across all 10 trusts</div></div>';
+        }
+
+        function selectUkcrdMonth(month, e) {
+            currentUkcrdMonth = month;
+            renderUkcrdTable(month);
+            renderUkcrdCards(month);
+            document.querySelectorAll('#ukcrdMonthTabs .chart-btn').forEach(btn => btn.classList.remove('active'));
+            if (e) { e.target.classList.add('active'); }
+            else { document.querySelector('#ukcrdMonthTabs .chart-btn[data-month="' + month + '"]').classList.add('active'); }
+        }
+        document.querySelectorAll('#ukcrdMonthTabs .chart-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => selectUkcrdMonth(btn.dataset.month, e));
+        });
+        attachSortHeaders('ukcrdTable', () => ukcrdSort, () => renderUkcrdTable(currentUkcrdMonth));
+        selectUkcrdMonth('Sep 2026', null);
+
+        // April 2026 baseline (different window — separate sortable table, not part of the trend)
+        const aprilData = [
+            { name: 'Birmingham', n: 25, p90: 40, med90: 116, p60: 52, p30: 48 },
+            { name: 'Cambridge',  n: 16, p90: 38, med90: 154, p60: 50, p30: 38 },
+            { name: 'GSTT',       n: 35, p90: 14, med90: 181, p60: 17, p30: 29 },
+            { name: 'Imperial',   n: 20, p90: 55, med90: 87,  p60: 60, p30: 55 },
+            { name: "King's",     n: 23, p90: 17, med90: 183, p60: 22, p30: 22 },
+            { name: 'Manchester', n: 15, p90: 60, med90: 83,  p60: 80, p30: 53 },
+            { name: 'Newcastle',  n: 39, p90: 85, med90: 48,  p60: 100, p30: 46 },
+            { name: 'Oxford',     n: 19, p90: 32, med90: 122, p60: 37, p30: 37 },
+            { name: 'Sheffield',  n: 7,  p90: 29, med90: 109, p60: 71, p30: 29 },
+            { name: 'UCLH',       n: 34, p90: 53, med90: 88,  p60: 65, p30: 32 }
+        ];
+        const aprilAgg = { n: 233, p90: 44.6, p60: 55.4, p30: 38.6 };
+        function renderAprilTable() {
+            const sorted = sortRows(aprilData, aprilSort.key, aprilSort.dir);
+            let rows = sorted.map(t =>
+                '<tr><td class="trust-name">' + t.name + '</td><td>' + t.n + '</td><td>' + t.p90 + '%</td><td>' + t.med90 + '</td><td>' + t.p60 + '%</td><td>' + t.p30 + '%</td></tr>'
+            ).join('');
+            rows += '<tr style="font-weight:600;background:rgba(0,123,127,0.06);"><td class="trust-name">Shelford aggregate (weighted)</td><td>' + aprilAgg.n + '</td><td>' + aprilAgg.p90.toFixed(1) + '%</td><td>—</td><td>' + aprilAgg.p60.toFixed(1) + '%</td><td>' + aprilAgg.p30.toFixed(1) + '%</td></tr>';
+            document.getElementById('aprilTableBody').innerHTML = rows;
+            updateSortArrows('aprilTable', aprilSort);
+        }
+        attachSortHeaders('aprilTable', () => aprilSort, renderAprilTable);
+        renderAprilTable();
+
+        // Trend chart: Shelford aggregate (bold) + 10 trust lines (thin), % within 90 days, Jun–Sep 2026
+        const ukcrdTrustNames = ukcrdMonthly['Sep 2026'].trusts.map(t => t.name);
+        const ukcrdPalette = ['#5B7F6C', '#EF4444', '#F59E0B', '#8B5CF6', '#EC4899', '#0EA5E9', '#84CC16', '#F97316', '#6B7280', '#0EA5A5'];
+        const ukcrdTrustDatasets = ukcrdTrustNames.map((name, i) => {
+            const pctSeries = ukcrdMonthOrder.map(mo => ukcrdMonthly[mo].trusts.find(t => t.name === name).p90);
+            const nSeries = ukcrdMonthOrder.map(mo => ukcrdMonthly[mo].trusts.find(t => t.name === name).n);
+            return {
+                label: name, data: pctSeries, nValues: nSeries,
+                borderColor: ukcrdPalette[i], backgroundColor: ukcrdPalette[i],
+                borderWidth: 1.5, tension: 0.25, pointRadius: 3, fill: false
+            };
+        });
+        const ukcrdAggDataset = {
+            label: 'Shelford aggregate (weighted)',
+            data: ukcrdMonthOrder.map(mo => ukcrdMonthly[mo].agg.p90),
+            nValues: ukcrdMonthOrder.map(mo => ukcrdMonthly[mo].agg.n),
+            borderColor: '#005A5D', backgroundColor: '#005A5D',
+            borderWidth: 4, tension: 0.25, pointRadius: 6, fill: false
+        };
+        new Chart(document.getElementById('ukcrdTrendChart'), {
+            type: 'line',
+            data: { labels: ukcrdMonthOrder, datasets: [ukcrdAggDataset, ...ukcrdTrustDatasets] },
             options: {
                 responsive: true, maintainAspectRatio: false,
                 plugins: {
                     legend: { position: 'top' },
                     tooltip: {
                         callbacks: {
-                            footer: function(items) {
-                                const idx = items[0].dataIndex;
-                                const total = stackedChart.data.datasets[0].data[idx] + stackedChart.data.datasets[1].data[idx];
-                                const within = stackedChart.data.datasets[0].data[idx];
-                                return 'Total: ' + total + ' | ' + (within / total * 100).toFixed(1) + '% within 90 days';
+                            label: function(ctx) {
+                                const n = ctx.dataset.nValues[ctx.dataIndex];
+                                return ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '% (n=' + n + ')';
                             }
                         }
                     }
                 },
-                scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } }
-            }
-        });
-        function sortStackedChart(sortType) {
-            let indices = stackedData.labels.map((_, i) => i);
-            if (sortType === 'total') {
-                const totals = stackedData.labels.map((_, i) => stackedData.within[i] + stackedData.after[i]);
-                indices.sort((a, b) => totals[b] - totals[a]);
-            }
-            stackedChart.data.labels = indices.map(i => stackedData.labels[i]);
-            stackedChart.data.datasets[0].data = indices.map(i => stackedData.within[i]);
-            stackedChart.data.datasets[1].data = indices.map(i => stackedData.after[i]);
-            stackedChart.update();
-        }
-
-        // ===== FY2026/27 YTD TRACKING (new series, separate from rolling 12-month data above) =====
-        // Source: Shelford Group data collection (NIHR Open Data Platform extract), FYTD as published 15 July 2026
-        const fyData = [
-            { name: 'Birmingham', total: 7, within: 2, after: 5, pct: 28.6, median: 175 },
-            { name: 'Cambridge', total: 6, within: 1, after: 5, pct: 16.7, median: 135.5 },
-            { name: 'GSTT', total: 8, within: 3, after: 5, pct: 37.5, median: 120 },
-            { name: 'Imperial', total: 3, within: 2, after: 1, pct: 66.7, median: 66 },
-            { name: "King's", total: 8, within: 0, after: 8, pct: 0.0, median: 194.5 },
-            { name: 'Manchester', total: 9, within: 2, after: 7, pct: 22.2, median: 115 },
-            { name: 'Newcastle', total: 8, within: 5, after: 3, pct: 62.5, median: 80 },
-            { name: 'Oxford', total: 5, within: 0, after: 5, pct: 0.0, median: 243 },
-            { name: 'Sheffield', total: 1, within: 1, after: 0, pct: 100.0, median: 70 },
-            { name: 'UCLH', total: 4, within: 2, after: 2, pct: 50.0, median: 92 }
-        ];
-
-        function sortFYTable(sortType, e) {
-            let sorted = [...fyData];
-            if (sortType === 'pct') sorted.sort((a, b) => b.pct - a.pct);
-            else if (sortType === 'total') sorted.sort((a, b) => b.total - a.total);
-            else if (sortType === 'within') sorted.sort((a, b) => b.within - a.within);
-            document.getElementById('fyTableBody').innerHTML = sorted.map(t =>
-                '<tr><td class="trust-name">' + t.name + '</td><td>' + t.total + '</td><td>' + t.within + '</td><td>' + t.after + '</td><td>' + t.pct.toFixed(1) + '%</td><td>' + t.median + '</td></tr>'
-            ).join('');
-            if (e) { e.target.closest('.sort-buttons').querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active')); e.target.classList.add('active'); }
-        }
-        sortFYTable('alpha', null);
-
-        // FY percentage chart (single period so far — no previous-period bar yet)
-        const fyPctData = { labels: fyData.map(d => d.name), values: fyData.map(d => d.pct) };
-        let fyPctChart = new Chart(document.getElementById('fyPctChart'), {
-            type: 'bar',
-            data: {
-                labels: [...fyPctData.labels],
-                datasets: [{
-                    label: 'FY2026/27 YTD',
-                    data: [...fyPctData.values],
-                    backgroundColor: '#5B7F6C',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: { legend: { position: 'top' } },
-                scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
-            },
-            plugins: [{
-                id: 'fyTargetLine',
-                afterDraw(chart) {
-                    const ctx = chart.ctx;
-                    const yScale = chart.scales.y;
-                    const y = yScale.getPixelForValue(80);
-                    ctx.save();
-                    ctx.strokeStyle = '#EF4444';
-                    ctx.lineWidth = 2;
-                    ctx.setLineDash([6, 4]);
-                    ctx.beginPath();
-                    ctx.moveTo(chart.chartArea.left, y);
-                    ctx.lineTo(chart.chartArea.right, y);
-                    ctx.stroke();
-                    ctx.fillStyle = '#EF4444';
-                    ctx.font = '12px -apple-system, sans-serif';
-                    ctx.fillText('NIHR Target: 80%', chart.chartArea.right - 120, y - 8);
-                    ctx.restore();
-                }
-            }]
-        });
-        function sortFYPctChart(sortType) {
-            let indices = fyPctData.labels.map((_, i) => i);
-            if (sortType === 'highest') indices.sort((a, b) => fyPctData.values[b] - fyPctData.values[a]);
-            else if (sortType === 'lowest') indices.sort((a, b) => fyPctData.values[a] - fyPctData.values[b]);
-            fyPctChart.data.labels = indices.map(i => fyPctData.labels[i]);
-            fyPctChart.data.datasets[0].data = indices.map(i => fyPctData.values[i]);
-            fyPctChart.update();
-        }
-
-        // FY trend chart — starts with one point; append future months' cumulative figures to these arrays as they arrive
-        const fyTrendLabels = ['FYTD (as at 15 Jul 2026)'];
-        const fyShelfordTrend = [30.5];
-        const fyNationalTrend = [46.5];
-        new Chart(document.getElementById('fyTrendChart'), {
-            type: 'line',
-            data: {
-                labels: fyTrendLabels,
-                datasets: [{
-                    label: 'Shelford (FY2026/27 cumulative)',
-                    data: fyShelfordTrend,
-                    borderColor: '#5B7F6C', backgroundColor: 'rgba(91,127,108,0.15)', tension: 0.3, fill: true, pointRadius: 5
-                }, {
-                    label: 'National (FY2026/27 cumulative)',
-                    data: fyNationalTrend,
-                    borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.1)', borderDash: [6,3], tension: 0.3, fill: true, pointRadius: 5
-                }]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: { legend: { position: 'top' } },
                 scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
             }
         });
