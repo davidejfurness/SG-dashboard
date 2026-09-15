@@ -182,6 +182,30 @@ else{document.getElementById("authError").style.display="block";document.getElem
             </table>
         </div>
 
+        <!-- Teaching Trust Peer Group -->
+        <div class="table-container">
+            <h3>Teaching Trust Peer Group</h3>
+            <p class="source-note" style="margin-top:-0.5rem">NHS England ranks every acute provider against all 134 acute trusts, a group that includes specialist, small and multi-service trusts. All ten Shelford members are classified <em>Acute – Teaching</em>, of which there are 49 in the Q1 2026/27 file. The peer rank below is computed by the Shelford secretariat from that same file, using NHS England's own ordering method (segment first, then average metric score, tied organisations sharing the higher rank), restricted to the teaching subtype. The national rank is NHS England's published figure (metric OF5200), not recalculated.</p>
+            <table>
+                <thead><tr><th>Trust</th><th>Segment</th><th>Overall Score</th><th>Rank of 49 teaching trusts</th><th>Rank of 134 acute trusts</th></tr></thead>
+                <tbody>
+                    <tr><td class="trust-name">Imperial</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.87</td><td>1</td><td>13</td></tr>
+                    <tr><td class="trust-name">UCLH</td><td><span class="oversight-badge segment-1">Segment 1</span></td><td>1.91</td><td>4</td><td>18</td></tr>
+                    <tr><td class="trust-name">GSTT</td><td><span class="oversight-badge segment-2">Segment 2</span></td><td>2.12</td><td>6</td><td>25</td></tr>
+                    <tr><td class="trust-name">Manchester</td><td><span class="oversight-badge segment-2">Segment 2</span></td><td>2.24</td><td>8</td><td>29</td></tr>
+                    <tr><td class="trust-name">Cambridge</td><td><span class="oversight-badge segment-2">Segment 2</span></td><td>2.26</td><td>9</td><td>30</td></tr>
+                    <tr><td class="trust-name">Newcastle</td><td><span class="oversight-badge segment-2">Segment 2</span></td><td>2.28</td><td>10</td><td>31</td></tr>
+                    <tr><td class="trust-name">Oxford</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.34</td><td>16</td><td>55</td></tr>
+                    <tr><td class="trust-name">Sheffield</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.39</td><td>18</td><td>64</td></tr>
+                    <tr><td class="trust-name">King's</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.50</td><td>24</td><td>81</td></tr>
+                    <tr><td class="trust-name">Birmingham</td><td><span class="oversight-badge segment-3">Segment 3</span></td><td>2.73</td><td>38</td><td>109</td></tr>
+                </tbody>
+            </table>
+            <div style="background: rgba(0,123,127,0.05); border-left: 3px solid var(--shelford-teal); padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-top: 1rem; font-size: 0.95rem; color: var(--text-mid);">
+                <strong style="color: var(--shelford-dark-teal);">Peer group context.</strong> Across the 49 acute teaching trusts the median average metric score is 2.51 (lower quartile 2.30, upper quartile 2.70), against 2.40 for all 134 acute trusts — so teaching trusts as a group score below the acute average. The teaching cohort splits 4 trusts in segment 1, 6 in segment 2, 31 in segment 3 and 8 in segment 4. Six of the ten Shelford members sit in the top twelve of that peer group, and nine of the ten are at or above the peer median.
+            </div>
+        </div>
+
         <!-- Domain Heatmap -->
         <div class="table-container">
             <h3>Domain Segmentation Heatmap</h3>
@@ -212,9 +236,15 @@ else{document.getElementById("authError").style.display="block";document.getElem
         <!-- Key Metrics vs National Benchmarks -->
         <div class="chart-container">
             <h3>National Ranking – Key Metrics</h3>
-            <p class="source-note">Source: NHS England (various). RTT, A&amp;E, Cancer and FDS from Oversight Framework Q1 2026/27 (underlying periods vary by metric — Mar 2026 for RTT, Q4 2025/26 for A&amp;E/Cancer/FDS; Sheffield RTT not published in this metric — see note below). Sickness from ESR, Q3 2025/26 (not yet refreshed to May 2026 — see note below). Staff engagement from NHS Staff Survey 2024 (unchanged from the last update — the NOF file's own values are identical, despite the file itself labelling this metric "2025"; the Workforce page confirms the 2024 survey is still the current basis). Median/quartile benchmarks from ~130 acute trusts. Note: NOF metric values are from Q1 2026/27 and may differ from the latest monthly figures shown elsewhere on this dashboard.</p>
+            <p class="source-note">Source: NHS England (various). RTT, A&amp;E, Cancer and FDS from Oversight Framework Q1 2026/27 (underlying periods vary by metric — Mar 2026 for RTT, Q4 2025/26 for A&amp;E/Cancer/FDS; Sheffield RTT not published in this metric — see note below). Sickness from ESR, Q3 2025/26 (not yet refreshed to May 2026 — see note below). Staff engagement from NHS Staff Survey 2024 (unchanged from the last update — the NOF file's own values are identical, despite the file itself labelling this metric "2025"; the Workforce page confirms the 2024 survey is still the current basis). Two benchmark sets are available via the toggle above the chart: NHS England's published median and quartiles across all 134 acute trusts, and a Shelford-computed set across the 49 acute teaching trusts only, derived from the same Q1 2026/27 file. The teaching-trust figures are our own calculation, not an NHS England publication. Note: NOF metric values are from Q1 2026/27 and may differ from the latest monthly figures shown elsewhere on this dashboard.</p>
             <div style="background: rgba(0,123,127,0.05); border-left: 3px solid var(--shelford-teal); padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 1rem; font-size: 0.95rem; color: var(--text-mid);">
                 <strong style="color: var(--shelford-dark-teal);">Two data-currency notes on this chart:</strong> (1) Sheffield's RTT 18-week figure is not published in the NOF Q1 2026/27 file (consistent with the known RTT submission issue noted on the RTT page) — shown as N/A rather than estimated. (2) The sickness absence comparator still reflects Q3 2025/26 trust values and national quartiles; updating it to May 2026 (already current on the Workforce page) would require recomputing quartiles across ~130 acute trusts from the full ESR file, which wasn't part of this update.
+            </div>
+            <div style="margin-bottom:1rem; display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
+                <div class="sort-buttons" id="benchBtns" style="margin:0">
+                    <button class="sort-btn active" onclick="setBenchmark('national')">All acute trusts (n=134)</button>
+                    <button class="sort-btn" onclick="setBenchmark('peer')">Teaching trusts only (n=49)</button>
+                </div>
             </div>
             <div style="margin-bottom:1rem">
                 <select id="metricSelector" style="padding:0.5rem 1rem; border-radius:6px; border:1px solid var(--border-light); font-size:0.95rem; min-width:300px;" onchange="updateMetricChart()">
@@ -230,7 +260,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
             <div class="chart-wrapper"><canvas id="metricChart"></canvas></div>
         </div>
 
-        <footer><p>&copy; 2026 Shelford Group | KPIs updated September 2026 (RTT: Jul 2026 · A&amp;E: Aug 2026 · Cancer: Jul 2026) · NOF updated Q1 2026/27 · Sickness comparator last refreshed Q3 2025/26</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | KPIs updated September 2026 (RTT: Jul 2026 · A&amp;E: Aug 2026 · Cancer: Jul 2026) · NOF updated Q1 2026/27 (incl. teaching-trust peer group) · Sickness comparator last refreshed Q3 2025/26</p></footer>
     </div>
 
     <script>
@@ -382,21 +412,35 @@ else{document.getElementById("authError").style.display="block";document.getElem
 
         // ===== Key Metrics vs National Benchmarks =====
         const metricData = {
-            rtt18: { label: 'RTT 18-week % (elective treatment)', higherBetter: true, median: 65.45, lq: 62.32, uq: 69.60,
+            rtt18: { label: 'RTT 18-week % (elective treatment)', higherBetter: true, median: 65.45, lq: 62.32, uq: 69.60, peerLq: 61.42, peerMedian: 65.18, peerUq: 68.07, peerN: 48,
                 values: { Birmingham: 68.90, Cambridge: 65.03, GSTT: 68.72, Imperial: 70.62, "King's": 67.52, Manchester: 63.85, Newcastle: 74.63, Oxford: 62.48, Sheffield: null, UCLH: 65.00 }},
-            ae4hr: { label: 'A&E 4-hour %', higherBetter: true, median: 75.60, lq: 70.85, uq: 79.75,
+            ae4hr: { label: 'A&E 4-hour %', higherBetter: true, median: 75.60, lq: 70.85, uq: 79.75, peerLq: 72.0, peerMedian: 75.2, peerUq: 79.1, peerN: 49,
                 values: { Birmingham: 70.00, Cambridge: 68.00, GSTT: 76.10, Imperial: 82.50, "King's": 73.70, Manchester: 74.70, Newcastle: 77.40, Oxford: 81.00, Sheffield: 73.50, UCLH: 82.40 }},
-            ae12hr: { label: 'A&E 12-hour %', higherBetter: false, median: 10.00, lq: 5.35, uq: 12.68,
+            ae12hr: { label: 'A&E 12-hour %', higherBetter: false, median: 10.00, lq: 5.35, uq: 12.68, peerLq: 5.34, peerMedian: 10.22, peerUq: 13.63, peerN: 49,
                 values: { Birmingham: 13.66, Cambridge: 11.41, GSTT: 1.42, Imperial: 7.68, "King's": 12.65, Manchester: 4.16, Newcastle: 1.59, Oxford: 1.95, Sheffield: 5.34, UCLH: 2.51 }},
-            cancer62: { label: 'Cancer 62-day %', higherBetter: true, median: 70.39, lq: 65.22, uq: 77.39,
+            cancer62: { label: 'Cancer 62-day %', higherBetter: true, median: 70.39, lq: 65.22, uq: 77.39, peerLq: 65.24, peerMedian: 68.77, peerUq: 75.79, peerN: 49,
                 values: { Birmingham: 67.93, Cambridge: 70.19, GSTT: 66.26, Imperial: 68.93, "King's": 68.09, Manchester: 72.32, Newcastle: 65.24, Oxford: 63.48, Sheffield: 51.08, UCLH: 77.45 }},
-            cancerfds: { label: 'Cancer FDS 28-day %', higherBetter: true, median: 79.51, lq: 75.16, uq: 82.25,
+            cancerfds: { label: 'Cancer FDS 28-day %', higherBetter: true, median: 79.51, lq: 75.16, uq: 82.25, peerLq: 75.51, peerMedian: 79.69, peerUq: 82.67, peerN: 49,
                 values: { Birmingham: 85.96, Cambridge: 82.72, GSTT: 82.80, Imperial: 80.96, "King's": 78.36, Manchester: 80.71, Newcastle: 84.22, Oxford: 82.70, Sheffield: 78.20, UCLH: 83.62 }},
-            sickness: { label: 'Sickness absence % (Q3 2025/26 basis, not yet refreshed, see note above)', higherBetter: false, median: 5.36, lq: 4.78, uq: 5.86,
+            sickness: { label: 'Sickness absence % (Q3 2025/26 basis, not yet refreshed, see note above)', higherBetter: false, median: 5.36, lq: 4.78, uq: 5.86, peerLq: 4.77, peerMedian: 5.46, peerUq: 5.88, peerN: 49,
                 values: { Birmingham: 6.09, Cambridge: 4.36, GSTT: 4.82, Imperial: 4.82, "King's": 4.60, Manchester: 5.98, Newcastle: 6.10, Oxford: 4.44, Sheffield: 5.46, UCLH: 4.45 }},
-            engagement: { label: 'Staff engagement', higherBetter: true, median: 6.8, lq: 6.55, uq: 6.96,
+            engagement: { label: 'Staff engagement', higherBetter: true, median: 6.8, lq: 6.55, uq: 6.96, peerLq: 6.56, peerMedian: 6.72, peerUq: 6.87, peerN: 49,
                 values: { Birmingham: 6.62, Cambridge: 6.90, GSTT: 7.28, Imperial: 7.08, "King's": 6.68, Manchester: 6.73, Newcastle: 6.72, Oxford: 6.85, Sheffield: 6.66, UCLH: 7.36 }}
         };
+
+        let benchMode = 'national';
+        function getBench(m) {
+            return benchMode === 'peer'
+                ? { lq: m.peerLq, median: m.peerMedian, uq: m.peerUq, n: m.peerN, name: 'teaching trusts' }
+                : { lq: m.lq, median: m.median, uq: m.uq, n: 134, name: 'all acute trusts' };
+        }
+        function setBenchmark(mode) {
+            benchMode = mode;
+            document.querySelectorAll('#benchBtns .sort-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('onclick').includes("'" + mode + "'"));
+            });
+            updateMetricChart();
+        }
 
         const metricChart = new Chart(document.getElementById('metricChart'), {
             type: 'bar',
@@ -413,7 +457,8 @@ else{document.getElementById("authError").style.display="block";document.getElem
                     const sel = document.getElementById('metricSelector').value;
                     const m = metricData[sel];
                     if (!m) return;
-                    const lqX = xScale.getPixelForValue(m.lq), medX = xScale.getPixelForValue(m.median), uqX = xScale.getPixelForValue(m.uq);
+                    const b = getBench(m);
+                    const lqX = xScale.getPixelForValue(b.lq), medX = xScale.getPixelForValue(b.median), uqX = xScale.getPixelForValue(b.uq);
                     ctx.save();
                     // LQ-UQ band
                     ctx.fillStyle = 'rgba(0,123,127,0.06)';
@@ -428,9 +473,9 @@ else{document.getElementById("authError").style.display="block";document.getElem
                     ctx.beginPath(); ctx.moveTo(uqX, area.top); ctx.lineTo(uqX, area.bottom); ctx.stroke();
                     // Labels
                     ctx.font = '10px -apple-system, sans-serif'; ctx.setLineDash([]);
-                    ctx.fillStyle = '#9CA3AF'; ctx.fillText('LQ: ' + m.lq, lqX + 3, area.top + 12);
-                    ctx.fillStyle = '#007B7F'; ctx.fillText('Median: ' + m.median, medX + 3, area.top + 12);
-                    ctx.fillStyle = '#9CA3AF'; ctx.fillText('UQ: ' + m.uq, uqX + 3, area.top + 12);
+                    ctx.fillStyle = '#9CA3AF'; ctx.fillText('LQ: ' + b.lq, lqX + 3, area.top + 12);
+                    ctx.fillStyle = '#007B7F'; ctx.fillText('Median: ' + b.median, medX + 3, area.top + 12);
+                    ctx.fillStyle = '#9CA3AF'; ctx.fillText('UQ: ' + b.uq, uqX + 3, area.top + 12);
                     ctx.restore();
                 }
             }]
@@ -455,7 +500,8 @@ else{document.getElementById("authError").style.display="block";document.getElem
             });
             metricChart.data.labels = sortedTrusts;
             metricChart.data.datasets = [{ data: sortedVals, backgroundColor: colors, borderRadius: 4 }];
-            metricChart.options.scales.x.title.text = m.label;
+            const b = getBench(m);
+            metricChart.options.scales.x.title.text = m.label + '  —  benchmark: ' + b.name + ' (n=' + b.n + ')';
             metricChart.update();
         }
         updateMetricChart();
