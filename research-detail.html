@@ -107,7 +107,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
         <div class="info-box">
             <strong>Primary tracking series for this page.</strong> Sourced directly from the UK Clinical Research Delivery (UKCRD) programme's Trust Level Set-Up Report (ukcrd.org), drawing on the NIHR Research Delivery Network's Central Portfolio Management System (CPMS). Tracks commercial interventional studies recruiting their first participant within 90 days of HRA approval or site selection, excluding extension, rare disease and low-recruiting studies. Republished monthly on a rolling 6-month window. The <strong>Shelford aggregate</strong> below adds up the studies across all 10 trusts and works out what share hit each milestone — not an average of the ten trusts' separate percentages, which would count a 3-study trust the same as a 25-study trust. UKCRD only publishes rounded percentages per trust, not the underlying study counts, so we back-calculated each trust's count from its percentage and total studies before adding them up.
         </div>
-        <p class="source-note">Source: UKCRD Trust Level Set-Up Report, ukcrd.org (NIHR RDN CPMS data). Four consecutive monthly snapshots — report dates 03 Jun, 03 Jul, 04 Aug and 03 Sep 2026, each a rolling 6-month window. An earlier snapshot (30 Apr 2026, cut 25 Apr 2026, window since 07 Apr 2025) used the pre-format-change methodology and is shown separately below as a baseline, not part of the trend. No May 2026 snapshot exists on the archive — the site jumps from the 25 Apr cut straight to the 01 Jun cut.</p>
+        <p class="source-note">Source: UKCRD Trust Level Set-Up Report, ukcrd.org (NIHR RDN CPMS data). Five consecutive monthly snapshots — report dates 03 Jun, 03 Jul, 04 Aug, 03 Sep and 05 Oct 2026, each a rolling 6-month window. An earlier snapshot (30 Apr 2026, cut 25 Apr 2026, window since 07 Apr 2025) used the pre-format-change methodology and is shown separately below as a baseline, not part of the trend. No May 2026 snapshot exists on the archive — the site jumps from the 25 Apr cut straight to the 01 Jun cut.</p>
 
         <div class="dashboard-grid" id="ukcrdAggCards"></div>
         <p class="source-note">How the three percentages relate: the 90-day figure measures the <em>full</em> elapsed time from approval or site selection (whichever is later) to first participant. The 60-day and 30-day figures split that journey into two consecutive stages, each judged against its own threshold: approval or selection &rarr; site opening (which includes local set-up steps such as contracting), and site opening &rarr; first participant. Because the stages are assessed separately, the three percentages aren&rsquo;t nested and needn&rsquo;t move together. A site can open within 60 days but take longer than 30 days to recruit, or open late and then recruit quickly, so the 60-day and 30-day rates can sit above or below the 90-day rate. Only a study that passes both stage thresholds is guaranteed to meet the 90-day target overall.</p>
@@ -124,6 +124,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
                 <button class="chart-btn" data-month="Jul 2026">Jul 2026</button>
                 <button class="chart-btn" data-month="Aug 2026">Aug 2026</button>
                 <button class="chart-btn" data-month="Sep 2026">Sep 2026</button>
+                <button class="chart-btn" data-month="Oct 2026">Oct 2026</button>
             </div>
             <p class="source-note" id="ukcrdTabSourceNote"></p>
             <p class="source-note">Note: the 60-day and 30-day columns cover two consecutive stages (approval or selection &rarr; site opening, then site opening &rarr; first participant), each measured against its own threshold. Contracting and other local set-up steps fall within the first stage, so they count towards both the 60-day and 90-day columns. See the note above the cards.</p>
@@ -194,7 +195,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
             <p class="source-note">† The NIHR page's own summary text states 71 European Firsts for 2025/26, but only 70 distinct rows are present in the table as supplied — one row (Woodstock Bower Group Practice, 31/03/2026) is duplicated rather than being a genuinely distinct 71st entry. Percentages above use 70 as the traceable denominator; if the missing row is recovered, the England European and combined totals should be corrected to 71 and 103 respectively. A handful of dates in the annual source file appear transposed (e.g. day/month or year); these do not affect the Financial Year classification used to build this table and were left as supplied.</p>
         </div>
 
-        <footer><p>&copy; 2026 Shelford Group | UKCRD site set-up monthly tracking (primary series) added September 2026 · NIHR ODP series retired September 2026</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | UKCRD site set-up monthly tracking (primary series) added September 2026 · NIHR ODP series retired September 2026 · Site set-up data last updated October 2026 (UKCRD report 05 Oct 2026)</p></footer>
     </div>
 
     <script>
@@ -264,10 +265,26 @@ else{document.getElementById("authError").style.display="block";document.getElem
                     { name: 'UCLH',       n: 13, p90: 54, med90: 87,  p60: 62, p30: 38 }
                 ],
                 agg: { n: 144, p90: 41.0, p60: 56.9, p30: 41.7 }
+            },
+            'Oct 2026': { reportDate: '05 Oct 2026', cutDate: '01 Oct 2026', window: 'since 01 Apr 2026',
+                trusts: [
+                    { name: 'Birmingham', n: 21, p90: 52, med90: 90,  p60: 62, p30: 48 },
+                    { name: 'Cambridge',  n: 14, p90: 57, med90: 85,  p60: 86, p30: 43 },
+                    { name: 'GSTT',       n: 27, p90: 41, med90: 145, p60: 41, p30: 59 },
+                    { name: 'Imperial',   n: 10, p90: 60, med90: 47,  p60: 80, p30: 70 },
+                    { name: "King's",     n: 13, p90: 15, med90: 155, p60: 23, p30: 23 },
+                    { name: 'Manchester', n: 11, p90: 27, med90: 110, p60: 73, p30: 36 },
+                    { name: 'Newcastle',  n: 19, p90: 74, med90: 57,  p60: 100, p30: 47 },
+                    { name: 'Oxford',     n: 14, p90: 21, med90: 176, p60: 29, p30: 36 },
+                    { name: 'Sheffield',  n: 4,  p90: 50, med90: 105, p60: 75, p30: 25 },
+                    { name: 'UCLH',       n: 11, p90: 64, med90: 85,  p60: 64, p30: 45 }
+                ],
+                agg: { n: 144, p90: 46.5, p60: 61.1, p30: 45.8 }
             }
         };
-        const ukcrdMonthOrder = ['Jun 2026', 'Jul 2026', 'Aug 2026', 'Sep 2026'];
-        let currentUkcrdMonth = 'Sep 2026';
+        const ukcrdMonthOrder = ['Jun 2026', 'Jul 2026', 'Aug 2026', 'Sep 2026', 'Oct 2026'];
+        const ukcrdLatestMonth = ukcrdMonthOrder[ukcrdMonthOrder.length - 1];
+        let currentUkcrdMonth = ukcrdLatestMonth;
         let ukcrdSort = { key: 'name', dir: 1 };
         let aprilSort = { key: 'name', dir: 1 };
 
@@ -333,7 +350,7 @@ else{document.getElementById("authError").style.display="block";document.getElem
             btn.addEventListener('click', (e) => selectUkcrdMonth(btn.dataset.month, e));
         });
         attachSortHeaders('ukcrdTable', () => ukcrdSort, () => renderUkcrdTable(currentUkcrdMonth));
-        selectUkcrdMonth('Sep 2026', null);
+        selectUkcrdMonth(ukcrdLatestMonth, null);
 
         // April 2026 baseline (different window — separate sortable table, not part of the trend)
         const aprilData = [
@@ -361,8 +378,8 @@ else{document.getElementById("authError").style.display="block";document.getElem
         attachSortHeaders('aprilTable', () => aprilSort, renderAprilTable);
         renderAprilTable();
 
-        // Trend chart: Shelford aggregate (bold) + 10 trust lines (thin), % within 90 days, Jun–Sep 2026
-        const ukcrdTrustNames = ukcrdMonthly['Sep 2026'].trusts.map(t => t.name);
+        // Trend chart: Shelford aggregate (bold) + 10 trust lines (thin), % within 90 days, Jun–Oct 2026
+        const ukcrdTrustNames = ukcrdMonthly[ukcrdLatestMonth].trusts.map(t => t.name);
         const ukcrdPalette = ['#5B7F6C', '#EF4444', '#F59E0B', '#8B5CF6', '#EC4899', '#0EA5E9', '#84CC16', '#F97316', '#6B7280', '#0EA5A5'];
         const ukcrdTrustDatasets = ukcrdTrustNames.map((name, i) => {
             const pctSeries = ukcrdMonthOrder.map(mo => ukcrdMonthly[mo].trusts.find(t => t.name === name).p90);
