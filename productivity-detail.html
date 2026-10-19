@@ -56,6 +56,37 @@
     </style>
 </head>
 <body>
+<!-- Access Gate -->
+<div id="authGate" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#f8fafc;z-index:99999;font-family:-apple-system,BlinkMacSystemFont,sans-serif;">
+<div style="max-width:400px;margin:15vh auto;text-align:center;padding:2rem;">
+<div style="width:60px;height:60px;background:#007B7F;border-radius:12px;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;">
+<svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+</div>
+<h2 style="color:#1E293B;margin-bottom:0.5rem;font-size:1.4rem;">Shelford Group Dashboard</h2>
+<p style="color:#64748B;margin-bottom:1.5rem;font-size:0.95rem;">This dashboard is for Shelford Group colleagues only.</p>
+<input id="authInput" type="password" placeholder="Enter access code" style="width:100%;padding:0.75rem 1rem;border:2px solid #CBD5E1;border-radius:8px;font-size:1rem;box-sizing:border-box;margin-bottom:0.75rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='#007B7F'" onblur="this.style.borderColor='#CBD5E1'">
+<button onclick="checkAuth()" style="width:100%;padding:0.75rem;background:#007B7F;color:white;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#005f63'" onmouseout="this.style.background='#007B7F'">Continue</button>
+<p id="authError" style="color:#DC2626;font-size:0.85rem;margin-top:0.75rem;display:none;">Incorrect access code. Please try again.</p>
+<p style="color:#94A3AF;font-size:0.85rem;margin-top:1.5rem;">Contact <a href="mailto:info@shelfordgroup.org" style="color:#007B7F;">info@shelfordgroup.org</a> for the access code</p>
+</div>
+</div>
+<script>
+(function(){
+var h="3ee9745bc638f7b38b2edccc974778cd262e0526469a3b724fcd680bdb7c984f";
+function getCk(){var m=document.cookie.match(/sgAuth=([^;]+)/);return m?m[1]:null}
+if(getCk()===h){document.getElementById("authGate").style.display="none";}
+else{document.getElementById("authGate").style.display="block";document.body.style.overflow="hidden";
+document.getElementById("authInput").addEventListener("keydown",function(e){if(e.key==="Enter")checkAuth();});}
+window.checkAuth=async function(){
+var v=document.getElementById("authInput").value.toLowerCase().trim();
+var enc=new TextEncoder();var buf=await crypto.subtle.digest("SHA-256",enc.encode(v));
+var arr=Array.from(new Uint8Array(buf));var hex=arr.map(function(b){return b.toString(16).padStart(2,"0")}).join("");
+if(hex===h){var d=new Date();d.setTime(d.getTime()+365*24*60*60*1000);document.cookie="sgAuth="+h+";expires="+d.toUTCString()+";path=/";
+document.getElementById("authGate").style.display="none";document.body.style.overflow="";}
+else{document.getElementById("authError").style.display="block";document.getElementById("authInput").value="";document.getElementById("authInput").focus();}};
+})();
+</script>
+<!-- End Access Gate -->
     <div class="container">
         <header>
             <a href="index.html" class="logo-link"><img src="shelford-logo.jpg" alt="Shelford Group" class="logo"></a>
@@ -73,6 +104,30 @@
             <strong>Interpretation note:</strong> All 12 months of 2025/26 are now "Final Revised" by NHS England (published 13 August 2026), superseding the previously provisional March figure. Sheffield's early-year figures (Apr–Jun 2025) remain volatile, likely reflecting data restatement effects, and its productivity growth has been negative every month since August 2025.
         </div>
 
+        <h2>2026/27 Year to Date – April to June 2026 (Provisional)</h2>
+        <p class="source-note">Source: NHS England Productivity Growth Estimate, April–June 2026, Provisional (published 8 October 2026), Tables 1a–1c (trusts and England) and Table 2a (Acute &amp; Specialist). Year-to-date figures are calculated by the Shelford secretariat as the mean of the three provisional monthly year-on-year estimates.</p>
+        <div class="data-note">
+            <strong>Not directly comparable with 2025/26:</strong> NHS England has updated the methodology for its 2026/27 estimates (Table 1a, note 5), so the April–June 2026 figures below should not be read as a continuation of the 2025/26 full-year series further down this page. All three months are provisional and may be revised. Sheffield is flagged by NHS England for potential data issues affecting its activity estimate, and for an adjustment to its resource estimate; its figures should be read with caution. King's high productivity growth reflects a large fall in real-terms resource use (inputs down 7.6%) with broadly flat activity, rather than higher output.
+        </div>
+        <div class="dashboard-grid">
+            <div class="metric-card"><div class="metric-label">Shelford Group Average</div><div class="metric-value positive">+1.9%</div><div class="metric-benchmark">Apr–Jun 2026 mean · monthly: +2.0% / +1.7% / +2.1%</div></div>
+            <div class="metric-card"><div class="metric-label">England Average</div><div class="metric-value positive">+1.9%</div><div class="metric-benchmark">All NHS providers, same period</div></div>
+            <div class="metric-card"><div class="metric-label">Spending Review Target</div><div class="metric-value">2.0%</div><div class="metric-benchmark">Year-on-year target from SR25</div></div>
+            <div class="metric-card"><div class="metric-label">Acute &amp; Specialist (National)</div><div class="metric-value positive">+1.2%</div><div class="metric-benchmark">Provider type benchmark, Apr–Jun 2026 mean</div></div>
+        </div>
+        <div class="table-container">
+            <div class="sort-buttons">
+                <button class="sort-btn active" onclick="sortYtdTable('alpha', event)">A-Z</button>
+                <button class="sort-btn" onclick="sortYtdTable('prod', event)">Productivity</button>
+                <button class="sort-btn" onclick="sortYtdTable('output', event)">Output Growth</button>
+                <button class="sort-btn" onclick="sortYtdTable('input', event)">Input Growth</button>
+            </div>
+            <table>
+                <thead><tr><th>Trust</th><th>Apr 2026</th><th>May 2026</th><th>Jun 2026</th><th>Productivity (Apr–Jun mean)</th><th>Output Growth (CWA)</th><th>Input Growth (Resource)</th></tr></thead>
+                <tbody id="ytdTableBody"></tbody>
+            </table>
+            <p class="source-note" style="margin-bottom:0;">All figures provisional, % year-on-year. † Sheffield flagged by NHS England for potential data issues (Tables 1a–1c notes). Output and input columns are Apr–Jun means of Tables 1b and 1c.</p>
+        </div>
         <h2>Headline Productivity – 2025/26 Full Year (Apr–Mar)</h2>
         <p class="source-note">Source: NHS England Productivity Growth Estimate, April 2025–March 2026, Final Revised (published 13 August 2026). Full-year figures are calculated as the mean of the 12 "Final Revised" monthly estimates (cross-checked against mean output growth minus mean input growth); standalone monthly figures are shown in the trend chart below.</p>
         <div class="dashboard-grid">
@@ -82,7 +137,7 @@
             <div class="metric-card"><div class="metric-label">Acute & Specialist (National)</div><div class="metric-value positive">+3.0%</div><div class="metric-benchmark">Provider type benchmark</div></div>
         </div>
 
-        <h2>Trust-Level Productivity Growth</h2>
+        <h2>Trust-Level Productivity Growth – 2025/26 Full Year</h2>
         <p class="source-note">Source: NHS England Productivity Growth Estimate, April 2025–March 2026, Final Revised (published 13 August 2026), full-year figures calculated as described above. All figures are provisional. Sheffield, King's, Oxford and UCLH are flagged by NHS England for known Community Services Data Set (CSDS) data quality issues that may affect their estimates.</p>
         <div class="table-container">
             <div class="sort-buttons">
@@ -178,13 +233,35 @@
         </div>
         -->
 
-        <footer><p>&copy; 2026 Shelford Group | Data updated September 2026 (Productivity: 2025/26 Final Revised, published 13 Aug 2026)</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | Data updated October 2026 (Productivity: 2026/27 Apr–Jun Provisional, published 8 Oct 2026 · 2025/26 Final Revised, published 13 Aug 2026)</p></footer>
     </div>
 
     <script>
         // Full-year figures = mean of the 12 "Final Revised" monthly estimates (Table 1a);
         // cross-checked against mean(Table 1b output growth) - mean(Table 1c input growth) — both methods agree closely.
         // Monthly trend = Table 1a, Apr 2025-Mar 2026, all "Final Revised" (published 13 Aug 2026)
+        // 2026/27 year to date (Apr–Jun 2026, provisional) — NHS England Productivity Growth Estimate, published 8 Oct 2026
+        // Tables 1a (productivity), 1b (output/CWA), 1c (input/resource); prod/output/input = mean of the three monthly values
+        const ytdData = [
+            { name: 'Birmingham', apr: 6.0, may: 2.6, jun: 3.7, prod: 4.1, output: 4.4, input: 0.3, flag: false },
+            { name: 'Cambridge', apr: 7.9, may: 3.9, jun: 3.5, prod: 5.1, output: 3.8, input: -1.2, flag: false },
+            { name: 'GSTT', apr: -4.5, may: -0.6, jun: -0.4, prod: -1.8, output: -0.3, input: 1.7, flag: false },
+            { name: 'Imperial', apr: 1.4, may: 0.3, jun: 3.1, prod: 1.6, output: 2.4, input: 0.8, flag: false },
+            { name: "King's", apr: 8.5, may: 8.4, jun: 8.0, prod: 8.3, output: 0.0, input: -7.6, flag: false },
+            { name: 'Manchester', apr: 1.3, may: 3.0, jun: 4.9, prod: 3.1, output: 3.2, input: 0.2, flag: false },
+            { name: 'Newcastle', apr: 2.7, may: 1.9, jun: 0.6, prod: 1.7, output: -1.0, input: -2.7, flag: false },
+            { name: 'Oxford', apr: 1.1, may: 2.1, jun: 1.1, prod: 1.4, output: 1.8, input: 0.3, flag: false },
+            { name: 'Sheffield', apr: -5.3, may: -5.5, jun: -4.8, prod: -5.2, output: -4.2, input: 1.0, flag: true },
+            { name: 'UCLH', apr: 1.1, may: 0.6, jun: 1.7, prod: 1.1, output: 0.7, input: -0.4, flag: false }
+        ];
+        function fmtPct(v) { return '<span class="' + (v >= 0 ? 'positive' : 'negative') + '">' + (v >= 0 ? '+' : '\u2212') + Math.abs(v).toFixed(1) + '%</span>'; }
+        function sortYtdTable(type, e) {
+            const s = [...ytdData];
+            if (type === 'alpha') s.sort((a, b) => a.name.localeCompare(b.name)); else s.sort((a, b) => b[type] - a[type]);
+            document.getElementById('ytdTableBody').innerHTML = s.map(t => '<tr><td class="trust-name">' + t.name + (t.flag ? ' †' : '') + '</td><td>' + fmtPct(t.apr) + '</td><td>' + fmtPct(t.may) + '</td><td>' + fmtPct(t.jun) + '</td><td><strong>' + fmtPct(t.prod) + '</strong></td><td>' + fmtPct(t.output) + '</td><td>' + fmtPct(t.input) + '</td></tr>').join('');
+            if (e) { e.target.parentElement.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active')); e.target.classList.add('active'); }
+        }
+        sortYtdTable('alpha', null);
         const prodData = [
             { name: 'Birmingham', prod: 3.9, output: 4.3, input: 0.4, trend: [-0.1, 4.8, 4.1, 4.4, 4.1, 4.4, 3.4, 4.5, 4.2, 4.7, 4.9, 2.8] },
             { name: 'Cambridge', prod: 5.1, output: 3.8, input: -1.3, trend: [2.9, 3.3, 5.4, 4.5, 4.8, 8.1, 4.9, 4.2, 5.7, 6.5, 5.6, 5.0] },
@@ -213,7 +290,7 @@
             document.getElementById('prodTableBody').innerHTML = sorted.map(t =>
                 `<tr><td class="trust-name">${t.name}</td><td>${fmtPct(t.prod)}</td><td>${fmtPct(t.output)}</td><td>${fmtPct(t.input)}</td></tr>`
             ).join('');
-            if (e) { document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active')); e.target.classList.add('active'); }
+            if (e) { e.target.parentElement.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active')); e.target.classList.add('active'); }
         }
         sortTable('alpha', null);
 

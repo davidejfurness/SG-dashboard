@@ -125,27 +125,27 @@ else{document.getElementById("authError").style.display="block";document.getElem
         </div></nav>
 
         <h2>Key Performance Indicators – Shelford Group Averages</h2>
-        <p class="source-note">Source: A&amp;E from NHS England A&amp;E Attendances &amp; Emergency Admissions, August 2026. RTT from NHS England RTT Waiting Times, July 2026 (Sheffield excluded — see RTT page for detail). Cancer from NHS England Cancer Waiting Times, July 2026. Figures are averages across all 10 Shelford Group trusts unless noted.</p>
+        <p class="source-note">Source: A&amp;E from NHS England A&amp;E Attendances &amp; Emergency Admissions, September 2026. RTT from NHS England RTT Waiting Times, August 2026 (Sheffield excluded — see RTT page for detail). Cancer from NHS England Cancer Waiting Times, August 2026 (provisional). Figures are averages across all 10 Shelford Group trusts unless noted.</p>
         <div class="dashboard-grid">
             <div class="metric-card">
                 <div class="metric-label">A&E 4-Hour Standard (Shelford Avg)</div>
-                <div class="metric-value">75.4%</div>
-                <div class="metric-benchmark">National average: 75.0% | NHS target: 95%</div>
+                <div class="metric-value">74.5%</div>
+                <div class="metric-benchmark">National average: 74.4% | NHS target: 95%</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">RTT 18-Week Standard (Shelford Avg)</div>
-                <div class="metric-value">67.0%</div>
-                <div class="metric-benchmark">National average: 65.3% | NHS target: 92%</div>
+                <div class="metric-value">66.8%</div>
+                <div class="metric-benchmark">National average: 65.2% | NHS target: 92%</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label">Cancer 62-Day Standard (Shelford Avg)</div>
-                <div class="metric-value">68.4%</div>
-                <div class="metric-benchmark">National average: 71.2% | NHS target: 85%</div>
+                <div class="metric-value">69.2%</div>
+                <div class="metric-benchmark">National average: 71.9% | NHS target: 85%</div>
             </div>
         </div>
 
         <h2>Trust Performance Comparison</h2>
-        <p class="source-note">Source: A&amp;E from August 2026; RTT from July 2026 (Sheffield excluded); Cancer from July 2026.</p>
+        <p class="source-note">Source: A&amp;E from September 2026; RTT from August 2026 (Sheffield excluded from the average; its NHS England estimate of 66.0% is shown in the table); Cancer from August 2026.</p>
         <div class="table-container">
             <div class="sort-buttons">
                 <button class="sort-btn active" onclick="sortTable('alpha')">A-Z</button>
@@ -240,21 +240,21 @@ else{document.getElementById("authError").style.display="block";document.getElem
             <div class="chart-wrapper"><canvas id="metricChart"></canvas></div>
         </div>
 
-        <footer><p>&copy; 2026 Shelford Group | KPIs updated September 2026 (RTT: Jul 2026 · A&amp;E: Aug 2026 · Cancer: Jul 2026) · NOF updated Q1 2026/27 (incl. teaching-trust peer group) · Sickness comparator last refreshed Q3 2025/26</p></footer>
+        <footer><p>&copy; 2026 Shelford Group | KPIs updated October 2026 (RTT: Aug 2026 · A&amp;E: Sep 2026 · Cancer: Aug 2026) · NOF updated Q1 2026/27 (incl. teaching-trust peer group) · Sickness comparator last refreshed Q3 2025/26</p></footer>
     </div>
 
     <script>
         const trustData = [
-            { name: 'Birmingham', rtt: 67.2, ae: 68.9, cancer: 72.0 },
-            { name: 'Cambridge', rtt: 65.3, ae: 69.8, cancer: 79.2 },
-            { name: 'GSTT', rtt: 68.3, ae: 75.1, cancer: 61.5 },
-            { name: 'Imperial', rtt: 69.9, ae: 81.3, cancer: 65.9 },
-            { name: "King's", rtt: 66.8, ae: 73.2, cancer: 70.1 },
-            { name: 'Manchester', rtt: 63.9, ae: 74.4, cancer: 72.8 },
-            { name: 'Newcastle', rtt: 73.9, ae: 77.0, cancer: 66.8 },
-            { name: 'Oxford', rtt: 62.5, ae: 84.0, cancer: 64.3 },
-            { name: 'Sheffield', rtt: 66.0, ae: 70.5, cancer: 54.1 },
-            { name: 'UCLH', rtt: 65.3, ae: 79.8, cancer: 77.5 }
+            { name: 'Birmingham', rtt: 66.6, ae: 69.0, cancer: 71.0 },
+            { name: 'Cambridge', rtt: 65.6, ae: 68.5, cancer: 75.1 },
+            { name: 'GSTT', rtt: 67.7, ae: 75.4, cancer: 65.8 },
+            { name: 'Imperial', rtt: 70.4, ae: 80.5, cancer: 66.8 },
+            { name: "King's", rtt: 66.2, ae: 70.7, cancer: 72.2 },
+            { name: 'Manchester', rtt: 63.9, ae: 71.7, cancer: 77.1 },
+            { name: 'Newcastle', rtt: 72.6, ae: 76.2, cancer: 67.8 },
+            { name: 'Oxford', rtt: 62.2, ae: 82.1, cancer: 66.2 },
+            { name: 'Sheffield', rtt: 66.0, ae: 71.9, cancer: 52.1 },
+            { name: 'UCLH', rtt: 65.5, ae: 79.4, cancer: 77.4 }
         ];
 
         let currentSortField = 'alpha';
